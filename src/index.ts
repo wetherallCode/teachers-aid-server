@@ -15,7 +15,7 @@ const startServer = async () => {
   const schema = makeSchema({
     types,
     outputs: {
-      schema: path.join(__dirname, '../practice-api.graphql'),
+      schema: path.join(__dirname, '../teachers-aid.graphql'),
       typegen: path.join(
         __dirname.replace(/\/dist$/, '/src'),
         '../src/practice-api-typegen.ts'
