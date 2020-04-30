@@ -18,7 +18,7 @@ const startServer = async () => {
       schema: path.join(__dirname, '../teachers-aid.graphql'),
       typegen: path.join(
         __dirname.replace(/\/dist$/, '/src'),
-        '../src/practice-api-typegen.ts'
+        '../src/teachers-aid-typegen.ts'
       ),
     },
     typegenAutoConfig: {
