@@ -45,6 +45,9 @@ export interface NexusGenInputs {
     period: string; // String!
     taughtBy: string; // String!
   }
+  FindAssignmentsToGradeInput: { // input type
+    teacherUserName: string; // String!
+  }
   FindEssayByIdInput: { // input type
     _id: string; // ID!
   }
@@ -66,6 +69,12 @@ export interface NexusGenInputs {
     readingPages: string; // String!
     readingSections: string; // String!
   }
+  ReturnGradedEssayInput: { // input type
+    _id: string; // ID!
+    comments: string[]; // [String!]!
+    gradedDraft: any; // JSON!
+    score: number; // Int!
+  }
   StudentRegistrationInput: { // input type
     email: string; // String!
     firstName: string; // String!
@@ -73,11 +82,16 @@ export interface NexusGenInputs {
     password: string; // String!
     userName: string; // String!
   }
+  SubmitEssayFinalDraftInput: { // input type
+    _id: string; // ID!
+    late: boolean; // Boolean!
+    submittedFinalDraft: NexusGenInputs['SubmittedFinalDraftsInput']; // SubmittedFinalDraftsInput!
+  }
   SubmittedFinalDraftsInput: { // input type
-    comments?: string[] | null; // [String!]
-    draft?: any | null; // JSON
-    gradingDraft?: any | null; // JSON
-    score?: number | null; // Int
+    comments: string[]; // [String!]!
+    draft: any; // JSON!
+    gradingDraft: any; // JSON!
+    score: number; // Int!
   }
   TeacherRegistrationInput: { // input type
     email: string; // String!
@@ -140,6 +154,9 @@ export interface NexusGenRootTypes {
     submittedFinalDraft: NexusGenRootTypes['SubmittedFinalDraft']; // SubmittedFinalDraft!
     submitTime?: any | null; // DateTime
   }
+  FindAssignmentsToGradePayload: { // root type
+    assignments: NexusGenRootTypes['Assignment'][]; // [Assignment!]!
+  }
   FindEssayByIdPayload: { // root type
     essay: NexusGenRootTypes['Essay']; // Essay!
   }
@@ -168,6 +185,9 @@ export interface NexusGenRootTypes {
     readingPages: string; // String!
     readingSections: string; // String!
   }
+  ReturnGradedEssayPayload: { // root type
+    essay: NexusGenRootTypes['Essay']; // Essay!
+  }
   Score: { // root type
     earnedPoints: number; // Int!
     maxPoints: number; // Int!
@@ -182,6 +202,9 @@ export interface NexusGenRootTypes {
   }
   StudentRegistrationPayload: { // root type
     student: NexusGenRootTypes['Student']; // Student!
+  }
+  SubmitEssayFinalDraftPayload: { // root type
+    essay: NexusGenRootTypes['Essay']; // Essay!
   }
   SubmittedFinalDraft: { // root type
     comments: string[]; // [String!]!
@@ -241,13 +264,16 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
   AddStudentsToCourseInput: NexusGenInputs['AddStudentsToCourseInput'];
   AssignEssayInput: NexusGenInputs['AssignEssayInput'];
   CreateCourseInput: NexusGenInputs['CreateCourseInput'];
+  FindAssignmentsToGradeInput: NexusGenInputs['FindAssignmentsToGradeInput'];
   FindEssayByIdInput: NexusGenInputs['FindEssayByIdInput'];
   FindEssaysByUserNameAndMarkingPeriodInput: NexusGenInputs['FindEssaysByUserNameAndMarkingPeriodInput'];
   HasAssigner: NexusGenInputs['HasAssigner'];
   HasOwnerInput: NexusGenInputs['HasOwnerInput'];
   LoginInput: NexusGenInputs['LoginInput'];
   ReadingsInput: NexusGenInputs['ReadingsInput'];
+  ReturnGradedEssayInput: NexusGenInputs['ReturnGradedEssayInput'];
   StudentRegistrationInput: NexusGenInputs['StudentRegistrationInput'];
+  SubmitEssayFinalDraftInput: NexusGenInputs['SubmitEssayFinalDraftInput'];
   SubmittedFinalDraftsInput: NexusGenInputs['SubmittedFinalDraftsInput'];
   TeacherRegistrationInput: NexusGenInputs['TeacherRegistrationInput'];
   TopicInput: NexusGenInputs['TopicInput'];
@@ -294,6 +320,9 @@ export interface NexusGenFieldTypes {
     submittedFinalDraft: NexusGenRootTypes['SubmittedFinalDraft']; // SubmittedFinalDraft!
     submitTime: any | null; // DateTime
   }
+  FindAssignmentsToGradePayload: { // field return type
+    assignments: NexusGenRootTypes['Assignment'][]; // [Assignment!]!
+  }
   FindEssayByIdPayload: { // field return type
     essay: NexusGenRootTypes['Essay']; // Essay!
   }
@@ -309,11 +338,14 @@ export interface NexusGenFieldTypes {
     createCourse: NexusGenRootTypes['CreateCoursePayload']; // CreateCoursePayload!
     login: NexusGenRootTypes['LoginPayload']; // LoginPayload!
     logout: boolean; // Boolean!
+    returnGradedEssay: NexusGenRootTypes['ReturnGradedEssayPayload']; // ReturnGradedEssayPayload!
     studentRegistration: NexusGenRootTypes['StudentRegistrationPayload']; // StudentRegistrationPayload!
+    submitEssayFinalDraft: NexusGenRootTypes['SubmitEssayFinalDraftPayload']; // SubmitEssayFinalDraftPayload!
     teacherRegistration: NexusGenRootTypes['TeacherRegistrationPayload']; // TeacherRegistrationPayload!
     updateWorkingDraft: NexusGenRootTypes['UpdateWorkingDraftPayload']; // UpdateWorkingDraftPayload!
   }
   Query: { // field return type
+    findAssignmentsToGrade: NexusGenRootTypes['FindAssignmentsToGradePayload']; // FindAssignmentsToGradePayload!
     findEssayById: NexusGenRootTypes['FindEssayByIdPayload']; // FindEssayByIdPayload!
     findEssaysByUserNameAndMarkingPeriod: NexusGenRootTypes['FindEssaysByUserNameAndMarkingPeriodPayload']; // FindEssaysByUserNameAndMarkingPeriodPayload!
     me: NexusGenRootTypes['User'] | null; // User
@@ -335,6 +367,9 @@ export interface NexusGenFieldTypes {
     readingPages: string; // String!
     readingSections: string; // String!
   }
+  ReturnGradedEssayPayload: { // field return type
+    essay: NexusGenRootTypes['Essay']; // Essay!
+  }
   Score: { // field return type
     earnedPoints: number; // Int!
     maxPoints: number; // Int!
@@ -351,6 +386,9 @@ export interface NexusGenFieldTypes {
   }
   StudentRegistrationPayload: { // field return type
     student: NexusGenRootTypes['Student']; // Student!
+  }
+  SubmitEssayFinalDraftPayload: { // field return type
+    essay: NexusGenRootTypes['Essay']; // Essay!
   }
   SubmittedFinalDraft: { // field return type
     comments: string[]; // [String!]!
@@ -430,8 +468,14 @@ export interface NexusGenArgTypes {
     login: { // args
       input: NexusGenInputs['LoginInput']; // LoginInput!
     }
+    returnGradedEssay: { // args
+      input: NexusGenInputs['ReturnGradedEssayInput']; // ReturnGradedEssayInput!
+    }
     studentRegistration: { // args
       input: NexusGenInputs['StudentRegistrationInput']; // StudentRegistrationInput!
+    }
+    submitEssayFinalDraft: { // args
+      input: NexusGenInputs['SubmitEssayFinalDraftInput']; // SubmitEssayFinalDraftInput!
     }
     teacherRegistration: { // args
       input: NexusGenInputs['TeacherRegistrationInput']; // TeacherRegistrationInput!
@@ -441,6 +485,9 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
+    findAssignmentsToGrade: { // args
+      input: NexusGenInputs['FindAssignmentsToGradeInput']; // FindAssignmentsToGradeInput!
+    }
     findEssayById: { // args
       input: NexusGenInputs['FindEssayByIdInput']; // FindEssayByIdInput!
     }
@@ -457,9 +504,9 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "AddStudentsToCoursePayload" | "AssignEssayPayload" | "Course" | "CreateCoursePayload" | "Essay" | "FinalDraftContainer" | "FindEssayByIdPayload" | "FindEssaysByUserNameAndMarkingPeriodPayload" | "LoginPayload" | "Mutation" | "Query" | "Reading_Guide" | "Readings" | "Score" | "Student" | "StudentRegistrationPayload" | "SubmittedFinalDraft" | "Teacher" | "TeacherRegistrationPayload" | "Test" | "Topic" | "UpdateWorkingDraftPayload" | "WorkingDraft";
+export type NexusGenObjectNames = "AddStudentsToCoursePayload" | "AssignEssayPayload" | "Course" | "CreateCoursePayload" | "Essay" | "FinalDraftContainer" | "FindAssignmentsToGradePayload" | "FindEssayByIdPayload" | "FindEssaysByUserNameAndMarkingPeriodPayload" | "LoginPayload" | "Mutation" | "Query" | "Reading_Guide" | "Readings" | "ReturnGradedEssayPayload" | "Score" | "Student" | "StudentRegistrationPayload" | "SubmitEssayFinalDraftPayload" | "SubmittedFinalDraft" | "Teacher" | "TeacherRegistrationPayload" | "Test" | "Topic" | "UpdateWorkingDraftPayload" | "WorkingDraft";
 
-export type NexusGenInputNames = "AddStudentsToCourseInput" | "AssignEssayInput" | "CreateCourseInput" | "FindEssayByIdInput" | "FindEssaysByUserNameAndMarkingPeriodInput" | "HasAssigner" | "HasOwnerInput" | "LoginInput" | "ReadingsInput" | "StudentRegistrationInput" | "SubmittedFinalDraftsInput" | "TeacherRegistrationInput" | "TopicInput" | "UpdateWorkingDraftInput";
+export type NexusGenInputNames = "AddStudentsToCourseInput" | "AssignEssayInput" | "CreateCourseInput" | "FindAssignmentsToGradeInput" | "FindEssayByIdInput" | "FindEssaysByUserNameAndMarkingPeriodInput" | "HasAssigner" | "HasOwnerInput" | "LoginInput" | "ReadingsInput" | "ReturnGradedEssayInput" | "StudentRegistrationInput" | "SubmitEssayFinalDraftInput" | "SubmittedFinalDraftsInput" | "TeacherRegistrationInput" | "TopicInput" | "UpdateWorkingDraftInput";
 
 export type NexusGenEnumNames = "MarkingPeriodEnum" | "QuestionTypeEnum" | "TitleEnum";
 

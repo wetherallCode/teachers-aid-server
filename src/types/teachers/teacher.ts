@@ -7,7 +7,7 @@ import {
 } from '@nexus/schema'
 import { hash } from 'argon2'
 import { User } from '../users/users'
-import { NexusGenRootTypes } from '../../practice-api-typegen'
+import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
 
 export const Teacher = objectType({
   name: 'Teacher',

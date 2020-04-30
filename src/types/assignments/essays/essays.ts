@@ -53,9 +53,9 @@ export const SubmittedFinalDraft = objectType({
 export const SubmittedFinalDraftsInput = inputObjectType({
   name: 'SubmittedFinalDraftsInput',
   definition(t) {
-    t.JSON('draft')
-    t.JSON('gradingDraft')
-    t.list.string('comments')
-    t.int('score')
+    t.JSON('draft', { required: true })
+    t.JSON('gradingDraft', { required: true })
+    t.list.string('comments', { required: true })
+    t.int('score', { required: true })
   },
 })

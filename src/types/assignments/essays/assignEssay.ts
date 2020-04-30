@@ -1,8 +1,9 @@
 import { inputObjectType, objectType, mutationField, arg } from '@nexus/schema'
 import { Essay } from '.'
 import { MarkingPeriodEnum } from '../../general'
-import { NexusGenRootTypes } from 'teachers-aid-server/src/practice-api-typegen'
+
 import { QuestionTypeEnum } from './essays'
+import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
 
 export const AssignEssayInput = inputObjectType({
   name: 'AssignEssayInput',

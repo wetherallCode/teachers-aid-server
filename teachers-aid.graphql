@@ -81,6 +81,14 @@ type FinalDraftContainer {
   submitTime: DateTime
 }
 
+input FindAssignmentsToGradeInput {
+  teacherUserName: String!
+}
+
+type FindAssignmentsToGradePayload {
+  assignments: [Assignment!]!
+}
+
 input FindEssayByIdInput {
   _id: ID!
 }
@@ -133,12 +141,15 @@ type Mutation {
   createCourse(input: CreateCourseInput!): CreateCoursePayload!
   login(input: LoginInput!): LoginPayload!
   logout: Boolean!
+  returnGradedEssay(input: ReturnGradedEssayInput!): ReturnGradedEssayPayload!
   studentRegistration(input: StudentRegistrationInput!): StudentRegistrationPayload!
+  submitEssayFinalDraft(input: SubmitEssayFinalDraftInput!): SubmitEssayFinalDraftPayload!
   teacherRegistration(input: TeacherRegistrationInput!): TeacherRegistrationPayload!
   updateWorkingDraft(input: UpdateWorkingDraftInput!): UpdateWorkingDraftPayload!
 }
 
 type Query {
+  findAssignmentsToGrade(input: FindAssignmentsToGradeInput!): FindAssignmentsToGradePayload!
   findEssayById(input: FindEssayByIdInput!): FindEssayByIdPayload!
   findEssaysByUserNameAndMarkingPeriod(input: FindEssaysByUserNameAndMarkingPeriodInput!): FindEssaysByUserNameAndMarkingPeriodPayload!
   me: User
@@ -174,6 +185,17 @@ input ReadingsInput {
   readingSections: String!
 }
 
+input ReturnGradedEssayInput {
+  _id: ID!
+  comments: [String!]!
+  gradedDraft: JSON!
+  score: Int!
+}
+
+type ReturnGradedEssayPayload {
+  essay: Essay!
+}
+
 type Score {
   earnedPoints: Int!
   maxPoints: Int!
@@ -202,6 +224,16 @@ type StudentRegistrationPayload {
   student: Student!
 }
 
+input SubmitEssayFinalDraftInput {
+  _id: ID!
+  late: Boolean!
+  submittedFinalDraft: SubmittedFinalDraftsInput!
+}
+
+type SubmitEssayFinalDraftPayload {
+  essay: Essay!
+}
+
 type SubmittedFinalDraft {
   comments: [String!]!
   draft: JSON!
@@ -210,10 +242,10 @@ type SubmittedFinalDraft {
 }
 
 input SubmittedFinalDraftsInput {
-  comments: [String!]
-  draft: JSON
-  gradingDraft: JSON
-  score: Int
+  comments: [String!]!
+  draft: JSON!
+  gradingDraft: JSON!
+  score: Int!
 }
 
 type Teacher implements User {
