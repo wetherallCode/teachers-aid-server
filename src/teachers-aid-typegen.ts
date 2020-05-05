@@ -101,6 +101,15 @@ export interface NexusGenInputs {
     title: NexusGenEnums['TitleEnum']; // TitleEnum!
     userName: string; // String!
   }
+  TextSectionProtocolsInput: { // input type
+    academicOutcomeTypes?: NexusGenEnums['AcademicOutomeTypes'] | null; // AcademicOutomeTypes
+    activityType?: NexusGenEnums['TextSectionProtocolTypes'] | null; // TextSectionProtocolTypes
+    element?: string | null; // String
+  }
+  TextSectionQuestionsInput: { // input type
+    question?: string | null; // String
+    questionType?: NexusGenEnums['QuestionTypeEnum'] | null; // QuestionTypeEnum
+  }
   TopicInput: { // input type
     question: string; // String!
     questionType: NexusGenEnums['QuestionTypeEnum']; // QuestionTypeEnum!
@@ -109,13 +118,17 @@ export interface NexusGenInputs {
     _id: string; // ID!
     updatedDraft: any; // JSON!
   }
+  VocabInput: { // input type
+    definition?: string | null; // String
+    word?: string | null; // String
+  }
 }
 
 export interface NexusGenEnums {
   AcademicOutomeTypes: "LOGIC_BUILDING" | "SCHEMA_BUIDING" | "SOCRATIC_QUESTIONS"
   MarkingPeriodEnum: "FIRST" | "FOURTH" | "SECOND" | "THIRD"
   QuestionTypeEnum: "HOW_CAUSE_EFFECT" | "HOW_PROBLEM_SOLUTION" | "WHY_CAUSE_EFFECT"
-  SectionProtocolTypes: "THINK_PAIR_SHARE"
+  TextSectionProtocolTypes: "THINK_PAIR_SHARE"
   TitleEnum: "MISS" | "MR" | "MRS" | "MS"
 }
 
@@ -171,7 +184,7 @@ export interface NexusGenRootTypes {
   Mutation: {};
   Protocols: { // root type
     academicOutcomeTypes: NexusGenEnums['AcademicOutomeTypes']; // AcademicOutomeTypes!
-    activityType: NexusGenEnums['SectionProtocolTypes']; // SectionProtocolTypes!
+    activityType: NexusGenEnums['TextSectionProtocolTypes']; // TextSectionProtocolTypes!
     element: string; // String!
   }
   Query: {};
@@ -198,17 +211,6 @@ export interface NexusGenRootTypes {
   Score: { // root type
     earnedPoints: number; // Int!
     maxPoints: number; // Int!
-  }
-  Section: { // root type
-    fromText: string; // String!
-    hasProtocols: NexusGenRootTypes['Protocols'][]; // [Protocols!]!
-    hasQuestions: string[]; // [String!]!
-    pages: string; // String!
-    vocab: NexusGenRootTypes['Vocab'][]; // [Vocab!]!
-  }
-  SectionQuestions: { // root type
-    question: string; // String!
-    questionType: NexusGenEnums['QuestionTypeEnum']; // QuestionTypeEnum!
   }
   Student: { // root type
     _id?: string | null; // ID
@@ -255,6 +257,18 @@ export interface NexusGenRootTypes {
     score: NexusGenRootTypes['Score']; // Score!
     testName: string; // String!
   }
+  TextSection: { // root type
+    fromText: string; // String!
+    hasProtocols: NexusGenRootTypes['Protocols'][]; // [Protocols!]!
+    hasQuestions: NexusGenRootTypes['TextSectionQuestions'][]; // [TextSectionQuestions!]!
+    header: string; // String!
+    pages: string; // String!
+    vocab: NexusGenRootTypes['Vocab'][]; // [Vocab!]!
+  }
+  TextSectionQuestions: { // root type
+    question: string; // String!
+    questionType: NexusGenEnums['QuestionTypeEnum']; // QuestionTypeEnum!
+  }
   Topic: { // root type
     question: string; // String!
     questionType: NexusGenEnums['QuestionTypeEnum']; // QuestionTypeEnum!
@@ -298,12 +312,15 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
   SubmitEssayFinalDraftInput: NexusGenInputs['SubmitEssayFinalDraftInput'];
   SubmittedFinalDraftsInput: NexusGenInputs['SubmittedFinalDraftsInput'];
   TeacherRegistrationInput: NexusGenInputs['TeacherRegistrationInput'];
+  TextSectionProtocolsInput: NexusGenInputs['TextSectionProtocolsInput'];
+  TextSectionQuestionsInput: NexusGenInputs['TextSectionQuestionsInput'];
   TopicInput: NexusGenInputs['TopicInput'];
   UpdateWorkingDraftInput: NexusGenInputs['UpdateWorkingDraftInput'];
+  VocabInput: NexusGenInputs['VocabInput'];
   AcademicOutomeTypes: NexusGenEnums['AcademicOutomeTypes'];
   MarkingPeriodEnum: NexusGenEnums['MarkingPeriodEnum'];
   QuestionTypeEnum: NexusGenEnums['QuestionTypeEnum'];
-  SectionProtocolTypes: NexusGenEnums['SectionProtocolTypes'];
+  TextSectionProtocolTypes: NexusGenEnums['TextSectionProtocolTypes'];
   TitleEnum: NexusGenEnums['TitleEnum'];
 }
 
@@ -370,7 +387,7 @@ export interface NexusGenFieldTypes {
   }
   Protocols: { // field return type
     academicOutcomeTypes: NexusGenEnums['AcademicOutomeTypes']; // AcademicOutomeTypes!
-    activityType: NexusGenEnums['SectionProtocolTypes']; // SectionProtocolTypes!
+    activityType: NexusGenEnums['TextSectionProtocolTypes']; // TextSectionProtocolTypes!
     element: string; // String!
   }
   Query: { // field return type
@@ -402,17 +419,6 @@ export interface NexusGenFieldTypes {
   Score: { // field return type
     earnedPoints: number; // Int!
     maxPoints: number; // Int!
-  }
-  Section: { // field return type
-    fromText: string; // String!
-    hasProtocols: NexusGenRootTypes['Protocols'][]; // [Protocols!]!
-    hasQuestions: string[]; // [String!]!
-    pages: string; // String!
-    vocab: NexusGenRootTypes['Vocab'][]; // [Vocab!]!
-  }
-  SectionQuestions: { // field return type
-    question: string; // String!
-    questionType: NexusGenEnums['QuestionTypeEnum']; // QuestionTypeEnum!
   }
   Student: { // field return type
     _id: string | null; // ID
@@ -461,6 +467,18 @@ export interface NexusGenFieldTypes {
     readings: NexusGenRootTypes['Readings']; // Readings!
     score: NexusGenRootTypes['Score']; // Score!
     testName: string; // String!
+  }
+  TextSection: { // field return type
+    fromText: string; // String!
+    hasProtocols: NexusGenRootTypes['Protocols'][]; // [Protocols!]!
+    hasQuestions: NexusGenRootTypes['TextSectionQuestions'][]; // [TextSectionQuestions!]!
+    header: string; // String!
+    pages: string; // String!
+    vocab: NexusGenRootTypes['Vocab'][]; // [Vocab!]!
+  }
+  TextSectionQuestions: { // field return type
+    question: string; // String!
+    questionType: NexusGenEnums['QuestionTypeEnum']; // QuestionTypeEnum!
   }
   Topic: { // field return type
     question: string; // String!
@@ -548,11 +566,11 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "AddStudentsToCoursePayload" | "AssignEssayPayload" | "Course" | "CreateCoursePayload" | "Essay" | "FinalDraftContainer" | "FindAssignmentsToGradePayload" | "FindEssayByIdPayload" | "FindEssaysByUserNameAndMarkingPeriodPayload" | "LoginPayload" | "Mutation" | "Protocols" | "Query" | "Reading_Guide" | "Readings" | "ReturnGradedEssayPayload" | "Score" | "Section" | "SectionQuestions" | "Student" | "StudentRegistrationPayload" | "SubmitEssayFinalDraftPayload" | "SubmittedFinalDraft" | "Teacher" | "TeacherRegistrationPayload" | "Test" | "Topic" | "UpdateWorkingDraftPayload" | "Vocab" | "WorkingDraft";
+export type NexusGenObjectNames = "AddStudentsToCoursePayload" | "AssignEssayPayload" | "Course" | "CreateCoursePayload" | "Essay" | "FinalDraftContainer" | "FindAssignmentsToGradePayload" | "FindEssayByIdPayload" | "FindEssaysByUserNameAndMarkingPeriodPayload" | "LoginPayload" | "Mutation" | "Protocols" | "Query" | "Reading_Guide" | "Readings" | "ReturnGradedEssayPayload" | "Score" | "Student" | "StudentRegistrationPayload" | "SubmitEssayFinalDraftPayload" | "SubmittedFinalDraft" | "Teacher" | "TeacherRegistrationPayload" | "Test" | "TextSection" | "TextSectionQuestions" | "Topic" | "UpdateWorkingDraftPayload" | "Vocab" | "WorkingDraft";
 
-export type NexusGenInputNames = "AddStudentsToCourseInput" | "AssignEssayInput" | "CreateCourseInput" | "FindAssignmentsToGradeInput" | "FindEssayByIdInput" | "FindEssaysByUserNameAndMarkingPeriodInput" | "HasAssigner" | "HasOwnerInput" | "LoginInput" | "ReadingsInput" | "ReturnGradedEssayInput" | "StudentRegistrationInput" | "SubmitEssayFinalDraftInput" | "SubmittedFinalDraftsInput" | "TeacherRegistrationInput" | "TopicInput" | "UpdateWorkingDraftInput";
+export type NexusGenInputNames = "AddStudentsToCourseInput" | "AssignEssayInput" | "CreateCourseInput" | "FindAssignmentsToGradeInput" | "FindEssayByIdInput" | "FindEssaysByUserNameAndMarkingPeriodInput" | "HasAssigner" | "HasOwnerInput" | "LoginInput" | "ReadingsInput" | "ReturnGradedEssayInput" | "StudentRegistrationInput" | "SubmitEssayFinalDraftInput" | "SubmittedFinalDraftsInput" | "TeacherRegistrationInput" | "TextSectionProtocolsInput" | "TextSectionQuestionsInput" | "TopicInput" | "UpdateWorkingDraftInput" | "VocabInput";
 
-export type NexusGenEnumNames = "AcademicOutomeTypes" | "MarkingPeriodEnum" | "QuestionTypeEnum" | "SectionProtocolTypes" | "TitleEnum";
+export type NexusGenEnumNames = "AcademicOutomeTypes" | "MarkingPeriodEnum" | "QuestionTypeEnum" | "TextSectionProtocolTypes" | "TitleEnum";
 
 export type NexusGenInterfaceNames = "Assignment" | "User";
 

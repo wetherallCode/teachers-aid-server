@@ -157,7 +157,7 @@ type Mutation {
 """Protocol suggestions for including in a LessonPlan"""
 type Protocols {
   academicOutcomeTypes: AcademicOutomeTypes!
-  activityType: SectionProtocolTypes!
+  activityType: TextSectionProtocolTypes!
   element: String!
 }
 
@@ -212,23 +212,6 @@ type ReturnGradedEssayPayload {
 type Score {
   earnedPoints: Int!
   maxPoints: Int!
-}
-
-type Section {
-  fromText: String!
-  hasProtocols: [Protocols!]!
-  hasQuestions: [String!]!
-  pages: String!
-  vocab: [Vocab!]!
-}
-
-enum SectionProtocolTypes {
-  THINK_PAIR_SHARE
-}
-
-type SectionQuestions {
-  question: String!
-  questionType: QuestionTypeEnum!
 }
 
 type Student implements User {
@@ -316,6 +299,35 @@ type Test implements Assignment {
   testName: String!
 }
 
+type TextSection {
+  fromText: String!
+  hasProtocols: [Protocols!]!
+  hasQuestions: [TextSectionQuestions!]!
+  header: String!
+  pages: String!
+  vocab: [Vocab!]!
+}
+
+input TextSectionProtocolsInput {
+  academicOutcomeTypes: AcademicOutomeTypes
+  activityType: TextSectionProtocolTypes
+  element: String
+}
+
+enum TextSectionProtocolTypes {
+  THINK_PAIR_SHARE
+}
+
+type TextSectionQuestions {
+  question: String!
+  questionType: QuestionTypeEnum!
+}
+
+input TextSectionQuestionsInput {
+  question: String
+  questionType: QuestionTypeEnum
+}
+
 scalar Time
 
 enum TitleEnum {
@@ -356,6 +368,11 @@ interface User {
 type Vocab {
   definition: String!
   word: String!
+}
+
+input VocabInput {
+  definition: String
+  word: String
 }
 
 type WorkingDraft {

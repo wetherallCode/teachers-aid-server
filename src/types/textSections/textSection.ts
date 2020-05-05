@@ -37,6 +37,7 @@ export const TextSectionProtocols = objectType({
     t.string('element')
   },
 })
+
 export const TextSectionProtocolsInput = inputObjectType({
   name: 'TextSectionProtocolsInput',
   definition(t) {
@@ -45,6 +46,7 @@ export const TextSectionProtocolsInput = inputObjectType({
     t.string('element')
   },
 })
+
 export const TextSectionProtocolActivityTypes = enumType({
   name: 'TextSectionProtocolTypes',
   members: ['THINK_PAIR_SHARE'],
