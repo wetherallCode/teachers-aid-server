@@ -5,7 +5,8 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "start": "nodemon --exec ts-node src/index.ts"
+    "start": "nodemon --exec ts-node src/index.ts",
+    "apollo-push": "npx apollo service:push --localSchemaFile=./teachers-aid.graphql"
   },
   "dependencies": {
     "@nexus/schema": "^0.13.1",
