@@ -51,7 +51,8 @@ const startServer = async () => {
       resave: false,
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 7,
-        // httpOnly: false,
+        // maxAge: 1000,
+        // httpOnly: true,
         // sameSite: 'none',
         // secure: true,
       },
@@ -69,6 +70,11 @@ const startServer = async () => {
 
   const server = new ApolloServer({
     schema,
+    introspection: true,
+    playground: true,
+    engine: {
+      apiKey: 'service:teachers-aid-server:AVsJ7hHBz2dGu9JYONV84g',
+    },
     context: async ({ req, res }: any) => {
       let userData = db.collection('userData')
       let assignmentData = db.collection('assignmentData')
@@ -89,7 +95,7 @@ const startServer = async () => {
     app,
     cors: {
       credentials: true,
-      origin: 'http://localhost:3001',
+      origin: 'http://localhost:3002',
     },
   })
 
