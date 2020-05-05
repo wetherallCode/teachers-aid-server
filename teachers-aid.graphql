@@ -2,6 +2,12 @@
 ### Do not make changes to this file directly
 
 
+enum AcademicOutomeTypes {
+  LOGIC_BUILDING
+  SCHEMA_BUIDING
+  SOCRATIC_QUESTIONS
+}
+
 input AddStudentsToCourseInput {
   course: String!
   studentUserName: String!
@@ -148,6 +154,13 @@ type Mutation {
   updateWorkingDraft(input: UpdateWorkingDraftInput!): UpdateWorkingDraftPayload!
 }
 
+"""Protocol suggestions for including in a LessonPlan"""
+type Protocols {
+  academicOutcomeTypes: AcademicOutomeTypes!
+  activityType: SectionProtocolTypes!
+  element: String!
+}
+
 type Query {
   findAssignmentsToGrade(input: FindAssignmentsToGradeInput!): FindAssignmentsToGradePayload!
   findEssayById(input: FindEssayByIdInput!): FindEssayByIdPayload!
@@ -199,6 +212,23 @@ type ReturnGradedEssayPayload {
 type Score {
   earnedPoints: Int!
   maxPoints: Int!
+}
+
+type Section {
+  fromText: String!
+  hasProtocols: [Protocols!]!
+  hasQuestions: [String!]!
+  pages: String!
+  vocab: [Vocab!]!
+}
+
+enum SectionProtocolTypes {
+  THINK_PAIR_SHARE
+}
+
+type SectionQuestions {
+  question: String!
+  questionType: QuestionTypeEnum!
 }
 
 type Student implements User {
@@ -321,6 +351,11 @@ interface User {
   lastName: String!
   password: String!
   userName: String!
+}
+
+type Vocab {
+  definition: String!
+  word: String!
 }
 
 type WorkingDraft {
