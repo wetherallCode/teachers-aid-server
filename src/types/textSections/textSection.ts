@@ -4,6 +4,7 @@ import { QuestionTypeEnum } from '../assignments'
 export const TextSection = objectType({
   name: 'TextSection',
   definition(t) {
+    t.id('_id', { nullable: true })
     t.string('fromText')
     t.string('pages')
     t.string('header')
@@ -23,13 +24,13 @@ export const Vocab = objectType({
 export const VocabInput = inputObjectType({
   name: 'VocabInput',
   definition(t) {
-    t.string('word')
-    t.string('definition')
+    t.string('word', { required: true })
+    t.string('definition', { required: true })
   },
 })
 
 export const TextSectionProtocols = objectType({
-  name: 'Protocols',
+  name: 'TextSectionProtocols',
   description: 'Protocol suggestions for including in a LessonPlan',
   definition(t) {
     t.field('activityType', { type: TextSectionProtocolActivityTypes })
@@ -41,9 +42,15 @@ export const TextSectionProtocols = objectType({
 export const TextSectionProtocolsInput = inputObjectType({
   name: 'TextSectionProtocolsInput',
   definition(t) {
-    t.field('activityType', { type: TextSectionProtocolActivityTypes })
-    t.field('academicOutcomeTypes', { type: AcademicOutcomeTypes })
-    t.string('element')
+    t.field('activityType', {
+      type: TextSectionProtocolActivityTypes,
+      required: true,
+    })
+    t.field('academicOutcomeTypes', {
+      type: AcademicOutcomeTypes,
+      required: true,
+    })
+    t.string('element', { required: true })
   },
 })
 
@@ -67,7 +74,7 @@ export const TextSectionQuestions = objectType({
 export const TextSectionQuestionsInput = inputObjectType({
   name: 'TextSectionQuestionsInput',
   definition(t) {
-    t.string('question')
-    t.field('questionType', { type: QuestionTypeEnum })
+    t.string('question', { required: true })
+    t.field('questionType', { type: QuestionTypeEnum, required: true })
   },
 })
