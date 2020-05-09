@@ -8,6 +8,24 @@ enum AcademicOutomeTypes {
   SOCRATIC_QUESTIONS
 }
 
+input AddNewChapterInput {
+  chapterNumber: Int!
+  chapterTitle: String!
+  textTitle: String!
+}
+
+type AddNewChapterPayload {
+  chapter: Chapter!
+}
+
+input AddNewTextInput {
+  textTitle: String!
+}
+
+type AddNewTextPayload {
+  text: Text!
+}
+
 input AddStudentsToCourseInput {
   course: String!
   studentUserName: String!
@@ -15,6 +33,17 @@ input AddStudentsToCourseInput {
 
 type AddStudentsToCoursePayload {
   course: Course!
+}
+
+input AddVocabWordInput {
+  _id: ID!
+  definition: String!
+  position: Int!
+  word: String!
+}
+
+type AddVocabWordPayload {
+  textSection: TextSection!
 }
 
 input AssignEssayInput {
@@ -44,6 +73,22 @@ interface Assignment {
   score: Score!
 }
 
+input ChangeVocabWordInput {
+  _id: ID!
+  definition: String!
+  newDefinition: String!
+  newWord: String!
+  word: String!
+}
+
+type Chapter {
+  _id: ID
+  chapterNumber: Int!
+  chapterTitle: String!
+  fromText: Text!
+  hasSections: TextSection!
+}
+
 type Course {
   _id: ID
   hasStudents: [Student!]!
@@ -61,12 +106,12 @@ type CreateCoursePayload {
 }
 
 input CreateTextSectionInput {
-  fromText: String!
+  fromChapterId: String!
   hasProtocols: [TextSectionProtocolsInput!]!
   hasQuestions: [TextSectionQuestionsInput!]!
+  hasVocab: [TextSectionVocabInput!]!
   header: String!
-  pages: String!
-  vocab: [VocabInput!]!
+  pageNumbers: PageNumbersInput!
 }
 
 type CreateTextSectionPayload {
@@ -125,6 +170,35 @@ type FindEssaysByUserNameAndMarkingPeriodPayload {
   essay: [Essay!]
 }
 
+input FindTextByTitleInput {
+  title: String
+}
+
+type FindTextByTitlePayload {
+  text: Text!
+}
+
+input FindTextSectionByIdInput {
+  _id: ID!
+}
+
+type FindTextSectionByIdPayload {
+  textSection: TextSection!
+}
+
+input FindTextSectionsByChapterInput {
+  fromChapter: String!
+  fromText: String!
+}
+
+type FindTextSectionsByChapterPayload {
+  textSections: [TextSection!]!
+}
+
+type FindTextsPayload {
+  texts: [Text!]!
+}
+
 input HasAssigner {
   assignerUserName: String
 }
@@ -155,8 +229,12 @@ enum MarkingPeriodEnum {
 }
 
 type Mutation {
+  addNewChapter(input: AddNewChapterInput!): AddNewChapterPayload!
+  addNewText(input: AddNewTextInput!): AddNewTextPayload!
   addStudentsToCourse(input: AddStudentsToCourseInput!): AddStudentsToCoursePayload!
+  addVocabWord(input: AddVocabWordInput!): AddVocabWordPayload!
   assignEssay(input: AssignEssayInput!): AssignEssayPayload!
+  changeVocabWord(input: ChangeVocabWordInput!): UpdateVocabPayload!
   createCourse(input: CreateCourseInput!): CreateCoursePayload!
   createTextSection(input: CreateTextSectionInput!): CreateTextSectionPayload!
   login(input: LoginInput!): LoginPayload!
@@ -168,10 +246,24 @@ type Mutation {
   updateWorkingDraft(input: UpdateWorkingDraftInput!): UpdateWorkingDraftPayload!
 }
 
+type PageNumbers {
+  endingPage: Int!
+  startingPage: Int!
+}
+
+input PageNumbersInput {
+  endingPage: Int!
+  startingPage: Int!
+}
+
 type Query {
   findAssignmentsToGrade(input: FindAssignmentsToGradeInput!): FindAssignmentsToGradePayload!
   findEssayById(input: FindEssayByIdInput!): FindEssayByIdPayload!
   findEssaysByUserNameAndMarkingPeriod(input: FindEssaysByUserNameAndMarkingPeriodInput!): FindEssaysByUserNameAndMarkingPeriodPayload!
+  findTextByTitle(input: FindTextByTitleInput!): FindTextByTitlePayload!
+  findTexts: FindTextsPayload!
+  findTextSectionById(input: FindTextSectionByIdInput!): FindTextSectionByIdPayload!
+  findTextSectionsByChapter(input: FindTextSectionsByChapterInput!): FindTextSectionsByChapterPayload!
   me: User
 }
 
@@ -306,14 +398,30 @@ type Test implements Assignment {
   testName: String!
 }
 
+type Text {
+  _id: ID
+  hasChapters: [Chapter!]!
+  textTitle: String!
+}
+
+input TextChapterInput {
+  chapterNumber: Int!
+  chapterTitle: String!
+}
+
+input TextInput {
+  chapters: [String!]!
+  textTitle: String!
+}
+
 type TextSection {
   _id: ID
-  fromText: String!
+  fromChapter: Chapter!
   hasProtocols: [TextSectionProtocols!]!
   hasQuestions: [TextSectionQuestions!]!
+  hasVocab: [TextSectionVocab!]!
   header: String!
-  pages: String!
-  vocab: [Vocab!]!
+  pageNumbers: PageNumbers!
 }
 
 """Protocol suggestions for including in a LessonPlan"""
@@ -343,6 +451,16 @@ input TextSectionQuestionsInput {
   questionType: QuestionTypeEnum!
 }
 
+type TextSectionVocab {
+  definition: String!
+  word: String!
+}
+
+input TextSectionVocabInput {
+  definition: String!
+  word: String!
+}
+
 scalar Time
 
 enum TitleEnum {
@@ -362,6 +480,10 @@ input TopicInput {
   questionType: QuestionTypeEnum!
 }
 
+type UpdateVocabPayload {
+  textSection: TextSection!
+}
+
 input UpdateWorkingDraftInput {
   _id: ID!
   updatedDraft: JSON!
@@ -378,16 +500,6 @@ interface User {
   lastName: String!
   password: String!
   userName: String!
-}
-
-type Vocab {
-  definition: String!
-  word: String!
-}
-
-input VocabInput {
-  definition: String!
-  word: String!
 }
 
 type WorkingDraft {
