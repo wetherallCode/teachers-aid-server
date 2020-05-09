@@ -1,28 +1,45 @@
 import { objectType, enumType, inputObjectType } from '@nexus/schema'
 import { QuestionTypeEnum } from '../assignments'
+import { Chapter } from '../texts'
 
 export const TextSection = objectType({
   name: 'TextSection',
   definition(t) {
     t.id('_id', { nullable: true })
-    t.string('fromText')
-    t.string('pages')
+    t.field('fromChapter', { type: Chapter })
+    t.field('pageNumbers', { type: PageNumbers })
     t.string('header')
     t.list.field('hasProtocols', { type: TextSectionProtocols })
-    t.list.field('vocab', { type: Vocab })
+    t.list.field('hasVocab', { type: TextSectionVocab })
     t.list.field('hasQuestions', { type: TextSectionQuestions })
   },
 })
 
-export const Vocab = objectType({
-  name: 'Vocab',
+export const PageNumbers = objectType({
+  name: 'PageNumbers',
+  definition(t) {
+    t.int('startingPage')
+    t.int('endingPage')
+  },
+})
+
+export const PageNumbersInput = inputObjectType({
+  name: 'PageNumbersInput',
+  definition(t) {
+    t.int('startingPage', { required: true })
+    t.int('endingPage', { required: true })
+  },
+})
+
+export const TextSectionVocab = objectType({
+  name: 'TextSectionVocab',
   definition(t) {
     t.string('word')
     t.string('definition')
   },
 })
-export const VocabInput = inputObjectType({
-  name: 'VocabInput',
+export const TextSectionVocabInput = inputObjectType({
+  name: 'TextSectionVocabInput',
   definition(t) {
     t.string('word', { required: true })
     t.string('definition', { required: true })

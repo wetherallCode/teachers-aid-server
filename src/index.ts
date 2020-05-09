@@ -80,6 +80,7 @@ const startServer = async () => {
       let assignmentData = db.collection('assignmentData')
       let courseData = db.collection('courseData')
       let textSectionData = db.collection('textSectionData')
+      let textData = db.collection('textData')
 
       return {
         req,
@@ -88,6 +89,7 @@ const startServer = async () => {
         assignmentData,
         courseData,
         textSectionData,
+        textData,
         db,
       }
     },

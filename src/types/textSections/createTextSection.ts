@@ -1,23 +1,28 @@
 import { inputObjectType, objectType, arg, mutationField } from '@nexus/schema'
 import {
   TextSectionProtocolsInput,
-  VocabInput,
+  TextSectionVocab,
   TextSectionQuestionsInput,
 } from '.'
-import { TextSection } from './textSection'
+import {
+  TextSection,
+  TextSectionVocabInput,
+  PageNumbersInput,
+} from './textSection'
 import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { ObjectId } from 'mongodb'
 
 export const CreateTextSectionInput = inputObjectType({
   name: 'CreateTextSectionInput',
   definition(t) {
-    t.string('fromText', { required: true })
-    t.string('pages', { required: true })
+    t.string('fromChapterId', { required: true })
+    t.field('pageNumbers', { type: PageNumbersInput, required: true })
     t.string('header', { required: true })
     t.list.field('hasProtocols', {
       type: TextSectionProtocolsInput,
       required: true,
     })
-    t.list.field('vocab', { type: VocabInput, required: true })
+    t.list.field('hasVocab', { type: TextSectionVocabInput, required: true })
     t.list.field('hasQuestions', {
       type: TextSectionQuestionsInput,
       required: true,
@@ -37,19 +42,29 @@ export const CreateTextSection = mutationField('createTextSection', {
   args: { input: arg({ type: CreateTextSectionInput, required: true }) },
   async resolve(
     _,
-    { input: { fromText, pages, header, hasProtocols, vocab, hasQuestions } },
-    { textSectionData }
+    {
+      input: {
+        fromChapterId,
+        pageNumbers,
+        header,
+        hasProtocols,
+        hasVocab,
+        hasQuestions,
+      },
+    },
+    { textData }
   ) {
+    const chapter = await textData.findOne({ _id: new ObjectId(fromChapterId) })
     const newTextSection: NexusGenRootTypes['TextSection'] = {
-      fromText,
-      pages,
+      fromChapter: chapter,
+      pageNumbers,
       header,
       hasProtocols,
-      vocab,
+      hasVocab,
       hasQuestions,
     }
 
-    const { insertedId } = await textSectionData.insertOne(newTextSection)
+    const { insertedId } = await textData.insertOne(newTextSection)
     newTextSection._id = insertedId
 
     return { textSection: newTextSection }

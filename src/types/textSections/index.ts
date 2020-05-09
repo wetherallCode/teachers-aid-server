@@ -1,2 +1,6 @@
 export * from './textSection'
 export * from './createTextSection'
+export * from './findTextSectionById'
+export * from './findTextSectionsByChapter'
+export * from './changeVocabWord'
+export * from './addVocabWord'
