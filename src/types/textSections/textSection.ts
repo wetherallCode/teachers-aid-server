@@ -50,9 +50,9 @@ export const TextSectionProtocols = objectType({
   name: 'TextSectionProtocols',
   description: 'Protocol suggestions for including in a LessonPlan',
   definition(t) {
-    t.field('activityType', { type: TextSectionProtocolActivityTypes })
+    t.field('activityType', { type: ProtocolActivityTypes })
     t.field('academicOutcomeTypes', { type: AcademicOutcomeTypes })
-    t.string('element')
+    t.string('task')
   },
 })
 
@@ -60,19 +60,19 @@ export const TextSectionProtocolsInput = inputObjectType({
   name: 'TextSectionProtocolsInput',
   definition(t) {
     t.field('activityType', {
-      type: TextSectionProtocolActivityTypes,
+      type: ProtocolActivityTypes,
       required: true,
     })
     t.field('academicOutcomeTypes', {
       type: AcademicOutcomeTypes,
       required: true,
     })
-    t.string('element', { required: true })
+    t.string('task', { required: true })
   },
 })
 
-export const TextSectionProtocolActivityTypes = enumType({
-  name: 'TextSectionProtocolTypes',
+export const ProtocolActivityTypes = enumType({
+  name: 'ProtocolActivityTypes',
   members: ['THINK_PAIR_SHARE'],
 })
 
