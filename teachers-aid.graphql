@@ -153,6 +153,22 @@ type FindAssignmentsToGradePayload {
   assignments: [Assignment!]!
 }
 
+input FindChaptersInTextInput {
+  textTitle: String!
+}
+
+type FindChaptersInTextPayload {
+  chapters: [Chapter!]!
+}
+
+input FindChapterTitleInput {
+  chapter_id: ID!
+}
+
+type FindChapterTitlePayload {
+  chapter: Chapter!
+}
+
 input FindEssayByIdInput {
   _id: ID!
 }
@@ -239,10 +255,12 @@ type Mutation {
   createTextSection(input: CreateTextSectionInput!): CreateTextSectionPayload!
   login(input: LoginInput!): LoginPayload!
   logout: Boolean!
+  removeTextSection(input: RemoveTextSectionInput!): RemoveTextSectionPayload!
   returnGradedEssay(input: ReturnGradedEssayInput!): ReturnGradedEssayPayload!
   studentRegistration(input: StudentRegistrationInput!): StudentRegistrationPayload!
   submitEssayFinalDraft(input: SubmitEssayFinalDraftInput!): SubmitEssayFinalDraftPayload!
   teacherRegistration(input: TeacherRegistrationInput!): TeacherRegistrationPayload!
+  updateTextSection(input: UpdateTextSectionInput!): UpdateTextSectionPayload!
   updateWorkingDraft(input: UpdateWorkingDraftInput!): UpdateWorkingDraftPayload!
 }
 
@@ -256,8 +274,14 @@ input PageNumbersInput {
   startingPage: Int!
 }
 
+enum ProtocolActivityTypes {
+  THINK_PAIR_SHARE
+}
+
 type Query {
   findAssignmentsToGrade(input: FindAssignmentsToGradeInput!): FindAssignmentsToGradePayload!
+  findChaptersInText(input: FindChaptersInTextInput!): FindChaptersInTextPayload!
+  findChapterTitle(input: FindChapterTitleInput!): FindChapterTitlePayload!
   findEssayById(input: FindEssayByIdInput!): FindEssayByIdPayload!
   findEssaysByUserNameAndMarkingPeriod(input: FindEssaysByUserNameAndMarkingPeriodInput!): FindEssaysByUserNameAndMarkingPeriodPayload!
   findTextByTitle(input: FindTextByTitleInput!): FindTextByTitlePayload!
@@ -295,6 +319,14 @@ type Readings {
 input ReadingsInput {
   readingPages: String!
   readingSections: String!
+}
+
+input RemoveTextSectionInput {
+  _id: ID!
+}
+
+type RemoveTextSectionPayload {
+  removed: Boolean!
 }
 
 input ReturnGradedEssayInput {
@@ -427,18 +459,14 @@ type TextSection {
 """Protocol suggestions for including in a LessonPlan"""
 type TextSectionProtocols {
   academicOutcomeTypes: AcademicOutomeTypes!
-  activityType: TextSectionProtocolTypes!
-  element: String!
+  activityType: ProtocolActivityTypes!
+  task: String!
 }
 
 input TextSectionProtocolsInput {
   academicOutcomeTypes: AcademicOutomeTypes!
-  activityType: TextSectionProtocolTypes!
-  element: String!
-}
-
-enum TextSectionProtocolTypes {
-  THINK_PAIR_SHARE
+  activityType: ProtocolActivityTypes!
+  task: String!
 }
 
 type TextSectionQuestions {
@@ -478,6 +506,20 @@ type Topic {
 input TopicInput {
   question: String!
   questionType: QuestionTypeEnum!
+}
+
+input UpdateTextSectionInput {
+  _id: ID!
+  fromChapterId: String
+  hasProtocols: [TextSectionProtocolsInput!]!
+  hasQuestions: [TextSectionQuestionsInput!]!
+  hasVocab: [TextSectionVocabInput!]!
+  header: String!
+  pageNumbers: PageNumbersInput!
+}
+
+type UpdateTextSectionPayload {
+  textSection: TextSection!
 }
 
 type UpdateVocabPayload {
