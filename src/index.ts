@@ -81,6 +81,7 @@ const startServer = async () => {
       let courseData = db.collection('courseData')
       let textSectionData = db.collection('textSectionData')
       let textData = db.collection('textData')
+      let lessonData = db.collection('lessonData')
 
       return {
         req,
@@ -90,6 +91,7 @@ const startServer = async () => {
         courseData,
         textSectionData,
         textData,
+        lessonData,
         db,
       }
     },
