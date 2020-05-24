@@ -1,11 +1,12 @@
 import { inputObjectType, arg, queryField, objectType } from '@nexus/schema'
 import { TextSection } from './textSection'
+import { ObjectId } from 'mongodb'
 
 export const FindTextSectionsByChapterInput = inputObjectType({
   name: 'FindTextSectionsByChapterInput',
   definition(t) {
-    t.string('fromText', { required: true })
-    t.string('fromChapter', { required: true })
+    // t.string('fromText', { required: true })
+    t.id('fromChapterId', { required: true })
   },
 })
 
@@ -23,14 +24,13 @@ export const FindTextSectionsByChapter = queryField(
     args: {
       input: arg({ type: FindTextSectionsByChapterInput, required: true }),
     },
-    async resolve(
-      _,
-      { input: { fromText, fromChapter } },
-      { textSectionData }
-    ) {
-      const textSections = await textSectionData
-        .find({ fromText, fromChapter })
+    async resolve(_, { input: { fromChapterId } }, { textData }) {
+      const textSections = await textData
+        .find({
+          'fromChapter._id': new ObjectId(fromChapterId),
+        })
         .toArray()
+
       return { textSections }
     },
   }

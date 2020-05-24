@@ -6,7 +6,6 @@ export const CreateCourseInput = inputObjectType({
   name: 'CreateCourseInput',
   definition(t) {
     t.string('period', { required: true })
-    t.string('taughtBy', { required: true })
   },
 })
 
@@ -20,12 +19,9 @@ export const CreateCoursePayload = objectType({
 export const CreateCourse = mutationField('createCourse', {
   type: CreateCoursePayload,
   args: { input: arg({ type: CreateCourseInput, required: true }) },
-  async resolve(_, { input: { period, taughtBy } }, { userData, courseData }) {
-    const teacher = await userData.findOne({ userName: taughtBy })
+  async resolve(_, { input: { period } }, { courseData }) {
     const newCourse: NexusGenRootTypes['Course'] = {
-      hasTeacher: teacher,
       period,
-      hasStudents: [],
     }
 
     const { insertedId } = await courseData.insertOne(newCourse)

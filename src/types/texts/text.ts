@@ -6,6 +6,7 @@ export const Text = objectType({
   definition(t) {
     t.id('_id', { nullable: true })
     t.string('textTitle')
+    t.id('ownerId')
     t.list.field('hasChapters', {
       type: Chapter,
       async resolve(parent, __, { textData }) {

@@ -73,7 +73,7 @@ export const TextSectionProtocolsInput = inputObjectType({
 
 export const ProtocolActivityTypes = enumType({
   name: 'ProtocolActivityTypes',
-  members: ['THINK_PAIR_SHARE'],
+  members: ['THINK_PAIR_SHARE', 'INDIVIDUAL'],
 })
 
 export const AcademicOutcomeTypes = enumType({

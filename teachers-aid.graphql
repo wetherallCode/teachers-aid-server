@@ -8,6 +8,15 @@ enum AcademicOutomeTypes {
   SOCRATIC_QUESTIONS
 }
 
+input AddCourseToTeacherInput {
+  courseId: ID!
+  teacherId: ID!
+}
+
+type AddCourseToTeacherPayload {
+  teacher: Teacher!
+}
+
 input AddNewChapterInput {
   chapterNumber: Int!
   chapterTitle: String!
@@ -19,6 +28,7 @@ type AddNewChapterPayload {
 }
 
 input AddNewTextInput {
+  ownerId: ID!
   textTitle: String!
 }
 
@@ -26,13 +36,13 @@ type AddNewTextPayload {
   text: Text!
 }
 
-input AddStudentsToCourseInput {
-  course: String!
-  studentUserName: String!
+input AddStudentToCourseInput {
+  courseId: ID!
+  studentId: ID!
 }
 
-type AddStudentsToCoursePayload {
-  course: Course!
+type AddStudentToCoursePayload {
+  student: Student!
 }
 
 input AddVocabWordInput {
@@ -98,11 +108,27 @@ type Course {
 
 input CreateCourseInput {
   period: String!
-  taughtBy: String!
 }
 
 type CreateCoursePayload {
   course: Course!
+}
+
+input CreateLessonInput {
+  afterActivity: TextSectionProtocolsInput!
+  assignedCourse: [ID!]!
+  assignedDate: Date!
+  assignedMarkingPeriod: MarkingPeriodEnum!
+  assignedSections: LessonTextSectionsInput!
+  beforeActivity: TextSectionProtocolsInput!
+  duringActivities: [TextSectionProtocolsInput!]!
+  essentialQuestion: String!
+  questionList: [TextSectionQuestionsInput!]!
+  vocabList: [TextSectionVocabInput!]!
+}
+
+type CreateLessonPayload {
+  lessons: [Lesson!]!
 }
 
 input CreateTextSectionInput {
@@ -169,6 +195,14 @@ type FindChapterTitlePayload {
   chapter: Chapter!
 }
 
+input FindCourseByIdInput {
+  courseId: ID!
+}
+
+type FindCourseByIdPayload {
+  course: Course!
+}
+
 input FindEssayByIdInput {
   _id: ID!
 }
@@ -184,6 +218,23 @@ input FindEssaysByUserNameAndMarkingPeriodInput {
 
 type FindEssaysByUserNameAndMarkingPeriodPayload {
   essay: [Essay!]
+}
+
+input FindLessonByCourseAndDateInput {
+  courseId: ID!
+  lessonDate: Date!
+}
+
+type FindLessonByCourseAndDatePayload {
+  lesson: Lesson!
+}
+
+input FindLessonByIdInput {
+  _id: ID!
+}
+
+type FindLessonByIdPayload {
+  lesson: Lesson!
 }
 
 input FindTextByTitleInput {
@@ -203,16 +254,31 @@ type FindTextSectionByIdPayload {
 }
 
 input FindTextSectionsByChapterInput {
-  fromChapter: String!
-  fromText: String!
+  fromChapterId: ID!
 }
 
 type FindTextSectionsByChapterPayload {
   textSections: [TextSection!]!
 }
 
+input FindTextSectionsByIdInput {
+  _ids: [ID!]!
+}
+
+type FindTextSectionsByIdPayload {
+  textSections: [TextSection!]!
+}
+
 type FindTextsPayload {
   texts: [Text!]!
+}
+
+input FindUserDataInput {
+  _id: ID!
+}
+
+type FindUserDataPayload {
+  user: User!
 }
 
 input HasAssigner {
@@ -223,10 +289,42 @@ input HasOwnerInput {
   ownerUserName: String
 }
 
+type Individual implements Protocol {
+  _id: ID
+  assignedDate: Date!
+  isActive: Boolean!
+  student: Student!
+}
+
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
 scalar JSON
+
+type Lesson {
+  _id: ID
+  afterActivity: TextSectionProtocols!
+  assignedCourse: Course!
+  assignedDate: Date!
+  assignedMarkingPeriod: MarkingPeriodEnum!
+  assignedSections: LessonTextSections!
+  beforeActivity: TextSectionProtocols!
+  duringActivities: [TextSectionProtocols!]!
+  essentialQuestion: String!
+  objectives: String
+  questionList: [TextSectionQuestions!]!
+  vocabList: [TextSectionVocab!]!
+}
+
+type LessonTextSections {
+  endingSection: String!
+  startingSection: String!
+}
+
+input LessonTextSectionsInput {
+  endingSection: String!
+  startingSection: String!
+}
 
 input LoginInput {
   password: String!
@@ -245,21 +343,22 @@ enum MarkingPeriodEnum {
 }
 
 type Mutation {
+  addCourseToTeacher(input: AddCourseToTeacherInput!): AddCourseToTeacherPayload!
   addNewChapter(input: AddNewChapterInput!): AddNewChapterPayload!
   addNewText(input: AddNewTextInput!): AddNewTextPayload!
-  addStudentsToCourse(input: AddStudentsToCourseInput!): AddStudentsToCoursePayload!
+  addStudentToCourse(input: AddStudentToCourseInput!): AddStudentToCoursePayload!
   addVocabWord(input: AddVocabWordInput!): AddVocabWordPayload!
-  assignEssay(input: AssignEssayInput!): AssignEssayPayload!
   changeVocabWord(input: ChangeVocabWordInput!): UpdateVocabPayload!
   createCourse(input: CreateCourseInput!): CreateCoursePayload!
+  createLesson(input: CreateLessonInput!): CreateLessonPayload!
   createTextSection(input: CreateTextSectionInput!): CreateTextSectionPayload!
   login(input: LoginInput!): LoginPayload!
   logout: Boolean!
+  registerStudent(input: RegisterStudentInput!): RegisterStudentPayload!
+  RegisterTeacher(input: RegisterTeacherInput!): RegisterTeacherPayload!
   removeTextSection(input: RemoveTextSectionInput!): RemoveTextSectionPayload!
   returnGradedEssay(input: ReturnGradedEssayInput!): ReturnGradedEssayPayload!
-  studentRegistration(input: StudentRegistrationInput!): StudentRegistrationPayload!
   submitEssayFinalDraft(input: SubmitEssayFinalDraftInput!): SubmitEssayFinalDraftPayload!
-  teacherRegistration(input: TeacherRegistrationInput!): TeacherRegistrationPayload!
   updateTextSection(input: UpdateTextSectionInput!): UpdateTextSectionPayload!
   updateWorkingDraft(input: UpdateWorkingDraftInput!): UpdateWorkingDraftPayload!
 }
@@ -274,7 +373,14 @@ input PageNumbersInput {
   startingPage: Int!
 }
 
+interface Protocol {
+  _id: ID
+  assignedDate: Date!
+  isActive: Boolean!
+}
+
 enum ProtocolActivityTypes {
+  INDIVIDUAL
   THINK_PAIR_SHARE
 }
 
@@ -282,12 +388,17 @@ type Query {
   findAssignmentsToGrade(input: FindAssignmentsToGradeInput!): FindAssignmentsToGradePayload!
   findChaptersInText(input: FindChaptersInTextInput!): FindChaptersInTextPayload!
   findChapterTitle(input: FindChapterTitleInput!): FindChapterTitlePayload!
+  findCourseById(input: FindCourseByIdInput!): FindCourseByIdPayload!
   findEssayById(input: FindEssayByIdInput!): FindEssayByIdPayload!
   findEssaysByUserNameAndMarkingPeriod(input: FindEssaysByUserNameAndMarkingPeriodInput!): FindEssaysByUserNameAndMarkingPeriodPayload!
+  findLessonByCourseAndDate(input: FindLessonByCourseAndDateInput!): FindLessonByCourseAndDatePayload!
+  findLessonById(input: FindLessonByIdInput!): FindLessonByIdPayload!
   findTextByTitle(input: FindTextByTitleInput!): FindTextByTitlePayload!
   findTexts: FindTextsPayload!
   findTextSectionById(input: FindTextSectionByIdInput!): FindTextSectionByIdPayload!
   findTextSectionsByChapter(input: FindTextSectionsByChapterInput!): FindTextSectionsByChapterPayload!
+  findTextSectionsById(input: FindTextSectionsByIdInput!): FindTextSectionsByIdPayload!
+  findUserData(input: FindUserDataInput!): FindUserDataPayload!
   me: User
 }
 
@@ -319,6 +430,31 @@ type Readings {
 input ReadingsInput {
   readingPages: String!
   readingSections: String!
+}
+
+input RegisterStudentInput {
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+  userName: String!
+}
+
+type RegisterStudentPayload {
+  student: Student!
+}
+
+input RegisterTeacherInput {
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+  title: TitleEnum!
+  userName: String!
+}
+
+type RegisterTeacherPayload {
+  teacher: Teacher!
 }
 
 input RemoveTextSectionInput {
@@ -356,18 +492,6 @@ type Student implements User {
   userName: String!
 }
 
-input StudentRegistrationInput {
-  email: String!
-  firstName: String!
-  lastName: String!
-  password: String!
-  userName: String!
-}
-
-type StudentRegistrationPayload {
-  student: Student!
-}
-
 input SubmitEssayFinalDraftInput {
   _id: ID!
   late: Boolean!
@@ -396,24 +520,11 @@ type Teacher implements User {
   _id: ID
   email: String
   firstName: String!
-  hasCourses: [Course!]!
   lastName: String!
   password: String!
+  teachesCourses: [Course!]!
   title: TitleEnum!
   userName: String!
-}
-
-input TeacherRegistrationInput {
-  email: String!
-  firstName: String!
-  lastName: String!
-  password: String!
-  title: TitleEnum!
-  userName: String!
-}
-
-type TeacherRegistrationPayload {
-  teacher: Teacher!
 }
 
 type Test implements Assignment {
@@ -433,6 +544,7 @@ type Test implements Assignment {
 type Text {
   _id: ID
   hasChapters: [Chapter!]!
+  ownerId: ID!
   textTitle: String!
 }
 
@@ -489,6 +601,14 @@ input TextSectionVocabInput {
   word: String!
 }
 
+type ThinkPairShare implements Protocol {
+  _id: ID
+  assignedDate: Date!
+  hadConversation: Boolean!
+  isActive: Boolean!
+  studentPair: [Student!]!
+}
+
 scalar Time
 
 enum TitleEnum {
@@ -510,7 +630,7 @@ input TopicInput {
 
 input UpdateTextSectionInput {
   _id: ID!
-  fromChapterId: String
+  fromChapterId: String!
   hasProtocols: [TextSectionProtocolsInput!]!
   hasQuestions: [TextSectionQuestionsInput!]!
   hasVocab: [TextSectionVocabInput!]!

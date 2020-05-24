@@ -1,5 +1,5 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
-import { ObjectID } from 'mongodb'
+import { ObjectId } from 'mongodb'
 import {
   TextSection,
   PageNumbersInput,
@@ -12,7 +12,7 @@ export const UpdateTextSectionInput = inputObjectType({
   name: 'UpdateTextSectionInput',
   definition(t) {
     t.id('_id', { required: true })
-    t.string('fromChapterId')
+    t.string('fromChapterId', { required: true })
     t.field('pageNumbers', { type: PageNumbersInput, required: true })
     t.string('header', { required: true })
     t.list.field('hasProtocols', {
@@ -52,11 +52,12 @@ export const UpdateTextSection = mutationField('updateTextSection', {
     },
     { textData }
   ) {
+    const chapter = await textData.findOne({ _id: new ObjectId(fromChapterId) })
     await textData.updateOne(
-      { _id: new ObjectID(_id) },
+      { _id: new ObjectId(_id) },
       {
         $set: {
-          fromChapterId: fromChapterId,
+          fromChapter: chapter,
           pageNumbers: pageNumbers,
           header: header,
           hasProtocols: hasProtocols,
@@ -65,7 +66,7 @@ export const UpdateTextSection = mutationField('updateTextSection', {
         },
       }
     )
-    const textSection = await textData.findOne({ _id: new ObjectID(_id) })
+    const textSection = await textData.findOne({ _id: new ObjectId(_id) })
 
     return { textSection }
   },

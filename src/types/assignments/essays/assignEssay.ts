@@ -41,63 +41,63 @@ export const ReadingsInput = inputObjectType({
   },
 })
 
-export const AssignEssay = mutationField('assignEssay', {
-  type: AssignEssayPayload,
-  args: { input: arg({ type: AssignEssayInput, required: true }) },
-  async resolve(
-    _,
-    {
-      input: {
-        topic,
-        readings,
-        assignedCourse,
-        hasAssigner,
-        maxPoints,
-        markingPeriod,
-        dueDate,
-      },
-    },
-    { assignmentData, courseData, userData }
-  ) {
-    console.log(new Date().toISOString())
-    const course = (await courseData.findOne({
-      period: assignedCourse,
-    })) as NexusGenRootTypes['Course']
+// export const AssignEssay = mutationField('assignEssay', {
+//   type: AssignEssayPayload,
+//   args: { input: arg({ type: AssignEssayInput, required: true }) },
+//   async resolve(
+//     _,
+//     {
+//       input: {
+//         topic,
+//         readings,
+//         assignedCourse,
+//         hasAssigner,
+//         maxPoints,
+//         markingPeriod,
+//         dueDate,
+//       },
+//     },
+//     { assignmentData, courseData, userData }
+//   ) {
+//     console.log(new Date().toISOString())
+//     const course = (await courseData.findOne({
+//       period: assignedCourse,
+//     })) as NexusGenRootTypes['Course']
 
-    const students = course.hasStudents.map((student) => student.userName)
+//     const students = course.hasStudents.map((student) => student.userName)
 
-    const newEssays = []
+//     const newEssays = []
 
-    const beginningValue = [
-      {
-        type: 'paragraph',
-        children: [{ text: '' }],
-      },
-    ]
+//     const beginningValue = [
+//       {
+//         type: 'paragraph',
+//         children: [{ text: '' }],
+//       },
+//     ]
 
-    for (const student in students) {
-      const newEssay: NexusGenRootTypes['Essay'] = {
-        topic,
-        assignedDate: new Date().toLocaleDateString(),
-        dueDate,
-        readings,
-        workingDraft: {
-          draft: JSON.stringify(beginningValue),
-        },
-        markingPeriod,
-        hasAssigner: await userData.findOne({ userName: hasAssigner }),
-        hasOwner: await userData.findOne({
-          userName: students[student],
-        }),
-        score: { earnedPoints: 0, maxPoints },
-        late: true,
-        exempt: false,
-      }
-      const { insertedId } = await assignmentData.insertOne(newEssay)
-      newEssay._id = insertedId
-      newEssays.push(newEssay)
-    }
-    console.log(new Date().toISOString())
-    return { essay: newEssays }
-  },
-})
+//     for (const student in students) {
+//       const newEssay: NexusGenRootTypes['Essay'] = {
+//         topic,
+//         assignedDate: new Date().toLocaleDateString(),
+//         dueDate,
+//         readings,
+//         workingDraft: {
+//           draft: JSON.stringify(beginningValue),
+//         },
+//         markingPeriod,
+//         hasAssigner: await userData.findOne({ userName: hasAssigner }),
+//         hasOwner: await userData.findOne({
+//           userName: students[student],
+//         }),
+//         score: { earnedPoints: 0, maxPoints },
+//         late: true,
+//         exempt: false,
+//       }
+//       const { insertedId } = await assignmentData.insertOne(newEssay)
+//       newEssay._id = insertedId
+//       newEssays.push(newEssay)
+//     }
+//     console.log(new Date().toISOString())
+//     return { essay: newEssays }
+//   },
+// })

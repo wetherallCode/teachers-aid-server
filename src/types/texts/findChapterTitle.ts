@@ -22,7 +22,7 @@ export const FindChapterTitle = queryField('findChapterTitle', {
   args: { input: arg({ type: FindChapterTitleInput, required: true }) },
   async resolve(_, { input: { chapter_id } }, { textData }) {
     const chapter = await textData.findOne({ _id: new ObjectID(chapter_id) })
-    console.log(chapter)
+
     return { chapter }
   },
 })

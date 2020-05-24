@@ -22,7 +22,7 @@ export const FindChaptersInText = queryField('findChaptersInText', {
     const chapters = await textData
       .find({ 'fromText.textTitle': textTitle })
       .toArray()
-    console.log(chapters)
+
     return { chapters }
   },
 })

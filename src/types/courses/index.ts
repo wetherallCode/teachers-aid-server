@@ -1,3 +1,3 @@
-export * from './courses'
+export * from './course'
 export * from './createCourse'
-export * from './addStudentsToCourse'
+export * from './findCourseById'

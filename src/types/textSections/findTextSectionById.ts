@@ -19,10 +19,11 @@ export const FindTextSectionByIdPayload = objectType({
 export const FindTextSectionById = queryField('findTextSectionById', {
   type: FindTextSectionByIdPayload,
   args: { input: arg({ type: FindTextSectionByIdInput, required: true }) },
-  async resolve(_, { input: { _id } }, { textSectionData }) {
-    const textSection = await textSectionData.findOne({
+  async resolve(_, { input: { _id } }, { textData }) {
+    const textSection = await textData.findOne({
       _id: new ObjectID(_id),
     })
+
     return { textSection }
   },
 })
