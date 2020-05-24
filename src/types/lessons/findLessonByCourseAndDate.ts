@@ -1,5 +1,6 @@
 import { objectType, inputObjectType, arg, queryField } from '@nexus/schema'
 import { Lesson } from '.'
+import { ObjectId } from 'mongodb'
 
 export const FindLessonByCourseAndDateInput = inputObjectType({
   name: 'FindLessonByCourseAndDateInput',
@@ -25,7 +26,7 @@ export const FindLessonByCourseAndDate = queryField(
     },
     async resolve(_, { input: { courseId, lessonDate } }, { lessonData }) {
       const lesson = await lessonData.findOne({
-        'assignedCourse._id': courseId,
+        'assignedCourse._id': new ObjectId(courseId),
         assignedDate: lessonDate,
       })
       return { lesson }

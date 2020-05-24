@@ -229,6 +229,14 @@ type FindLessonByCourseAndDatePayload {
   lesson: Lesson!
 }
 
+input FindLessonByCourseInput {
+  courseId: ID!
+}
+
+type FindLessonByCoursePayload {
+  lessons: [Lesson!]!
+}
+
 input FindLessonByIdInput {
   _id: ID!
 }
@@ -391,6 +399,7 @@ type Query {
   findCourseById(input: FindCourseByIdInput!): FindCourseByIdPayload!
   findEssayById(input: FindEssayByIdInput!): FindEssayByIdPayload!
   findEssaysByUserNameAndMarkingPeriod(input: FindEssaysByUserNameAndMarkingPeriodInput!): FindEssaysByUserNameAndMarkingPeriodPayload!
+  findLessonByCourse(input: FindLessonByCourseInput!): FindLessonByCoursePayload!
   findLessonByCourseAndDate(input: FindLessonByCourseAndDateInput!): FindLessonByCourseAndDatePayload!
   findLessonById(input: FindLessonByIdInput!): FindLessonByIdPayload!
   findTextByTitle(input: FindTextByTitleInput!): FindTextByTitlePayload!
