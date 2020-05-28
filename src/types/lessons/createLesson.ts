@@ -8,11 +8,13 @@ import {
 } from '../textSections'
 import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
 import { ObjectId } from 'mongodb'
+import { UnitInput } from '..'
 
 export const CreateLessonInput = inputObjectType({
   name: 'CreateLessonInput',
   definition(t) {
     t.date('assignedDate', { required: true })
+    t.id('inUnit', { required: true })
     t.field('assignedMarkingPeriod', {
       type: MarkingPeriodEnum,
       required: true,
@@ -58,6 +60,7 @@ export const CreateLesson = mutationField('createLesson', {
     {
       input: {
         assignedDate,
+        inUnit,
         assignedMarkingPeriod,
         assignedCourse,
         assignedSections,
@@ -71,7 +74,8 @@ export const CreateLesson = mutationField('createLesson', {
     },
     { lessonData, courseData }
   ) {
-    const lessons = []
+    const lessons: NexusGenRootTypes['Lesson'][] = []
+    const unit = await lessonData.findOne({ _id: new ObjectId(inUnit) })
     for (const _id in assignedCourse) {
       const course = await courseData.findOne({
         _id: new ObjectId(assignedCourse[_id]),
@@ -79,6 +83,7 @@ export const CreateLesson = mutationField('createLesson', {
 
       const lesson: NexusGenRootTypes['Lesson'] = {
         assignedDate,
+        inUnit: unit,
         assignedMarkingPeriod,
         assignedCourse: course,
         assignedSections,
