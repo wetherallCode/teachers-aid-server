@@ -7,12 +7,14 @@ import {
   TextSectionQuestions,
 } from '../textSections'
 import { LessonTextSections } from './lessonTextSections'
+import { Unit } from '../units'
 
 export const Lesson = objectType({
   name: 'Lesson',
   definition(t) {
     t.id('_id', { nullable: true })
     t.date('assignedDate')
+    t.field('inUnit', { type: Unit })
     t.field('assignedMarkingPeriod', { type: MarkingPeriodEnum })
     t.field('assignedCourse', { type: Course })
     t.field('assignedSections', { type: LessonTextSections })

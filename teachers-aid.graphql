@@ -57,9 +57,9 @@ type AddVocabWordPayload {
 }
 
 input AssignEssayInput {
-  assignedCourse: String!
+  assignedCourseId: [String!]!
   dueDate: Date!
-  hasAssigner: String!
+  hasAssignerId: String!
   markingPeriod: MarkingPeriodEnum!
   maxPoints: Int!
   readings: ReadingsInput!
@@ -123,6 +123,7 @@ input CreateLessonInput {
   beforeActivity: TextSectionProtocolsInput!
   duringActivities: [TextSectionProtocolsInput!]!
   essentialQuestion: String!
+  inUnit: ID!
   questionList: [TextSectionQuestionsInput!]!
   vocabList: [TextSectionVocabInput!]!
 }
@@ -142,6 +143,14 @@ input CreateTextSectionInput {
 
 type CreateTextSectionPayload {
   textSection: TextSection!
+}
+
+input CreateUnitInput {
+  unitName: String!
+}
+
+type CreateUnitPayload {
+  unit: Unit!
 }
 
 scalar Date
@@ -203,6 +212,14 @@ type FindCourseByIdPayload {
   course: Course!
 }
 
+input FindCurrentMarkingPeriodInput {
+  _id: ID!
+}
+
+type FindCurrentMarkingPeriodPayload {
+  markingPeriod: MarkingPeriod!
+}
+
 input FindEssayByIdInput {
   _id: ID!
 }
@@ -245,6 +262,14 @@ type FindLessonByIdPayload {
   lesson: Lesson!
 }
 
+input FindLessonsByUnitInput {
+  unitId: ID!
+}
+
+type FindLessonsByUnitPayload {
+  lessons: [Lesson!]!
+}
+
 input FindTextByTitleInput {
   title: String
 }
@@ -279,6 +304,10 @@ type FindTextSectionsByIdPayload {
 
 type FindTextsPayload {
   texts: [Text!]!
+}
+
+type FindUnitsPayload {
+  units: [Unit!]!
 }
 
 input FindUserDataInput {
@@ -319,6 +348,7 @@ type Lesson {
   beforeActivity: TextSectionProtocols!
   duringActivities: [TextSectionProtocols!]!
   essentialQuestion: String!
+  inUnit: Unit!
   objectives: String
   questionList: [TextSectionQuestions!]!
   vocabList: [TextSectionVocab!]!
@@ -343,6 +373,11 @@ type LoginPayload {
   user: User!
 }
 
+type MarkingPeriod {
+  _id: ID
+  currentMarkingPeriod: MarkingPeriodEnum!
+}
+
 enum MarkingPeriodEnum {
   FIRST
   FOURTH
@@ -356,17 +391,21 @@ type Mutation {
   addNewText(input: AddNewTextInput!): AddNewTextPayload!
   addStudentToCourse(input: AddStudentToCourseInput!): AddStudentToCoursePayload!
   addVocabWord(input: AddVocabWordInput!): AddVocabWordPayload!
+  assignEssay(input: AssignEssayInput!): AssignEssayPayload!
   changeVocabWord(input: ChangeVocabWordInput!): UpdateVocabPayload!
   createCourse(input: CreateCourseInput!): CreateCoursePayload!
   createLesson(input: CreateLessonInput!): CreateLessonPayload!
   createTextSection(input: CreateTextSectionInput!): CreateTextSectionPayload!
+  createUnit(input: CreateUnitInput!): CreateUnitPayload!
   login(input: LoginInput!): LoginPayload!
   logout: Boolean!
   registerStudent(input: RegisterStudentInput!): RegisterStudentPayload!
   RegisterTeacher(input: RegisterTeacherInput!): RegisterTeacherPayload!
   removeTextSection(input: RemoveTextSectionInput!): RemoveTextSectionPayload!
   returnGradedEssay(input: ReturnGradedEssayInput!): ReturnGradedEssayPayload!
+  setCurrentMarkingPeriod(input: SetCurrentMarkingPeriodInput!): SetCurrentMarkingPeriodPayload!
   submitEssayFinalDraft(input: SubmitEssayFinalDraftInput!): SubmitEssayFinalDraftPayload!
+  updateLesson(input: UpdateLessonInput!): UpdateLessonPayload!
   updateTextSection(input: UpdateTextSectionInput!): UpdateTextSectionPayload!
   updateWorkingDraft(input: UpdateWorkingDraftInput!): UpdateWorkingDraftPayload!
 }
@@ -397,16 +436,19 @@ type Query {
   findChaptersInText(input: FindChaptersInTextInput!): FindChaptersInTextPayload!
   findChapterTitle(input: FindChapterTitleInput!): FindChapterTitlePayload!
   findCourseById(input: FindCourseByIdInput!): FindCourseByIdPayload!
+  findCurrentMarkingPeriod: FindCurrentMarkingPeriodPayload!
   findEssayById(input: FindEssayByIdInput!): FindEssayByIdPayload!
   findEssaysByUserNameAndMarkingPeriod(input: FindEssaysByUserNameAndMarkingPeriodInput!): FindEssaysByUserNameAndMarkingPeriodPayload!
   findLessonByCourse(input: FindLessonByCourseInput!): FindLessonByCoursePayload!
   findLessonByCourseAndDate(input: FindLessonByCourseAndDateInput!): FindLessonByCourseAndDatePayload!
   findLessonById(input: FindLessonByIdInput!): FindLessonByIdPayload!
+  findLessonsByUnit(input: FindLessonsByUnitInput!): FindLessonsByUnitPayload!
   findTextByTitle(input: FindTextByTitleInput!): FindTextByTitlePayload!
   findTexts: FindTextsPayload!
   findTextSectionById(input: FindTextSectionByIdInput!): FindTextSectionByIdPayload!
   findTextSectionsByChapter(input: FindTextSectionsByChapterInput!): FindTextSectionsByChapterPayload!
   findTextSectionsById(input: FindTextSectionsByIdInput!): FindTextSectionsByIdPayload!
+  findUnits: FindUnitsPayload!
   findUserData(input: FindUserDataInput!): FindUserDataPayload!
   me: User
 }
@@ -488,6 +530,14 @@ type ReturnGradedEssayPayload {
 type Score {
   earnedPoints: Int!
   maxPoints: Int!
+}
+
+input SetCurrentMarkingPeriodInput {
+  currentMarkingPeriod: MarkingPeriodEnum!
+}
+
+type SetCurrentMarkingPeriodPayload {
+  markingPeriod: MarkingPeriod!
 }
 
 type Student implements User {
@@ -635,6 +685,36 @@ type Topic {
 input TopicInput {
   question: String!
   questionType: QuestionTypeEnum!
+}
+
+type Unit {
+  _id: ID
+  hasLessons: [Lesson!]!
+  unitName: String!
+}
+
+input UnitInput {
+  _id: ID!
+  unitName: String!
+}
+
+input UpdateLessonInput {
+  _id: ID!
+  afterActivity: TextSectionProtocolsInput!
+  assignedCourse: [ID!]!
+  assignedDate: Date!
+  assignedMarkingPeriod: MarkingPeriodEnum!
+  assignedSections: LessonTextSectionsInput!
+  beforeActivity: TextSectionProtocolsInput!
+  duringActivities: [TextSectionProtocolsInput!]!
+  essentialQuestion: String!
+  inUnit: ID!
+  questionList: [TextSectionQuestionsInput!]!
+  vocabList: [TextSectionVocabInput!]!
+}
+
+type UpdateLessonPayload {
+  lesson: Lesson!
 }
 
 input UpdateTextSectionInput {
