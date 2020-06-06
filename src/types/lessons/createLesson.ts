@@ -5,10 +5,11 @@ import {
   TextSectionProtocolsInput,
   TextSectionQuestionsInput,
   TextSectionVocabInput,
+  PageNumbersInput,
 } from '../textSections'
 import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
 import { ObjectId } from 'mongodb'
-import { UnitInput } from '..'
+import { UnitInput, CourseInput } from '..'
 
 export const CreateLessonInput = inputObjectType({
   name: 'CreateLessonInput',
@@ -19,11 +20,14 @@ export const CreateLessonInput = inputObjectType({
       type: MarkingPeriodEnum,
       required: true,
     })
-    t.list.id('assignedCourse', { required: true })
+    t.list.id('assignedCourses', { required: true })
+    t.string('lessonName', { required: true })
     t.field('assignedSections', {
       type: LessonTextSectionsInput,
       required: true,
     })
+    t.field('pageNumbers', { type: PageNumbersInput, required: true })
+    t.list.id('assignedSectionIdList', { required: true })
     t.list.field('vocabList', { type: TextSectionVocabInput, required: true })
     t.field('beforeActivity', {
       type: TextSectionProtocolsInput,
@@ -61,9 +65,12 @@ export const CreateLesson = mutationField('createLesson', {
       input: {
         assignedDate,
         inUnit,
+        lessonName,
         assignedMarkingPeriod,
-        assignedCourse,
+        assignedCourses,
+        pageNumbers,
         assignedSections,
+        assignedSectionIdList,
         vocabList,
         beforeActivity,
         duringActivities,
@@ -76,17 +83,21 @@ export const CreateLesson = mutationField('createLesson', {
   ) {
     const lessons: NexusGenRootTypes['Lesson'][] = []
     const unit = await lessonData.findOne({ _id: new ObjectId(inUnit) })
-    for (const _id in assignedCourse) {
+    for (const _id in assignedCourses) {
       const course = await courseData.findOne({
-        _id: new ObjectId(assignedCourse[_id]),
+        _id: new ObjectId(assignedCourses[_id]),
       })
 
       const lesson: NexusGenRootTypes['Lesson'] = {
         assignedDate,
         inUnit: unit,
         assignedMarkingPeriod,
+        lessonName,
+        pageNumbers,
         assignedCourse: course,
+        linkedCourseIds: assignedCourses,
         assignedSections,
+        assignedSectionIdList,
         vocabList,
         beforeActivity,
         duringActivities,
