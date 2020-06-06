@@ -19,6 +19,22 @@ export const Topic = objectType({
   },
 })
 
+export const TopicInput = inputObjectType({
+  name: 'TopicInput',
+  definition(t) {
+    t.string('question', { required: true })
+    t.field('questionType', { type: QuestionTypeEnum, required: true })
+  },
+})
+
+export const ReadingsInput = inputObjectType({
+  name: 'ReadingsInput',
+  definition(t) {
+    t.string('readingPages', { required: true })
+    t.string('readingSections', { required: true })
+  },
+})
+
 export const WorkingDraft = objectType({
   name: 'WorkingDraft',
   definition(t) {

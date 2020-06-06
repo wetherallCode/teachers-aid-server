@@ -57,24 +57,18 @@ type AddVocabWordPayload {
 }
 
 input AssignEssayInput {
-  assignedCourseId: [String!]!
-  dueDate: Date!
-  hasAssignerId: String!
-  markingPeriod: MarkingPeriodEnum!
-  maxPoints: Int!
-  readings: ReadingsInput!
-  topic: TopicInput!
+  assigned: Boolean
 }
 
 type AssignEssayPayload {
-  essay: [Essay!]!
+  essays: [Essay!]!
 }
 
 interface Assignment {
   _id: ID
   assiged: Boolean!
   assignedDate: Date!
-  associatedLesson: Lesson!
+  associatedLessonId: ID!
   dueDate: Date!
   exempt: Boolean!
   hasAssigner: Teacher!
@@ -119,6 +113,21 @@ input CreateCourseInput {
 
 type CreateCoursePayload {
   course: Course!
+}
+
+input CreateEssayInput {
+  assignedCourseId: [String!]!
+  associatedLessonId: ID!
+  dueDate: Date!
+  hasAssignerId: String!
+  markingPeriod: MarkingPeriodEnum!
+  maxPoints: Int!
+  readings: ReadingsInput!
+  topic: TopicInput!
+}
+
+type CreateEssayPayload {
+  essays: [Essay!]!
 }
 
 input CreateLessonInput {
@@ -171,7 +180,7 @@ type Essay implements Assignment {
   _id: ID
   assiged: Boolean!
   assignedDate: Date!
-  associatedLesson: Lesson!
+  associatedLessonId: ID!
   dueDate: Date!
   exempt: Boolean!
   finalDraft: FinalDraftContainer
@@ -418,6 +427,7 @@ type Mutation {
   addVocabWord(input: AddVocabWordInput!): AddVocabWordPayload!
   changeVocabWord(input: ChangeVocabWordInput!): UpdateVocabPayload!
   createCourse(input: CreateCourseInput!): CreateCoursePayload!
+  createEssay(input: CreateEssayInput!): CreateEssayPayload!
   createLesson(input: CreateLessonInput!): CreateLessonPayload!
   createTextSection(input: CreateTextSectionInput!): CreateTextSectionPayload!
   createUnit(input: CreateUnitInput!): CreateUnitPayload!
@@ -488,7 +498,7 @@ type Reading_Guide implements Assignment {
   _id: ID
   assiged: Boolean!
   assignedDate: Date!
-  associatedLesson: Lesson!
+  associatedLessonId: ID!
   completion: String!
   dueDate: Date!
   exempt: Boolean!
@@ -617,7 +627,7 @@ type Test implements Assignment {
   _id: ID
   assiged: Boolean!
   assignedDate: Date!
-  associatedLesson: Lesson!
+  associatedLessonId: ID!
   dueDate: Date!
   exempt: Boolean!
   hasAssigner: Teacher!
