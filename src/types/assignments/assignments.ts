@@ -1,5 +1,5 @@
 import { interfaceType, objectType, inputObjectType } from '@nexus/schema'
-import { Student, Teacher } from '..'
+import { Student, Teacher, Lesson } from '..'
 
 export const Assignment = interfaceType({
   name: 'Assignment',
@@ -9,8 +9,9 @@ export const Assignment = interfaceType({
     t.field('hasAssigner', { type: Teacher })
     t.field('score', { type: Score })
     t.string('markingPeriod')
-    // t.field('associatedLesson', {type: Lesson})
+    t.field('associatedLesson', { type: Lesson })
     t.date('assignedDate')
+    t.boolean('assiged')
     t.date('dueDate')
     t.boolean('late')
     t.boolean('exempt')

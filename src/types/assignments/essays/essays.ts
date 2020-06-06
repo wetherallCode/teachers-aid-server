@@ -1,4 +1,5 @@
 import { objectType, inputObjectType, enumType } from '@nexus/schema'
+import { QuestionTypeEnum } from '../..'
 
 export const Essay = objectType({
   name: 'Essay',
@@ -16,11 +17,6 @@ export const Topic = objectType({
     t.field('questionType', { type: QuestionTypeEnum })
     t.string('question')
   },
-})
-
-export const QuestionTypeEnum = enumType({
-  name: 'QuestionTypeEnum',
-  members: ['HOW_PROBLEM_SOLUTION', 'WHY_CAUSE_EFFECT', 'HOW_CAUSE_EFFECT'],
 })
 
 export const WorkingDraft = objectType({

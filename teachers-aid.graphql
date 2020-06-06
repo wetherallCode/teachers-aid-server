@@ -72,7 +72,9 @@ type AssignEssayPayload {
 
 interface Assignment {
   _id: ID
+  assiged: Boolean!
   assignedDate: Date!
+  associatedLesson: Lesson!
   dueDate: Date!
   exempt: Boolean!
   hasAssigner: Teacher!
@@ -167,7 +169,9 @@ scalar DateTime
 
 type Essay implements Assignment {
   _id: ID
+  assiged: Boolean!
   assignedDate: Date!
+  associatedLesson: Lesson!
   dueDate: Date!
   exempt: Boolean!
   finalDraft: FinalDraftContainer
@@ -412,7 +416,6 @@ type Mutation {
   addNewText(input: AddNewTextInput!): AddNewTextPayload!
   addStudentToCourse(input: AddStudentToCourseInput!): AddStudentToCoursePayload!
   addVocabWord(input: AddVocabWordInput!): AddVocabWordPayload!
-  assignEssay(input: AssignEssayInput!): AssignEssayPayload!
   changeVocabWord(input: ChangeVocabWordInput!): UpdateVocabPayload!
   createCourse(input: CreateCourseInput!): CreateCoursePayload!
   createLesson(input: CreateLessonInput!): CreateLessonPayload!
@@ -483,7 +486,9 @@ enum QuestionTypeEnum {
 
 type Reading_Guide implements Assignment {
   _id: ID
+  assiged: Boolean!
   assignedDate: Date!
+  associatedLesson: Lesson!
   completion: String!
   dueDate: Date!
   exempt: Boolean!
@@ -610,7 +615,9 @@ type Teacher implements User {
 
 type Test implements Assignment {
   _id: ID
+  assiged: Boolean!
   assignedDate: Date!
+  associatedLesson: Lesson!
   dueDate: Date!
   exempt: Boolean!
   hasAssigner: Teacher!

@@ -326,7 +326,9 @@ export interface NexusGenRootTypes {
   }
   Essay: { // root type
     _id?: string | null; // ID
+    assiged: boolean; // Boolean!
     assignedDate: any; // Date!
+    associatedLesson: NexusGenRootTypes['Lesson']; // Lesson!
     dueDate: any; // Date!
     exempt: boolean; // Boolean!
     finalDraft?: NexusGenRootTypes['FinalDraftContainer'] | null; // FinalDraftContainer
@@ -446,7 +448,9 @@ export interface NexusGenRootTypes {
   Query: {};
   Reading_Guide: { // root type
     _id?: string | null; // ID
+    assiged: boolean; // Boolean!
     assignedDate: any; // Date!
+    associatedLesson: NexusGenRootTypes['Lesson']; // Lesson!
     completion: string; // String!
     dueDate: any; // Date!
     exempt: boolean; // Boolean!
@@ -510,7 +514,9 @@ export interface NexusGenRootTypes {
   }
   Test: { // root type
     _id?: string | null; // ID
+    assiged: boolean; // Boolean!
     assignedDate: any; // Date!
+    associatedLesson: NexusGenRootTypes['Lesson']; // Lesson!
     dueDate: any; // Date!
     exempt: boolean; // Boolean!
     hasAssigner: NexusGenRootTypes['Teacher']; // Teacher!
@@ -698,7 +704,9 @@ export interface NexusGenFieldTypes {
   }
   Essay: { // field return type
     _id: string | null; // ID
+    assiged: boolean; // Boolean!
     assignedDate: any; // Date!
+    associatedLesson: NexusGenRootTypes['Lesson']; // Lesson!
     dueDate: any; // Date!
     exempt: boolean; // Boolean!
     finalDraft: NexusGenRootTypes['FinalDraftContainer'] | null; // FinalDraftContainer
@@ -816,7 +824,6 @@ export interface NexusGenFieldTypes {
     addNewText: NexusGenRootTypes['AddNewTextPayload']; // AddNewTextPayload!
     addStudentToCourse: NexusGenRootTypes['AddStudentToCoursePayload']; // AddStudentToCoursePayload!
     addVocabWord: NexusGenRootTypes['AddVocabWordPayload']; // AddVocabWordPayload!
-    assignEssay: NexusGenRootTypes['AssignEssayPayload']; // AssignEssayPayload!
     changeVocabWord: NexusGenRootTypes['UpdateVocabPayload']; // UpdateVocabPayload!
     createCourse: NexusGenRootTypes['CreateCoursePayload']; // CreateCoursePayload!
     createLesson: NexusGenRootTypes['CreateLessonPayload']; // CreateLessonPayload!
@@ -862,7 +869,9 @@ export interface NexusGenFieldTypes {
   }
   Reading_Guide: { // field return type
     _id: string | null; // ID
+    assiged: boolean; // Boolean!
     assignedDate: any; // Date!
+    associatedLesson: NexusGenRootTypes['Lesson']; // Lesson!
     completion: string; // String!
     dueDate: any; // Date!
     exempt: boolean; // Boolean!
@@ -927,7 +936,9 @@ export interface NexusGenFieldTypes {
   }
   Test: { // field return type
     _id: string | null; // ID
+    assiged: boolean; // Boolean!
     assignedDate: any; // Date!
+    associatedLesson: NexusGenRootTypes['Lesson']; // Lesson!
     dueDate: any; // Date!
     exempt: boolean; // Boolean!
     hasAssigner: NexusGenRootTypes['Teacher']; // Teacher!
@@ -999,7 +1010,9 @@ export interface NexusGenFieldTypes {
   }
   Assignment: { // field return type
     _id: string | null; // ID
+    assiged: boolean; // Boolean!
     assignedDate: any; // Date!
+    associatedLesson: NexusGenRootTypes['Lesson']; // Lesson!
     dueDate: any; // Date!
     exempt: boolean; // Boolean!
     hasAssigner: NexusGenRootTypes['Teacher']; // Teacher!
@@ -1040,9 +1053,6 @@ export interface NexusGenArgTypes {
     }
     addVocabWord: { // args
       input: NexusGenInputs['AddVocabWordInput']; // AddVocabWordInput!
-    }
-    assignEssay: { // args
-      input: NexusGenInputs['AssignEssayInput']; // AssignEssayInput!
     }
     changeVocabWord: { // args
       input: NexusGenInputs['ChangeVocabWordInput']; // ChangeVocabWordInput!

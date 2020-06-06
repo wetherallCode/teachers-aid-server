@@ -1,5 +1,4 @@
 import { objectType, enumType, inputObjectType } from '@nexus/schema'
-import { QuestionTypeEnum } from '../assignments'
 import { Chapter } from '../texts'
 
 export const TextSection = objectType({
@@ -81,6 +80,10 @@ export const AcademicOutcomeTypes = enumType({
   members: ['SCHEMA_BUIDING', 'LOGIC_BUILDING', 'SOCRATIC_QUESTIONS'],
 })
 
+export const QuestionTypeEnum = enumType({
+  name: 'QuestionTypeEnum',
+  members: ['HOW_PROBLEM_SOLUTION', 'WHY_CAUSE_EFFECT', 'HOW_CAUSE_EFFECT'],
+})
 export const TextSectionQuestions = objectType({
   name: 'TextSectionQuestions',
   definition(t) {
