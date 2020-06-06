@@ -95,3 +95,8 @@ export const TextSectionQuestionsInput = inputObjectType({
     t.field('questionType', { type: QuestionTypeEnum, required: true })
   },
 })
+
+// export const TextSectionInput = inputObjectType({
+//   name: 'TextSectionInput',
+//   definition(t) {},
+// })

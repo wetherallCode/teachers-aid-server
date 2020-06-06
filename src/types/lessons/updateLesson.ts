@@ -6,23 +6,27 @@ import {
   TextSectionVocabInput,
   TextSectionProtocolsInput,
   TextSectionQuestionsInput,
+  PageNumbersInput,
 } from '..'
+import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
 
 export const UpdateLessonInput = inputObjectType({
   name: 'UpdateLessonInput',
   definition(t) {
-    t.id('_id', { required: true })
     t.date('assignedDate', { required: true })
     t.id('inUnit', { required: true })
     t.field('assignedMarkingPeriod', {
       type: MarkingPeriodEnum,
       required: true,
     })
-    t.list.id('assignedCourse', { required: true })
+    t.list.id('linkedCourseIds', { required: true })
+    t.string('lessonName', { required: true })
     t.field('assignedSections', {
       type: LessonTextSectionsInput,
       required: true,
     })
+    t.field('pageNumbers', { type: PageNumbersInput, required: true })
+    t.list.id('assignedSectionIdList', { required: true })
     t.list.field('vocabList', { type: TextSectionVocabInput, required: true })
     t.field('beforeActivity', {
       type: TextSectionProtocolsInput,
@@ -47,7 +51,7 @@ export const UpdateLessonInput = inputObjectType({
 export const UpdateLessonPayload = objectType({
   name: 'UpdateLessonPayload',
   definition(t) {
-    t.field('lesson', { type: Lesson })
+    t.list.field('lessons', { type: Lesson })
   },
 })
 
@@ -58,12 +62,14 @@ export const UpdateLesson = mutationField('updateLesson', {
     _,
     {
       input: {
-        _id,
         assignedDate,
         inUnit,
+        lessonName,
         assignedMarkingPeriod,
-        assignedCourse,
+        linkedCourseIds,
         assignedSections,
+        pageNumbers,
+        assignedSectionIdList,
         vocabList,
         beforeActivity,
         duringActivities,
@@ -74,28 +80,44 @@ export const UpdateLesson = mutationField('updateLesson', {
     },
     { lessonData }
   ) {
-    const unit = await lessonData.findOne({
-      'inUnit._id': new ObjectId(inUnit),
+    const unit: NexusGenRootTypes['Unit'] = await lessonData.findOne({
+      _id: new ObjectId(inUnit),
     })
-    await lessonData.updateOne(
-      { _id: new ObjectId(_id) },
-      {
-        $set: {
-          assignedDate,
-          inUnit: unit,
-          assignedMarkingPeriod,
-          assignedCourse,
-          assignedSections,
-          vocabList,
-          beforeActivity,
-          duringActivities,
-          afterActivity,
-          questionList,
-          essentialQuestion,
+    for (const _id in linkedCourseIds) {
+      await lessonData.updateOne(
+        {
+          'assignedCourse._id': new ObjectId(linkedCourseIds[_id]),
+          lessonName,
         },
-      }
-    )
-    const lesson = await lessonData.findOne({ _id: new ObjectId(_id) })
-    return { lesson }
+        {
+          $set: {
+            assignedDate,
+            inUnit: unit,
+            assignedMarkingPeriod,
+            assignedSections,
+            pageNumbers,
+            linkedCourseIds,
+            assignedSectionIdList,
+            vocabList,
+            beforeActivity,
+            duringActivities,
+            afterActivity,
+            questionList,
+            essentialQuestion,
+          },
+        }
+      )
+    }
+
+    const lessons: NexusGenRootTypes['Lesson'][] = []
+
+    for (const _id in linkedCourseIds) {
+      const lesson: NexusGenRootTypes['Lesson'] = await lessonData.findOne({
+        'assignedCourse._id': new ObjectId(linkedCourseIds[_id]),
+        lessonName,
+      })
+      lessons.unshift(lesson)
+    }
+    return { lessons }
   },
 })
