@@ -11,7 +11,7 @@ export const Assignment = interfaceType({
     t.string('markingPeriod')
     t.id('associatedLessonId')
     t.date('assignedDate')
-    t.boolean('assiged')
+    t.boolean('assigned')
     t.date('dueDate')
     t.boolean('late')
     t.boolean('exempt')
