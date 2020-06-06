@@ -1,4 +1,4 @@
-import { objectType } from '@nexus/schema'
+import { objectType, inputObjectType } from '@nexus/schema'
 import { Teacher, Student } from '..'
 import { ObjectId } from 'mongodb'
 
@@ -33,5 +33,13 @@ export const Course = objectType({
     //     const lessons = await lessonData.find({ has: new ObjectId(parent._id) })
     //   },
     // })
+  },
+})
+
+export const CourseInput = inputObjectType({
+  name: 'CourseInput',
+  definition(t) {
+    t.id('_id', { required: true })
+    t.string('period')
   },
 })
