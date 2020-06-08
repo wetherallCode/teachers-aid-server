@@ -16,15 +16,6 @@ export const Student = objectType({
         return assignments
       },
     })
-    // t.list.field('inCourses', {
-    //   type: 'Course',
-    //   async resolve(parent, __, { courseData }) {
-    //     const courses = await courseData
-    //       .find({ 'hasStudents.userName': parent.userName })
-    //       .toArray()
-    //     return courses
-    //   },
-    // })
     t.list.field('inCourses', { type: Course })
   },
 })
