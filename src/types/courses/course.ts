@@ -27,12 +27,17 @@ export const Course = objectType({
         return students
       },
     })
-    // t.list.field('hasLessons', {
-    //   type: Student,
-    //   async resolve(parent, __, { lessonData }) {
-    //     const lessons = await lessonData.find({ has: new ObjectId(parent._id) })
-    //   },
-    // })
+    t.list.field('hasLessons', {
+      type: Student,
+      async resolve(parent, __, { lessonData }) {
+        const lessons = await lessonData
+          .find({
+            'assignedCourse._id': new ObjectId(parent._id!),
+          })
+          .toArray()
+        return lessons
+      },
+    })
   },
 })
 
