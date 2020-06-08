@@ -8,11 +8,10 @@ export const Course = objectType({
   name: 'Course',
   definition(t) {
     t.id('_id', { nullable: true })
-    t.string('period')
+    t.string('name')
     t.field('hasTeacher', {
       type: Teacher,
       async resolve(parent, __, { userData }) {
-        console.log(parent._id)
         const teacher = await userData.findOne({
           'teachesCourses._id': new ObjectId(parent._id!),
         })
@@ -46,7 +45,7 @@ export const CourseInput = inputObjectType({
   name: 'CourseInput',
   definition(t) {
     t.id('_id', { required: true })
-    t.string('period')
+    t.string('name')
   },
 })
 

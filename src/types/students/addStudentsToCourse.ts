@@ -1,40 +1,65 @@
 import { objectType, inputObjectType, mutationField, arg } from '@nexus/schema'
 import { Student } from './students'
 import { ObjectId } from 'mongodb'
+import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
 
-export const AddStudentToCourseInput = inputObjectType({
-  name: 'AddStudentToCourseInput',
+export const AddStudentsToCourseInput = inputObjectType({
+  name: 'AddStudentsToCourseInput',
   definition(t) {
-    t.id('studentId', { required: true })
+    t.list.id('studentIds', { required: true })
     t.id('courseId', { required: true })
   },
 })
 
-export const AddStudentToCoursePayload = objectType({
-  name: 'AddStudentToCoursePayload',
+export const AddStudentsToCoursePayload = objectType({
+  name: 'AddStudentsToCoursePayload',
   definition(t) {
-    t.field('student', { type: Student })
+    t.list.field('students', { type: Student })
   },
 })
 
-export const AddStudentToCourse = mutationField('addStudentToCourse', {
-  type: AddStudentToCoursePayload,
-  args: { input: arg({ type: AddStudentToCourseInput, required: true }) },
+export const AddStudentsToCourse = mutationField('addStudentsToCourse', {
+  type: AddStudentsToCoursePayload,
+  args: { input: arg({ type: AddStudentsToCourseInput, required: true }) },
   async resolve(
     _,
-    { input: { studentId, courseId } },
+    { input: { studentIds, courseId } },
     { userData, courseData }
   ) {
     const course = await courseData.findOne({ _id: new ObjectId(courseId) })
+    if (!course) throw new Error('Course does not exist!')
 
-    await userData.updateOne(
-      { _id: new ObjectId(studentId) },
-      { $push: { inCourses: course } }
-    )
+    const students: NexusGenRootTypes['Student'][] = []
+    const updatedStudents: NexusGenRootTypes['Student'][] = []
 
-    const updatedStudent = await userData.findOne({
-      _id: new ObjectId(studentId),
-    })
-    return { student: updatedStudent }
+    const studentsAlreadyAssignedToCourse: NexusGenRootTypes['Student'][] = []
+
+    for (const _id of studentIds) {
+      const student: NexusGenRootTypes['Student'] = await userData.findOne({
+        _id: new ObjectId(_id),
+      })
+
+      if (
+        student.inCourses.some(
+          (studentCourses) =>
+            studentCourses._id?.toString() === course._id.toString()
+        )
+      ) {
+        studentsAlreadyAssignedToCourse.push(student)
+      } else students.push(student)
+    }
+
+    for (const student of students) {
+      await userData.updateOne(
+        { _id: new ObjectId(student._id!) },
+        { $push: { inCourses: course } }
+      )
+      const updatedStudent = await userData.findOne({
+        _id: new ObjectId(student._id!),
+      })
+      updatedStudents.push(updatedStudent)
+    }
+
+    return { students: updatedStudents }
   },
 })

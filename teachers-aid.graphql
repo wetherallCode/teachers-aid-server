@@ -36,13 +36,13 @@ type AddNewTextPayload {
   text: Text!
 }
 
-input AddStudentToCourseInput {
+input AddStudentsToCourseInput {
   courseId: ID!
-  studentId: ID!
+  studentIds: [ID!]!
 }
 
-type AddStudentToCoursePayload {
-  student: Student!
+type AddStudentsToCoursePayload {
+  students: [Student!]!
 }
 
 input AddVocabWordInput {
@@ -97,18 +97,27 @@ type Chapter {
 
 type Course {
   _id: ID
+  hasLessons: [Lesson!]!
   hasStudents: [Student!]!
   hasTeacher: Teacher!
-  period: String!
+  name: String!
 }
 
 input CourseInput {
   _id: ID!
-  period: String
+  name: String
+}
+
+enum CourseTypeEnum {
+  ENGLISH_LANGUAGE_ARTS
+  MATH
+  RELATED_ARTS
+  SCIENCE
+  SOCIAL_STUDIES
 }
 
 input CreateCourseInput {
-  period: String!
+  name: String!
 }
 
 type CreateCoursePayload {
@@ -424,7 +433,7 @@ type Mutation {
   addCourseToTeacher(input: AddCourseToTeacherInput!): AddCourseToTeacherPayload!
   addNewChapter(input: AddNewChapterInput!): AddNewChapterPayload!
   addNewText(input: AddNewTextInput!): AddNewTextPayload!
-  addStudentToCourse(input: AddStudentToCourseInput!): AddStudentToCoursePayload!
+  addStudentsToCourse(input: AddStudentsToCourseInput!): AddStudentsToCoursePayload!
   addVocabWord(input: AddVocabWordInput!): AddVocabWordPayload!
   changeVocabWord(input: ChangeVocabWordInput!): UpdateVocabPayload!
   createCourse(input: CreateCourseInput!): CreateCoursePayload!
@@ -436,6 +445,7 @@ type Mutation {
   logout: Boolean!
   registerStudent(input: RegisterStudentInput!): RegisterStudentPayload!
   RegisterTeacher(input: RegisterTeacherInput!): RegisterTeacherPayload!
+  removeStudentsFromCourse(input: RemoveStudentsFromCourseInput!): RemoveStudentsFromCoursePayload!
   removeTextSection(input: RemoveTextSectionInput!): RemoveTextSectionPayload!
   returnGradedEssay(input: ReturnGradedEssayInput!): ReturnGradedEssayPayload!
   setCurrentMarkingPeriod(input: SetCurrentMarkingPeriodInput!): SetCurrentMarkingPeriodPayload!
@@ -544,6 +554,15 @@ input RegisterTeacherInput {
 
 type RegisterTeacherPayload {
   teacher: Teacher!
+}
+
+input RemoveStudentsFromCourseInput {
+  courseId: ID!
+  studentIds: [ID!]!
+}
+
+type RemoveStudentsFromCoursePayload {
+  students: [Student!]!
 }
 
 input RemoveTextSectionInput {

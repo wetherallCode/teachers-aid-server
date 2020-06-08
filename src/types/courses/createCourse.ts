@@ -5,7 +5,7 @@ import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
 export const CreateCourseInput = inputObjectType({
   name: 'CreateCourseInput',
   definition(t) {
-    t.string('period', { required: true })
+    t.string('name', { required: true })
   },
 })
 
@@ -19,9 +19,9 @@ export const CreateCoursePayload = objectType({
 export const CreateCourse = mutationField('createCourse', {
   type: CreateCoursePayload,
   args: { input: arg({ type: CreateCourseInput, required: true }) },
-  async resolve(_, { input: { period } }, { courseData }) {
+  async resolve(_, { input: { name } }, { courseData }) {
     const newCourse: NexusGenRootTypes['Course'] = {
-      period,
+      name,
     }
 
     const { insertedId } = await courseData.insertOne(newCourse)
