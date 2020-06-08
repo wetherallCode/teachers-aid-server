@@ -1,4 +1,4 @@
-import { objectType, inputObjectType } from '@nexus/schema'
+import { objectType, inputObjectType, enumType } from '@nexus/schema'
 import { Teacher, Student } from '..'
 import { ObjectId } from 'mongodb'
 
@@ -42,4 +42,15 @@ export const CourseInput = inputObjectType({
     t.id('_id', { required: true })
     t.string('period')
   },
+})
+
+export const CourseTypeEnum = enumType({
+  name: 'CourseTypeEnum',
+  members: [
+    'SOCIAL_STUDIES',
+    'ENGLISH_LANGUAGE_ARTS',
+    'SCIENCE',
+    'MATH',
+    'RELATED_ARTS',
+  ],
 })
