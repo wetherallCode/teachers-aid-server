@@ -320,6 +320,7 @@ export interface NexusGenRootTypes {
   }
   Course: { // root type
     _id?: string | null; // ID
+    courseType: NexusGenEnums['CourseTypeEnum']; // CourseTypeEnum!
     name: string; // String!
   }
   CreateCoursePayload: { // root type
@@ -705,6 +706,7 @@ export interface NexusGenFieldTypes {
   }
   Course: { // field return type
     _id: string | null; // ID
+    courseType: NexusGenEnums['CourseTypeEnum']; // CourseTypeEnum!
     hasLessons: NexusGenRootTypes['Lesson'][]; // [Lesson!]!
     hasStudents: NexusGenRootTypes['Student'][]; // [Student!]!
     hasTeacher: NexusGenRootTypes['Teacher']; // Teacher!
@@ -848,7 +850,6 @@ export interface NexusGenFieldTypes {
     addStudentsToCourse: NexusGenRootTypes['AddStudentsToCoursePayload']; // AddStudentsToCoursePayload!
     addVocabWord: NexusGenRootTypes['AddVocabWordPayload']; // AddVocabWordPayload!
     changeVocabWord: NexusGenRootTypes['UpdateVocabPayload']; // UpdateVocabPayload!
-    createCourse: NexusGenRootTypes['CreateCoursePayload']; // CreateCoursePayload!
     createEssay: NexusGenRootTypes['CreateEssayPayload']; // CreateEssayPayload!
     createLesson: NexusGenRootTypes['CreateLessonPayload']; // CreateLessonPayload!
     createTextSection: NexusGenRootTypes['CreateTextSectionPayload']; // CreateTextSectionPayload!
@@ -1084,9 +1085,6 @@ export interface NexusGenArgTypes {
     }
     changeVocabWord: { // args
       input: NexusGenInputs['ChangeVocabWordInput']; // ChangeVocabWordInput!
-    }
-    createCourse: { // args
-      input: NexusGenInputs['CreateCourseInput']; // CreateCourseInput!
     }
     createEssay: { // args
       input: NexusGenInputs['CreateEssayInput']; // CreateEssayInput!

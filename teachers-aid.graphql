@@ -97,6 +97,7 @@ type Chapter {
 
 type Course {
   _id: ID
+  courseType: CourseTypeEnum!
   hasLessons: [Lesson!]!
   hasStudents: [Student!]!
   hasTeacher: Teacher!
@@ -436,7 +437,6 @@ type Mutation {
   addStudentsToCourse(input: AddStudentsToCourseInput!): AddStudentsToCoursePayload!
   addVocabWord(input: AddVocabWordInput!): AddVocabWordPayload!
   changeVocabWord(input: ChangeVocabWordInput!): UpdateVocabPayload!
-  createCourse(input: CreateCourseInput!): CreateCoursePayload!
   createEssay(input: CreateEssayInput!): CreateEssayPayload!
   createLesson(input: CreateLessonInput!): CreateLessonPayload!
   createTextSection(input: CreateTextSectionInput!): CreateTextSectionPayload!

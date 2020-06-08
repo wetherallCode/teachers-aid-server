@@ -9,6 +9,7 @@ export const Course = objectType({
   definition(t) {
     t.id('_id', { nullable: true })
     t.string('name')
+    t.field('courseType', { type: CourseTypeEnum })
     t.field('hasTeacher', {
       type: Teacher,
       async resolve(parent, __, { userData }) {
