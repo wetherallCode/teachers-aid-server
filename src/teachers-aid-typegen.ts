@@ -69,7 +69,8 @@ export interface NexusGenInputs {
     period: string; // String!
   }
   CreateEssayInput: { // input type
-    assignedCourseId: string[]; // [String!]!
+    assignedCourseId: string[]; // [ID!]!
+    assignedDate: any; // Date!
     associatedLessonId: string; // ID!
     dueDate: any; // Date!
     hasAssignerId: string; // String!
@@ -333,7 +334,7 @@ export interface NexusGenRootTypes {
   }
   Essay: { // root type
     _id?: string | null; // ID
-    assiged: boolean; // Boolean!
+    assigned: boolean; // Boolean!
     assignedDate: any; // Date!
     associatedLessonId: string; // ID!
     dueDate: any; // Date!
@@ -455,7 +456,7 @@ export interface NexusGenRootTypes {
   Query: {};
   Reading_Guide: { // root type
     _id?: string | null; // ID
-    assiged: boolean; // Boolean!
+    assigned: boolean; // Boolean!
     assignedDate: any; // Date!
     associatedLessonId: string; // ID!
     completion: string; // String!
@@ -521,7 +522,7 @@ export interface NexusGenRootTypes {
   }
   Test: { // root type
     _id?: string | null; // ID
-    assiged: boolean; // Boolean!
+    assigned: boolean; // Boolean!
     assignedDate: any; // Date!
     associatedLessonId: string; // ID!
     dueDate: any; // Date!
@@ -715,7 +716,7 @@ export interface NexusGenFieldTypes {
   }
   Essay: { // field return type
     _id: string | null; // ID
-    assiged: boolean; // Boolean!
+    assigned: boolean; // Boolean!
     assignedDate: any; // Date!
     associatedLessonId: string; // ID!
     dueDate: any; // Date!
@@ -881,7 +882,7 @@ export interface NexusGenFieldTypes {
   }
   Reading_Guide: { // field return type
     _id: string | null; // ID
-    assiged: boolean; // Boolean!
+    assigned: boolean; // Boolean!
     assignedDate: any; // Date!
     associatedLessonId: string; // ID!
     completion: string; // String!
@@ -948,7 +949,7 @@ export interface NexusGenFieldTypes {
   }
   Test: { // field return type
     _id: string | null; // ID
-    assiged: boolean; // Boolean!
+    assigned: boolean; // Boolean!
     assignedDate: any; // Date!
     associatedLessonId: string; // ID!
     dueDate: any; // Date!
@@ -1022,7 +1023,7 @@ export interface NexusGenFieldTypes {
   }
   Assignment: { // field return type
     _id: string | null; // ID
-    assiged: boolean; // Boolean!
+    assigned: boolean; // Boolean!
     assignedDate: any; // Date!
     associatedLessonId: string; // ID!
     dueDate: any; // Date!

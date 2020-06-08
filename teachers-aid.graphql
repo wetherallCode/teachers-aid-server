@@ -66,7 +66,7 @@ type AssignEssayPayload {
 
 interface Assignment {
   _id: ID
-  assiged: Boolean!
+  assigned: Boolean!
   assignedDate: Date!
   associatedLessonId: ID!
   dueDate: Date!
@@ -116,7 +116,8 @@ type CreateCoursePayload {
 }
 
 input CreateEssayInput {
-  assignedCourseId: [String!]!
+  assignedCourseId: [ID!]!
+  assignedDate: Date!
   associatedLessonId: ID!
   dueDate: Date!
   hasAssignerId: String!
@@ -178,7 +179,7 @@ scalar DateTime
 
 type Essay implements Assignment {
   _id: ID
-  assiged: Boolean!
+  assigned: Boolean!
   assignedDate: Date!
   associatedLessonId: ID!
   dueDate: Date!
@@ -496,7 +497,7 @@ enum QuestionTypeEnum {
 
 type Reading_Guide implements Assignment {
   _id: ID
-  assiged: Boolean!
+  assigned: Boolean!
   assignedDate: Date!
   associatedLessonId: ID!
   completion: String!
@@ -625,7 +626,7 @@ type Teacher implements User {
 
 type Test implements Assignment {
   _id: ID
-  assiged: Boolean!
+  assigned: Boolean!
   assignedDate: Date!
   associatedLessonId: ID!
   dueDate: Date!
