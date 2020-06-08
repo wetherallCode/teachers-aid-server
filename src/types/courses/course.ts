@@ -1,6 +1,8 @@
 import { objectType, inputObjectType, enumType } from '@nexus/schema'
 import { Teacher, Student } from '..'
 import { ObjectId } from 'mongodb'
+import { Lesson } from '../lessons'
+import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
 
 export const Course = objectType({
   name: 'Course',
@@ -17,7 +19,6 @@ export const Course = objectType({
         return teacher
       },
     })
-    // t.list.field('hasStudents', { type: Student })
     t.list.field('hasStudents', {
       type: Student,
       async resolve(parent, __, { userData }) {
@@ -28,9 +29,9 @@ export const Course = objectType({
       },
     })
     t.list.field('hasLessons', {
-      type: Student,
+      type: Lesson,
       async resolve(parent, __, { lessonData }) {
-        const lessons = await lessonData
+        const lessons: NexusGenRootTypes['Lesson'][] = await lessonData
           .find({
             'assignedCourse._id': new ObjectId(parent._id!),
           })
