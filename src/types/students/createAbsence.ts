@@ -55,10 +55,7 @@ export const CreateAbsence = mutationField('createAbsence', {
       return { studentAbsence }
     } else
       throw new Error(
-        student.userName +
-          ' already has absence assigned for the ' +
-          markingPeriod +
-          ' marking period'
+        student.userName + ' already has absence assigned for ' + dayAbsent
       )
   },
 })
