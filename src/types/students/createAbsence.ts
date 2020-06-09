@@ -28,17 +28,37 @@ export const CreateAbsence = mutationField('createAbsence', {
     { input: { studentId, dayAbsent, markingPeriod } },
     { studentData, userData }
   ) {
-    const student = await userData.findOne({ _id: new ObjectId(studentId) })
+    const student: NexusGenRootTypes['Student'] = await userData.findOne({
+      _id: new ObjectId(studentId),
+    })
+    const studentAbsences: NexusGenRootTypes['StudentAbsence'][] = await studentData
+      .find({
+        'student._id': new ObjectId(student._id!),
+        dayAbsent: { $exists: true },
+      })
+      .toArray()
 
-    const studentAbsence: NexusGenRootTypes['StudentAbsence'] = {
-      student,
-      dayAbsent,
-      markingPeriod,
-    }
+    const absenceSearch = studentAbsences.some(
+      (absence) => absence.dayAbsent === dayAbsent
+    )
 
-    const insertedId = await studentData.insertOne(studentAbsence)
-    studentAbsence._id = insertedId
+    if (!absenceSearch) {
+      const studentAbsence: NexusGenRootTypes['StudentAbsence'] = {
+        student,
+        dayAbsent,
+        markingPeriod,
+      }
 
-    return { studentAbsence }
+      const insertedId = await studentData.insertOne(studentAbsence)
+      studentAbsence._id = insertedId
+
+      return { studentAbsence }
+    } else
+      throw new Error(
+        student.userName +
+          ' already has absence assigned for the ' +
+          markingPeriod +
+          ' marking period'
+      )
   },
 })
