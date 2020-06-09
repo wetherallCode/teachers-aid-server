@@ -512,6 +512,7 @@ type Mutation {
   setCurrentMarkingPeriod(input: SetCurrentMarkingPeriodInput!): SetCurrentMarkingPeriodPayload!
   submitEssayFinalDraft(input: SubmitEssayFinalDraftInput!): SubmitEssayFinalDraftPayload!
   updateLesson(input: UpdateLessonInput!): UpdateLessonPayload!
+  updateResponsibilityPoints(input: UpdateResponsibilityPointsInput!): UpdateResponsibilityPointsPayload!
   updateTextSection(input: UpdateTextSectionInput!): UpdateTextSectionPayload!
   updateWorkingDraft(input: UpdateWorkingDraftInput!): UpdateWorkingDraftPayload!
 }
@@ -706,7 +707,6 @@ type StudentAbsence {
 type StudentInformation {
   _id: ID
   contactInfo: [ContactInfo!]!
-  responsibilityPoints: [ResponsibilityPoints!]!
   student: Student!
 }
 
@@ -885,6 +885,16 @@ input UpdateLessonInput {
 
 type UpdateLessonPayload {
   lessons: [Lesson!]!
+}
+
+input UpdateResponsibilityPointsInput {
+  markingPeriod: MarkingPeriodEnum
+  points: Int!
+  studentId: ID!
+}
+
+type UpdateResponsibilityPointsPayload {
+  responsibilityPoints: ResponsibilityPoints!
 }
 
 input UpdateTextSectionInput {

@@ -9,7 +9,6 @@ export const StudentInformation = objectType({
     t.id('_id', { nullable: true })
     t.field('student', { type: Student })
     t.list.field('contactInfo', { type: ContactInfo })
-    t.list.field('responsibilityPoints', { type: ResponsibilityPoints })
 
     // t.resolveType((course))
   },
