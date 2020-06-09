@@ -1,28 +1,27 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
-import { StudentAbsence } from '.'
 import { ObjectId } from 'mongodb'
 
-export const RemoveAbsenceInput = inputObjectType({
-  name: 'RemoveAbsenceInput',
+export const RemoveLatenessInput = inputObjectType({
+  name: 'RemoveLatenessInput',
   definition(t) {
     t.id('_id', { required: true })
   },
 })
 
-export const RemoveAbsencePayload = objectType({
-  name: 'RemoveAbsencePayload',
+export const RemoveLatenessPayload = objectType({
+  name: 'RemoveLatenessPayload',
   definition(t) {
     t.boolean('removed')
   },
 })
 
-export const RemoveAbsence = mutationField('removeAbsence', {
-  type: RemoveAbsencePayload,
-  args: { input: arg({ type: RemoveAbsenceInput, required: true }) },
+export const RemoveLateness = mutationField('removeLateness', {
+  type: RemoveLatenessPayload,
+  args: { input: arg({ type: RemoveLatenessInput, required: true }) },
   async resolve(_, { input: { _id } }, { studentData }) {
-    const absence = await studentData.findOne({ _id: new ObjectId(_id) })
+    const lateness = await studentData.findOne({ _id: new ObjectId(_id) })
 
-    if (absence) {
+    if (lateness) {
       const returnedValue = await studentData.deleteOne({
         _id: new ObjectId(_id),
       })

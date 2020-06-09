@@ -95,6 +95,13 @@ type Chapter {
   hasSections: TextSection!
 }
 
+type ContactInfo {
+  guardianEmail: String!
+  guardianFirstName: String!
+  guardianLastName: String!
+  guardianPhone: String!
+}
+
 type Course {
   _id: ID
   courseType: CourseTypeEnum!
@@ -117,7 +124,18 @@ enum CourseTypeEnum {
   SOCIAL_STUDIES
 }
 
+input CreateAbsenceInput {
+  dayAbsent: Date!
+  markingPeriod: MarkingPeriodEnum!
+  studentId: String!
+}
+
+type CreateAbsencePayload {
+  studentAbsence: StudentAbsence!
+}
+
 input CreateCourseInput {
+  courseType: CourseTypeEnum!
   name: String!
 }
 
@@ -141,6 +159,16 @@ type CreateEssayPayload {
   essays: [Essay!]!
 }
 
+input CreateExcusedLatenessInput {
+  dayLateExcused: Date!
+  markingPeriod: MarkingPeriodEnum!
+  studentId: ID!
+}
+
+type CreateExcusedLatenessPayload {
+  excusedLateness: ExcusedLateness!
+}
+
 input CreateLessonInput {
   afterActivity: TextSectionProtocolsInput!
   assignedCourses: [ID!]!
@@ -162,6 +190,15 @@ type CreateLessonPayload {
   lessons: [Lesson!]!
 }
 
+input CreateResponsibilityPointsInput {
+  markingPeriod: MarkingPeriodEnum!
+  studentIds: [ID!]!
+}
+
+type CreateResponsibilityPointsPayload {
+  responsibilityPoints: [ResponsibilityPoints!]!
+}
+
 input CreateTextSectionInput {
   fromChapterId: String!
   hasProtocols: [TextSectionProtocolsInput!]!
@@ -173,6 +210,16 @@ input CreateTextSectionInput {
 
 type CreateTextSectionPayload {
   textSection: TextSection!
+}
+
+input CreateUnexcusedLatenessInput {
+  dayLate: Date!
+  markingPeriod: MarkingPeriodEnum!
+  studentId: ID!
+}
+
+type CreateUnexcusedLatenessPayload {
+  unexcusedLateness: UnexcusedLateness!
 }
 
 input CreateUnitInput {
@@ -203,6 +250,13 @@ type Essay implements Assignment {
   score: Score!
   topic: Topic!
   workingDraft: WorkingDraft!
+}
+
+type ExcusedLateness {
+  _id: ID
+  dayLateExcused: Date!
+  markingPeriod: MarkingPeriodEnum!
+  student: Student!
 }
 
 type FinalDraftContainer {
@@ -437,14 +491,21 @@ type Mutation {
   addStudentsToCourse(input: AddStudentsToCourseInput!): AddStudentsToCoursePayload!
   addVocabWord(input: AddVocabWordInput!): AddVocabWordPayload!
   changeVocabWord(input: ChangeVocabWordInput!): UpdateVocabPayload!
+  createAbsence(input: CreateAbsenceInput!): CreateAbsencePayload!
+  createCourse(input: CreateCourseInput!): CreateCoursePayload!
   createEssay(input: CreateEssayInput!): CreateEssayPayload!
+  createExcusedLateness(input: CreateExcusedLatenessInput!): CreateExcusedLatenessPayload!
   createLesson(input: CreateLessonInput!): CreateLessonPayload!
+  createResponsibilityPoints(input: CreateResponsibilityPointsInput!): CreateResponsibilityPointsPayload!
   createTextSection(input: CreateTextSectionInput!): CreateTextSectionPayload!
+  createUnexcusedLateness(input: CreateUnexcusedLatenessInput!): CreateUnexcusedLatenessPayload!
   createUnit(input: CreateUnitInput!): CreateUnitPayload!
   login(input: LoginInput!): LoginPayload!
   logout: Boolean!
   registerStudent(input: RegisterStudentInput!): RegisterStudentPayload!
   RegisterTeacher(input: RegisterTeacherInput!): RegisterTeacherPayload!
+  removeAbsence(input: RemoveAbsenceInput!): RemoveAbsencePayload!
+  removeLateness(input: RemoveLatenessInput!): RemoveLatenessPayload!
   removeStudentsFromCourse(input: RemoveStudentsFromCourseInput!): RemoveStudentsFromCoursePayload!
   removeTextSection(input: RemoveTextSectionInput!): RemoveTextSectionPayload!
   returnGradedEssay(input: ReturnGradedEssayInput!): ReturnGradedEssayPayload!
@@ -556,6 +617,22 @@ type RegisterTeacherPayload {
   teacher: Teacher!
 }
 
+input RemoveAbsenceInput {
+  _id: ID!
+}
+
+type RemoveAbsencePayload {
+  removed: Boolean!
+}
+
+input RemoveLatenessInput {
+  _id: ID!
+}
+
+type RemoveLatenessPayload {
+  removed: Boolean!
+}
+
 input RemoveStudentsFromCourseInput {
   courseId: ID!
   studentIds: [ID!]!
@@ -571,6 +648,13 @@ input RemoveTextSectionInput {
 
 type RemoveTextSectionPayload {
   removed: Boolean!
+}
+
+type ResponsibilityPoints {
+  _id: ID
+  markingPeriod: MarkingPeriodEnum!
+  responsibilityPoints: Int!
+  student: Student!
 }
 
 input ReturnGradedEssayInput {
@@ -601,11 +685,29 @@ type Student implements User {
   _id: ID
   email: String
   firstName: String!
+  hasAbsences: [StudentAbsence!]!
   hasAssignments: [Assignment!]!
+  hasExcusedLatenesses: [ExcusedLateness!]!
+  hasResponsibilityPoints: [ResponsibilityPoints!]!
+  hasUnExcusedLatenesses: [UnexcusedLateness!]!
   inCourses: [Course!]!
   lastName: String!
   password: String!
   userName: String!
+}
+
+type StudentAbsence {
+  _id: ID
+  dayAbsent: Date!
+  markingPeriod: MarkingPeriodEnum!
+  student: Student!
+}
+
+type StudentInformation {
+  _id: ID
+  contactInfo: [ContactInfo!]!
+  responsibilityPoints: [ResponsibilityPoints!]!
+  student: Student!
 }
 
 input SubmitEssayFinalDraftInput {
@@ -744,6 +846,13 @@ type Topic {
 input TopicInput {
   question: String!
   questionType: QuestionTypeEnum!
+}
+
+type UnexcusedLateness {
+  _id: ID
+  dayLate: Date!
+  markingPeriod: MarkingPeriodEnum!
+  student: Student!
 }
 
 type Unit {
