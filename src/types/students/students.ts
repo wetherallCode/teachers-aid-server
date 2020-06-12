@@ -1,21 +1,29 @@
 import { objectType } from '@nexus/schema'
 import { User } from '../users'
-import { Course } from '..'
+import { Course, WritingMetrics } from '..'
 import { ObjectId } from 'mongodb'
 import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
-import { ExcusedLateness } from './excusedLateness'
-import { resolve } from 'dns'
 import { ResponsibilityPoints } from './responsibilityPoints'
 
 export const Student = objectType({
   name: 'Student',
   definition(t) {
     t.implements(User)
+    t.field('hasContactInformation', {
+      type: 'StudentInformation',
+      async resolve(parent, __, { studentData }) {
+        const studentInfo = await studentData.findOne({
+          'student._id': new ObjectId(parent._id!),
+          contactInfo: { $exists: true },
+        })
+        return studentInfo
+      },
+    })
     t.list.field('hasAssignments', {
       type: 'Assignment',
       async resolve(parent, __, { assignmentData }) {
         const assignments = await assignmentData
-          .find({ 'hasOwner.userName': parent.userName })
+          .find({ 'hasOwner._id': parent._id })
           .toArray()
 
         return assignments
@@ -28,7 +36,7 @@ export const Student = objectType({
         const absences: NexusGenRootTypes['StudentAbsence'][] = await studentData
           .find({
             'student._id': new ObjectId(parent._id!),
-            daysAbsent: { $exists: true },
+            dayAbsent: { $exists: true },
           })
           .toArray()
         return absences
@@ -68,6 +76,16 @@ export const Student = objectType({
           })
           .toArray()
         return responsibilityPoints
+      },
+    })
+    t.field('hasWritingMetrics', {
+      type: WritingMetrics,
+      async resolve(parent, __, { studentData }) {
+        const writingMetrics = await studentData.findOne({
+          'student._id': new ObjectId(parent._id!),
+          howProblemSolutionMetrics: { $exists: true },
+        })
+        return writingMetrics
       },
     })
   },

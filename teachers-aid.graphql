@@ -77,6 +77,7 @@ interface Assignment {
   markingPeriod: String!
   readings: Readings!
   score: Score!
+  sections: String!
 }
 
 input ChangeVocabWordInput {
@@ -93,6 +94,12 @@ type Chapter {
   chapterTitle: String!
   fromText: Text!
   hasSections: TextSection!
+}
+
+type ComprehensionMetrics implements ProgressMetrics {
+  _id: ID
+  comprehensionLevel: Int!
+  student: Student!
 }
 
 type ContactInfo {
@@ -152,7 +159,7 @@ input CreateEssayInput {
   markingPeriod: MarkingPeriodEnum!
   maxPoints: Int!
   readings: ReadingsInput!
-  topic: TopicInput!
+  topicList: [TopicInput!]!
 }
 
 type CreateEssayPayload {
@@ -248,6 +255,7 @@ type Essay implements Assignment {
   markingPeriod: String!
   readings: Readings!
   score: Score!
+  sections: String!
   topic: Topic!
   workingDraft: WorkingDraft!
 }
@@ -365,6 +373,14 @@ type FindLessonsByUnitPayload {
   lessons: [Lesson!]!
 }
 
+input FindStudentsByIdInput {
+  studentIds: [ID!]!
+}
+
+type FindStudentsByIdPayload {
+  students: [Student!]!
+}
+
 input FindTextByTitleInput {
   title: String
 }
@@ -421,11 +437,30 @@ input HasOwnerInput {
   ownerUserName: String
 }
 
+type HowCauseEffectMetrics {
+  howCauseEffectLevel: WritingLevelType!
+  levelPoints: Int!
+}
+
+type HowProblemSolutionMetrics {
+  howProblemSolutionLevel: WritingLevelType!
+  levelPoints: Int!
+}
+
 type Individual implements Protocol {
   _id: ID
   assignedDate: Date!
   isActive: Boolean!
   student: Student!
+}
+
+input InitializeStudentsInput {
+  markingPeriod: MarkingPeriodEnum!
+  studentIds: [ID!]!
+}
+
+type InitializeStudentsPayload {
+  students: [Student!]!
 }
 
 """
@@ -500,6 +535,7 @@ type Mutation {
   createTextSection(input: CreateTextSectionInput!): CreateTextSectionPayload!
   createUnexcusedLateness(input: CreateUnexcusedLatenessInput!): CreateUnexcusedLatenessPayload!
   createUnit(input: CreateUnitInput!): CreateUnitPayload!
+  initializeStudents(input: InitializeStudentsInput!): InitializeStudentsPayload!
   login(input: LoginInput!): LoginPayload!
   logout: Boolean!
   registerStudent(input: RegisterStudentInput!): RegisterStudentPayload!
@@ -517,6 +553,11 @@ type Mutation {
   updateWorkingDraft(input: UpdateWorkingDraftInput!): UpdateWorkingDraftPayload!
 }
 
+type OverallWritingMetric {
+  levelPoints: Int!
+  overallWritingLevel: WritingLevelType!
+}
+
 type PageNumbers {
   endingPage: Int!
   startingPage: Int!
@@ -525,6 +566,11 @@ type PageNumbers {
 input PageNumbersInput {
   endingPage: Int!
   startingPage: Int!
+}
+
+interface ProgressMetrics {
+  _id: ID
+  student: Student!
 }
 
 interface Protocol {
@@ -551,6 +597,7 @@ type Query {
   findLessonByCourseAndDate(input: FindLessonByCourseAndDateInput!): FindLessonByCourseAndDatePayload!
   findLessonById(input: FindLessonByIdInput!): FindLessonByIdPayload!
   findLessonsByUnit(input: FindLessonsByUnitInput!): FindLessonsByUnitPayload!
+  findStudentsById(input: FindStudentsByIdInput!): FindStudentsByIdPayload!
   findTextByTitle(input: FindTextByTitleInput!): FindTextByTitlePayload!
   findTexts: FindTextsPayload!
   findTextSectionById(input: FindTextSectionByIdInput!): FindTextSectionByIdPayload!
@@ -581,6 +628,7 @@ type Reading_Guide implements Assignment {
   markingPeriod: String!
   readings: Readings!
   score: Score!
+  sections: String!
 }
 
 type Readings {
@@ -688,9 +736,11 @@ type Student implements User {
   firstName: String!
   hasAbsences: [StudentAbsence!]!
   hasAssignments: [Assignment!]!
+  hasContactInformation: StudentInformation!
   hasExcusedLatenesses: [ExcusedLateness!]!
   hasResponsibilityPoints: [ResponsibilityPoints!]!
   hasUnExcusedLatenesses: [UnexcusedLateness!]!
+  hasWritingMetrics: WritingMetrics!
   inCourses: [Course!]!
   lastName: String!
   password: String!
@@ -758,6 +808,7 @@ type Test implements Assignment {
   markingPeriod: String!
   readings: Readings!
   score: Score!
+  sections: String!
   testName: String!
 }
 
@@ -841,11 +892,17 @@ enum TitleEnum {
 type Topic {
   question: String!
   questionType: QuestionTypeEnum!
+  writingLevel: WritingLevelType!
 }
 
 input TopicInput {
   question: String!
   questionType: QuestionTypeEnum!
+  writingLevel: WritingLevelType!
+}
+
+input TopicTypeInput {
+  writingLevel: WritingLevelType
 }
 
 type UnexcusedLateness {
@@ -933,6 +990,26 @@ interface User {
   userName: String!
 }
 
+type WhyCauseEffectMetrics {
+  levelPoints: Int!
+  whyCauseEffectLevel: WritingLevelType!
+}
+
 type WorkingDraft {
   draft: JSON!
+}
+
+enum WritingLevelType {
+  ACADEMIC
+  ADVANCED
+  DEVELOPING
+}
+
+type WritingMetrics implements ProgressMetrics {
+  _id: ID
+  howCauseEffectMetrics: HowCauseEffectMetrics!
+  howProblemSolutionMetrics: HowProblemSolutionMetrics!
+  overallWritingMetric: OverallWritingMetric!
+  student: Student!
+  whyCauseEffectMetrics: WhyCauseEffectMetrics!
 }
