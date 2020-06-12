@@ -1,5 +1,6 @@
 import { objectType, inputObjectType, enumType } from '@nexus/schema'
 import { QuestionTypeEnum } from '../..'
+import { WritingLevelType } from '../../students'
 
 export const Essay = objectType({
   name: 'Essay',
@@ -16,6 +17,7 @@ export const Topic = objectType({
   definition(t) {
     t.field('questionType', { type: QuestionTypeEnum })
     t.string('question')
+    t.field('writingLevel', { type: WritingLevelType })
   },
 })
 
@@ -24,6 +26,7 @@ export const TopicInput = inputObjectType({
   definition(t) {
     t.string('question', { required: true })
     t.field('questionType', { type: QuestionTypeEnum, required: true })
+    t.field('writingLevel', { type: WritingLevelType, required: true })
   },
 })
 

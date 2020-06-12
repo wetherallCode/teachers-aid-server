@@ -1,22 +1,29 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { Essay, ReadingsInput, TopicInput } from '.'
-import { MarkingPeriodEnum } from '../..'
+import { MarkingPeriodEnum, WritingLevelType } from '../..'
 import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
 import { ObjectId } from 'mongodb'
+import { getRandomInt } from '../../../utilities'
 
 export const CreateEssayInput = inputObjectType({
   name: 'CreateEssayInput',
   definition(t) {
-    t.field('topic', { type: TopicInput, required: true })
+    t.list.field('topicList', { type: TopicInput, required: true })
     t.field('readings', { type: ReadingsInput, required: true })
     t.list.id('assignedCourseId', { required: true })
     t.id('associatedLessonId', { required: true })
-    // t.list.string('hasOwner', { required: true })
     t.string('hasAssignerId', { required: true })
     t.int('maxPoints', { required: true })
     t.field('markingPeriod', { type: MarkingPeriodEnum, required: true })
     t.date('dueDate', { required: true })
     t.date('assignedDate', { required: true })
+  },
+})
+
+export const TopicTypeInput = inputObjectType({
+  name: 'TopicTypeInput',
+  definition(t) {
+    t.field('writingLevel', { type: WritingLevelType })
   },
 })
 
@@ -34,7 +41,7 @@ export const CreateEssay = mutationField('createEssay', {
     _,
     {
       input: {
-        topic,
+        topicList,
         readings,
         assignedCourseId,
         hasAssignerId,
@@ -43,11 +50,13 @@ export const CreateEssay = mutationField('createEssay', {
         markingPeriod,
         dueDate,
         assignedDate,
+        // sections,
       },
     },
-    { assignmentData, userData }
+    { assignmentData, userData, lessonData, studentData }
   ) {
     console.log(new Date().toISOString())
+
     const beginningValue = [
       {
         type: 'paragraph',
@@ -63,19 +72,42 @@ export const CreateEssay = mutationField('createEssay', {
     const newEssays: NexusGenRootTypes['Essay'][] = []
 
     for (const _id of assignedCourseId) {
-      const students = await userData
+      const students: NexusGenRootTypes['Student'][] = await userData
         .find({
           'inCourses._id': new ObjectId(_id),
         })
         .toArray()
+
       students.forEach((student: NexusGenRootTypes['Student']) => {
         studentList.push(student)
       })
     }
+    const lesson: NexusGenRootTypes['Lesson'] = await lessonData.findOne({
+      _id: associatedLessonId,
+    })
+    const sectionNames =
+      lesson.assignedSections.startingSection ===
+      lesson.assignedSections.endingSection
+        ? `${lesson.assignedSections.startingSection}`
+        : `${lesson.assignedSections.startingSection} - ${lesson.assignedSections.endingSection}`
 
     for (const student of studentList) {
+      const writingMetric: NexusGenRootTypes['WritingMetrics'] = await studentData.findOne(
+        {
+          'student._id': student._id,
+          overallWritingMetric: { $exists: true },
+        }
+      )
+
+      const individualTopic: NexusGenRootTypes['Topic'][] = topicList.filter(
+        (topic: NexusGenRootTypes['Topic']) =>
+          topic.writingLevel ===
+          writingMetric.overallWritingMetric.overallWritingLevel
+      )
+
       const newEssay: NexusGenRootTypes['Essay'] = {
-        topic,
+        topic: individualTopic[getRandomInt(individualTopic.length)],
+        sections: sectionNames,
         assigned: false,
         assignedDate,
         associatedLessonId,
