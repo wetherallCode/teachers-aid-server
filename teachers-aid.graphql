@@ -77,7 +77,6 @@ interface Assignment {
   markingPeriod: String!
   readings: Readings!
   score: Score!
-  sections: String!
 }
 
 input ChangeVocabWordInput {
@@ -255,7 +254,6 @@ type Essay implements Assignment {
   markingPeriod: String!
   readings: Readings!
   score: Score!
-  sections: String!
   topic: Topic!
   workingDraft: WorkingDraft!
 }
@@ -628,7 +626,6 @@ type Reading_Guide implements Assignment {
   markingPeriod: String!
   readings: Readings!
   score: Score!
-  sections: String!
 }
 
 type Readings {
@@ -808,7 +805,6 @@ type Test implements Assignment {
   markingPeriod: String!
   readings: Readings!
   score: Score!
-  sections: String!
   testName: String!
 }
 

@@ -418,7 +418,6 @@ export interface NexusGenRootTypes {
     markingPeriod: string; // String!
     readings: NexusGenRootTypes['Readings']; // Readings!
     score: NexusGenRootTypes['Score']; // Score!
-    sections: string; // String!
     topic: NexusGenRootTypes['Topic']; // Topic!
     workingDraft: NexusGenRootTypes['WorkingDraft']; // WorkingDraft!
   }
@@ -565,7 +564,6 @@ export interface NexusGenRootTypes {
     markingPeriod: string; // String!
     readings: NexusGenRootTypes['Readings']; // Readings!
     score: NexusGenRootTypes['Score']; // Score!
-    sections: string; // String!
   }
   Readings: { // root type
     readingPages: string; // String!
@@ -657,7 +655,6 @@ export interface NexusGenRootTypes {
     markingPeriod: string; // String!
     readings: NexusGenRootTypes['Readings']; // Readings!
     score: NexusGenRootTypes['Score']; // Score!
-    sections: string; // String!
     testName: string; // String!
   }
   Text: { // root type
@@ -914,7 +911,6 @@ export interface NexusGenFieldTypes {
     markingPeriod: string; // String!
     readings: NexusGenRootTypes['Readings']; // Readings!
     score: NexusGenRootTypes['Score']; // Score!
-    sections: string; // String!
     topic: NexusGenRootTypes['Topic']; // Topic!
     workingDraft: NexusGenRootTypes['WorkingDraft']; // WorkingDraft!
   }
@@ -1115,7 +1111,6 @@ export interface NexusGenFieldTypes {
     markingPeriod: string; // String!
     readings: NexusGenRootTypes['Readings']; // Readings!
     score: NexusGenRootTypes['Score']; // Score!
-    sections: string; // String!
   }
   Readings: { // field return type
     readingPages: string; // String!
@@ -1214,7 +1209,6 @@ export interface NexusGenFieldTypes {
     markingPeriod: string; // String!
     readings: NexusGenRootTypes['Readings']; // Readings!
     score: NexusGenRootTypes['Score']; // Score!
-    sections: string; // String!
     testName: string; // String!
   }
   Text: { // field return type
@@ -1311,7 +1305,6 @@ export interface NexusGenFieldTypes {
     markingPeriod: string; // String!
     readings: NexusGenRootTypes['Readings']; // Readings!
     score: NexusGenRootTypes['Score']; // Score!
-    sections: string; // String!
   }
   ProgressMetrics: { // field return type
     _id: string | null; // ID

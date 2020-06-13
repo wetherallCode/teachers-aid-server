@@ -10,7 +10,7 @@ export const Assignment = interfaceType({
     t.field('score', { type: Score })
     t.string('markingPeriod')
     t.id('associatedLessonId')
-    t.string('sections')
+
     t.date('assignedDate')
     t.boolean('assigned')
     t.date('dueDate')

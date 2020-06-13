@@ -53,7 +53,7 @@ export const CreateEssay = mutationField('createEssay', {
         // sections,
       },
     },
-    { assignmentData, userData, lessonData, studentData }
+    { assignmentData, userData, studentData }
   ) {
     console.log(new Date().toISOString())
 
@@ -69,7 +69,6 @@ export const CreateEssay = mutationField('createEssay', {
     })
 
     const studentList: NexusGenRootTypes['Student'][] = []
-    const newEssays: NexusGenRootTypes['Essay'][] = []
 
     for (const _id of assignedCourseId) {
       const students: NexusGenRootTypes['Student'][] = await userData
@@ -82,14 +81,7 @@ export const CreateEssay = mutationField('createEssay', {
         studentList.push(student)
       })
     }
-    const lesson: NexusGenRootTypes['Lesson'] = await lessonData.findOne({
-      _id: associatedLessonId,
-    })
-    const sectionNames =
-      lesson.assignedSections.startingSection ===
-      lesson.assignedSections.endingSection
-        ? `${lesson.assignedSections.startingSection}`
-        : `${lesson.assignedSections.startingSection} - ${lesson.assignedSections.endingSection}`
+    const newEssays: NexusGenRootTypes['Essay'][] = []
 
     for (const student of studentList) {
       const writingMetric: NexusGenRootTypes['WritingMetrics'] = await studentData.findOne(
@@ -107,7 +99,7 @@ export const CreateEssay = mutationField('createEssay', {
 
       const newEssay: NexusGenRootTypes['Essay'] = {
         topic: individualTopic[getRandomInt(individualTopic.length)],
-        sections: sectionNames,
+
         assigned: false,
         assignedDate,
         associatedLessonId,
@@ -129,6 +121,7 @@ export const CreateEssay = mutationField('createEssay', {
       newEssay._id = insertedId
       newEssays.push(newEssay)
     }
+
     console.log(new Date().toISOString())
     return { essays: newEssays }
   },
