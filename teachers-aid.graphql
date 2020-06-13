@@ -337,6 +337,14 @@ type FindEssaysByUserNameAndMarkingPeriodPayload {
   essay: [Essay!]
 }
 
+input FindEssaysToCompleteByStudentIdInput {
+  studentId: ID!
+}
+
+type FindEssaysToCompleteByStudentIdPayload {
+  essays: [Essay!]!
+}
+
 input FindLessonByCourseAndDateInput {
   courseId: ID!
   lessonDate: Date!
@@ -591,6 +599,7 @@ type Query {
   findCurrentMarkingPeriod: FindCurrentMarkingPeriodPayload!
   findEssayById(input: FindEssayByIdInput!): FindEssayByIdPayload!
   findEssaysByUserNameAndMarkingPeriod(input: FindEssaysByUserNameAndMarkingPeriodInput!): FindEssaysByUserNameAndMarkingPeriodPayload!
+  findEssaysToCompleteByStudentId(input: FindEssaysToCompleteByStudentIdInput!): FindEssaysToCompleteByStudentIdPayload!
   findLessonByCourse(input: FindLessonByCourseInput!): FindLessonByCoursePayload!
   findLessonByCourseAndDate(input: FindLessonByCourseAndDateInput!): FindLessonByCourseAndDatePayload!
   findLessonById(input: FindLessonByIdInput!): FindLessonByIdPayload!
