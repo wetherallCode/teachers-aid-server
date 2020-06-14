@@ -16,6 +16,7 @@ export const CreateEssayInput = inputObjectType({
     t.int('maxPoints', { required: true })
     t.field('markingPeriod', { type: MarkingPeriodEnum, required: true })
     t.date('dueDate', { required: true })
+    t.string('dueTime', { required: true })
     t.date('assignedDate', { required: true })
   },
 })
@@ -50,7 +51,7 @@ export const CreateEssay = mutationField('createEssay', {
         markingPeriod,
         dueDate,
         assignedDate,
-        // sections,
+        dueTime,
       },
     },
     { assignmentData, userData, studentData }
@@ -99,8 +100,8 @@ export const CreateEssay = mutationField('createEssay', {
 
       const newEssay: NexusGenRootTypes['Essay'] = {
         topic: individualTopic[getRandomInt(individualTopic.length)],
-
         assigned: false,
+        dueTime,
         assignedDate,
         associatedLessonId,
         dueDate,
