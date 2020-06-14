@@ -1,6 +1,6 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { Essay, ReadingsInput, TopicInput } from '.'
-import { MarkingPeriodEnum, WritingLevelType } from '../..'
+import { MarkingPeriodEnum, WritingLevelEnum } from '../..'
 import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
 import { ObjectId } from 'mongodb'
 import { getRandomInt } from '../../../utilities'
@@ -24,7 +24,7 @@ export const CreateEssayInput = inputObjectType({
 export const TopicTypeInput = inputObjectType({
   name: 'TopicTypeInput',
   definition(t) {
-    t.field('writingLevel', { type: WritingLevelType })
+    t.field('writingLevel', { type: WritingLevelEnum })
   },
 })
 

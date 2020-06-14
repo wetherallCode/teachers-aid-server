@@ -45,8 +45,8 @@ export const WritingMetrics = objectType({
   },
 })
 
-export const WritingLevelType = enumType({
-  name: 'WritingLevelType',
+export const WritingLevelEnum = enumType({
+  name: 'WritingLevelEnum',
   members: ['DEVELOPING', 'ACADEMIC', 'ADVANCED'],
 })
 
@@ -54,7 +54,7 @@ export const OverallWritingMetric = objectType({
   name: 'OverallWritingMetric',
   definition(t) {
     t.int('levelPoints')
-    t.field('overallWritingLevel', { type: WritingLevelType })
+    t.field('overallWritingLevel', { type: WritingLevelEnum })
   },
 })
 
@@ -62,7 +62,7 @@ export const HowProblemSolutionMetrics = objectType({
   name: 'HowProblemSolutionMetrics',
   definition(t) {
     t.int('levelPoints')
-    t.field('howProblemSolutionLevel', { type: WritingLevelType })
+    t.field('howProblemSolutionLevel', { type: WritingLevelEnum })
   },
 })
 
@@ -70,7 +70,7 @@ export const HowCauseEffectMetrics = objectType({
   name: 'HowCauseEffectMetrics',
   definition(t) {
     t.int('levelPoints')
-    t.field('howCauseEffectLevel', { type: WritingLevelType })
+    t.field('howCauseEffectLevel', { type: WritingLevelEnum })
   },
 })
 
@@ -78,6 +78,6 @@ export const WhyCauseEffectMetrics = objectType({
   name: 'WhyCauseEffectMetrics',
   definition(t) {
     t.int('levelPoints')
-    t.field('whyCauseEffectLevel', { type: WritingLevelType })
+    t.field('whyCauseEffectLevel', { type: WritingLevelEnum })
   },
 })
