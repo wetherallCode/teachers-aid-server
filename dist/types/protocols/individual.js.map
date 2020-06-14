@@ -1,0 +1,1 @@
+{"version":3,"file":"individual.js","sourceRoot":"","sources":["../../../src/types/protocols/individual.ts"],"names":[],"mappings":";;AAAA,0CAAqC;AACrC,0CAA0C;AAE7B,QAAA,UAAU,GAAG,mBAAU,CAAC;IACnC,IAAI,EAAE,YAAY;IAClB,UAAU,CAAC,CAAC;QACV,CAAC,CAAC,UAAU,CAAC,UAAU,CAAC,CAAA;QACxB,CAAC,CAAC,KAAK,CAAC,SAAS,EAAE,EAAE,IAAI,EAAE,kBAAO,EAAE,CAAC,CAAA;IACvC,CAAC;CACF,CAAC,CAAA"}
