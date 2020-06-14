@@ -70,6 +70,7 @@ interface Assignment {
   assignedDate: Date!
   associatedLessonId: ID!
   dueDate: Date!
+  dueTime: String!
   exempt: Boolean!
   hasAssigner: Teacher!
   hasOwner: Student!
@@ -154,6 +155,7 @@ input CreateEssayInput {
   assignedDate: Date!
   associatedLessonId: ID!
   dueDate: Date!
+  dueTime: String!
   hasAssignerId: String!
   markingPeriod: MarkingPeriodEnum!
   maxPoints: Int!
@@ -246,6 +248,7 @@ type Essay implements Assignment {
   assignedDate: Date!
   associatedLessonId: ID!
   dueDate: Date!
+  dueTime: String!
   exempt: Boolean!
   finalDraft: FinalDraftContainer
   hasAssigner: Teacher!
@@ -553,6 +556,7 @@ type Mutation {
   returnGradedEssay(input: ReturnGradedEssayInput!): ReturnGradedEssayPayload!
   setCurrentMarkingPeriod(input: SetCurrentMarkingPeriodInput!): SetCurrentMarkingPeriodPayload!
   submitEssayFinalDraft(input: SubmitEssayFinalDraftInput!): SubmitEssayFinalDraftPayload!
+  updateEssayByLesson(input: UpdateEssayByLessonInput!): UpdateEssayByLessonPayload!
   updateLesson(input: UpdateLessonInput!): UpdateLessonPayload!
   updateResponsibilityPoints(input: UpdateResponsibilityPointsInput!): UpdateResponsibilityPointsPayload!
   updateTextSection(input: UpdateTextSectionInput!): UpdateTextSectionPayload!
@@ -628,6 +632,7 @@ type Reading_Guide implements Assignment {
   associatedLessonId: ID!
   completion: String!
   dueDate: Date!
+  dueTime: String!
   exempt: Boolean!
   hasAssigner: Teacher!
   hasOwner: Student!
@@ -807,6 +812,7 @@ type Test implements Assignment {
   assignedDate: Date!
   associatedLessonId: ID!
   dueDate: Date!
+  dueTime: String!
   exempt: Boolean!
   hasAssigner: Teacher!
   hasOwner: Student!
@@ -926,6 +932,15 @@ type Unit {
 input UnitInput {
   _id: ID!
   unitName: String!
+}
+
+input UpdateEssayByLessonInput {
+  lessonId: ID!
+  markingPeriod: String!
+}
+
+type UpdateEssayByLessonPayload {
+  essays: [Essay!]!
 }
 
 input UpdateLessonInput {
