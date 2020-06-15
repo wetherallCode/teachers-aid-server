@@ -56,11 +56,14 @@ type AddVocabWordPayload {
   textSection: TextSection!
 }
 
-input AssignEssayInput {
-  assigned: Boolean
+input AssignEssaysInput {
+  assignedDate: Date!
+  dueDate: Date!
+  section: String!
+  studentIds: [ID!]!
 }
 
-type AssignEssayPayload {
+type AssignEssaysPayload {
   essays: [Essay!]!
 }
 
@@ -75,7 +78,7 @@ interface Assignment {
   hasAssigner: Teacher!
   hasOwner: Student!
   late: Boolean!
-  markingPeriod: String!
+  markingPeriod: MarkingPeriodEnum!
   readings: Readings!
   score: Score!
 }
@@ -254,7 +257,7 @@ type Essay implements Assignment {
   hasAssigner: Teacher!
   hasOwner: Student!
   late: Boolean!
-  markingPeriod: String!
+  markingPeriod: MarkingPeriodEnum!
   readings: Readings!
   score: Score!
   topic: Topic!
@@ -447,12 +450,12 @@ input HasOwnerInput {
 }
 
 type HowCauseEffectMetrics {
-  howCauseEffectLevel: WritingLevelType!
+  howCauseEffectLevel: WritingLevelEnum!
   levelPoints: Int!
 }
 
 type HowProblemSolutionMetrics {
-  howProblemSolutionLevel: WritingLevelType!
+  howProblemSolutionLevel: WritingLevelEnum!
   levelPoints: Int!
 }
 
@@ -534,6 +537,7 @@ type Mutation {
   addNewText(input: AddNewTextInput!): AddNewTextPayload!
   addStudentsToCourse(input: AddStudentsToCourseInput!): AddStudentsToCoursePayload!
   addVocabWord(input: AddVocabWordInput!): AddVocabWordPayload!
+  assignEssays(input: AssignEssaysInput!): AssignEssaysPayload!
   changeVocabWord(input: ChangeVocabWordInput!): UpdateVocabPayload!
   createAbsence(input: CreateAbsenceInput!): CreateAbsencePayload!
   createCourse(input: CreateCourseInput!): CreateCoursePayload!
@@ -556,7 +560,17 @@ type Mutation {
   returnGradedEssay(input: ReturnGradedEssayInput!): ReturnGradedEssayPayload!
   setCurrentMarkingPeriod(input: SetCurrentMarkingPeriodInput!): SetCurrentMarkingPeriodPayload!
   submitEssayFinalDraft(input: SubmitEssayFinalDraftInput!): SubmitEssayFinalDraftPayload!
-  updateEssayByLesson(input: UpdateEssayByLessonInput!): UpdateEssayByLessonPayload!
+  unAssignEssays(input: UnAssignEssaysInput!): UnAssignEssaysPayload!
+
+  """To change an individual students topic question information or dueDate"""
+  updateEssayByStudent(input: UpdateEssayByStudentInput!): UpdateEssayByStudentPayload!
+
+  """only useful for changing marking period"""
+  updateEssaysByLesson(input: UpdateEssaysByLessonInput!): UpdateEssaysByLessonPayload!
+  updateEssaysByQuestion(input: UpdateEssaysByQuestionInput!): UpdateEssaysByQuestionPayload!
+
+  """For updating an assignment for an entire course(s)"""
+  updateEssaysByStudentsAndSection(input: UpdateEssaysByStudentsAndSectionInput!): UpdateEssaysByStudentsAndSectionPayload!
   updateLesson(input: UpdateLessonInput!): UpdateLessonPayload!
   updateResponsibilityPoints(input: UpdateResponsibilityPointsInput!): UpdateResponsibilityPointsPayload!
   updateTextSection(input: UpdateTextSectionInput!): UpdateTextSectionPayload!
@@ -565,7 +579,7 @@ type Mutation {
 
 type OverallWritingMetric {
   levelPoints: Int!
-  overallWritingLevel: WritingLevelType!
+  overallWritingLevel: WritingLevelEnum!
 }
 
 type PageNumbers {
@@ -637,7 +651,7 @@ type Reading_Guide implements Assignment {
   hasAssigner: Teacher!
   hasOwner: Student!
   late: Boolean!
-  markingPeriod: String!
+  markingPeriod: MarkingPeriodEnum!
   readings: Readings!
   score: Score!
 }
@@ -817,7 +831,7 @@ type Test implements Assignment {
   hasAssigner: Teacher!
   hasOwner: Student!
   late: Boolean!
-  markingPeriod: String!
+  markingPeriod: MarkingPeriodEnum!
   readings: Readings!
   score: Score!
   testName: String!
@@ -903,17 +917,26 @@ enum TitleEnum {
 type Topic {
   question: String!
   questionType: QuestionTypeEnum!
-  writingLevel: WritingLevelType!
+  writingLevel: WritingLevelEnum!
 }
 
 input TopicInput {
   question: String!
   questionType: QuestionTypeEnum!
-  writingLevel: WritingLevelType!
+  writingLevel: WritingLevelEnum!
 }
 
 input TopicTypeInput {
-  writingLevel: WritingLevelType
+  writingLevel: WritingLevelEnum
+}
+
+input UnAssignEssaysInput {
+  section: String!
+  studentIds: [ID!]!
+}
+
+type UnAssignEssaysPayload {
+  essays: [Essay!]!
 }
 
 type UnexcusedLateness {
@@ -934,12 +957,48 @@ input UnitInput {
   unitName: String!
 }
 
-input UpdateEssayByLessonInput {
-  lessonId: ID!
-  markingPeriod: String!
+input UpdateEssayByStudentInput {
+  dueDate: Date!
+  section: String!
+  studentId: ID!
+  topic: TopicInput
 }
 
-type UpdateEssayByLessonPayload {
+type UpdateEssayByStudentPayload {
+  essay: Essay!
+}
+
+input UpdateEssaysByLessonInput {
+  lessonId: ID!
+  markingPeriod: MarkingPeriodEnum!
+}
+
+type UpdateEssaysByLessonPayload {
+  essays: [Essay!]!
+}
+
+input UpdateEssaysByQuestionInput {
+  newQuestion: String!
+  newQuestionType: QuestionTypeEnum!
+  newWritingLevel: WritingLevelEnum!
+  originalQuestion: String!
+}
+
+type UpdateEssaysByQuestionPayload {
+  essays: [Essay!]!
+}
+
+input UpdateEssaysByStudentsAndSectionInput {
+  assignedDate: Date!
+  dueDate: Date!
+  dueTime: String!
+  markingPeriod: MarkingPeriodEnum
+  maxPoints: Int!
+  section: String!
+  studentId: [ID!]!
+}
+
+type UpdateEssaysByStudentsAndSectionPayload {
   essays: [Essay!]!
 }
 
@@ -1012,14 +1071,14 @@ interface User {
 
 type WhyCauseEffectMetrics {
   levelPoints: Int!
-  whyCauseEffectLevel: WritingLevelType!
+  whyCauseEffectLevel: WritingLevelEnum!
 }
 
 type WorkingDraft {
   draft: JSON!
 }
 
-enum WritingLevelType {
+enum WritingLevelEnum {
   ACADEMIC
   ADVANCED
   DEVELOPING

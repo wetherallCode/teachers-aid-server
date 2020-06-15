@@ -51,8 +51,11 @@ export interface NexusGenInputs {
     position: number; // Int!
     word: string; // String!
   }
-  AssignEssayInput: { // input type
-    assigned?: boolean | null; // Boolean
+  AssignEssaysInput: { // input type
+    assignedDate: any; // Date!
+    dueDate: any; // Date!
+    section: string; // String!
+    studentIds: string[]; // [ID!]!
   }
   ChangeVocabWordInput: { // input type
     _id: string; // ID!
@@ -285,18 +288,43 @@ export interface NexusGenInputs {
   TopicInput: { // input type
     question: string; // String!
     questionType: NexusGenEnums['QuestionTypeEnum']; // QuestionTypeEnum!
-    writingLevel: NexusGenEnums['WritingLevelType']; // WritingLevelType!
+    writingLevel: NexusGenEnums['WritingLevelEnum']; // WritingLevelEnum!
   }
   TopicTypeInput: { // input type
-    writingLevel?: NexusGenEnums['WritingLevelType'] | null; // WritingLevelType
+    writingLevel?: NexusGenEnums['WritingLevelEnum'] | null; // WritingLevelEnum
+  }
+  UnAssignEssaysInput: { // input type
+    section: string; // String!
+    studentIds: string[]; // [ID!]!
   }
   UnitInput: { // input type
     _id: string; // ID!
     unitName: string; // String!
   }
-  UpdateEssayByLessonInput: { // input type
+  UpdateEssayByStudentInput: { // input type
+    dueDate: any; // Date!
+    section: string; // String!
+    studentId: string; // ID!
+    topic?: NexusGenInputs['TopicInput'] | null; // TopicInput
+  }
+  UpdateEssaysByLessonInput: { // input type
     lessonId: string; // ID!
-    markingPeriod: string; // String!
+    markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
+  }
+  UpdateEssaysByQuestionInput: { // input type
+    newQuestion: string; // String!
+    newQuestionType: NexusGenEnums['QuestionTypeEnum']; // QuestionTypeEnum!
+    newWritingLevel: NexusGenEnums['WritingLevelEnum']; // WritingLevelEnum!
+    originalQuestion: string; // String!
+  }
+  UpdateEssaysByStudentsAndSectionInput: { // input type
+    assignedDate: any; // Date!
+    dueDate: any; // Date!
+    dueTime: string; // String!
+    markingPeriod?: NexusGenEnums['MarkingPeriodEnum'] | null; // MarkingPeriodEnum
+    maxPoints: number; // Int!
+    section: string; // String!
+    studentId: string[]; // [ID!]!
   }
   UpdateLessonInput: { // input type
     afterActivity: NexusGenInputs['TextSectionProtocolsInput']; // TextSectionProtocolsInput!
@@ -341,7 +369,7 @@ export interface NexusGenEnums {
   ProtocolActivityTypes: "INDIVIDUAL" | "THINK_PAIR_SHARE"
   QuestionTypeEnum: "HOW_CAUSE_EFFECT" | "HOW_PROBLEM_SOLUTION" | "WHY_CAUSE_EFFECT"
   TitleEnum: "MISS" | "MR" | "MRS" | "MS"
-  WritingLevelType: "ACADEMIC" | "ADVANCED" | "DEVELOPING"
+  WritingLevelEnum: "ACADEMIC" | "ADVANCED" | "DEVELOPING"
 }
 
 export interface NexusGenRootTypes {
@@ -360,7 +388,7 @@ export interface NexusGenRootTypes {
   AddVocabWordPayload: { // root type
     textSection: NexusGenRootTypes['TextSection']; // TextSection!
   }
-  AssignEssayPayload: { // root type
+  AssignEssaysPayload: { // root type
     essays: NexusGenRootTypes['Essay'][]; // [Essay!]!
   }
   Chapter: { // root type
@@ -424,7 +452,7 @@ export interface NexusGenRootTypes {
     hasAssigner: NexusGenRootTypes['Teacher']; // Teacher!
     hasOwner: NexusGenRootTypes['Student']; // Student!
     late: boolean; // Boolean!
-    markingPeriod: string; // String!
+    markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
     readings: NexusGenRootTypes['Readings']; // Readings!
     score: NexusGenRootTypes['Score']; // Score!
     topic: NexusGenRootTypes['Topic']; // Topic!
@@ -506,11 +534,11 @@ export interface NexusGenRootTypes {
     user: NexusGenRootTypes['User']; // User!
   }
   HowCauseEffectMetrics: { // root type
-    howCauseEffectLevel: NexusGenEnums['WritingLevelType']; // WritingLevelType!
+    howCauseEffectLevel: NexusGenEnums['WritingLevelEnum']; // WritingLevelEnum!
     levelPoints: number; // Int!
   }
   HowProblemSolutionMetrics: { // root type
-    howProblemSolutionLevel: NexusGenEnums['WritingLevelType']; // WritingLevelType!
+    howProblemSolutionLevel: NexusGenEnums['WritingLevelEnum']; // WritingLevelEnum!
     levelPoints: number; // Int!
   }
   Individual: { // root type
@@ -555,7 +583,7 @@ export interface NexusGenRootTypes {
   Mutation: {};
   OverallWritingMetric: { // root type
     levelPoints: number; // Int!
-    overallWritingLevel: NexusGenEnums['WritingLevelType']; // WritingLevelType!
+    overallWritingLevel: NexusGenEnums['WritingLevelEnum']; // WritingLevelEnum!
   }
   PageNumbers: { // root type
     endingPage: number; // Int!
@@ -574,7 +602,7 @@ export interface NexusGenRootTypes {
     hasAssigner: NexusGenRootTypes['Teacher']; // Teacher!
     hasOwner: NexusGenRootTypes['Student']; // Student!
     late: boolean; // Boolean!
-    markingPeriod: string; // String!
+    markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
     readings: NexusGenRootTypes['Readings']; // Readings!
     score: NexusGenRootTypes['Score']; // Score!
   }
@@ -666,7 +694,7 @@ export interface NexusGenRootTypes {
     hasAssigner: NexusGenRootTypes['Teacher']; // Teacher!
     hasOwner: NexusGenRootTypes['Student']; // Student!
     late: boolean; // Boolean!
-    markingPeriod: string; // String!
+    markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
     readings: NexusGenRootTypes['Readings']; // Readings!
     score: NexusGenRootTypes['Score']; // Score!
     testName: string; // String!
@@ -708,7 +736,10 @@ export interface NexusGenRootTypes {
   Topic: { // root type
     question: string; // String!
     questionType: NexusGenEnums['QuestionTypeEnum']; // QuestionTypeEnum!
-    writingLevel: NexusGenEnums['WritingLevelType']; // WritingLevelType!
+    writingLevel: NexusGenEnums['WritingLevelEnum']; // WritingLevelEnum!
+  }
+  UnAssignEssaysPayload: { // root type
+    essays: NexusGenRootTypes['Essay'][]; // [Essay!]!
   }
   UnexcusedLateness: { // root type
     _id?: string | null; // ID
@@ -720,7 +751,16 @@ export interface NexusGenRootTypes {
     _id?: string | null; // ID
     unitName: string; // String!
   }
-  UpdateEssayByLessonPayload: { // root type
+  UpdateEssayByStudentPayload: { // root type
+    essay: NexusGenRootTypes['Essay']; // Essay!
+  }
+  UpdateEssaysByLessonPayload: { // root type
+    essays: NexusGenRootTypes['Essay'][]; // [Essay!]!
+  }
+  UpdateEssaysByQuestionPayload: { // root type
+    essays: NexusGenRootTypes['Essay'][]; // [Essay!]!
+  }
+  UpdateEssaysByStudentsAndSectionPayload: { // root type
     essays: NexusGenRootTypes['Essay'][]; // [Essay!]!
   }
   UpdateLessonPayload: { // root type
@@ -740,7 +780,7 @@ export interface NexusGenRootTypes {
   }
   WhyCauseEffectMetrics: { // root type
     levelPoints: number; // Int!
-    whyCauseEffectLevel: NexusGenEnums['WritingLevelType']; // WritingLevelType!
+    whyCauseEffectLevel: NexusGenEnums['WritingLevelEnum']; // WritingLevelEnum!
   }
   WorkingDraft: { // root type
     draft: any; // JSON!
@@ -774,7 +814,7 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
   AddNewTextInput: NexusGenInputs['AddNewTextInput'];
   AddStudentsToCourseInput: NexusGenInputs['AddStudentsToCourseInput'];
   AddVocabWordInput: NexusGenInputs['AddVocabWordInput'];
-  AssignEssayInput: NexusGenInputs['AssignEssayInput'];
+  AssignEssaysInput: NexusGenInputs['AssignEssaysInput'];
   ChangeVocabWordInput: NexusGenInputs['ChangeVocabWordInput'];
   CourseInput: NexusGenInputs['CourseInput'];
   CreateAbsenceInput: NexusGenInputs['CreateAbsenceInput'];
@@ -829,8 +869,12 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
   TextSectionVocabInput: NexusGenInputs['TextSectionVocabInput'];
   TopicInput: NexusGenInputs['TopicInput'];
   TopicTypeInput: NexusGenInputs['TopicTypeInput'];
+  UnAssignEssaysInput: NexusGenInputs['UnAssignEssaysInput'];
   UnitInput: NexusGenInputs['UnitInput'];
-  UpdateEssayByLessonInput: NexusGenInputs['UpdateEssayByLessonInput'];
+  UpdateEssayByStudentInput: NexusGenInputs['UpdateEssayByStudentInput'];
+  UpdateEssaysByLessonInput: NexusGenInputs['UpdateEssaysByLessonInput'];
+  UpdateEssaysByQuestionInput: NexusGenInputs['UpdateEssaysByQuestionInput'];
+  UpdateEssaysByStudentsAndSectionInput: NexusGenInputs['UpdateEssaysByStudentsAndSectionInput'];
   UpdateLessonInput: NexusGenInputs['UpdateLessonInput'];
   UpdateResponsibilityPointsInput: NexusGenInputs['UpdateResponsibilityPointsInput'];
   UpdateTextSectionInput: NexusGenInputs['UpdateTextSectionInput'];
@@ -841,7 +885,7 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
   ProtocolActivityTypes: NexusGenEnums['ProtocolActivityTypes'];
   QuestionTypeEnum: NexusGenEnums['QuestionTypeEnum'];
   TitleEnum: NexusGenEnums['TitleEnum'];
-  WritingLevelType: NexusGenEnums['WritingLevelType'];
+  WritingLevelEnum: NexusGenEnums['WritingLevelEnum'];
 }
 
 export interface NexusGenFieldTypes {
@@ -860,7 +904,7 @@ export interface NexusGenFieldTypes {
   AddVocabWordPayload: { // field return type
     textSection: NexusGenRootTypes['TextSection']; // TextSection!
   }
-  AssignEssayPayload: { // field return type
+  AssignEssaysPayload: { // field return type
     essays: NexusGenRootTypes['Essay'][]; // [Essay!]!
   }
   Chapter: { // field return type
@@ -928,7 +972,7 @@ export interface NexusGenFieldTypes {
     hasAssigner: NexusGenRootTypes['Teacher']; // Teacher!
     hasOwner: NexusGenRootTypes['Student']; // Student!
     late: boolean; // Boolean!
-    markingPeriod: string; // String!
+    markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
     readings: NexusGenRootTypes['Readings']; // Readings!
     score: NexusGenRootTypes['Score']; // Score!
     topic: NexusGenRootTypes['Topic']; // Topic!
@@ -1010,11 +1054,11 @@ export interface NexusGenFieldTypes {
     user: NexusGenRootTypes['User']; // User!
   }
   HowCauseEffectMetrics: { // field return type
-    howCauseEffectLevel: NexusGenEnums['WritingLevelType']; // WritingLevelType!
+    howCauseEffectLevel: NexusGenEnums['WritingLevelEnum']; // WritingLevelEnum!
     levelPoints: number; // Int!
   }
   HowProblemSolutionMetrics: { // field return type
-    howProblemSolutionLevel: NexusGenEnums['WritingLevelType']; // WritingLevelType!
+    howProblemSolutionLevel: NexusGenEnums['WritingLevelEnum']; // WritingLevelEnum!
     levelPoints: number; // Int!
   }
   Individual: { // field return type
@@ -1062,6 +1106,7 @@ export interface NexusGenFieldTypes {
     addNewText: NexusGenRootTypes['AddNewTextPayload']; // AddNewTextPayload!
     addStudentsToCourse: NexusGenRootTypes['AddStudentsToCoursePayload']; // AddStudentsToCoursePayload!
     addVocabWord: NexusGenRootTypes['AddVocabWordPayload']; // AddVocabWordPayload!
+    assignEssays: NexusGenRootTypes['AssignEssaysPayload']; // AssignEssaysPayload!
     changeVocabWord: NexusGenRootTypes['UpdateVocabPayload']; // UpdateVocabPayload!
     createAbsence: NexusGenRootTypes['CreateAbsencePayload']; // CreateAbsencePayload!
     createCourse: NexusGenRootTypes['CreateCoursePayload']; // CreateCoursePayload!
@@ -1084,7 +1129,11 @@ export interface NexusGenFieldTypes {
     returnGradedEssay: NexusGenRootTypes['ReturnGradedEssayPayload']; // ReturnGradedEssayPayload!
     setCurrentMarkingPeriod: NexusGenRootTypes['SetCurrentMarkingPeriodPayload']; // SetCurrentMarkingPeriodPayload!
     submitEssayFinalDraft: NexusGenRootTypes['SubmitEssayFinalDraftPayload']; // SubmitEssayFinalDraftPayload!
-    updateEssayByLesson: NexusGenRootTypes['UpdateEssayByLessonPayload']; // UpdateEssayByLessonPayload!
+    unAssignEssays: NexusGenRootTypes['UnAssignEssaysPayload']; // UnAssignEssaysPayload!
+    updateEssayByStudent: NexusGenRootTypes['UpdateEssayByStudentPayload']; // UpdateEssayByStudentPayload!
+    updateEssaysByLesson: NexusGenRootTypes['UpdateEssaysByLessonPayload']; // UpdateEssaysByLessonPayload!
+    updateEssaysByQuestion: NexusGenRootTypes['UpdateEssaysByQuestionPayload']; // UpdateEssaysByQuestionPayload!
+    updateEssaysByStudentsAndSection: NexusGenRootTypes['UpdateEssaysByStudentsAndSectionPayload']; // UpdateEssaysByStudentsAndSectionPayload!
     updateLesson: NexusGenRootTypes['UpdateLessonPayload']; // UpdateLessonPayload!
     updateResponsibilityPoints: NexusGenRootTypes['UpdateResponsibilityPointsPayload']; // UpdateResponsibilityPointsPayload!
     updateTextSection: NexusGenRootTypes['UpdateTextSectionPayload']; // UpdateTextSectionPayload!
@@ -1092,7 +1141,7 @@ export interface NexusGenFieldTypes {
   }
   OverallWritingMetric: { // field return type
     levelPoints: number; // Int!
-    overallWritingLevel: NexusGenEnums['WritingLevelType']; // WritingLevelType!
+    overallWritingLevel: NexusGenEnums['WritingLevelEnum']; // WritingLevelEnum!
   }
   PageNumbers: { // field return type
     endingPage: number; // Int!
@@ -1134,7 +1183,7 @@ export interface NexusGenFieldTypes {
     hasAssigner: NexusGenRootTypes['Teacher']; // Teacher!
     hasOwner: NexusGenRootTypes['Student']; // Student!
     late: boolean; // Boolean!
-    markingPeriod: string; // String!
+    markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
     readings: NexusGenRootTypes['Readings']; // Readings!
     score: NexusGenRootTypes['Score']; // Score!
   }
@@ -1233,7 +1282,7 @@ export interface NexusGenFieldTypes {
     hasAssigner: NexusGenRootTypes['Teacher']; // Teacher!
     hasOwner: NexusGenRootTypes['Student']; // Student!
     late: boolean; // Boolean!
-    markingPeriod: string; // String!
+    markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
     readings: NexusGenRootTypes['Readings']; // Readings!
     score: NexusGenRootTypes['Score']; // Score!
     testName: string; // String!
@@ -1276,7 +1325,10 @@ export interface NexusGenFieldTypes {
   Topic: { // field return type
     question: string; // String!
     questionType: NexusGenEnums['QuestionTypeEnum']; // QuestionTypeEnum!
-    writingLevel: NexusGenEnums['WritingLevelType']; // WritingLevelType!
+    writingLevel: NexusGenEnums['WritingLevelEnum']; // WritingLevelEnum!
+  }
+  UnAssignEssaysPayload: { // field return type
+    essays: NexusGenRootTypes['Essay'][]; // [Essay!]!
   }
   UnexcusedLateness: { // field return type
     _id: string | null; // ID
@@ -1289,7 +1341,16 @@ export interface NexusGenFieldTypes {
     hasLessons: NexusGenRootTypes['Lesson'][]; // [Lesson!]!
     unitName: string; // String!
   }
-  UpdateEssayByLessonPayload: { // field return type
+  UpdateEssayByStudentPayload: { // field return type
+    essay: NexusGenRootTypes['Essay']; // Essay!
+  }
+  UpdateEssaysByLessonPayload: { // field return type
+    essays: NexusGenRootTypes['Essay'][]; // [Essay!]!
+  }
+  UpdateEssaysByQuestionPayload: { // field return type
+    essays: NexusGenRootTypes['Essay'][]; // [Essay!]!
+  }
+  UpdateEssaysByStudentsAndSectionPayload: { // field return type
     essays: NexusGenRootTypes['Essay'][]; // [Essay!]!
   }
   UpdateLessonPayload: { // field return type
@@ -1309,7 +1370,7 @@ export interface NexusGenFieldTypes {
   }
   WhyCauseEffectMetrics: { // field return type
     levelPoints: number; // Int!
-    whyCauseEffectLevel: NexusGenEnums['WritingLevelType']; // WritingLevelType!
+    whyCauseEffectLevel: NexusGenEnums['WritingLevelEnum']; // WritingLevelEnum!
   }
   WorkingDraft: { // field return type
     draft: any; // JSON!
@@ -1333,7 +1394,7 @@ export interface NexusGenFieldTypes {
     hasAssigner: NexusGenRootTypes['Teacher']; // Teacher!
     hasOwner: NexusGenRootTypes['Student']; // Student!
     late: boolean; // Boolean!
-    markingPeriod: string; // String!
+    markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
     readings: NexusGenRootTypes['Readings']; // Readings!
     score: NexusGenRootTypes['Score']; // Score!
   }
@@ -1372,6 +1433,9 @@ export interface NexusGenArgTypes {
     }
     addVocabWord: { // args
       input: NexusGenInputs['AddVocabWordInput']; // AddVocabWordInput!
+    }
+    assignEssays: { // args
+      input: NexusGenInputs['AssignEssaysInput']; // AssignEssaysInput!
     }
     changeVocabWord: { // args
       input: NexusGenInputs['ChangeVocabWordInput']; // ChangeVocabWordInput!
@@ -1436,8 +1500,20 @@ export interface NexusGenArgTypes {
     submitEssayFinalDraft: { // args
       input: NexusGenInputs['SubmitEssayFinalDraftInput']; // SubmitEssayFinalDraftInput!
     }
-    updateEssayByLesson: { // args
-      input: NexusGenInputs['UpdateEssayByLessonInput']; // UpdateEssayByLessonInput!
+    unAssignEssays: { // args
+      input: NexusGenInputs['UnAssignEssaysInput']; // UnAssignEssaysInput!
+    }
+    updateEssayByStudent: { // args
+      input: NexusGenInputs['UpdateEssayByStudentInput']; // UpdateEssayByStudentInput!
+    }
+    updateEssaysByLesson: { // args
+      input: NexusGenInputs['UpdateEssaysByLessonInput']; // UpdateEssaysByLessonInput!
+    }
+    updateEssaysByQuestion: { // args
+      input: NexusGenInputs['UpdateEssaysByQuestionInput']; // UpdateEssaysByQuestionInput!
+    }
+    updateEssaysByStudentsAndSection: { // args
+      input: NexusGenInputs['UpdateEssaysByStudentsAndSectionInput']; // UpdateEssaysByStudentsAndSectionInput!
     }
     updateLesson: { // args
       input: NexusGenInputs['UpdateLessonInput']; // UpdateLessonInput!
@@ -1519,11 +1595,11 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "AddCourseToTeacherPayload" | "AddNewChapterPayload" | "AddNewTextPayload" | "AddStudentsToCoursePayload" | "AddVocabWordPayload" | "AssignEssayPayload" | "Chapter" | "ComprehensionMetrics" | "ContactInfo" | "Course" | "CreateAbsencePayload" | "CreateCoursePayload" | "CreateEssayPayload" | "CreateExcusedLatenessPayload" | "CreateLessonPayload" | "CreateResponsibilityPointsPayload" | "CreateTextSectionPayload" | "CreateUnexcusedLatenessPayload" | "CreateUnitPayload" | "Essay" | "ExcusedLateness" | "FinalDraftContainer" | "FindAssignmentsToGradePayload" | "FindChapterTitlePayload" | "FindChaptersInTextPayload" | "FindCourseByIdPayload" | "FindCoursesByIdPayload" | "FindCurrentMarkingPeriodPayload" | "FindEssayByIdPayload" | "FindEssaysByUserNameAndMarkingPeriodPayload" | "FindEssaysToCompleteByStudentIdPayload" | "FindLessonByCourseAndDatePayload" | "FindLessonByCoursePayload" | "FindLessonByIdPayload" | "FindLessonsByUnitPayload" | "FindStudentsByIdPayload" | "FindTextByTitlePayload" | "FindTextSectionByIdPayload" | "FindTextSectionsByChapterPayload" | "FindTextSectionsByIdPayload" | "FindTextsPayload" | "FindUnitsPayload" | "FindUserDataPayload" | "HowCauseEffectMetrics" | "HowProblemSolutionMetrics" | "Individual" | "InitializeStudentsPayload" | "Lesson" | "LessonTextSections" | "LoginPayload" | "MarkingPeriod" | "Mutation" | "OverallWritingMetric" | "PageNumbers" | "Query" | "Reading_Guide" | "Readings" | "RegisterStudentPayload" | "RegisterTeacherPayload" | "RemoveAbsencePayload" | "RemoveLatenessPayload" | "RemoveStudentsFromCoursePayload" | "RemoveTextSectionPayload" | "ResponsibilityPoints" | "ReturnGradedEssayPayload" | "Score" | "SetCurrentMarkingPeriodPayload" | "Student" | "StudentAbsence" | "StudentInformation" | "SubmitEssayFinalDraftPayload" | "SubmittedFinalDraft" | "Teacher" | "Test" | "Text" | "TextSection" | "TextSectionProtocols" | "TextSectionQuestions" | "TextSectionVocab" | "ThinkPairShare" | "Topic" | "UnexcusedLateness" | "Unit" | "UpdateEssayByLessonPayload" | "UpdateLessonPayload" | "UpdateResponsibilityPointsPayload" | "UpdateTextSectionPayload" | "UpdateVocabPayload" | "UpdateWorkingDraftPayload" | "WhyCauseEffectMetrics" | "WorkingDraft" | "WritingMetrics";
+export type NexusGenObjectNames = "AddCourseToTeacherPayload" | "AddNewChapterPayload" | "AddNewTextPayload" | "AddStudentsToCoursePayload" | "AddVocabWordPayload" | "AssignEssaysPayload" | "Chapter" | "ComprehensionMetrics" | "ContactInfo" | "Course" | "CreateAbsencePayload" | "CreateCoursePayload" | "CreateEssayPayload" | "CreateExcusedLatenessPayload" | "CreateLessonPayload" | "CreateResponsibilityPointsPayload" | "CreateTextSectionPayload" | "CreateUnexcusedLatenessPayload" | "CreateUnitPayload" | "Essay" | "ExcusedLateness" | "FinalDraftContainer" | "FindAssignmentsToGradePayload" | "FindChapterTitlePayload" | "FindChaptersInTextPayload" | "FindCourseByIdPayload" | "FindCoursesByIdPayload" | "FindCurrentMarkingPeriodPayload" | "FindEssayByIdPayload" | "FindEssaysByUserNameAndMarkingPeriodPayload" | "FindEssaysToCompleteByStudentIdPayload" | "FindLessonByCourseAndDatePayload" | "FindLessonByCoursePayload" | "FindLessonByIdPayload" | "FindLessonsByUnitPayload" | "FindStudentsByIdPayload" | "FindTextByTitlePayload" | "FindTextSectionByIdPayload" | "FindTextSectionsByChapterPayload" | "FindTextSectionsByIdPayload" | "FindTextsPayload" | "FindUnitsPayload" | "FindUserDataPayload" | "HowCauseEffectMetrics" | "HowProblemSolutionMetrics" | "Individual" | "InitializeStudentsPayload" | "Lesson" | "LessonTextSections" | "LoginPayload" | "MarkingPeriod" | "Mutation" | "OverallWritingMetric" | "PageNumbers" | "Query" | "Reading_Guide" | "Readings" | "RegisterStudentPayload" | "RegisterTeacherPayload" | "RemoveAbsencePayload" | "RemoveLatenessPayload" | "RemoveStudentsFromCoursePayload" | "RemoveTextSectionPayload" | "ResponsibilityPoints" | "ReturnGradedEssayPayload" | "Score" | "SetCurrentMarkingPeriodPayload" | "Student" | "StudentAbsence" | "StudentInformation" | "SubmitEssayFinalDraftPayload" | "SubmittedFinalDraft" | "Teacher" | "Test" | "Text" | "TextSection" | "TextSectionProtocols" | "TextSectionQuestions" | "TextSectionVocab" | "ThinkPairShare" | "Topic" | "UnAssignEssaysPayload" | "UnexcusedLateness" | "Unit" | "UpdateEssayByStudentPayload" | "UpdateEssaysByLessonPayload" | "UpdateEssaysByQuestionPayload" | "UpdateEssaysByStudentsAndSectionPayload" | "UpdateLessonPayload" | "UpdateResponsibilityPointsPayload" | "UpdateTextSectionPayload" | "UpdateVocabPayload" | "UpdateWorkingDraftPayload" | "WhyCauseEffectMetrics" | "WorkingDraft" | "WritingMetrics";
 
-export type NexusGenInputNames = "AddCourseToTeacherInput" | "AddNewChapterInput" | "AddNewTextInput" | "AddStudentsToCourseInput" | "AddVocabWordInput" | "AssignEssayInput" | "ChangeVocabWordInput" | "CourseInput" | "CreateAbsenceInput" | "CreateCourseInput" | "CreateEssayInput" | "CreateExcusedLatenessInput" | "CreateLessonInput" | "CreateResponsibilityPointsInput" | "CreateTextSectionInput" | "CreateUnexcusedLatenessInput" | "CreateUnitInput" | "FindAssignmentsToGradeInput" | "FindChapterTitleInput" | "FindChaptersInTextInput" | "FindCourseByIdInput" | "FindCoursesByIdInput" | "FindCurrentMarkingPeriodInput" | "FindEssayByIdInput" | "FindEssaysByUserNameAndMarkingPeriodInput" | "FindEssaysToCompleteByStudentIdInput" | "FindLessonByCourseAndDateInput" | "FindLessonByCourseInput" | "FindLessonByIdInput" | "FindLessonsByUnitInput" | "FindStudentsByIdInput" | "FindTextByTitleInput" | "FindTextSectionByIdInput" | "FindTextSectionsByChapterInput" | "FindTextSectionsByIdInput" | "FindUserDataInput" | "HasAssigner" | "HasOwnerInput" | "InitializeStudentsInput" | "LessonTextSectionsInput" | "LoginInput" | "PageNumbersInput" | "ReadingsInput" | "RegisterStudentInput" | "RegisterTeacherInput" | "RemoveAbsenceInput" | "RemoveLatenessInput" | "RemoveStudentsFromCourseInput" | "RemoveTextSectionInput" | "ReturnGradedEssayInput" | "SetCurrentMarkingPeriodInput" | "SubmitEssayFinalDraftInput" | "SubmittedFinalDraftsInput" | "TextChapterInput" | "TextInput" | "TextSectionProtocolsInput" | "TextSectionQuestionsInput" | "TextSectionVocabInput" | "TopicInput" | "TopicTypeInput" | "UnitInput" | "UpdateEssayByLessonInput" | "UpdateLessonInput" | "UpdateResponsibilityPointsInput" | "UpdateTextSectionInput" | "UpdateWorkingDraftInput";
+export type NexusGenInputNames = "AddCourseToTeacherInput" | "AddNewChapterInput" | "AddNewTextInput" | "AddStudentsToCourseInput" | "AddVocabWordInput" | "AssignEssaysInput" | "ChangeVocabWordInput" | "CourseInput" | "CreateAbsenceInput" | "CreateCourseInput" | "CreateEssayInput" | "CreateExcusedLatenessInput" | "CreateLessonInput" | "CreateResponsibilityPointsInput" | "CreateTextSectionInput" | "CreateUnexcusedLatenessInput" | "CreateUnitInput" | "FindAssignmentsToGradeInput" | "FindChapterTitleInput" | "FindChaptersInTextInput" | "FindCourseByIdInput" | "FindCoursesByIdInput" | "FindCurrentMarkingPeriodInput" | "FindEssayByIdInput" | "FindEssaysByUserNameAndMarkingPeriodInput" | "FindEssaysToCompleteByStudentIdInput" | "FindLessonByCourseAndDateInput" | "FindLessonByCourseInput" | "FindLessonByIdInput" | "FindLessonsByUnitInput" | "FindStudentsByIdInput" | "FindTextByTitleInput" | "FindTextSectionByIdInput" | "FindTextSectionsByChapterInput" | "FindTextSectionsByIdInput" | "FindUserDataInput" | "HasAssigner" | "HasOwnerInput" | "InitializeStudentsInput" | "LessonTextSectionsInput" | "LoginInput" | "PageNumbersInput" | "ReadingsInput" | "RegisterStudentInput" | "RegisterTeacherInput" | "RemoveAbsenceInput" | "RemoveLatenessInput" | "RemoveStudentsFromCourseInput" | "RemoveTextSectionInput" | "ReturnGradedEssayInput" | "SetCurrentMarkingPeriodInput" | "SubmitEssayFinalDraftInput" | "SubmittedFinalDraftsInput" | "TextChapterInput" | "TextInput" | "TextSectionProtocolsInput" | "TextSectionQuestionsInput" | "TextSectionVocabInput" | "TopicInput" | "TopicTypeInput" | "UnAssignEssaysInput" | "UnitInput" | "UpdateEssayByStudentInput" | "UpdateEssaysByLessonInput" | "UpdateEssaysByQuestionInput" | "UpdateEssaysByStudentsAndSectionInput" | "UpdateLessonInput" | "UpdateResponsibilityPointsInput" | "UpdateTextSectionInput" | "UpdateWorkingDraftInput";
 
-export type NexusGenEnumNames = "AcademicOutomeTypes" | "CourseTypeEnum" | "MarkingPeriodEnum" | "ProtocolActivityTypes" | "QuestionTypeEnum" | "TitleEnum" | "WritingLevelType";
+export type NexusGenEnumNames = "AcademicOutomeTypes" | "CourseTypeEnum" | "MarkingPeriodEnum" | "ProtocolActivityTypes" | "QuestionTypeEnum" | "TitleEnum" | "WritingLevelEnum";
 
 export type NexusGenInterfaceNames = "Assignment" | "ProgressMetrics" | "Protocol" | "User";
 
