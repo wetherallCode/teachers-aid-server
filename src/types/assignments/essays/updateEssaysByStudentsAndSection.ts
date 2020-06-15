@@ -10,10 +10,10 @@ export const UpdateEssaysByStudentsAndSectionInput = inputObjectType({
     t.list.id('studentId', { required: true })
     t.string('section', { required: true })
     t.field('markingPeriod', { type: MarkingPeriodEnum })
-    t.string('dueTime')
-    t.date('assignedDate')
-    t.date('dueDate')
-    t.int('maxPoints')
+    t.string('dueTime', { required: true })
+    t.date('assignedDate', { required: true })
+    t.date('dueDate', { required: true })
+    t.int('maxPoints', { required: true })
   },
 })
 
@@ -84,8 +84,6 @@ export const UpdateEssaysByStudentsAndSection = mutationField(
         essays.push(essay)
       }
       return { essays }
-
-      // const essayIds = essayValidation.map((essay) => essay._id) as string[]
     },
   }
 )
