@@ -82,8 +82,9 @@ export const AcademicOutcomeTypes = enumType({
 
 export const QuestionTypeEnum = enumType({
   name: 'QuestionTypeEnum',
-  members: ['HOW_PROBLEM_SOLUTION', 'WHY_CAUSE_EFFECT', 'HOW_CAUSE_EFFECT'],
+  members: ['HOW_PROBLEM_SOLUTION', 'HOW_CAUSE_EFFECT', 'WHY_CAUSE_EFFECT'],
 })
+
 export const TextSectionQuestions = objectType({
   name: 'TextSectionQuestions',
   definition(t) {
