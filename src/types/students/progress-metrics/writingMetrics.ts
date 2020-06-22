@@ -17,8 +17,6 @@ import { Student } from '../students'
 export const WritingMetrics = objectType({
   name: 'WritingMetrics',
   definition(t) {
-    // t.id('_id', { nullable: true })
-    // t.field('student', { type: Student })
     t.typeName
     t.implements('ProgressMetrics')
     t.field('overallWritingMetric', { type: OverallWritingMetric })

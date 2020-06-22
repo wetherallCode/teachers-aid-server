@@ -82,6 +82,7 @@ export const CreateEssay = mutationField('createEssay', {
         studentList.push(student)
       })
     }
+
     const newEssays: NexusGenRootTypes['Essay'][] = []
 
     for (const student of studentList) {

@@ -1,6 +1,7 @@
 import { objectType, inputObjectType, enumType } from '@nexus/schema'
 import { QuestionTypeEnum } from '../..'
 import { WritingLevelEnum } from '../../students'
+import { Organizers } from './organizers'
 
 export const Essay = objectType({
   name: 'Essay',
@@ -41,6 +42,7 @@ export const ReadingsInput = inputObjectType({
 export const WorkingDraft = objectType({
   name: 'WorkingDraft',
   definition(t) {
+    t.field('organizer', { type: Organizers, nullable: true })
     t.JSON('draft')
   },
 })

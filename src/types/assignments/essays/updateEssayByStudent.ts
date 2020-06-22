@@ -47,6 +47,12 @@ export const UpdateEssayByStudent = mutationField('updateEssayByStudent', {
           $set: {
             topic,
             dueDate,
+            'workingDraft.draft': JSON.stringify([
+              {
+                type: 'paragraph',
+                children: [{ text: '' }],
+              },
+            ]),
           },
         }
       )

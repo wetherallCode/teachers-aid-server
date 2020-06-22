@@ -38,6 +38,7 @@ export const SubmitEssayFinalDraft = mutationField('submitEssayFinalDraft', {
       {
         $set: {
           late,
+          assigned: false,
           finalDraft: {
             submittedFinalDraft,
             submitted: true,

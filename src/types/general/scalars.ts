@@ -29,6 +29,7 @@ export const JSONScalar = decorateType(GraphQLJSON, {
   asNexusMethod: 'JSON',
   rootTyping: 'JSON',
 })
+
 // import { GraphQLDate } from 'graphql-iso-date'
 // import { decorateType } from '@nexus/schema'
 
