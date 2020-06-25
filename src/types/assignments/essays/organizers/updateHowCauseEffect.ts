@@ -34,7 +34,6 @@ export const UpdateHowCauseEffect = mutationField('updateHowCauseEffect', {
     const questionTypeCheck: NexusGenRootTypes['Essay'] = await assignmentData.findOne(
       { _id: new ObjectId(essayId) }
     )
-
     const { questionType } = questionTypeCheck.workingDraft
       .organizer! as NexusGenFieldTypes['AcademicOrganizer']
 

@@ -33,7 +33,6 @@ export const UpdateWhyCauseEffect = mutationField('updateWhyCauseEffect', {
     const questionTypeCheck: NexusGenRootTypes['Essay'] = await assignmentData.findOne(
       { _id: new ObjectId(essayId) }
     )
-
     const { questionType } = questionTypeCheck.workingDraft
       .organizer! as NexusGenFieldTypes['AcademicOrganizer']
 
@@ -51,9 +50,10 @@ export const UpdateWhyCauseEffect = mutationField('updateWhyCauseEffect', {
           }
         )
 
-        const essay = await assignmentData.findOne({
+        const essay: NexusGenRootTypes['Essay'] = await assignmentData.findOne({
           _id: new ObjectId(essayId),
         })
+
         return { essay }
       } else throw new Error('Wrong answerType')
     } else throw new Error('There is not question type selected')
