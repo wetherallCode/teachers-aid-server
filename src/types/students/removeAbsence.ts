@@ -23,10 +23,13 @@ export const RemoveAbsence = mutationField('removeAbsence', {
     const absence = await studentData.findOne({ _id: new ObjectId(_id) })
 
     if (absence) {
-      const returnedValue = await studentData.deleteOne({
+      const { deletedCount } = await studentData.deleteOne({
         _id: new ObjectId(_id),
       })
-      return { removed: returnedValue.deletedCount > 0 }
-    } else return { removed: false }
+      if (deletedCount === 1) {
+        return { removed: true }
+      }
+      throw new Error('Something went wrong')
+    } else throw new Error('Absence does not exist!')
   },
 })

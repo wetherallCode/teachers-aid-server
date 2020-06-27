@@ -24,11 +24,12 @@ export const RemoveTextSection = mutationField('removeTextSection', {
       _id: new ObjectID(_id),
     })
     if (doesTextSectionExist) {
-      await textData.deleteOne({
+      const { deletedCount } = await textData.deleteOne({
         _id: new ObjectID(_id),
       })
+      if (deletedCount === 1) {
+        return { removed: true }
+      } else throw new Error('Something went wrong')
     } else throw new Error('Text Section does not exist!')
-
-    return { removed: true }
   },
 })
