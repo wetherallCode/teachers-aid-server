@@ -69,8 +69,8 @@ export interface NexusGenInputs {
   }
   BuildRubricEntryInput: { // input type
     entry: string; // String!
-    rubricCategories: NexusGenEnums['WritingLevelEnum'][]; // [WritingLevelEnum!]!
     rubricSection: NexusGenEnums['RubricSectionEnum']; // RubricSectionEnum!
+    rubricWritingLevels: NexusGenEnums['WritingLevelEnum'][]; // [WritingLevelEnum!]!
     score: number; // Int!
   }
   ChangeVocabWordInput: { // input type
@@ -426,9 +426,9 @@ export interface NexusGenInputs {
   }
   UpdateRubricEntryInput: { // input type
     entry: string; // String!
-    rubricCategories: NexusGenEnums['WritingLevelEnum'][]; // [WritingLevelEnum!]!
     rubricEntryId: string; // ID!
     rubricSection: NexusGenEnums['RubricSectionEnum']; // RubricSectionEnum!
+    rubricWritingLevels: NexusGenEnums['WritingLevelEnum'][]; // [WritingLevelEnum!]!
     score: number; // Int!
   }
   UpdateTextSectionInput: { // input type
@@ -792,8 +792,8 @@ export interface NexusGenRootTypes {
   RubricEntry: { // root type
     _id?: string | null; // ID
     entry: string; // String!
-    rubricCategories: NexusGenEnums['WritingLevelEnum'][]; // [WritingLevelEnum!]!
     rubricSection: NexusGenEnums['RubricSectionEnum']; // RubricSectionEnum!
+    rubricWritingLevels: NexusGenEnums['WritingLevelEnum'][]; // [WritingLevelEnum!]!
     score: number; // Int!
   }
   Score: { // root type
@@ -1508,8 +1508,8 @@ export interface NexusGenFieldTypes {
   RubricEntry: { // field return type
     _id: string | null; // ID
     entry: string; // String!
-    rubricCategories: NexusGenEnums['WritingLevelEnum'][]; // [WritingLevelEnum!]!
     rubricSection: NexusGenEnums['RubricSectionEnum']; // RubricSectionEnum!
+    rubricWritingLevels: NexusGenEnums['WritingLevelEnum'][]; // [WritingLevelEnum!]!
     score: number; // Int!
   }
   Score: { // field return type

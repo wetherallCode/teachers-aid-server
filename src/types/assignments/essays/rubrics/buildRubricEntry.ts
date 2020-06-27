@@ -9,7 +9,10 @@ export const BuildRubricEntryInput = inputObjectType({
     t.string('entry', { required: true })
     t.int('score', { required: true })
     t.field('rubricSection', { type: RubricSectionEnum, required: true })
-    t.list.field('rubricCategories', { type: WritingLevelEnum, required: true })
+    t.list.field('rubricWritingLevels', {
+      type: WritingLevelEnum,
+      required: true,
+    })
   },
 })
 
@@ -25,14 +28,14 @@ export const BuildRubricEntry = mutationField('buildRubricEntry', {
   args: { input: arg({ type: BuildRubricEntryInput, required: true }) },
   async resolve(
     _,
-    { input: { entry, score, rubricSection, rubricCategories } },
+    { input: { entry, score, rubricSection, rubricWritingLevels } },
     { rubricData }
   ) {
     const rubricEntry: NexusGenRootTypes['RubricEntry'] = {
       entry,
       score,
       rubricSection,
-      rubricCategories,
+      rubricWritingLevels,
     }
     const insertedId = await rubricData.insertOne(rubricEntry)
     rubricEntry._id = insertedId
