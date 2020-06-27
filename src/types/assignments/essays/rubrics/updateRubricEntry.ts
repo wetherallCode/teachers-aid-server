@@ -2,6 +2,7 @@ import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { RubricEntry, RubricSectionEnum } from '.'
 import { WritingLevelEnum } from '../../../students/progress-metrics/writingMetrics'
 import { ObjectId } from 'mongodb'
+import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
 
 export const UpdateRubricEntryInput = inputObjectType({
   name: 'UpdateRubricEntryInput',
@@ -29,9 +30,11 @@ export const UpdateRubricEntry = mutationField('updateRubricEntry', {
     { input: { rubricEntryId, entry, score, rubricSection, rubricCategories } },
     { rubricData }
   ) {
-    const entryCheck = await rubricData.findOne({
-      _id: new ObjectId(rubricEntryId),
-    })
+    const entryCheck: NexusGenRootTypes['RubricEntry'] = await rubricData.findOne(
+      {
+        _id: new ObjectId(rubricEntryId),
+      }
+    )
 
     if (entryCheck) {
       await rubricData.updateOne(
@@ -46,9 +49,11 @@ export const UpdateRubricEntry = mutationField('updateRubricEntry', {
         }
       )
     } else throw new Error('This Rubric Entry does not exist')
+
     const rubricEntry = await rubricData.findOne({
       _id: new ObjectId(rubricEntryId),
     })
+
     return { rubricEntry }
   },
 })
