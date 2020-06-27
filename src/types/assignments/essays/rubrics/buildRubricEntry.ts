@@ -20,22 +20,22 @@ export const BuildRubricEntryPayload = objectType({
   },
 })
 
-// export const BuildRubricEntry = mutationField('buildRubricEntry', {
-//   type: BuildRubricEntryPayload,
-//   args: { input: arg({ type: BuildRubricEntryInput, required: true }) },
-//   async resolve(
-//     _,
-//     { input: { entry, score, rubricSection, rubricCategories } },
-//     { rubricData }
-//   ) {
-//     const rubricEntry: NexusGenRootTypes['RubricEntry'] = {
-//       entry,
-//       score,
-//       rubricSection,
-//       rubricCategories,
-//     }
-//     const insertedId = await rubricData.insertOne(rubricEntry)
-//     rubricEntry._id = insertedId
-//     return { rubricEntry }
-//   },
-// })
+export const BuildRubricEntry = mutationField('buildRubricEntry', {
+  type: BuildRubricEntryPayload,
+  args: { input: arg({ type: BuildRubricEntryInput, required: true }) },
+  async resolve(
+    _,
+    { input: { entry, score, rubricSection, rubricCategories } },
+    { rubricData }
+  ) {
+    const rubricEntry: NexusGenRootTypes['RubricEntry'] = {
+      entry,
+      score,
+      rubricSection,
+      rubricCategories,
+    }
+    const insertedId = await rubricData.insertOne(rubricEntry)
+    rubricEntry._id = insertedId
+    return { rubricEntry }
+  },
+})

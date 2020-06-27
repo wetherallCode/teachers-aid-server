@@ -1,5 +1,5 @@
 export * from './rubricEntry'
-export * from './createRubricEntry'
+export * from './buildRubricEntry'
 export * from './updateRubricEntry'
 export * from './removeRubricEntry'
 export * from './findRubricEntries'
