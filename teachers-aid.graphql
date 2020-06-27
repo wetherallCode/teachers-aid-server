@@ -257,6 +257,17 @@ type CreateResponsibilityPointsPayload {
   responsibilityPoints: [ResponsibilityPoints!]!
 }
 
+input CreateRubricEntryInput {
+  entry: String!
+  rubricCategories: [WritingLevelEnum!]!
+  rubricSection: RubricSectionEnum!
+  score: Int!
+}
+
+type CreateRubricEntryPayload {
+  rubricEntry: RubricEntry!
+}
+
 input CreateTextSectionInput {
   fromChapterId: String!
   hasProtocols: [TextSectionProtocolsInput!]!
@@ -424,6 +435,14 @@ type FindEssaysToCompleteByStudentIdPayload {
   essays: [Essay!]!
 }
 
+input FindEssaysToGradeByIdInput {
+  teacherId: ID!
+}
+
+type FindEssaysToGradeByIdPayload {
+  essays: [Essay!]!
+}
+
 input FindLessonByCourseAndDateInput {
   courseId: ID!
   lessonDate: Date!
@@ -456,6 +475,18 @@ input FindLessonsByUnitInput {
 
 type FindLessonsByUnitPayload {
   lessons: [Lesson!]!
+}
+
+input FindRubricEntriesByCategoryInput {
+  rubricCategory: WritingLevelEnum!
+}
+
+type FindRubricEntriesByCategoryPayload {
+  rubricEntries: [RubricEntry!]!
+}
+
+type FindRubricEntriesPayload {
+  rubricEntries: [RubricEntry!]!
 }
 
 input FindStudentsByIdInput {
@@ -624,6 +655,7 @@ type Mutation {
   createExcusedLateness(input: CreateExcusedLatenessInput!): CreateExcusedLatenessPayload!
   createLesson(input: CreateLessonInput!): CreateLessonPayload!
   createResponsibilityPoints(input: CreateResponsibilityPointsInput!): CreateResponsibilityPointsPayload!
+  createRubricEntry(input: CreateRubricEntryInput!): CreateRubricEntryPayload!
   createTextSection(input: CreateTextSectionInput!): CreateTextSectionPayload!
   createUnexcusedLateness(input: CreateUnexcusedLatenessInput!): CreateUnexcusedLatenessPayload!
   createUnit(input: CreateUnitInput!): CreateUnitPayload!
@@ -634,6 +666,7 @@ type Mutation {
   RegisterTeacher(input: RegisterTeacherInput!): RegisterTeacherPayload!
   removeAbsence(input: RemoveAbsenceInput!): RemoveAbsencePayload!
   removeLateness(input: RemoveLatenessInput!): RemoveLatenessPayload!
+  removeRubricEntry(input: RemoveRubricEntryInput!): RemoveRubricEntryPayload!
   removeStudentsFromCourse(input: RemoveStudentsFromCourseInput!): RemoveStudentsFromCoursePayload!
   removeTextSection(input: RemoveTextSectionInput!): RemoveTextSectionPayload!
   returnGradedEssay(input: ReturnGradedEssayInput!): ReturnGradedEssayPayload!
@@ -659,6 +692,7 @@ type Mutation {
   updateLesson(input: UpdateLessonInput!): UpdateLessonPayload!
   updateProblemSolution(input: UpdateProblemSolutionInput!): UpdateProblemSolutionPayload!
   updateResponsibilityPoints(input: UpdateResponsibilityPointsInput!): UpdateResponsibilityPointsPayload!
+  updateRubricEntry(input: UpdateRubricEntryInput!): UpdateRubricEntryPayload!
   updateTextSection(input: UpdateTextSectionInput!): UpdateTextSectionPayload!
   updateWhyCauseEffect(input: UpdateWhyCauseEffectInput!): UpdateWhyCauseEffectPayload!
   updateWorkingDraft(input: UpdateWorkingDraftInput!): UpdateWorkingDraftPayload!
@@ -714,10 +748,13 @@ type Query {
   findEssayById(input: FindEssayByIdInput!): FindEssayByIdPayload!
   findEssaysByUserNameAndMarkingPeriod(input: FindEssaysByUserNameAndMarkingPeriodInput!): FindEssaysByUserNameAndMarkingPeriodPayload!
   findEssaysToCompleteByStudentId(input: FindEssaysToCompleteByStudentIdInput!): FindEssaysToCompleteByStudentIdPayload!
+  findEssaysToGradeById(input: FindEssaysToGradeByIdInput!): FindEssaysToGradeByIdPayload!
   findLessonByCourse(input: FindLessonByCourseInput!): FindLessonByCoursePayload!
   findLessonByCourseAndDate(input: FindLessonByCourseAndDateInput!): FindLessonByCourseAndDatePayload!
   findLessonById(input: FindLessonByIdInput!): FindLessonByIdPayload!
   findLessonsByUnit(input: FindLessonsByUnitInput!): FindLessonsByUnitPayload!
+  findRubricEntries: FindRubricEntriesPayload!
+  findRubricEntriesByCategory(input: FindRubricEntriesByCategoryInput!): FindRubricEntriesByCategoryPayload!
   findStudentsById(input: FindStudentsByIdInput!): FindStudentsByIdPayload!
   findTextByTitle(input: FindTextByTitleInput!): FindTextByTitlePayload!
   findTexts: FindTextsPayload!
@@ -803,6 +840,14 @@ type RemoveLatenessPayload {
   removed: Boolean!
 }
 
+input RemoveRubricEntryInput {
+  rubricEntryId: ID!
+}
+
+type RemoveRubricEntryPayload {
+  removed: Boolean!
+}
+
 input RemoveStudentsFromCourseInput {
   courseId: ID!
   studentIds: [ID!]!
@@ -836,6 +881,22 @@ input ReturnGradedEssayInput {
 
 type ReturnGradedEssayPayload {
   essay: Essay!
+}
+
+type RubricEntry {
+  _id: ID
+  entry: String!
+  rubricCategories: [WritingLevelEnum!]!
+  rubricSection: RubricSectionEnum!
+  score: Int!
+}
+
+enum RubricSectionEnum {
+  ANSWER
+  CONCLUSION
+  GENERAL
+  OVERALL
+  TOPIC
 }
 
 type Score {
@@ -1203,6 +1264,18 @@ input UpdateResponsibilityPointsInput {
 
 type UpdateResponsibilityPointsPayload {
   responsibilityPoints: ResponsibilityPoints!
+}
+
+input UpdateRubricEntryInput {
+  entry: String!
+  rubricCategories: [WritingLevelEnum!]!
+  rubricEntryId: ID!
+  rubricSection: RubricSectionEnum!
+  score: Int!
+}
+
+type UpdateRubricEntryPayload {
+  rubricEntry: RubricEntry!
 }
 
 input UpdateTextSectionInput {
