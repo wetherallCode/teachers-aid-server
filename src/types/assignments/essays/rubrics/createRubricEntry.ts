@@ -3,8 +3,8 @@ import { RubricEntry, RubricSectionEnum } from './rubricEntry'
 import { WritingLevelEnum } from '../../../students/progress-metrics/writingMetrics'
 import { NexusGenRootTypes } from '../../../../teachers-aid-typegen'
 
-export const CreateRubricEntryInput = inputObjectType({
-  name: 'CreateRubricEntryInput',
+export const BuildRubricEntryInput = inputObjectType({
+  name: 'BuildRubricEntryInput',
   definition(t) {
     t.string('entry', { required: true })
     t.int('score', { required: true })
@@ -13,29 +13,29 @@ export const CreateRubricEntryInput = inputObjectType({
   },
 })
 
-export const CreateRubricEntryPayload = objectType({
-  name: 'CreateRubricEntryPayload',
+export const BuildRubricEntryPayload = objectType({
+  name: 'BuildRubricEntryPayload',
   definition(t) {
     t.field('rubricEntry', { type: RubricEntry })
   },
 })
 
-export const CreateRubricEntry = mutationField('createRubricEntry', {
-  type: CreateRubricEntryPayload,
-  args: { input: arg({ type: CreateRubricEntryInput, required: true }) },
-  async resolve(
-    _,
-    { input: { entry, score, rubricSection, rubricCategories } },
-    { rubricData }
-  ) {
-    const rubricEntry: NexusGenRootTypes['RubricEntry'] = {
-      entry,
-      score,
-      rubricSection,
-      rubricCategories,
-    }
-    const insertedId = await rubricData.insertOne(rubricEntry)
-    rubricEntry._id = insertedId
-    return { rubricEntry }
-  },
-})
+// export const BuildRubricEntry = mutationField('buildRubricEntry', {
+//   type: BuildRubricEntryPayload,
+//   args: { input: arg({ type: BuildRubricEntryInput, required: true }) },
+//   async resolve(
+//     _,
+//     { input: { entry, score, rubricSection, rubricCategories } },
+//     { rubricData }
+//   ) {
+//     const rubricEntry: NexusGenRootTypes['RubricEntry'] = {
+//       entry,
+//       score,
+//       rubricSection,
+//       rubricCategories,
+//     }
+//     const insertedId = await rubricData.insertOne(rubricEntry)
+//     rubricEntry._id = insertedId
+//     return { rubricEntry }
+//   },
+// })
