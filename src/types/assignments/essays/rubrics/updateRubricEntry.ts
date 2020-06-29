@@ -22,6 +22,7 @@ export const UpdateRubricEntryPayload = objectType({
   name: 'UpdateRubricEntryPayload',
   definition(t) {
     t.field('rubricEntry', { type: RubricEntry })
+    // t.list.field('rubricEntries', { type: RubricEntry })
   },
 })
 

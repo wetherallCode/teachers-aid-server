@@ -9,6 +9,8 @@ export const RubricEntry = objectType({
     t.int('score')
     t.field('rubricSection', { type: RubricSectionEnum })
     t.list.field('rubricWritingLevels', { type: WritingLevelEnum })
+    // t.field('rubricWritingLevel', { type: WritingLevelEnum })
+    // t.list.field('linkedWritingLevels', { type: WritingLevelEnum })
   },
 })
 

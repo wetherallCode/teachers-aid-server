@@ -203,7 +203,7 @@ export interface NexusGenInputs {
     unitId: string; // ID!
   }
   FindRubricEntriesByCategoryInput: { // input type
-    rubricCategory: NexusGenEnums['WritingLevelEnum']; // WritingLevelEnum!
+    rubricWritingLevel: NexusGenEnums['WritingLevelEnum']; // WritingLevelEnum!
   }
   FindStudentsByIdInput: { // input type
     studentIds: string[]; // [ID!]!
