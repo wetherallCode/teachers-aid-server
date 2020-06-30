@@ -2,6 +2,7 @@ import { objectType, inputObjectType, enumType } from '@nexus/schema'
 import { QuestionTypeEnum } from '../..'
 import { WritingLevelEnum } from '../../students'
 import { Organizers } from './organizers'
+import { RubricEntry, RubricEntryInput } from './rubrics'
 
 export const Essay = objectType({
   name: 'Essay',
@@ -62,7 +63,7 @@ export const SubmittedFinalDraft = objectType({
   definition(t) {
     t.JSON('draft')
     t.JSON('gradingDraft')
-    t.list.string('comments')
+    t.list.field('rubricEntries', { type: RubricEntry })
     t.int('score')
   },
 })
@@ -72,7 +73,7 @@ export const SubmittedFinalDraftsInput = inputObjectType({
   definition(t) {
     t.JSON('draft', { required: true })
     t.JSON('gradingDraft', { required: true })
-    t.list.string('comments', { required: true })
+    t.list.field('rubricEntries', { type: RubricEntryInput, required: true })
     t.int('score', { required: true })
   },
 })

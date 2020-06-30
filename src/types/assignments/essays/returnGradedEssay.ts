@@ -1,13 +1,14 @@
 import { inputObjectType, objectType, mutationField, arg } from '@nexus/schema'
 import { Essay } from '.'
 import { ObjectID } from 'mongodb'
+import { RubricEntryInput } from './rubrics'
 
 export const ReturnGradedEssayInput = inputObjectType({
   name: 'ReturnGradedEssayInput',
   definition(t) {
     t.id('_id', { required: true })
-    t.JSON('gradedDraft', { required: true })
-    t.list.string('comments', { required: true })
+    t.JSON('gradingDraft', { required: true })
+    t.list.field('rubricEntries', { type: RubricEntryInput, required: true })
     t.int('score', { required: true })
   },
 })
@@ -24,7 +25,7 @@ export const ReturnGradedEssay = mutationField('returnGradedEssay', {
   args: { input: arg({ type: ReturnGradedEssayInput, required: true }) },
   async resolve(
     _,
-    { input: { _id, gradedDraft, comments, score } },
+    { input: { _id, gradingDraft, rubricEntries, score } },
     { assignmentData }
   ) {
     const essay = await assignmentData.findOne({ _id: new ObjectID(_id) })
@@ -46,8 +47,8 @@ export const ReturnGradedEssay = mutationField('returnGradedEssay', {
       {
         $set: {
           'finalDraft.submittedFinalDraft': {
-            draft: gradedDraft,
-            comments,
+            draft: gradingDraft,
+            rubricEntries,
             score,
           },
           'finalDraft.returned': true,
