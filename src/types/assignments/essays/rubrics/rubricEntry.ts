@@ -1,4 +1,4 @@
-import { objectType, enumType } from '@nexus/schema'
+import { objectType, enumType, inputObjectType } from '@nexus/schema'
 import { WritingLevelEnum } from '../../../students/progress-metrics/writingMetrics'
 
 export const RubricEntry = objectType({
@@ -11,6 +11,19 @@ export const RubricEntry = objectType({
     t.list.field('rubricWritingLevels', { type: WritingLevelEnum })
     // t.field('rubricWritingLevel', { type: WritingLevelEnum })
     // t.list.field('linkedWritingLevels', { type: WritingLevelEnum })
+  },
+})
+
+export const RubricEntryInput = inputObjectType({
+  name: 'RubricEntryInput',
+  definition(t) {
+    t.string('entry', { required: true })
+    t.int('score', { required: true })
+    t.field('rubricSection', { type: RubricSectionEnum, required: true })
+    t.list.field('rubricWritingLevels', {
+      type: WritingLevelEnum,
+      required: true,
+    })
   },
 })
 
