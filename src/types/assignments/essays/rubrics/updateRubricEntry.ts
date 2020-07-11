@@ -11,6 +11,7 @@ export const UpdateRubricEntryInput = inputObjectType({
     t.string('entry', { required: true })
     t.int('score', { required: true })
     t.field('rubricSection', { type: RubricSectionEnum, required: true })
+    t.string('howToImprove')
     t.list.field('rubricWritingLevels', {
       type: WritingLevelEnum,
       required: true,
@@ -38,6 +39,7 @@ export const UpdateRubricEntry = mutationField('updateRubricEntry', {
         score,
         rubricSection,
         rubricWritingLevels,
+        howToImprove,
       },
     },
     { rubricData }
@@ -57,6 +59,7 @@ export const UpdateRubricEntry = mutationField('updateRubricEntry', {
             score,
             rubricSection,
             rubricWritingLevels,
+            howToImprove,
           },
         }
       )
