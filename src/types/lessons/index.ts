@@ -1,4 +1,6 @@
 export * from './lesson'
+export * from './dynamicLesson'
+export * from './updateDynamicLesson'
 export * from '../protocols'
 export * from './createLesson'
 export * from './lessonTextSections'

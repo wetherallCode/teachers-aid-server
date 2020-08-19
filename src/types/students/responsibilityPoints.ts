@@ -1,6 +1,7 @@
 import { objectType } from '@nexus/schema'
 import { MarkingPeriodEnum } from '../general'
-import { Student } from './students'
+import { Student } from './student'
+import { Course } from '../courses'
 
 export const ResponsibilityPoints = objectType({
   name: 'ResponsibilityPoints',
@@ -8,6 +9,7 @@ export const ResponsibilityPoints = objectType({
     t.id('_id', { nullable: true })
     t.field('student', { type: Student })
     t.int('responsibilityPoints')
+    t.field('inCourse', { type: Course })
     t.field('markingPeriod', { type: MarkingPeriodEnum })
   },
 })

@@ -3,13 +3,24 @@ import { Teacher, Student } from '..'
 import { ObjectId } from 'mongodb'
 import { Lesson } from '../lessons'
 import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { CourseInfo } from './courseInfo'
+import { resolve } from 'path'
 
 export const Course = objectType({
   name: 'Course',
   definition(t) {
     t.id('_id', { nullable: true })
     t.string('name')
-    t.field('courseType', { type: CourseTypeEnum })
+    t.field('hasCourseInfo', {
+      type: CourseInfo,
+      async resolve(parent, __, { courseData }) {
+        const info = await courseData.findOne({
+          'course._id': parent._id!,
+        })
+        return info
+      },
+      nullable: true,
+    })
     t.field('hasTeacher', {
       type: Teacher,
       async resolve(parent, __, { userData }) {

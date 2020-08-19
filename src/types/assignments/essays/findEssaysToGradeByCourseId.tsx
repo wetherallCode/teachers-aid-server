@@ -25,6 +25,7 @@ export const FindEssaysToGradeById = queryField('findEssaysToGradeById', {
       .find({
         'hasAssigner._id': new ObjectId(teacherId),
         finalDraft: { $exists: true },
+        workingDraft: { $exists: true },
       })
       .toArray()
 

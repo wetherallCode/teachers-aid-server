@@ -35,6 +35,7 @@ export const UpdateEssayByStudent = mutationField('updateEssayByStudent', {
       {
         'hasOwner._id': new ObjectId(studentId),
         'readings.readingSections': section,
+        workingDraft: { $exists: true },
       }
     )
     if (essayValidation) {

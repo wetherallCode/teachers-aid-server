@@ -49,7 +49,7 @@ export const CreateAbsence = mutationField('createAbsence', {
         markingPeriod,
       }
 
-      const insertedId = await studentData.insertOne(studentAbsence)
+      const { insertedId } = await studentData.insertOne(studentAbsence)
       studentAbsence._id = insertedId
 
       return { studentAbsence }

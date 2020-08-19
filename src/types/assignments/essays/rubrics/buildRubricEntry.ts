@@ -41,7 +41,7 @@ export const BuildRubricEntry = mutationField('buildRubricEntry', {
       howToImprove,
       rubricWritingLevels,
     }
-    const insertedId = await rubricData.insertOne(rubricEntry)
+    const { insertedId } = await rubricData.insertOne(rubricEntry)
     rubricEntry._id = insertedId
     return { rubricEntry }
   },

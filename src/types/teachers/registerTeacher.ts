@@ -25,7 +25,7 @@ export const RegisterTeacherPayload = objectType({
   },
 })
 
-export const RegisterTeacher = mutationField('RegisterTeacher', {
+export const RegisterTeacher = mutationField('registerTeacher', {
   type: RegisterTeacherPayload,
   args: {
     input: arg({ type: RegisterTeacherInput, required: true }),

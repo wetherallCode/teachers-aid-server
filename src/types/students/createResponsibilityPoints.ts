@@ -9,6 +9,7 @@ export const CreateResponsibilityPointsInput = inputObjectType({
   definition(t) {
     t.list.id('studentIds', { required: true })
     t.field('markingPeriod', { type: MarkingPeriodEnum, required: true })
+    t.id('courseId', { required: true })
   },
 })
 
@@ -28,11 +29,11 @@ export const CreateResponsibilityPoints = mutationField(
     },
     async resolve(
       _,
-      { input: { studentIds, markingPeriod } },
-      { studentData, userData }
+      { input: { studentIds, markingPeriod, courseId } },
+      { studentData, userData, courseData }
     ) {
       let studentList: NexusGenRootTypes['ResponsibilityPoints'][] = []
-
+      const course = await courseData.findOne({ _id: new ObjectId(courseId) })
       for (const _id of studentIds) {
         const student = await userData.findOne({ _id: new ObjectId(_id) })
         const responsibilityPointsCheck = await studentData.findOne({
@@ -47,8 +48,11 @@ export const CreateResponsibilityPoints = mutationField(
               markingPeriod,
               responsibilityPoints: 100,
               student,
+              inCourse: course,
             }
-            const insertedId = await studentData.insertOne(responsibilityPoints)
+            const { insertedId } = await studentData.insertOne(
+              responsibilityPoints
+            )
             responsibilityPoints._id = insertedId
             studentList.push(responsibilityPoints)
           } else

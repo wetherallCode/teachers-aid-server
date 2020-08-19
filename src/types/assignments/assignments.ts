@@ -1,7 +1,15 @@
-import { interfaceType, objectType, inputObjectType } from '@nexus/schema'
+import {
+  interfaceType,
+  objectType,
+  inputObjectType,
+  enumType,
+} from '@nexus/schema'
 import { Student, Teacher, Lesson } from '..'
 import { type } from 'os'
 import { MarkingPeriodEnum } from '../general'
+import { resolve } from 'path'
+import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { ObjectId } from 'mongodb'
 
 export const Assignment = interfaceType({
   name: 'Assignment',
@@ -12,8 +20,18 @@ export const Assignment = interfaceType({
     t.field('score', { type: Score })
     t.field('markingPeriod', { type: MarkingPeriodEnum })
     t.id('associatedLessonId')
+    t.field('lessonInfo', {
+      type: Lesson,
+      async resolve(parent, __, { lessonData }) {
+        const lessonInfo: NexusGenRootTypes['Lesson'] = lessonData.findOne({
+          _id: new ObjectId(parent.associatedLessonId),
+        })
+        return lessonInfo
+      },
+    })
     t.string('dueTime')
     t.date('assignedDate')
+    t.boolean('paperBased')
     t.boolean('assigned')
     t.date('dueDate')
     t.boolean('late')
@@ -26,7 +44,7 @@ export const Assignment = interfaceType({
       if (assignment.hasOwnProperty('testName')) {
         return 'Test'
       }
-      return 'Reading_Guide'
+      return 'ReadingGuide'
     })
   },
 })
@@ -47,7 +65,7 @@ export const HasAssigner = inputObjectType({
 export const Score = objectType({
   name: 'Score',
   definition(t) {
-    t.int('earnedPoints')
+    t.float('earnedPoints')
     t.int('maxPoints')
   },
 })
@@ -57,4 +75,9 @@ export const Readings = objectType({
     t.string('readingPages')
     t.string('readingSections')
   },
+})
+
+export const TimeOfDayEnum = enumType({
+  name: 'TimeOfDay',
+  members: ['BEFORE_SCHOOL', 'BEFORE_CLASS', 'AFTER_CLASS', 'AFTER_SCHOOL'],
 })

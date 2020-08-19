@@ -11,6 +11,7 @@ export const Essay = objectType({
     t.field('topic', { type: Topic })
     t.field('workingDraft', { type: WorkingDraft })
     t.field('finalDraft', { type: FinalDraftContainer, nullable: true })
+    t.boolean('leveledUp')
   },
 })
 
@@ -51,7 +52,7 @@ export const WorkingDraft = objectType({
 export const FinalDraftContainer = objectType({
   name: 'FinalDraftContainer',
   definition(t) {
-    t.field('submittedFinalDraft', { type: SubmittedFinalDraft })
+    t.list.field('submittedFinalDraft', { type: SubmittedFinalDraft })
     t.boolean('submitted')
     t.boolean('returned')
     t.dateTime('submitTime', { nullable: true })
@@ -63,8 +64,11 @@ export const SubmittedFinalDraft = objectType({
   definition(t) {
     t.JSON('draft')
     t.JSON('gradingDraft')
+    t.int('draftNumber')
     t.list.field('rubricEntries', { type: RubricEntry })
-    t.int('score')
+    t.list.string('additionalComments', { nullable: true })
+    t.float('score')
+    t.boolean('graded')
   },
 })
 
@@ -73,7 +77,10 @@ export const SubmittedFinalDraftsInput = inputObjectType({
   definition(t) {
     t.JSON('draft', { required: true })
     t.JSON('gradingDraft', { required: true })
+    t.int('draftNumber', { required: true })
     t.list.field('rubricEntries', { type: RubricEntryInput, required: true })
-    t.int('score', { required: true })
+    t.list.string('additionalComments')
+    t.float('score', { required: true })
+    t.boolean('graded', { required: true })
   },
 })

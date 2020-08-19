@@ -1,4 +1,4 @@
-import { objectType } from '@nexus/schema'
+import { objectType, enumType } from '@nexus/schema'
 import { User } from '../users'
 import { Course, WritingMetrics } from '..'
 import { ObjectId } from 'mongodb'
@@ -9,6 +9,9 @@ export const Student = objectType({
   name: 'Student',
   definition(t) {
     t.implements(User)
+    t.string('schoolId', { nullable: true })
+    t.boolean('virtual')
+    t.field('cohort', { type: StudentCohortEnum })
     t.field('hasContactInformation', {
       type: 'StudentInformation',
       async resolve(parent, __, { studentData }) {
@@ -23,10 +26,21 @@ export const Student = objectType({
       type: 'Assignment',
       async resolve(parent, __, { assignmentData }) {
         const assignments = await assignmentData
-          .find({ 'hasOwner._id': parent._id })
+          .find({ 'hasOwner._id': new ObjectId(parent._id!) })
           .toArray()
 
         return assignments
+      },
+    })
+    t.list.field('hasProtocols', {
+      type: 'Protocol',
+      async resolve(parent, __, { protocolData }) {
+        const protocols = await protocolData
+          .find({
+            'student._id': new ObjectId(parent._id!),
+          })
+          .toArray()
+        return protocols
       },
     })
     t.list.field('inCourses', { type: Course })
@@ -89,4 +103,9 @@ export const Student = objectType({
       },
     })
   },
+})
+
+export const StudentCohortEnum = enumType({
+  name: 'StudentCohortEnum',
+  members: ['RED', 'WHITE'],
 })

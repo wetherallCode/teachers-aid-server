@@ -1,6 +1,6 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { Essay, ReadingsInput, TopicInput } from '.'
-import { MarkingPeriodEnum, WritingLevelEnum } from '../..'
+import { MarkingPeriodEnum, WritingLevelEnum, TimeOfDayEnum } from '../..'
 import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
 import { ObjectId } from 'mongodb'
 import { getRandomInt } from '../../../utilities'
@@ -16,7 +16,7 @@ export const CreateEssayInput = inputObjectType({
     t.int('maxPoints', { required: true })
     t.field('markingPeriod', { type: MarkingPeriodEnum, required: true })
     t.date('dueDate', { required: true })
-    t.string('dueTime', { required: true })
+    t.field('dueTime', { type: TimeOfDayEnum, required: true })
     t.date('assignedDate', { required: true })
   },
 })
@@ -54,9 +54,9 @@ export const CreateEssay = mutationField('createEssay', {
         dueTime,
       },
     },
-    { assignmentData, userData, studentData }
+    { assignmentData, userData, studentData, courseData }
   ) {
-    console.log(new Date().toISOString())
+    console.log(new Date().toISOString().substring(18, 23))
 
     const beginningValue = [
       {
@@ -65,7 +65,7 @@ export const CreateEssay = mutationField('createEssay', {
       },
     ]
 
-    const assigner = await userData.findOne({
+    const assigner: NexusGenRootTypes['Teacher'] = await userData.findOne({
       _id: new ObjectId(hasAssignerId),
     })
 
@@ -86,6 +86,40 @@ export const CreateEssay = mutationField('createEssay', {
     const newEssays: NexusGenRootTypes['Essay'][] = []
 
     for (const student of studentList) {
+      const studentCoursesIds = student.inCourses.map((course) => course._id)
+      const teacherCoursesIds = assigner.teachesCourses.map(
+        (course) => course._id
+      )
+      const courseList: string[] = []
+      const studentCourses: any = []
+      studentCoursesIds.forEach((id) => studentCourses.push(id?.toString()))
+      teacherCoursesIds.forEach((id) => {
+        if (studentCourses.includes(id?.toString())) {
+          courseList.push(id!)
+        }
+      })
+      const courseId = courseList[0]
+      const assignedCourseInfo: NexusGenRootTypes['CourseInfo'] = await courseData.findOne(
+        { 'course._id': courseId }
+      )
+
+      function assignedDueTime(time: string) {
+        if (time === 'BEFORE_SCHOOL') {
+          return '08:00:00 AM'
+        }
+        if (time === 'BEFORE_CLASS') {
+          return assignedCourseInfo.startsAt
+        }
+        if (time === 'AFTER_CLASS') {
+          return assignedCourseInfo.endsAt
+        }
+        if (time === 'AFTER_SCHOOL') {
+          return '02:15:00 PM'
+        }
+        return '08:00:00 AM'
+      }
+
+      const dueTimeForAssignment = assignedDueTime(dueTime)
       const writingMetric: NexusGenRootTypes['WritingMetrics'] = await studentData.findOne(
         {
           'student._id': student._id,
@@ -102,11 +136,13 @@ export const CreateEssay = mutationField('createEssay', {
       const newEssay: NexusGenRootTypes['Essay'] = {
         topic: individualTopic[getRandomInt(individualTopic.length)],
         assigned: false,
-        dueTime,
+        dueTime: dueTimeForAssignment,
         assignedDate,
         associatedLessonId,
         dueDate,
         readings,
+        leveledUp: false,
+        paperBased: false,
         workingDraft: {
           draft: JSON.stringify(beginningValue),
         },
@@ -124,7 +160,7 @@ export const CreateEssay = mutationField('createEssay', {
       newEssays.push(newEssay)
     }
 
-    console.log(new Date().toISOString())
+    console.log(new Date().toISOString().substring(18, 23))
     return { essays: newEssays }
   },
 })

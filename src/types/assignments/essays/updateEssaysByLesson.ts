@@ -26,6 +26,7 @@ export const UpdateEssaysByLesson = mutationField('updateEssaysByLesson', {
     const essayValidation = await assignmentData
       .find({
         associatedLessonId: lessonId,
+        workingDraft: { $exists: true },
       })
       .toArray()
 
@@ -33,6 +34,7 @@ export const UpdateEssaysByLesson = mutationField('updateEssaysByLesson', {
       await assignmentData.updateMany(
         {
           associatedLessonId: lessonId,
+          workingDraft: { $exists: true },
         },
         { $set: { markingPeriod: markingPeriod } }
       )

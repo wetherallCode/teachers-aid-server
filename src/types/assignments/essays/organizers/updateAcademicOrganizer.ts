@@ -37,6 +37,7 @@ export const UpdateAcademicOrganizer = mutationField(
       },
       { assignmentData }
     ) {
+      console.log(restatement, conclusion)
       const organizerTypeCheck: NexusGenRootTypes['Essay'] = await assignmentData.findOne(
         { _id: new ObjectId(essayId) }
       )

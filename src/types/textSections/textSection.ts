@@ -1,5 +1,6 @@
 import { objectType, enumType, inputObjectType } from '@nexus/schema'
 import { Chapter } from '../texts'
+import { TextSectionProtocols } from '.'
 
 export const TextSection = objectType({
   name: 'TextSection',
@@ -37,47 +38,13 @@ export const TextSectionVocab = objectType({
     t.string('definition')
   },
 })
+
 export const TextSectionVocabInput = inputObjectType({
   name: 'TextSectionVocabInput',
   definition(t) {
     t.string('word', { required: true })
     t.string('definition', { required: true })
   },
-})
-
-export const TextSectionProtocols = objectType({
-  name: 'TextSectionProtocols',
-  description: 'Protocol suggestions for including in a LessonPlan',
-  definition(t) {
-    t.field('activityType', { type: ProtocolActivityTypes })
-    t.field('academicOutcomeTypes', { type: AcademicOutcomeTypes })
-    t.string('task')
-  },
-})
-
-export const TextSectionProtocolsInput = inputObjectType({
-  name: 'TextSectionProtocolsInput',
-  definition(t) {
-    t.field('activityType', {
-      type: ProtocolActivityTypes,
-      required: true,
-    })
-    t.field('academicOutcomeTypes', {
-      type: AcademicOutcomeTypes,
-      required: true,
-    })
-    t.string('task', { required: true })
-  },
-})
-
-export const ProtocolActivityTypes = enumType({
-  name: 'ProtocolActivityTypes',
-  members: ['THINK_PAIR_SHARE', 'INDIVIDUAL'],
-})
-
-export const AcademicOutcomeTypes = enumType({
-  name: 'AcademicOutomeTypes',
-  members: ['SCHEMA_BUIDING', 'LOGIC_BUILDING', 'SOCRATIC_QUESTIONS'],
 })
 
 export const QuestionTypeEnum = enumType({

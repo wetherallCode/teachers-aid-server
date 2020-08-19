@@ -6,6 +6,7 @@ export const User = interfaceType({
     t.id('_id', { nullable: true })
     t.string('userName')
     t.string('firstName')
+    t.string('middleName', { nullable: true })
     t.string('lastName')
     t.string('email', { nullable: true })
     t.string('password')

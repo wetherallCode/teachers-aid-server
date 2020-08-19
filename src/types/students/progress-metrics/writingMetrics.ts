@@ -1,5 +1,6 @@
 import { objectType, enumType, unionType, interfaceType } from '@nexus/schema'
-import { Student } from '../students'
+import { Student } from '../student'
+import { Course } from '../../courses'
 
 // writingMetrics
 // topic statement
@@ -23,6 +24,7 @@ export const WritingMetrics = objectType({
     t.field('howProblemSolutionMetrics', { type: HowProblemSolutionMetrics })
     t.field('howCauseEffectMetrics', { type: HowCauseEffectMetrics })
     t.field('whyCauseEffectMetrics', { type: WhyCauseEffectMetrics })
+    t.field('inCourse', { type: Course })
     // t.boolean('writingLevelComplete')
     // t.int('pointsToLevelUp')
     // t.field('writingLevel', { type: WritingLevel })

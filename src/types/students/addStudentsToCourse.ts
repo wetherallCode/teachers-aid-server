@@ -1,5 +1,5 @@
 import { objectType, inputObjectType, mutationField, arg } from '@nexus/schema'
-import { Student } from './students'
+import { Student } from './student'
 import { ObjectId } from 'mongodb'
 import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
 
@@ -54,6 +54,7 @@ export const AddStudentsToCourse = mutationField('addStudentsToCourse', {
         { _id: new ObjectId(student._id!) },
         { $push: { inCourses: course } }
       )
+      // const
       const updatedStudent = await userData.findOne({
         _id: new ObjectId(student._id!),
       })

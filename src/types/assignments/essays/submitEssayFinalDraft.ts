@@ -1,6 +1,7 @@
 import { inputObjectType, objectType, mutationField, arg } from '@nexus/schema'
 import { SubmittedFinalDraftsInput, Essay } from '.'
 import { ObjectId } from 'mongodb'
+import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
 
 export const SubmitEssayFinalDraftInput = inputObjectType({
   name: 'SubmitEssayFinalDraftInput',
@@ -11,6 +12,7 @@ export const SubmitEssayFinalDraftInput = inputObjectType({
       required: true,
     })
     t.boolean('late', { required: true })
+    t.boolean('paperBased', { required: true })
   },
 })
 
@@ -26,29 +28,89 @@ export const SubmitEssayFinalDraft = mutationField('submitEssayFinalDraft', {
   args: { input: arg({ type: SubmitEssayFinalDraftInput, required: true }) },
   async resolve(
     _,
-    { input: { _id, submittedFinalDraft, late } },
+    { input: { _id, submittedFinalDraft, late, paperBased } },
     { assignmentData }
   ) {
-    const submittedEssay = await assignmentData.findOne({
-      _id: new ObjectId(_id),
-    })
-
-    await assignmentData.updateOne(
-      { _id: new ObjectId(_id) },
-      {
-        $set: {
-          late,
-          assigned: false,
-          finalDraft: {
-            submittedFinalDraft,
-            submitted: true,
-            returned: false,
-            submitTime: new Date().toLocaleString(),
-          },
-        },
-      }
+    const essayCheck: NexusGenRootTypes['Essay'] = await assignmentData.findOne(
+      { _id: new ObjectId(_id) }
     )
+    // Determine if essay is late
+    function handleLate() {
+      const submittedDate: string = new Date().toLocaleString().substring(0, 9)
+      const submittedTime: string = new Date().toLocaleString().substring(10)
 
-    return { essay: submittedEssay }
+      let isLate: boolean = false
+
+      if (submittedDate > essayCheck.dueDate) {
+        isLate = true
+      }
+      if (
+        essayCheck.dueDate === submittedDate &&
+        essayCheck.dueTime < submittedTime
+      ) {
+        isLate = true
+      }
+      return isLate
+    }
+
+    const isLate = handleLate()
+
+    if (paperBased === true) {
+      if (essayCheck) {
+        await assignmentData.updateOne(
+          { _id: new ObjectId(_id) },
+          {
+            $set: {
+              late: late,
+              assigned: false,
+              paperBased,
+              'finalDraft.submitted': true,
+              'finalDraft.returned': false,
+              'finalDraft.submitTime': new Date().toLocaleString(),
+            },
+          }
+        )
+
+        await assignmentData.updateOne(
+          { _id: new ObjectId(_id) },
+          {
+            $push: { 'finalDraft.submittedFinalDraft': submittedFinalDraft },
+          }
+        )
+
+        const submittedEssay = await assignmentData.findOne({
+          _id: new ObjectId(_id),
+        })
+        return { essay: submittedEssay }
+      }
+    }
+
+    if (essayCheck) {
+      await assignmentData.updateOne(
+        { _id: new ObjectId(_id) },
+        {
+          $set: {
+            late: isLate,
+            assigned: false,
+            paperBased,
+            'finalDraft.submitted': true,
+            'finalDraft.returned': false,
+            'finalDraft.submitTime': new Date().toLocaleString(),
+          },
+        }
+      )
+
+      await assignmentData.updateOne(
+        { _id: new ObjectId(_id) },
+        {
+          $push: { 'finalDraft.submittedFinalDraft': submittedFinalDraft },
+        }
+      )
+
+      const submittedEssay = await assignmentData.findOne({
+        _id: new ObjectId(_id),
+      })
+      return { essay: submittedEssay }
+    } else throw new Error('Essay does not exist')
   },
 })

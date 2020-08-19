@@ -58,6 +58,7 @@ export const UpdateEssaysByStudentsAndSection = mutationField(
           {
             'hasOwner._id': new ObjectId(_id),
             'readings.readingSections': section,
+            workingDraft: { $exists: true },
           }
         )
         if (essayValidation) {
@@ -65,6 +66,7 @@ export const UpdateEssaysByStudentsAndSection = mutationField(
             {
               'hasOwner._id': new ObjectId(_id),
               'readings.readingSections': section,
+              workingDraft: { $exists: true },
             },
             {
               $set: {
@@ -80,6 +82,7 @@ export const UpdateEssaysByStudentsAndSection = mutationField(
         const essay = await assignmentData.findOne({
           'hasOwner._id': new ObjectId(_id),
           'readings.readingSections': section,
+          workingDraft: { $exists: true },
         })
         essays.push(essay)
       }

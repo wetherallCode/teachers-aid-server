@@ -37,6 +37,7 @@ export const FindEssaysByUserNameAndMarkingPeriod = queryField(
         .find({
           'hasOwner.userName': userName,
           markingPeriod,
+          workingDraft: { $exists: true },
         })
         .toArray()
       return { essay }

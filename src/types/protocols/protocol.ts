@@ -1,21 +1,47 @@
-import { interfaceType, inputObjectType } from '@nexus/schema'
+import { enumType, objectType } from '@nexus/schema'
 import { MarkingPeriodEnum } from '../general'
+import { AcademicOutcomeTypes, ProtocolActivityTypes } from '../textSections'
+import { Student, User } from '..'
 
-export const Protocol = interfaceType({
+export const Protocol = objectType({
   name: 'Protocol',
   definition(t) {
     t.id('_id', { nullable: true })
-    t.date('assignedDate')
+    t.field('student', { type: Student })
+    t.list.field('partners', { type: Student, nullable: true })
+    t.field('discussionLevel', { type: DiscussionTypesEnum, nullable: true })
     t.boolean('isActive')
-    t.resolveType((protocol) => {
-      if (protocol.hasOwnProperty('studentPair')) {
-        return 'ThinkPairShare'
-      }
-      return 'Individual'
-    })
+    t.field('assessment', { type: ProtocolAssessmentEnum, nullable: true })
+    t.boolean('completed')
+    t.field('protocolActivityType', { type: ProtocolActivityTypes })
+    t.field('academicOutcomeType', { type: AcademicOutcomeTypes })
+    t.string('task')
+    t.date('assignedDate')
+    t.field('markingPeriod', { type: MarkingPeriodEnum })
+    t.string('startTime')
+    t.string('endTime', { nullable: true })
   },
 })
 
+export const DiscussionTypesEnum = enumType({
+  name: 'DiscussionTypesEnum',
+  members: [
+    'NOT_REQUIRED',
+    'SOME_DISCUSSION',
+    'DISCUSSED',
+    'THOROUGHLY_DISCUSSED',
+  ],
+})
+
+export const ProtocolAssessmentEnum = enumType({
+  name: 'ProtocolAssessmentEnum',
+  members: [
+    'REFUSED_TO_WORK',
+    'SLOW_TO_GET_STARTED',
+    'WORKED_POORLY',
+    'WORKED_WELL',
+  ],
+})
 // export const ProtocolInput = inputObjectType({
 //     name: 'ProtocolInput',
 //     definition(t) {

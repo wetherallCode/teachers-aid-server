@@ -24,7 +24,7 @@ export const FindLessonsByUnit = queryField('findLessonsByUnit', {
     const lessons = await lessonData
       .find({
         'inUnit._id': new ObjectId(unitId),
-        'assignedCourse._id': new ObjectId(courseId),
+        'assignedCourses._id': new ObjectId(courseId),
       })
       .toArray()
     return { lessons }

@@ -52,7 +52,7 @@ export const CreateUnexcusedLateness = mutationField(
           dayLate,
           markingPeriod,
         }
-        const insertedId = await studentData.insertOne(unexcusedLateness)
+        const { insertedId } = await studentData.insertOne(unexcusedLateness)
         unexcusedLateness._id = insertedId
 
         return { unexcusedLateness }

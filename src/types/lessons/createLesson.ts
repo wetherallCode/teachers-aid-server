@@ -9,7 +9,6 @@ import {
 } from '../textSections'
 import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
 import { ObjectId } from 'mongodb'
-import { UnitInput, CourseInput } from '..'
 
 export const CreateLessonInput = inputObjectType({
   name: 'CreateLessonInput',
@@ -52,7 +51,7 @@ export const CreateLessonInput = inputObjectType({
 export const CreateLessonPayload = objectType({
   name: 'CreateLessonPayload',
   definition(t) {
-    t.list.field('lessons', { type: Lesson })
+    t.field('lesson', { type: Lesson })
   },
 })
 
@@ -81,36 +80,38 @@ export const CreateLesson = mutationField('createLesson', {
     },
     { lessonData, courseData }
   ) {
-    const lessons: NexusGenRootTypes['Lesson'][] = []
     const unit = await lessonData.findOne({ _id: new ObjectId(inUnit) })
-    for (const _id in assignedCourses) {
+
+    const courses: NexusGenRootTypes['Course'][] = []
+    for (const courseId of assignedCourses) {
       const course = await courseData.findOne({
-        _id: new ObjectId(assignedCourses[_id]),
+        _id: new ObjectId(courseId),
       })
-
-      const lesson: NexusGenRootTypes['Lesson'] = {
-        assignedDate,
-        inUnit: unit,
-        assignedMarkingPeriod,
-        lessonName,
-        pageNumbers,
-        assignedCourse: course,
-        linkedCourseIds: assignedCourses,
-        assignedSections,
-        assignedSectionIdList,
-        vocabList,
-        beforeActivity,
-        duringActivities,
-        afterActivity,
-        essentialQuestion,
-        questionList,
-        objectives: null,
-      }
-
-      const { insertedId } = await lessonData.insertOne(lesson)
-      lesson._id = insertedId
-      lessons.unshift(lesson)
+      courses.push(course)
     }
-    return { lessons }
+
+    const lesson: NexusGenRootTypes['Lesson'] = {
+      assignedDate,
+      inUnit: unit,
+      assignedMarkingPeriod,
+      lessonName,
+      pageNumbers,
+      assignedCourses: courses,
+      assignedSections,
+      assignedSectionIdList,
+      vocabList,
+      beforeActivity,
+      duringActivities,
+      afterActivity,
+      essentialQuestion,
+      questionList,
+      objectives: null,
+      dynamicLesson: 'OFF',
+    }
+
+    const { insertedId } = await lessonData.insertOne(lesson)
+    lesson._id = insertedId
+
+    return { lesson }
   },
 })

@@ -9,12 +9,6 @@ export const Teacher = objectType({
     t.field('title', { type: TitleEnum })
     t.list.field('teachesCourses', {
       type: Course,
-      // async resolve(parent, __, { courseData }) {
-      //   const courses = await courseData
-      //     .find({ 'hasTeacher.userName': parent.userName })
-      //     .toArray()
-      //   return courses
-      // },
     })
   },
 })

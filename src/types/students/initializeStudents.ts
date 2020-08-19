@@ -1,16 +1,16 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { Student } from '.'
-import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import {
+  NexusGenRootTypes,
+  NexusGenEnums,
+} from 'teachers-aid-server/src/teachers-aid-typegen'
 import { ObjectId } from 'mongodb'
-import { MarkingPeriodEnum } from '../general'
-import { StudentInformation } from './studentInformation'
-import { OverallWritingMetric } from './progress-metrics'
 
 export const InitializeStudentsInput = inputObjectType({
   name: 'InitializeStudentsInput',
   definition(t) {
     t.list.id('studentIds', { required: true })
-    t.field('markingPeriod', { type: MarkingPeriodEnum, required: true })
+    t.id('courseId', { required: true })
   },
 })
 
@@ -18,7 +18,6 @@ export const InitializeStudentsPayload = objectType({
   name: 'InitializeStudentsPayload',
   definition(t) {
     t.list.field('students', { type: Student })
-    // t.list.field('studentinformationList', { type: StudentInformation })
   },
 })
 
@@ -27,37 +26,45 @@ export const InitializeStudents = mutationField('initializeStudents', {
   args: { input: arg({ type: InitializeStudentsInput, required: true }) },
   async resolve(
     _,
-    { input: { studentIds, markingPeriod } },
-    { userData, studentData }
+    { input: { studentIds, courseId } },
+    { userData, studentData, courseData }
   ) {
-    let studentList: NexusGenRootTypes['ResponsibilityPoints'][] = []
-
-    let studentWithResponsibilityPoints = []
+    const course = await courseData.findOne({ _id: new ObjectId(courseId) })
+    const markingPeriodList: NexusGenEnums['MarkingPeriodEnum'][] = [
+      'FIRST',
+      'SECOND',
+      'THIRD',
+      'FOURTH',
+    ]
+    let responsibilityPointsList: NexusGenRootTypes['ResponsibilityPoints'][] = []
 
     for (const _id of studentIds) {
       const student = await userData.findOne({ _id: new ObjectId(_id) })
-      const responsibilityPointsCheck = await studentData.findOne({
-        'student._id': new ObjectId(_id),
-        responsibilityPoints: { $exists: true },
-        markingPeriod: markingPeriod,
-      })
 
-      if (!responsibilityPointsCheck) {
-        const responsibilityPoints: NexusGenRootTypes['ResponsibilityPoints'] = {
-          markingPeriod,
-          responsibilityPoints: 100,
-          student,
+      // creates 4 marking periods of responsibility point documents
+      for (const mp of markingPeriodList) {
+        const responsibilityPointsCheck = await studentData.findOne({
+          'student._id': new ObjectId(_id),
+          responsibilityPoints: { $exists: true },
+          markingPeriod: mp,
+          inCourse: course,
+        })
+
+        if (!responsibilityPointsCheck) {
+          const responsibilityPoints: NexusGenRootTypes['ResponsibilityPoints'] = {
+            markingPeriod: mp,
+            responsibilityPoints: 100,
+            student,
+            inCourse: course,
+          }
+          const { insertedId } = await studentData.insertOne(
+            responsibilityPoints
+          )
+          responsibilityPoints._id = insertedId
+          responsibilityPointsList.push(responsibilityPoints)
         }
-        const insertedId = await studentData.insertOne(responsibilityPoints)
-        responsibilityPoints._id = insertedId
-        studentList.push(responsibilityPoints)
-      } else studentWithResponsibilityPoints.push(student)
-    }
-
-    const studentsWithContactInfo: NexusGenRootTypes['StudentInformation'][] = []
-
-    for (const _id of studentIds) {
-      const student = await userData.findOne({ _id: new ObjectId(_id) })
+      }
+      // creates contactInfo for each student
       const contactInfoCheck = await studentData.findOne({
         'student._id': new ObjectId(_id),
         contactInfo: { $exists: true },
@@ -74,16 +81,10 @@ export const InitializeStudents = mutationField('initializeStudents', {
             },
           ],
         }
-        const insertedId = await studentData.insertOne(studentInformation)
+        const { insertedId } = await studentData.insertOne(studentInformation)
         studentInformation._id = insertedId
       }
-      studentsWithContactInfo.push(student)
-    }
-
-    const studentsWithPreExistingWritingMetrics = []
-
-    for (const _id of studentIds) {
-      const student = await userData.findOne({ _id: new ObjectId(_id) })
+      // creates WritingMetrics for each student
       const studentWritingMetric = await studentData.findOne({
         'student._id': new ObjectId(_id),
         howCauseEffectMetrics: { $exists: true },
@@ -91,6 +92,7 @@ export const InitializeStudents = mutationField('initializeStudents', {
       if (!studentWritingMetric) {
         const writingMetric: NexusGenRootTypes['WritingMetrics'] = {
           student,
+          inCourse: course,
           overallWritingMetric: {
             overallWritingLevel: 'DEVELOPING',
             levelPoints: 0,
@@ -108,12 +110,10 @@ export const InitializeStudents = mutationField('initializeStudents', {
             levelPoints: 0,
           },
         }
-        const insertedId = await studentData.insertOne(writingMetric)
+        const { insertedId } = await studentData.insertOne(writingMetric)
         writingMetric._id = insertedId
-      } else studentsWithPreExistingWritingMetrics.push(student)
-      // if(studentWritingMetric) {} studentsWithPreExistingWritingMetrics.push(student)
+      }
     }
-
     const students: NexusGenRootTypes['Student'][] = []
     for (const _id of studentIds) {
       const student = await userData.findOne({ _id: new ObjectId(_id) })

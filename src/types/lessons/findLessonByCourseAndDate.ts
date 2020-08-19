@@ -13,7 +13,7 @@ export const FindLessonByCourseAndDateInput = inputObjectType({
 export const FindLessonByCourseAndDatePayload = objectType({
   name: 'FindLessonByCourseAndDatePayload',
   definition(t) {
-    t.field('lesson', { type: Lesson })
+    t.field('lesson', { type: Lesson, nullable: true })
   },
 })
 
@@ -26,9 +26,10 @@ export const FindLessonByCourseAndDate = queryField(
     },
     async resolve(_, { input: { courseId, lessonDate } }, { lessonData }) {
       const lesson = await lessonData.findOne({
-        'assignedCourse._id': new ObjectId(courseId),
+        'assignedCourses._id': new ObjectId(courseId),
         assignedDate: lessonDate,
       })
+
       return { lesson }
     },
   }

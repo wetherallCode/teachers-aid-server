@@ -21,7 +21,7 @@ export const FindLessonByCourse = queryField('findLessonByCourse', {
   args: { input: arg({ type: FindLessonByCourseInput, required: true }) },
   async resolve(_, { input: { courseId } }, { lessonData }) {
     const lessons = await lessonData
-      .find({ 'assignedCourse._id': new ObjectId(courseId) })
+      .find({ 'assignedCourses._id': new ObjectId(courseId) })
       .toArray()
 
     return { lessons }
