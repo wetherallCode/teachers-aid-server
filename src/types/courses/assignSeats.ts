@@ -1,8 +1,8 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
-import { CourseInfo } from '.'
+import { CourseInfo, StudentSeatInput } from '.'
 import { ObjectId } from 'mongodb'
 import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
-import { StudentSeatInput } from './studentSeat'
+// import { StudentSeatInput } from './studentSeat'
 import { NexusInputObjectTypeDef } from '@nexus/schema/dist/core'
 
 export const AssignSeatsInput = inputObjectType({
@@ -12,6 +12,10 @@ export const AssignSeatsInput = inputObjectType({
     // t.field('assignedSeats', { type: StudentSeatInput, required: true })
     t.field('seat', { type: StudentSeatInput, required: true })
     // t.id('studentId',)
+    t.int('deskNumber')
+    t.boolean('cohortBasedSeating', { required: true })
+    t.id('redCohortStudentId')
+    t.id('whiteCohortStudentId')
   },
 })
 
@@ -25,13 +29,80 @@ export const AssignSeatsPayload = objectType({
 export const AssignSeats = mutationField('assignSeats', {
   type: AssignSeatsPayload,
   args: { input: arg({ type: AssignSeatsInput, required: true }) },
-  async resolve(_, { input: { courseId, seat } }, { courseData, userData }) {
+  async resolve(
+    _,
+    {
+      input: {
+        courseId,
+        deskNumber,
+        seat,
+        redCohortStudentId,
+        whiteCohortStudentId,
+        cohortBasedSeating,
+      },
+    },
+    { courseData, userData }
+  ) {
     const courseValidation: NexusGenRootTypes['CourseInfo'] = await courseData.findOne(
       {
         'course._id': new ObjectId(courseId),
       }
     )
     if (courseValidation) {
+      if (cohortBasedSeating) {
+        if (redCohortStudentId) {
+          const student: NexusInputObjectTypeDef<'StudentSeatInput'> = await userData.findOne(
+            {
+              _id: new ObjectId(redCohortStudentId!),
+            }
+          )
+
+          await courseData.updateOne(
+            {
+              'course._id': new ObjectId(courseId),
+              assignedSeats: {
+                $elemMatch: { deskNumber },
+              },
+            },
+            {
+              $set: {
+                'assignedSeats.$.redCohortStudent': student,
+              },
+            }
+          )
+
+          const courseInfo = await courseData.findOne({
+            'course._id': new ObjectId(courseId),
+          })
+          return { courseInfo }
+        }
+        if (whiteCohortStudentId) {
+          const student: NexusInputObjectTypeDef<'StudentSeatInput'> = await userData.findOne(
+            {
+              _id: new ObjectId(whiteCohortStudentId!),
+            }
+          )
+
+          await courseData.updateOne(
+            {
+              'course._id': new ObjectId(courseId),
+              assignedSeats: {
+                $elemMatch: { deskNumber },
+              },
+            },
+            {
+              $set: {
+                'assignedSeats.$.whiteCohortStudent': student,
+              },
+            }
+          )
+
+          const courseInfo = await courseData.findOne({
+            'course._id': new ObjectId(courseId),
+          })
+          return { courseInfo }
+        }
+      }
       const student: NexusInputObjectTypeDef<'StudentSeatInput'> = await userData.findOne(
         {
           _id: new ObjectId(seat.studentId!),
@@ -51,7 +122,6 @@ export const AssignSeats = mutationField('assignSeats', {
           },
         }
       )
-
       const courseInfo = await courseData.findOne({
         'course._id': new ObjectId(courseId),
       })

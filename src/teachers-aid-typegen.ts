@@ -87,8 +87,12 @@ export interface NexusGenInputs {
     studentIds: string[]; // [ID!]!
   }
   AssignSeatsInput: { // input type
+    cohortBasedSeating: boolean; // Boolean!
     courseId: string; // ID!
+    deskNumber?: number | null; // Int
+    redCohortStudentId?: string | null; // ID
     seat: NexusGenInputs['StudentSeatInput']; // StudentSeatInput!
+    whiteCohortStudentId?: string | null; // ID
   }
   BuildRubricEntryInput: { // input type
     entry: string; // String!
@@ -114,6 +118,7 @@ export interface NexusGenInputs {
     studentId: string; // String!
   }
   CreateCourseInfoInput: { // input type
+    cohortBasedSeating: boolean; // Boolean!
     courseId: string; // ID!
     courseMaxSize: NexusGenEnums['CourseMaxSizeEnum']; // CourseMaxSizeEnum!
     courseType: NexusGenEnums['CourseTypeEnum']; // CourseTypeEnum!
@@ -366,8 +371,10 @@ export interface NexusGenInputs {
     _id: string; // ID!
   }
   RemoveAssignedSeatInput: { // input type
-    assignedSeat: NexusGenInputs['StudentSeatInput']; // StudentSeatInput!
     courseId: string; // ID!
+    deskNumber: number; // Int!
+    redCohortStudentId?: string | null; // ID
+    whiteCohortStudentId?: string | null; // ID
   }
   RemoveCourseInput: { // input type
     courseId: string; // ID!
@@ -754,6 +761,7 @@ export interface NexusGenRootTypes {
   CourseInfo: { // root type
     _id?: string | null; // ID
     assignedSeats: NexusGenRootTypes['StudentSeat'][]; // [StudentSeat!]!
+    cohortBasedSeating: boolean; // Boolean!
     course: NexusGenRootTypes['Course']; // Course!
     courseType: NexusGenEnums['CourseTypeEnum']; // CourseTypeEnum!
     endsAt: string; // String!
@@ -1169,7 +1177,9 @@ export interface NexusGenRootTypes {
   }
   StudentSeat: { // root type
     deskNumber: number; // Int!
+    redCohortStudent?: NexusGenRootTypes['Student'] | null; // Student
     student?: NexusGenRootTypes['Student'] | null; // Student
+    whiteCohortStudent?: NexusGenRootTypes['Student'] | null; // Student
   }
   SubmitEssayFinalDraftPayload: { // root type
     essay: NexusGenRootTypes['Essay']; // Essay!
@@ -1596,6 +1606,7 @@ export interface NexusGenFieldTypes {
   CourseInfo: { // field return type
     _id: string | null; // ID
     assignedSeats: NexusGenRootTypes['StudentSeat'][]; // [StudentSeat!]!
+    cohortBasedSeating: boolean; // Boolean!
     course: NexusGenRootTypes['Course']; // Course!
     courseType: NexusGenEnums['CourseTypeEnum']; // CourseTypeEnum!
     endsAt: string; // String!
@@ -1877,7 +1888,6 @@ export interface NexusGenFieldTypes {
     registerStudent: NexusGenRootTypes['RegisterStudentPayload']; // RegisterStudentPayload!
     registerTeacher: NexusGenRootTypes['RegisterTeacherPayload']; // RegisterTeacherPayload!
     removeAbsence: NexusGenRootTypes['RemoveAbsencePayload']; // RemoveAbsencePayload!
-    removeAssignedSeat: NexusGenRootTypes['RemoveAssignedSeatPayload']; // RemoveAssignedSeatPayload!
     removeCourse: NexusGenRootTypes['RemoveCoursePayload']; // RemoveCoursePayload!
     removeLateness: NexusGenRootTypes['RemoveLatenessPayload']; // RemoveLatenessPayload!
     removeProtocol: NexusGenRootTypes['RemoveProtocolPayload']; // RemoveProtocolPayload!
@@ -2132,7 +2142,9 @@ export interface NexusGenFieldTypes {
   }
   StudentSeat: { // field return type
     deskNumber: number; // Int!
+    redCohortStudent: NexusGenRootTypes['Student'] | null; // Student
     student: NexusGenRootTypes['Student'] | null; // Student
+    whiteCohortStudent: NexusGenRootTypes['Student'] | null; // Student
   }
   SubmitEssayFinalDraftPayload: { // field return type
     essay: NexusGenRootTypes['Essay']; // Essay!
@@ -2438,9 +2450,6 @@ export interface NexusGenArgTypes {
     }
     removeAbsence: { // args
       input: NexusGenInputs['RemoveAbsenceInput']; // RemoveAbsenceInput!
-    }
-    removeAssignedSeat: { // args
-      input: NexusGenInputs['RemoveAssignedSeatInput']; // RemoveAssignedSeatInput!
     }
     removeCourse: { // args
       input: NexusGenInputs['RemoveCourseInput']; // RemoveCourseInput!

@@ -6,6 +6,8 @@ export const StudentSeat = objectType({
   definition(t) {
     t.int('deskNumber')
     t.field('student', { type: Student, nullable: true })
+    t.field('redCohortStudent', { type: Student, nullable: true })
+    t.field('whiteCohortStudent', { type: Student, nullable: true })
   },
 })
 

@@ -162,8 +162,12 @@ type AssignReadingGuidesPayload {
 }
 
 input AssignSeatsInput {
+  cohortBasedSeating: Boolean!
   courseId: ID!
+  deskNumber: Int
+  redCohortStudentId: ID
   seat: StudentSeatInput!
+  whiteCohortStudentId: ID
 }
 
 type AssignSeatsPayload {
@@ -228,6 +232,7 @@ type Course {
 type CourseInfo {
   _id: ID
   assignedSeats: [StudentSeat!]!
+  cohortBasedSeating: Boolean!
   course: Course!
   courseType: CourseTypeEnum!
   endsAt: String!
@@ -269,6 +274,7 @@ type CreateAbsencePayload {
 }
 
 input CreateCourseInfoInput {
+  cohortBasedSeating: Boolean!
   courseId: ID!
   courseMaxSize: CourseMaxSizeEnum!
   courseType: CourseTypeEnum!
@@ -912,7 +918,6 @@ type Mutation {
   registerStudent(input: RegisterStudentInput!): RegisterStudentPayload!
   registerTeacher(input: RegisterTeacherInput!): RegisterTeacherPayload!
   removeAbsence(input: RemoveAbsenceInput!): RemoveAbsencePayload!
-  removeAssignedSeat(input: RemoveAssignedSeatInput!): RemoveAssignedSeatPayload!
   removeCourse(input: RemoveCourseInput!): RemoveCoursePayload!
   removeLateness(input: RemoveLatenessInput!): RemoveLatenessPayload!
   removeProtocol(input: RemoveProtocolInput!): RemoveProtocolPayload!
@@ -1145,8 +1150,10 @@ type RemoveAbsencePayload {
 }
 
 input RemoveAssignedSeatInput {
-  assignedSeat: StudentSeatInput!
   courseId: ID!
+  deskNumber: Int!
+  redCohortStudentId: ID
+  whiteCohortStudentId: ID
 }
 
 type RemoveAssignedSeatPayload {
@@ -1380,7 +1387,9 @@ type StudentInformation {
 
 type StudentSeat {
   deskNumber: Int!
+  redCohortStudent: Student
   student: Student
+  whiteCohortStudent: Student
 }
 
 input StudentSeatInput {

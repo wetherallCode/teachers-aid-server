@@ -13,6 +13,21 @@ export const twelveAssignedSeats = [
   { deskNumber: 12, student: null },
 ]
 
+export const twelveCohortAssignedSeats = [
+  { deskNumber: 1, redCohortStudent: null, whiteCohortStudent: null },
+  { deskNumber: 2, redCohortStudent: null, whiteCohortStudent: null },
+  { deskNumber: 3, redCohortStudent: null, whiteCohortStudent: null },
+  { deskNumber: 4, redCohortStudent: null, whiteCohortStudent: null },
+  { deskNumber: 5, redCohortStudent: null, whiteCohortStudent: null },
+  { deskNumber: 6, redCohortStudent: null, whiteCohortStudent: null },
+  { deskNumber: 7, redCohortStudent: null, whiteCohortStudent: null },
+  { deskNumber: 8, redCohortStudent: null, whiteCohortStudent: null },
+  { deskNumber: 9, redCohortStudent: null, whiteCohortStudent: null },
+  { deskNumber: 10, redCohortStudent: null, whiteCohortStudent: null },
+  { deskNumber: 11, redCohortStudent: null, whiteCohortStudent: null },
+  { deskNumber: 12, redCohortStudent: null, whiteCohortStudent: null },
+]
+
 export const twentyFourAssignedSeats = [
   { deskNumber: 1, student: null },
   { deskNumber: 2, student: null },

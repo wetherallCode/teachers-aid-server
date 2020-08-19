@@ -14,6 +14,7 @@ import {
   twentyFourAssignedSeats,
   thirtyAssignedSeats,
   thirtySixAssignedSeats,
+  twelveCohortAssignedSeats,
 } from './intialAssignedSeats'
 
 export const CreateCourseInfoInput = inputObjectType({
@@ -25,6 +26,7 @@ export const CreateCourseInfoInput = inputObjectType({
     t.string('halfDayStartsAt', { required: true })
     t.string('halfDayEndsAt', { required: true })
     // t.id('teacherId')
+    t.boolean('cohortBasedSeating', { required: true })
     t.field('courseType', { type: CourseTypeEnum, required: true })
     t.field('schoolDayType', { type: SchoolDayType, required: true })
     t.field('courseMaxSize', { type: CourseMaxSizeEnum, required: true })
@@ -55,6 +57,7 @@ export const CreateCourseInfo = mutationField('createCourseInfo', {
         halfDayStartsAt,
         halfDayEndsAt,
         schoolDayType,
+        cohortBasedSeating,
         courseType,
         courseMaxSize,
       },
@@ -78,8 +81,11 @@ export const CreateCourseInfo = mutationField('createCourseInfo', {
         halfDayEndsAt,
         courseType,
         schoolDayType,
+        cohortBasedSeating,
         assignedSeats:
-          courseMaxSize === 'TWELVE'
+          courseMaxSize === 'TWELVE' && cohortBasedSeating
+            ? twelveCohortAssignedSeats
+            : courseMaxSize === 'TWELVE'
             ? twelveAssignedSeats
             : courseMaxSize === 'TWENTY_FOUR'
             ? twentyFourAssignedSeats
