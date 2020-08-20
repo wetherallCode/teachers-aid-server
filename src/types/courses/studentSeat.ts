@@ -16,5 +16,7 @@ export const StudentSeatInput = inputObjectType({
   definition(t) {
     t.int('deskNumber', { required: true })
     t.id('studentId')
+    t.id('redCohortStudentId')
+    t.id('whiteCohortStudentId')
   },
 })

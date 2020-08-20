@@ -1,5 +1,5 @@
 import { objectType } from '@nexus/schema'
-import { SchoolDayType } from '../general/schoolDayType'
+import { SchoolDayType } from '../general/school-day-tracking/schoolDayType'
 import { CourseTypeEnum, Course, StudentSeat } from '.'
 import { Teacher } from '..'
 

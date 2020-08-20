@@ -10,12 +10,12 @@ export const AssignSeatsInput = inputObjectType({
   definition(t) {
     t.id('courseId', { required: true })
     // t.field('assignedSeats', { type: StudentSeatInput, required: true })
-    t.field('seat', { type: StudentSeatInput, required: true })
+    t.field('seat', { type: StudentSeatInput })
     // t.id('studentId',)
-    t.int('deskNumber')
+    // t.int('deskNumber')
     t.boolean('cohortBasedSeating', { required: true })
-    t.id('redCohortStudentId')
-    t.id('whiteCohortStudentId')
+    // t.id('redCohortStudentId')
+    // t.id('whiteCohortStudentId')
   },
 })
 
@@ -34,10 +34,10 @@ export const AssignSeats = mutationField('assignSeats', {
     {
       input: {
         courseId,
-        deskNumber,
+        // deskNumber,
         seat,
-        redCohortStudentId,
-        whiteCohortStudentId,
+        // redCohortStudentId,
+        // whiteCohortStudentId,
         cohortBasedSeating,
       },
     },
@@ -50,10 +50,12 @@ export const AssignSeats = mutationField('assignSeats', {
     )
     if (courseValidation) {
       if (cohortBasedSeating) {
-        if (redCohortStudentId) {
+        console.log(seat)
+        if (seat?.redCohortStudentId) {
+          console.log('red')
           const student: NexusInputObjectTypeDef<'StudentSeatInput'> = await userData.findOne(
             {
-              _id: new ObjectId(redCohortStudentId!),
+              _id: new ObjectId(seat.redCohortStudentId!),
             }
           )
 
@@ -61,7 +63,7 @@ export const AssignSeats = mutationField('assignSeats', {
             {
               'course._id': new ObjectId(courseId),
               assignedSeats: {
-                $elemMatch: { deskNumber },
+                $elemMatch: { deskNumber: seat.deskNumber },
               },
             },
             {
@@ -76,10 +78,11 @@ export const AssignSeats = mutationField('assignSeats', {
           })
           return { courseInfo }
         }
-        if (whiteCohortStudentId) {
+        if (seat?.whiteCohortStudentId) {
+          console.log('white')
           const student: NexusInputObjectTypeDef<'StudentSeatInput'> = await userData.findOne(
             {
-              _id: new ObjectId(whiteCohortStudentId!),
+              _id: new ObjectId(seat?.whiteCohortStudentId!),
             }
           )
 
@@ -87,7 +90,7 @@ export const AssignSeats = mutationField('assignSeats', {
             {
               'course._id': new ObjectId(courseId),
               assignedSeats: {
-                $elemMatch: { deskNumber },
+                $elemMatch: { deskNumber: seat.deskNumber },
               },
             },
             {
@@ -105,7 +108,7 @@ export const AssignSeats = mutationField('assignSeats', {
       }
       const student: NexusInputObjectTypeDef<'StudentSeatInput'> = await userData.findOne(
         {
-          _id: new ObjectId(seat.studentId!),
+          _id: new ObjectId(seat?.studentId!),
         }
       )
 
@@ -113,7 +116,7 @@ export const AssignSeats = mutationField('assignSeats', {
         {
           'course._id': new ObjectId(courseId),
           assignedSeats: {
-            $elemMatch: { deskNumber: seat.deskNumber },
+            $elemMatch: { deskNumber: seat?.deskNumber },
           },
         },
         {
