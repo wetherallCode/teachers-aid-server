@@ -42,9 +42,3 @@ export const ProtocolAssessmentEnum = enumType({
     'WORKED_WELL',
   ],
 })
-// export const ProtocolInput = inputObjectType({
-//     name: 'ProtocolInput',
-//     definition(t) {
-//       t.date()
-//     }
-// })
