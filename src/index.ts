@@ -86,6 +86,7 @@ const startServer = async () => {
       let studentData = db.collection('studentData')
       let rubricData = db.collection('rubricData')
       let protocolData = db.collection('protocolData')
+      let schoolDayData = db.collection('schoolDayData')
 
       return {
         req,
@@ -100,6 +101,7 @@ const startServer = async () => {
         generalData,
         rubricData,
         protocolData,
+        schoolDayData,
         db,
       }
     },

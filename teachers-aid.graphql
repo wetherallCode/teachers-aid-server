@@ -164,10 +164,7 @@ type AssignReadingGuidesPayload {
 input AssignSeatsInput {
   cohortBasedSeating: Boolean!
   courseId: ID!
-  deskNumber: Int
-  redCohortStudentId: ID
-  seat: StudentSeatInput!
-  whiteCohortStudentId: ID
+  seat: StudentSeatInput
 }
 
 type AssignSeatsPayload {
@@ -381,6 +378,16 @@ input CreateResponsibilityPointsInput {
 
 type CreateResponsibilityPointsPayload {
   responsibilityPoints: [ResponsibilityPoints!]!
+}
+
+input CreateSchoolDayInput {
+  cohortWeek: StudentCohortEnum
+  currentSchoolDayType: SchoolDayType
+  schoolDayCount: Int
+}
+
+type CreateSchoolDayPayload {
+  schoolDay: SchoolDay!
 }
 
 input CreateTextSectionInput {
@@ -918,6 +925,7 @@ type Mutation {
   registerStudent(input: RegisterStudentInput!): RegisterStudentPayload!
   registerTeacher(input: RegisterTeacherInput!): RegisterTeacherPayload!
   removeAbsence(input: RemoveAbsenceInput!): RemoveAbsencePayload!
+  removeAssignedSeat(input: RemoveAssignedSeatInput!): RemoveAssignedSeatPayload!
   removeCourse(input: RemoveCourseInput!): RemoveCoursePayload!
   removeLateness(input: RemoveLatenessInput!): RemoveLatenessPayload!
   removeProtocol(input: RemoveProtocolInput!): RemoveProtocolPayload!
@@ -1150,10 +1158,10 @@ type RemoveAbsencePayload {
 }
 
 input RemoveAssignedSeatInput {
+  cohortBased: Boolean!
+  cohortType: StudentCohortEnum
   courseId: ID!
   deskNumber: Int!
-  redCohortStudentId: ID
-  whiteCohortStudentId: ID
 }
 
 type RemoveAssignedSeatPayload {
@@ -1290,6 +1298,14 @@ enum RubricSectionEnum {
   TOPIC
 }
 
+type SchoolDay {
+  _id: ID
+  cohortWeek: StudentCohortEnum!
+  currentSchoolDayType: SchoolDayType!
+  schoolDayCount: Int!
+  todaysDate: Date!
+}
+
 enum SchoolDayType {
   A
   B
@@ -1394,7 +1410,9 @@ type StudentSeat {
 
 input StudentSeatInput {
   deskNumber: Int!
+  redCohortStudentId: ID
   studentId: ID
+  whiteCohortStudentId: ID
 }
 
 input SubmitEssayFinalDraftInput {
