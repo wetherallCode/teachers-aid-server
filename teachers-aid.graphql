@@ -381,9 +381,9 @@ type CreateResponsibilityPointsPayload {
 }
 
 input CreateSchoolDayInput {
-  cohortWeek: StudentCohortEnum
-  currentSchoolDayType: SchoolDayType
-  schoolDayCount: Int
+  cohortWeek: StudentCohortEnum!
+  currentSchoolDayType: SchoolDayType!
+  schoolDayCount: Int!
 }
 
 type CreateSchoolDayPayload {
@@ -967,6 +967,7 @@ type Mutation {
   updateReadingGuide(input: UpdateReadingGuideInput!): UpdateReadingGuidePayload!
   updateResponsibilityPoints(input: UpdateResponsibilityPointsInput!): UpdateResponsibilityPointsPayload!
   updateRubricEntry(input: UpdateRubricEntryInput!): UpdateRubricEntryPayload!
+  updateSchoolDay(input: UpdateSchoolDayInput!): UpdateSchoolDayPayload!
   updateTextSection(input: UpdateTextSectionInput!): UpdateTextSectionPayload!
   updateWhyCauseEffect(input: UpdateWhyCauseEffectInput!): UpdateWhyCauseEffectPayload!
   updateWorkingDraft(input: UpdateWorkingDraftInput!): UpdateWorkingDraftPayload!
@@ -1031,6 +1032,7 @@ enum ProtocolAssessmentEnum {
 }
 
 type Query {
+  createSchoolDay(input: CreateSchoolDayInput!): CreateSchoolDayPayload!
   findAllStudents: FindAllStudentsPayload!
   findAllUsers: FindAllUsersPayload!
   findAssignmentById(input: FindAssignmentByIdInput!): FindAssignmentByIdPayload!
@@ -1069,6 +1071,7 @@ type Query {
   findUnits: FindUnitsPayload!
   findUserData(input: FindUserDataInput!): FindUserDataPayload!
   me: User
+  removeSchoolDay(input: RemoveSchoolDayInput!): RemoveSchoolDayPayload!
   removeSubmittedEssayFinalDraft(input: RemoveSubmittedEssayFinalDraftInput!): RemoveSubmittedEssayFinalDraftPayload!
 }
 
@@ -1200,6 +1203,14 @@ input RemoveRubricEntryInput {
 }
 
 type RemoveRubricEntryPayload {
+  removed: Boolean!
+}
+
+input RemoveSchoolDayInput {
+  schoolDayId: ID!
+}
+
+type RemoveSchoolDayPayload {
   removed: Boolean!
 }
 
@@ -1826,6 +1837,18 @@ input UpdateRubricEntryInput {
 
 type UpdateRubricEntryPayload {
   rubricEntry: RubricEntry!
+}
+
+input UpdateSchoolDayInput {
+  schoolDayId: ID!
+  updatedCohortWeek: StudentCohortEnum!
+  updatedCurrentSchoolDayType: SchoolDayType!
+  updatedDate: Date!
+  updatedSchoolDayCount: Int!
+}
+
+type UpdateSchoolDayPayload {
+  schoolDay: SchoolDay!
 }
 
 input UpdateTextSectionInput {

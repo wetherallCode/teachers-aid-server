@@ -6,9 +6,9 @@ import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
 export const CreateSchoolDayInput = inputObjectType({
   name: 'CreateSchoolDayInput',
   definition(t) {
-    t.field('currentSchoolDayType', { type: SchoolDayType })
-    t.int('schoolDayCount')
-    t.field('cohortWeek', { type: StudentCohortEnum })
+    t.field('currentSchoolDayType', { type: SchoolDayType, required: true })
+    t.int('schoolDayCount', { required: true })
+    t.field('cohortWeek', { type: StudentCohortEnum, required: true })
   },
 })
 
@@ -19,14 +19,22 @@ export const CreateSchoolDayPayload = objectType({
   },
 })
 
-// export const CreateSchoolDay = queryField('createSchoolDay', {
-//   type: CreateSchoolDayPayload,
-//   args: { input: arg({ type: CreateSchoolDayInput, required: true }) },
-//   async resolve(
-//     _,
-//     { input: { currentSchoolDayType, schoolDayCount, cohortWeek } },
-//     { schoolDayData }
-//   ) {
-//     const newSchoolDay: NexusGenRootTypes['SchoolDay'] = {}
-//   },
-// })
+export const CreateSchoolDay = queryField('createSchoolDay', {
+  type: CreateSchoolDayPayload,
+  args: { input: arg({ type: CreateSchoolDayInput, required: true }) },
+  async resolve(
+    _,
+    { input: { currentSchoolDayType, schoolDayCount, cohortWeek } },
+    { schoolDayData }
+  ) {
+    const newSchoolDay: NexusGenRootTypes['SchoolDay'] = {
+      cohortWeek,
+      currentSchoolDayType,
+      schoolDayCount,
+      todaysDate: new Date().toLocaleDateString(),
+    }
+    const { insertedId } = await schoolDayData.insertOne(newSchoolDay)
+    newSchoolDay._id = insertedId
+    return { schoolDay: newSchoolDay }
+  },
+})

@@ -1,3 +1,5 @@
 export * from './schoolDayType'
 export * from './schoolDay'
 export * from './createSchoolDay'
+export * from './updateSchoolDay'
+export * from './removeSchoolDay'
