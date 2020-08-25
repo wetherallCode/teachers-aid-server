@@ -1,6 +1,6 @@
-import { objectType, inputObjectType, arg, queryField } from '@nexus/schema'
+import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { SchoolDay, SchoolDayType } from '.'
-import { StudentCohortEnum } from '../..'
+import { StudentCohortEnum } from '..'
 import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
 
 export const CreateSchoolDayInput = inputObjectType({
@@ -19,7 +19,7 @@ export const CreateSchoolDayPayload = objectType({
   },
 })
 
-export const CreateSchoolDay = queryField('createSchoolDay', {
+export const CreateSchoolDay = mutationField('createSchoolDay', {
   type: CreateSchoolDayPayload,
   args: { input: arg({ type: CreateSchoolDayInput, required: true }) },
   async resolve(
@@ -32,9 +32,22 @@ export const CreateSchoolDay = queryField('createSchoolDay', {
       currentSchoolDayType,
       schoolDayCount,
       todaysDate: new Date().toLocaleDateString(),
+      signInSheets: [],
     }
     const { insertedId } = await schoolDayData.insertOne(newSchoolDay)
     newSchoolDay._id = insertedId
+
+    await schoolDayData.updateOne(
+      { schoolDayTracker: { $exists: true } },
+      {
+        $set: {
+          schoolDayTracker: schoolDayCount,
+          cohortWeekTracker: cohortWeek,
+          schoolDayTypeTracker: currentSchoolDayType,
+        },
+      }
+    )
+
     return { schoolDay: newSchoolDay }
   },
 })

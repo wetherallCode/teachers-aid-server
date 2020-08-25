@@ -221,6 +221,7 @@ type Course {
   _id: ID
   hasCourseInfo: CourseInfo
   hasLessons: [Lesson!]!
+  hasSignInSheets: [StudentSignInSheet!]!
   hasStudents: [Student!]!
   hasTeacher: Teacher!
   name: String!
@@ -387,6 +388,19 @@ input CreateSchoolDayInput {
 }
 
 type CreateSchoolDayPayload {
+  schoolDay: SchoolDay!
+}
+
+type CreateSchoolDayTrackerPayload {
+  schoolDayTracker: SchoolDayTracker!
+}
+
+input CreateSignInSheetInput {
+  courseId: ID!
+  todaysDate: ID!
+}
+
+type CreateSignInSheetPayload {
   schoolDay: SchoolDay!
 }
 
@@ -714,6 +728,18 @@ type FindRubricEntriesPayload {
   rubricEntries: [RubricEntry!]!
 }
 
+input FindSchoolDayByDateInput {
+  date: Date!
+}
+
+type FindSchoolDayByDatePayload {
+  schoolDay: SchoolDay
+}
+
+type FindSchoolDayPayload {
+  schoolDayTracker: SchoolDayTracker!
+}
+
 input FindStudentByIdInput {
   studentId: ID!
 }
@@ -915,6 +941,9 @@ type Mutation {
   createProtocol(input: CreateProtocolInput!): CreateProtocolPayload!
   createReadingGuide(input: CreateReadingGuideInput!): CreateReadingGuidePayload!
   createResponsibilityPoints(input: CreateResponsibilityPointsInput!): CreateResponsibilityPointsPayload!
+  createSchoolDay(input: CreateSchoolDayInput!): CreateSchoolDayPayload!
+  createSchoolDayTracker: CreateSchoolDayTrackerPayload!
+  createSignInSheet(input: CreateSignInSheetInput!): CreateSignInSheetPayload!
   createTextSection(input: CreateTextSectionInput!): CreateTextSectionPayload!
   createUnexcusedLateness(input: CreateUnexcusedLatenessInput!): CreateUnexcusedLatenessPayload!
   createUnit(input: CreateUnitInput!): CreateUnitPayload!
@@ -932,6 +961,7 @@ type Mutation {
   removeRubricEntry(input: RemoveRubricEntryInput!): RemoveRubricEntryPayload!
   removeStudentsFromCourse(input: RemoveStudentsFromCourseInput!): RemoveStudentsFromCoursePayload!
   removeTextSection(input: RemoveTextSectionInput!): RemoveTextSectionPayload!
+  respondToProtocol(input: RespondToProtocolInput!): RespondToProtocolPayload!
   resubmitEssayFinalDraft(input: ResubmitEssayFinalDraftInput!): ResubmitEssayFinalDraftPayload!
   returnGradedEssay(input: ReturnGradedEssayInput!): ReturnGradedEssayPayload!
   returnReadingGuide(input: ReturnReadingGuideInput!): ReturnReadingGuidePayload!
@@ -940,6 +970,7 @@ type Mutation {
   setOrganizer(input: SetOrganizerInput!): SetOrganizerPayload!
   startProtocol(input: StartProtocolInput!): StartProtocolPayload!
   startReadingGuide(input: StartReadingGuideInput!): StartReadingGuidePayload!
+  studentSignIn(input: StudentSignInInput!): StudentSignInPayload!
   submitEssayFinalDraft(input: SubmitEssayFinalDraftInput!): SubmitEssayFinalDraftPayload!
   submitReadingGuide(input: SubmitReadingGuideInput!): SubmitReadingGuidePayload!
   unAssignEssays(input: UnAssignEssaysInput!): UnAssignEssaysPayload!
@@ -1014,6 +1045,7 @@ type Protocol {
   markingPeriod: MarkingPeriodEnum!
   partners: [Student!]
   protocolActivityType: ProtocolActivityTypes!
+  response: String
   startTime: String!
   student: Student!
   task: String!
@@ -1032,7 +1064,6 @@ enum ProtocolAssessmentEnum {
 }
 
 type Query {
-  createSchoolDay(input: CreateSchoolDayInput!): CreateSchoolDayPayload!
   findAllStudents: FindAllStudentsPayload!
   findAllUsers: FindAllUsersPayload!
   findAssignmentById(input: FindAssignmentByIdInput!): FindAssignmentByIdPayload!
@@ -1060,6 +1091,8 @@ type Query {
   findReadingGuidesToCompleteByStudentId(input: FindReadingGuidesToCompleteByStudentIdInput!): FindReadingGuidesToCompleteByStudentIdPayload!
   findRubricEntries: FindRubricEntriesPayload!
   findRubricEntriesByCategory(input: FindRubricEntriesByCategoryInput!): FindRubricEntriesByCategoryPayload!
+  findSchoolDayByDate(input: FindSchoolDayByDateInput!): FindSchoolDayByDatePayload!
+  findSchoolDayTracker: FindSchoolDayPayload!
   findStudentById(input: FindStudentByIdInput!): FindStudentByIdPayload!
   findStudentsByCourse(input: FindStudentsByCourseInput!): FindStudentsByCoursePayload!
   findStudentsById(input: FindStudentsByIdInput!): FindStudentsByIdPayload!
@@ -1239,6 +1272,15 @@ type RemoveTextSectionPayload {
   removed: Boolean!
 }
 
+input RespondToProtocolInput {
+  protocolId: ID!
+  response: String!
+}
+
+type RespondToProtocolPayload {
+  protocol: Protocol!
+}
+
 type ResponsibilityPoints {
   _id: ID
   inCourse: Course!
@@ -1314,7 +1356,15 @@ type SchoolDay {
   cohortWeek: StudentCohortEnum!
   currentSchoolDayType: SchoolDayType!
   schoolDayCount: Int!
+  signInSheets: [StudentSignInSheet!]
   todaysDate: String!
+}
+
+type SchoolDayTracker {
+  _id: ID
+  cohortWeekTracker: StudentCohortEnum!
+  schoolDayTracker: Int!
+  schoolDayTypeTracker: SchoolDayType!
 }
 
 enum SchoolDayType {
@@ -1424,6 +1474,17 @@ input StudentSeatInput {
   redCohortStudentId: ID
   studentId: ID
   whiteCohortStudentId: ID
+}
+
+input StudentSignInInput {
+  courseId: ID!
+  lessonDate: String!
+  studentId: ID!
+  virtual: Boolean
+}
+
+type StudentSignInPayload {
+  schoolDay: SchoolDay!
 }
 
 type StudentSignInSheet {

@@ -86,7 +86,7 @@ export const UpdateLesson = mutationField('updateLesson', {
     for (const _id in linkedCourseIds) {
       await lessonData.updateOne(
         {
-          'assignedCourse._id': new ObjectId(linkedCourseIds[_id]),
+          'assignedCourses._id': new ObjectId(linkedCourseIds[_id]),
           lessonName,
         },
         {
@@ -113,7 +113,7 @@ export const UpdateLesson = mutationField('updateLesson', {
 
     for (const _id in linkedCourseIds) {
       const lesson: NexusGenRootTypes['Lesson'] = await lessonData.findOne({
-        'assignedCourse._id': new ObjectId(linkedCourseIds[_id]),
+        'assignedCourses._id': new ObjectId(linkedCourseIds[_id]),
         lessonName,
       })
       lessons.unshift(lesson)

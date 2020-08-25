@@ -5,7 +5,7 @@ import {
   mutationField,
   enumType,
 } from '@nexus/schema'
-import { SchoolDayType } from '../general/school-day-tracking/schoolDayType'
+import { SchoolDayType } from '../school-day/schoolDayType'
 import { CourseInfo, CourseTypeEnum } from '.'
 import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
 import { ObjectId } from 'mongodb'

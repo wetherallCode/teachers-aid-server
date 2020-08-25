@@ -20,6 +20,7 @@ export const Protocol = objectType({
     t.field('markingPeriod', { type: MarkingPeriodEnum })
     t.string('startTime')
     t.string('endTime', { nullable: true })
+    t.string('response', { nullable: true })
   },
 })
 

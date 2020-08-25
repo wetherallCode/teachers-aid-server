@@ -1,5 +1,5 @@
 import { objectType, inputObjectType, enumType } from '@nexus/schema'
-import { Teacher, Student } from '..'
+import { Teacher, Student, StudentSignInSheet } from '..'
 import { ObjectId } from 'mongodb'
 import { Lesson } from '../lessons'
 import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
@@ -30,6 +30,33 @@ export const Course = objectType({
         return teacher
       },
     })
+    t.list.field('hasSignInSheets', {
+      type: StudentSignInSheet,
+      async resolve(parent, __, { schoolDayData }) {
+        const schoolDay: NexusGenRootTypes['SchoolDay'][] = await schoolDayData
+          .find({
+            'signInSheets.course._id': new ObjectId(parent._id!),
+          })
+          .toArray()
+
+        const StudentSignInSheetList: NexusGenRootTypes['StudentSignInSheet'][] = []
+
+        schoolDay.forEach((day) => {
+          const { signInSheets } = day
+          signInSheets?.forEach(
+            (sheet: NexusGenRootTypes['StudentSignInSheet']) => {
+              const signInsheet: NexusGenRootTypes['StudentSignInSheet'] = {
+                course: sheet.course,
+                lessonDate: sheet.lessonDate,
+                studentsSignInlog: sheet.studentsSignInlog,
+              }
+              StudentSignInSheetList.push(signInsheet)
+            }
+          )
+        })
+        return StudentSignInSheetList
+      },
+    })
     t.list.field('hasStudents', {
       type: Student,
       async resolve(parent, __, { userData }) {
@@ -44,7 +71,7 @@ export const Course = objectType({
       async resolve(parent, __, { lessonData }) {
         const lessons: NexusGenRootTypes['Lesson'][] = await lessonData
           .find({
-            'assignedCourse._id': new ObjectId(parent._id!),
+            'assignedCourses._id': new ObjectId(parent._id!),
           })
           .toArray()
         return lessons

@@ -1,7 +1,7 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { ObjectId } from 'mongodb'
 import { SchoolDay, SchoolDayType } from '.'
-import { StudentCohortEnum } from '../..'
+import { StudentCohortEnum } from '..'
 
 export const UpdateSchoolDayInput = inputObjectType({
   name: 'UpdateSchoolDayInput',
