@@ -699,7 +699,7 @@ export interface NexusGenInputs {
 }
 
 export interface NexusGenEnums {
-  AcademicOutomeTypes: "LOGIC_BUILDING" | "SCHEMA_BUILDING" | "SOCRATIC_QUESTIONS"
+  AcademicOutomeTypes: "LOGIC_BUILDING" | "SCHEMA_BUIDING" | "SOCRATIC_QUESTIONS"
   BasicQuestionEnum: "HOW" | "WHY"
   CourseMaxSizeEnum: "THIRTY" | "THIRTY_SIX" | "TWELVE" | "TWENTY_FOUR"
   CourseTypeEnum: "ENGLISH_LANGUAGE_ARTS" | "MATH" | "RELATED_ARTS" | "SCIENCE" | "SOCIAL_STUDIES"

@@ -12,7 +12,7 @@ type AcademicOrganizer {
 
 enum AcademicOutomeTypes {
   LOGIC_BUILDING
-  SCHEMA_BUILDING
+  SCHEMA_BUIDING
   SOCRATIC_QUESTIONS
 }
 
