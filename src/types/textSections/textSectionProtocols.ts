@@ -36,5 +36,5 @@ export const ProtocolActivityTypes = enumType({
 
 export const AcademicOutcomeTypes = enumType({
   name: 'AcademicOutomeTypes',
-  members: ['SCHEMA_BUIDING', 'LOGIC_BUILDING', 'SOCRATIC_QUESTIONS'],
+  members: ['SCHEMA_BUILDING', 'LOGIC_BUILDING', 'SOCRATIC_QUESTIONS'],
 })
