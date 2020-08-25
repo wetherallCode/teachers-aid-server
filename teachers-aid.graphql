@@ -188,6 +188,16 @@ type BuildRubricEntryPayload {
   rubricEntry: RubricEntry!
 }
 
+input ChangePasswordInput {
+  newPassword: String!
+  oldPassword: String!
+  userName: String!
+}
+
+type ChangePasswordPayload {
+  user: User!
+}
+
 input ChangeVocabWordInput {
   _id: ID!
   definition: String!
@@ -931,6 +941,7 @@ type Mutation {
   assignReadingGuides(input: AssignReadingGuidesInput!): AssignReadingGuidesPayload!
   assignSeats(input: AssignSeatsInput!): AssignSeatsPayload!
   buildRubricEntry(input: BuildRubricEntryInput!): BuildRubricEntryPayload!
+  changePassword(input: ChangePasswordInput!): ChangePasswordPayload!
   changeVocabWord(input: ChangeVocabWordInput!): UpdateVocabPayload!
   createAbsence(input: CreateAbsenceInput!): CreateAbsencePayload!
   createCourse(input: CreateCourseInput!): CreateCoursePayload!
@@ -1021,6 +1032,14 @@ input PageNumbersInput {
   startingPage: Int!
 }
 
+input PasswordCheckInput {
+  password: String!
+}
+
+type PasswordCheckPayload {
+  firstTimeLoginIn: Boolean!
+}
+
 type ProblemSolutionAnswerType {
   problem: String!
   reasonForProblem: String!
@@ -1104,6 +1123,7 @@ type Query {
   findUnits: FindUnitsPayload!
   findUserData(input: FindUserDataInput!): FindUserDataPayload!
   me: User
+  passwordCheck(input: PasswordCheckInput!): PasswordCheckPayload!
   removeSchoolDay(input: RemoveSchoolDayInput!): RemoveSchoolDayPayload!
   removeSubmittedEssayFinalDraft(input: RemoveSubmittedEssayFinalDraftInput!): RemoveSubmittedEssayFinalDraftPayload!
 }
