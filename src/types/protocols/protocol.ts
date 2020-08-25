@@ -16,7 +16,7 @@ export const Protocol = objectType({
     t.field('protocolActivityType', { type: ProtocolActivityTypes })
     t.field('academicOutcomeType', { type: AcademicOutcomeTypes })
     t.string('task')
-    t.date('assignedDate')
+    t.string('assignedDate')
     t.field('markingPeriod', { type: MarkingPeriodEnum })
     t.string('startTime')
     t.string('endTime', { nullable: true })

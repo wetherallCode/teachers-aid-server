@@ -135,9 +135,9 @@ type AssignEssaysPayload {
 interface Assignment {
   _id: ID
   assigned: Boolean!
-  assignedDate: Date!
+  assignedDate: String!
   associatedLessonId: ID!
-  dueDate: Date!
+  dueDate: String!
   dueTime: String!
   exempt: Boolean!
   hasAssigner: Teacher!
@@ -296,9 +296,9 @@ type CreateCoursePayload {
 
 input CreateEssayInput {
   assignedCourseId: [ID!]!
-  assignedDate: Date!
+  assignedDate: String!
   associatedLessonId: ID!
-  dueDate: Date!
+  dueDate: String!
   dueTime: TimeOfDay!
   hasAssignerId: String!
   markingPeriod: MarkingPeriodEnum!
@@ -356,9 +356,9 @@ type CreateProtocolPayload {
 
 input CreateReadingGuideInput {
   assignedCourseIds: [ID!]!
-  assignedDate: Date!
+  assignedDate: String!
   associatedLessonId: ID!
-  dueDate: Date!
+  dueDate: String!
   dueTime: TimeOfDay!
   hasAssignerId: String!
   markingPeriod: MarkingPeriodEnum!
@@ -471,9 +471,9 @@ enum DynamicLessonEnums {
 type Essay implements Assignment {
   _id: ID
   assigned: Boolean!
-  assignedDate: Date!
+  assignedDate: String!
   associatedLessonId: ID!
-  dueDate: Date!
+  dueDate: String!
   dueTime: String!
   exempt: Boolean!
   finalDraft: FinalDraftContainer
@@ -1006,7 +1006,7 @@ type Protocol {
   _id: ID
   academicOutcomeType: AcademicOutomeTypes!
   assessment: ProtocolAssessmentEnum
-  assignedDate: Date!
+  assignedDate: String!
   completed: Boolean!
   discussionLevel: DiscussionTypesEnum
   endTime: String
@@ -1084,10 +1084,10 @@ enum QuestionTypeEnum {
 type ReadingGuide implements Assignment {
   _id: ID
   assigned: Boolean!
-  assignedDate: Date!
+  assignedDate: String!
   associatedLessonId: ID!
   completed: Boolean!
-  dueDate: Date!
+  dueDate: String!
   dueTime: String!
   exempt: Boolean!
   graded: Boolean!
@@ -1314,7 +1314,7 @@ type SchoolDay {
   cohortWeek: StudentCohortEnum!
   currentSchoolDayType: SchoolDayType!
   schoolDayCount: Int!
-  todaysDate: Date!
+  todaysDate: String!
 }
 
 enum SchoolDayType {
@@ -1426,6 +1426,12 @@ input StudentSeatInput {
   whiteCohortStudentId: ID
 }
 
+type StudentSignInSheet {
+  course: Course!
+  lessonDate: Date!
+  studentsSignInlog: [Student!]
+}
+
 input SubmitEssayFinalDraftInput {
   _id: ID!
   late: Boolean!
@@ -1483,9 +1489,9 @@ type Teacher implements User {
 type Test implements Assignment {
   _id: ID
   assigned: Boolean!
-  assignedDate: Date!
+  assignedDate: String!
   associatedLessonId: ID!
-  dueDate: Date!
+  dueDate: String!
   dueTime: String!
   exempt: Boolean!
   hasAssigner: Teacher!
@@ -1909,7 +1915,7 @@ type WhyCauseEffectMetrics {
 }
 
 type WorkingDraft {
-  draft: JSON!
+  draft: String!
   organizer: Organizers
 }
 

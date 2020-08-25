@@ -30,10 +30,10 @@ export const Assignment = interfaceType({
       },
     })
     t.string('dueTime')
-    t.date('assignedDate')
+    t.string('assignedDate')
     t.boolean('paperBased')
     t.boolean('assigned')
-    t.date('dueDate')
+    t.string('dueDate')
     t.boolean('late')
     t.boolean('exempt')
     t.field('readings', { type: Readings })

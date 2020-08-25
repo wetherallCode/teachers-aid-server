@@ -1,14 +1,5 @@
 import { objectType, unionType } from '@nexus/schema'
 
-// export const AnswerTypes = objectType({
-//   name: 'AnswerTypes',
-//   definition(t) {
-//     t.field('problemSolutionAnswerType', { type: ProblemSolutionAnswerType })
-//     t.field('howCauseEffectAnswerType', { type: HowCauseEffectAnswerType })
-//     t.field('whyCauseEffect', { type: WhyCauseEffectAnswerType })
-//   },
-// })
-
 export const AnswerTypes = unionType({
   name: 'AnswerTypes',
   definition(t) {

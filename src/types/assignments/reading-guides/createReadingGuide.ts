@@ -13,9 +13,9 @@ export const CreateReadingGuideInput = inputObjectType({
     t.string('hasAssignerId', { required: true })
     t.int('maxPoints', { required: true })
     t.field('markingPeriod', { type: MarkingPeriodEnum, required: true })
-    t.date('dueDate', { required: true })
+    t.string('dueDate', { required: true })
     t.field('dueTime', { type: TimeOfDayEnum, required: true })
-    t.date('assignedDate', { required: true })
+    t.string('assignedDate', { required: true })
   },
 })
 

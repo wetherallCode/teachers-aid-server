@@ -66,7 +66,7 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
     }
 
     function handleLate() {
-      const submittedDate: string = new Date().toLocaleString().substring(0, 9)
+      const submittedDate: string = new Date().toLocaleDateString()
       const submittedTime: string = new Date().toLocaleString().substring(10)
 
       let isLate: boolean = false

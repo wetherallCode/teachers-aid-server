@@ -45,7 +45,7 @@ export const WorkingDraft = objectType({
   name: 'WorkingDraft',
   definition(t) {
     t.field('organizer', { type: Organizers, nullable: true })
-    t.JSON('draft')
+    t.string('draft')
   },
 })
 
