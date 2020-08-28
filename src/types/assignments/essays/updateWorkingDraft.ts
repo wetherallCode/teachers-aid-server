@@ -21,6 +21,7 @@ export const UpdateWorkingDraft = mutationField('updateWorkingDraft', {
   type: UpdateWorkingDraftPayload,
   args: { input: arg({ type: UpdateWorkingDraftInput, required: true }) },
   async resolve(_, { input: { _id, updatedDraft } }, { assignmentData }) {
+    console.log(updatedDraft)
     await assignmentData.updateOne(
       { _id: new ObjectID(_id) },
       { $set: { 'workingDraft.draft': updatedDraft } }

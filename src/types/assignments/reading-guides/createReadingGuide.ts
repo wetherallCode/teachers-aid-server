@@ -86,7 +86,7 @@ export const CreateReadingGuide = mutationField('createReadingGuide', {
 
       function assignedDueTime(time: string) {
         if (time === 'BEFORE_SCHOOL') {
-          return '08:00:00 AM'
+          return '8:00:00 AM'
         }
         if (time === 'BEFORE_CLASS') {
           return assignedCourseInfo.startsAt
@@ -95,7 +95,7 @@ export const CreateReadingGuide = mutationField('createReadingGuide', {
           return assignedCourseInfo.endsAt
         }
         if (time === 'AFTER_SCHOOL') {
-          return '02:15:00 PM'
+          return '2:15:00 PM'
         }
         return '08:00:00 AM'
       }
