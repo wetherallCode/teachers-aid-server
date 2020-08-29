@@ -27,7 +27,6 @@ export const FindEssaysToCompleteByStudentId = queryField(
       }),
     },
     async resolve(_, { input: { studentId } }, { assignmentData }) {
-      console.log(studentId)
       const essays = await assignmentData
         .find({
           'hasOwner._id': new ObjectId(studentId),
