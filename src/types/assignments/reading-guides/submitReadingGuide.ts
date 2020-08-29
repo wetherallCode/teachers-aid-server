@@ -71,12 +71,15 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
 
       let isLate: boolean = false
 
-      if (submittedDate > readingGuideValidation.dueDate) {
+      if (
+        Date.parse(submittedDate) > Date.parse(readingGuideValidation.dueDate)
+      ) {
         return (isLate = true)
       }
       if (
-        readingGuideValidation.dueDate === submittedDate &&
-        readingGuideValidation.dueTime > submittedTime
+        Date.parse(readingGuideValidation.dueDate) ===
+          Date.parse(submittedDate) &&
+        Date.parse(readingGuideValidation.dueTime) > Date.parse(submittedTime)
       ) {
         return (isLate = true)
       }
@@ -84,6 +87,7 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
     }
 
     const isLate = handleLate()
+    console.log(isLate)
 
     const {
       whyWasSectionOrganized,

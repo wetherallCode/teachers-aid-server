@@ -50,9 +50,7 @@ export const AssignSeats = mutationField('assignSeats', {
     )
     if (courseValidation) {
       if (cohortBasedSeating) {
-        console.log(seat)
         if (seat?.redCohortStudentId) {
-          console.log('red')
           const student: NexusInputObjectTypeDef<'StudentSeatInput'> = await userData.findOne(
             {
               _id: new ObjectId(seat.redCohortStudentId!),
@@ -79,7 +77,6 @@ export const AssignSeats = mutationField('assignSeats', {
           return { courseInfo }
         }
         if (seat?.whiteCohortStudentId) {
-          console.log('white')
           const student: NexusInputObjectTypeDef<'StudentSeatInput'> = await userData.findOne(
             {
               _id: new ObjectId(seat?.whiteCohortStudentId!),

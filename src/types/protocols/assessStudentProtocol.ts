@@ -46,19 +46,12 @@ export const AssessStudentProtocol = mutationField('assessStudentProtocol', {
     },
     { protocolData, userData }
   ) {
-    task
-    assignedDate
-    // console.log(discussionLevel)
-    assessment
-    protocolData
-
     const protocols: NexusGenRootTypes['Protocol'][] = []
 
     const groupIds =
       partnerIds!.length > 0 ? [...partnerIds!, studentId] : [studentId]
 
     for (const _id of groupIds!) {
-      // console.log(_id)
       if (protocolActivityType !== 'INDIVIDUAL') {
         const partnerToExclude = groupIds!.findIndex((i: string) => i === _id)
 
@@ -115,7 +108,6 @@ export const AssessStudentProtocol = mutationField('assessStudentProtocol', {
         protocols.push(protocol)
       }
     }
-    // console.log(protocols.length, partnerIds?.length)
 
     return { protocols }
   },
