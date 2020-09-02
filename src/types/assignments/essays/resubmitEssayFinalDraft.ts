@@ -36,12 +36,20 @@ export const ResubmitEssayFinalDraft = mutationField(
       const essayCheck: NexusGenRootTypes['Essay'] = await assignmentData.findOne(
         { _id: new ObjectId(essayId), finalDraft: { $exists: true } }
       )
+      const beginningValue = [
+        {
+          type: 'paragraph',
+          children: [{ text: '' }],
+        },
+      ]
+
       if (essayCheck) {
         await assignmentData.updateOne(
           { _id: new ObjectId(essayId) },
           {
             $set: {
               assigned: false,
+              'workingDraft.draft': JSON.stringify(beginningValue),
               'finalDraft.submitted': true,
               'finalDraft.returned': false,
             },

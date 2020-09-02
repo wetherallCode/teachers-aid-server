@@ -34,6 +34,13 @@ export const SubmitEssayFinalDraft = mutationField('submitEssayFinalDraft', {
     const essayCheck: NexusGenRootTypes['Essay'] = await assignmentData.findOne(
       { _id: new ObjectId(_id) }
     )
+    const beginningValue = [
+      {
+        type: 'paragraph',
+        children: [{ text: '' }],
+      },
+    ]
+
     // Determine if essay is late
     function handleLate() {
       const submittedDate: string = new Date().toLocaleDateString()
@@ -51,6 +58,15 @@ export const SubmitEssayFinalDraft = mutationField('submitEssayFinalDraft', {
         isLate = true
       }
       return isLate
+    }
+
+    function handleLateness() {
+      const submittedDateTime: string = new Date().toLocaleString()
+      const dueDateTime: string = `${essayCheck.dueDate}, ${essayCheck.dueTime}`
+
+      if (Date.parse(submittedDateTime) > Date.parse(dueDateTime)) {
+        return true
+      } else return false
     }
 
     const isLate = handleLate()
@@ -90,9 +106,10 @@ export const SubmitEssayFinalDraft = mutationField('submitEssayFinalDraft', {
         { _id: new ObjectId(_id) },
         {
           $set: {
-            late: isLate,
+            late: handleLateness(),
             assigned: false,
             paperBased,
+            'workingDraft.draft': JSON.stringify(beginningValue),
             'finalDraft.submitted': true,
             'finalDraft.returned': false,
             'finalDraft.submitTime': new Date().toLocaleString(),
