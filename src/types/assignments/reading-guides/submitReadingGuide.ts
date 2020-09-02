@@ -1,5 +1,6 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { ObjectId } from 'mongodb'
+import { compareAsc } from 'date-fns'
 import { ReadingGuide } from '.'
 import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
 
@@ -65,29 +66,37 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
       }
     }
 
-    function handleLate() {
-      const submittedDate: string = new Date().toLocaleDateString()
-      const submittedTime: string = new Date().toLocaleString().substring(10)
+    // function handleLate() {
+    //   const submittedDate: string = new Date().toLocaleDateString()
+    //   const submittedTime: string = new Date().toLocaleString().substring(10)
 
-      let isLate: boolean = false
+    //   let isLate: boolean = false
 
-      if (
-        Date.parse(submittedDate) > Date.parse(readingGuideValidation.dueDate)
-      ) {
-        return (isLate = true)
-      }
-      if (
-        Date.parse(readingGuideValidation.dueDate) ===
-          Date.parse(submittedDate) &&
-        Date.parse(readingGuideValidation.dueTime) > Date.parse(submittedTime)
-      ) {
-        return (isLate = true)
-      }
-      return isLate
+    //   if (
+    //     Date.parse(submittedDate) > Date.parse(readingGuideValidation.dueDate)
+    //   ) {
+    //     return (isLate = true)
+    //   }
+    //   if (
+    //     Date.parse(readingGuideValidation.dueDate) ===
+    //       Date.parse(submittedDate) &&
+    //     Date.parse(readingGuideValidation.dueTime) > Date.parse(submittedTime)
+    //   ) {
+    //     return (isLate = true)
+    //   }
+    //   return isLate
+    // }
+
+    function handleLateness() {
+      const submittedDateTime: string = new Date().toLocaleString()
+      const dueDateTime: string = `${readingGuideValidation.dueDate}, ${readingGuideValidation.dueTime}`
+
+      if (Date.parse(submittedDateTime) > Date.parse(dueDateTime)) {
+        return true
+      } else return false
     }
 
-    const isLate = handleLate()
-    console.log(isLate)
+    console.log(handleLateness())
 
     const {
       whyWasSectionOrganized,
@@ -118,7 +127,7 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
             graded: true,
             assigned: false,
             'score.earnedPoints': complete ? 2 : 1,
-            late: isLate,
+            late: handleLateness(),
             'readingGuideFinal.submitted': true,
             'readingGuideFinal.submitTime': new Date().toLocaleString(),
           },
