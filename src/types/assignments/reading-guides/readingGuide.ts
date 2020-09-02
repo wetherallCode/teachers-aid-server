@@ -22,7 +22,6 @@ export const ReadingGuideFinalContainer = objectType({
     t.boolean('majorIssueSolved')
     t.string('majorSolution')
     t.list.string('clarifyingQuestions')
-
     t.boolean('submitted')
     t.string('submitTime', { nullable: true })
   },
