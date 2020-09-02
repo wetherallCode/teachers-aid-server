@@ -39,7 +39,7 @@ export const SetAnswerType = mutationField('setAnswerType', {
       proximateCause: '',
       ultimateCause: '',
     }
-
+    console.log(questionType)
     if (essay) {
       if (questionType === 'HOW_PROBLEM_SOLUTION') {
         await assignmentData.updateOne(
