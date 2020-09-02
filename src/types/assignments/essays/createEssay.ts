@@ -105,7 +105,7 @@ export const CreateEssay = mutationField('createEssay', {
 
       function assignedDueTime(time: string) {
         if (time === 'BEFORE_SCHOOL') {
-          return '08:00:00 AM'
+          return '8:00:00 AM'
         }
         if (time === 'BEFORE_CLASS') {
           return assignedCourseInfo.startsAt
@@ -114,12 +114,13 @@ export const CreateEssay = mutationField('createEssay', {
           return assignedCourseInfo.endsAt
         }
         if (time === 'AFTER_SCHOOL') {
-          return '02:15:00 PM'
+          return '2:15:00 PM'
         }
-        return '08:00:00 AM'
+        return '8:00:00 AM'
       }
 
       const dueTimeForAssignment = assignedDueTime(dueTime)
+
       const writingMetric: NexusGenRootTypes['WritingMetrics'] = await studentData.findOne(
         {
           'student._id': student._id,
