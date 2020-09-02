@@ -405,12 +405,12 @@ type CreateSchoolDayTrackerPayload {
   schoolDayTracker: SchoolDayTracker!
 }
 
-input CreateSignInSheetInput {
-  courseId: ID!
-  todaysDate: ID!
+input CreateSignInSheetsInput {
+  courseIds: [ID!]!
+  todaysDate: String!
 }
 
-type CreateSignInSheetPayload {
+type CreateSignInSheetsPayload {
   schoolDay: SchoolDay!
 }
 
@@ -598,10 +598,6 @@ input FindCoursesByIdInput {
 
 type FindCoursesByIdPayload {
   courses: [Course!]!
-}
-
-input FindCurrentMarkingPeriodInput {
-  _id: ID!
 }
 
 type FindCurrentMarkingPeriodPayload {
@@ -954,7 +950,7 @@ type Mutation {
   createResponsibilityPoints(input: CreateResponsibilityPointsInput!): CreateResponsibilityPointsPayload!
   createSchoolDay(input: CreateSchoolDayInput!): CreateSchoolDayPayload!
   createSchoolDayTracker: CreateSchoolDayTrackerPayload!
-  createSignInSheet(input: CreateSignInSheetInput!): CreateSignInSheetPayload!
+  createSignInSheets(input: CreateSignInSheetsInput!): CreateSignInSheetsPayload!
   createTextSection(input: CreateTextSectionInput!): CreateTextSectionPayload!
   createUnexcusedLateness(input: CreateUnexcusedLatenessInput!): CreateUnexcusedLatenessPayload!
   createUnit(input: CreateUnitInput!): CreateUnitPayload!

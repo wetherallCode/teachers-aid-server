@@ -2,12 +2,12 @@ import { objectType, inputObjectType, arg, queryField } from '@nexus/schema'
 import { MarkingPeriod } from '..'
 import { ObjectId } from 'mongodb'
 
-export const FindCurrentMarkingPeriodInput = inputObjectType({
-  name: 'FindCurrentMarkingPeriodInput',
-  definition(t) {
-    t.id('_id', { required: true })
-  },
-})
+// export const FindCurrentMarkingPeriodInput = inputObjectType({
+//   name: 'FindCurrentMarkingPeriodInput',
+//   definition(t) {
+//     t.id('_id', { required: true })
+//   },
+// })
 
 export const FindCurrentMarkingPeriodPayload = objectType({
   name: 'FindCurrentMarkingPeriodPayload',
