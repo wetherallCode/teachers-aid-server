@@ -28,7 +28,7 @@ export const CreateSignInSheets = mutationField('createSignInSheets', {
     const schoolDayCheck = await schoolDayData.findOne({
       todaysDate: todaysDate,
     })
-
+    console.log('hi')
     if (schoolDayCheck) {
       for (const _id of courseIds) {
         const course = await courseData.findOne({
