@@ -866,7 +866,7 @@ configstore@^5.0.1:
     write-file-atomic "^3.0.0"
     xdg-basedir "^4.0.0"
 
-connect-mongodb-session@^2.4.0:
+connect-mongodb-session@^2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/connect-mongodb-session/-/connect-mongodb-session-2.4.1.tgz#58b9cf42da129339e3a78db749f4dcb7cbda4a75"
   integrity sha512-pfTy1fAVYPhE7nFS4k/MoBm4C14PIQYz008TrZc/HIGeJhsZuxfYI5fsfC+neBZezFK28sBGHhao+9iFIjOggw==
