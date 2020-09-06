@@ -106,7 +106,7 @@ const startServer = async () => {
       }
     },
   })
-
+  console.log('hi')
   server.applyMiddleware({
     app,
     cors: {
