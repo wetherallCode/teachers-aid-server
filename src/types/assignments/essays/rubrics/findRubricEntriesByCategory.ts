@@ -1,7 +1,7 @@
 import { objectType, inputObjectType, arg, queryField } from '@nexus/schema'
 import { WritingLevelEnum } from '../../../students/progress-metrics/writingMetrics'
 import { RubricEntry } from '.'
-import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { NexusGenRootTypes } from '../../../../teachers-aid-typegen'
 
 export const FindRubricEntriesByCategoryInput = inputObjectType({
   name: 'FindRubricEntriesByCategoryInput',

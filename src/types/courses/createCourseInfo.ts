@@ -7,7 +7,7 @@ import {
 } from '@nexus/schema'
 import { SchoolDayType } from '../school-day/schoolDayType'
 import { CourseInfo, CourseTypeEnum } from '.'
-import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { NexusGenRootTypes } from '../../teachers-aid-typegen'
 import { ObjectId } from 'mongodb'
 import {
   twelveAssignedSeats,

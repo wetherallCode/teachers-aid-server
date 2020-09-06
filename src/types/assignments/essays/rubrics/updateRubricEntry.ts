@@ -2,7 +2,7 @@ import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { RubricEntry, RubricSectionEnum } from '.'
 import { WritingLevelEnum } from '../../../students/progress-metrics/writingMetrics'
 import { ObjectId } from 'mongodb'
-import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { NexusGenRootTypes } from '../../../../teachers-aid-typegen'
 
 export const UpdateRubricEntryInput = inputObjectType({
   name: 'UpdateRubricEntryInput',

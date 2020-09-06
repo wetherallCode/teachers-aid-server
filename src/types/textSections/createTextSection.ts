@@ -9,7 +9,7 @@ import {
   TextSectionVocabInput,
   PageNumbersInput,
 } from './textSection'
-import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { NexusGenRootTypes } from '../../teachers-aid-typegen'
 import { ObjectId } from 'mongodb'
 
 export const CreateTextSectionInput = inputObjectType({

@@ -1,5 +1,5 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
-import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
 import { ObjectId } from 'mongodb'
 import { Essay } from '.'
 import { TopicInput } from './essays'

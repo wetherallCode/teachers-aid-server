@@ -1,6 +1,6 @@
 import { mutationField, inputObjectType, objectType, arg } from '@nexus/schema'
 import { Chapter } from '.'
-import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { NexusGenRootTypes } from '../../teachers-aid-typegen'
 
 export const AddNewChapterInput = inputObjectType({
   name: 'AddNewChapterInput',

@@ -1,6 +1,6 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { ReadingGuide } from './readingGuide'
-import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
 import { ObjectId } from 'mongodb'
 
 export const AssignReadingGuidesInput = inputObjectType({

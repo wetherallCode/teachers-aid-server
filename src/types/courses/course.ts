@@ -2,7 +2,7 @@ import { objectType, inputObjectType, enumType } from '@nexus/schema'
 import { Teacher, Student, StudentSignInSheet } from '..'
 import { ObjectId } from 'mongodb'
 import { Lesson } from '../lessons'
-import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { NexusGenRootTypes } from '../../teachers-aid-typegen'
 import { CourseInfo } from './courseInfo'
 import { resolve } from 'path'
 

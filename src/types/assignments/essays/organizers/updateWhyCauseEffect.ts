@@ -3,7 +3,7 @@ import { Essay } from '..'
 import {
   NexusGenRootTypes,
   NexusGenFieldTypes,
-} from 'teachers-aid-server/src/teachers-aid-typegen'
+} from '../../../../teachers-aid-typegen'
 import { ObjectId } from 'mongodb'
 
 export const UpdateWhyCauseEffectInput = inputObjectType({

@@ -1,7 +1,7 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { MarkingPeriodEnum, MarkingPeriod } from './markingPeriod'
 import { ObjectId } from 'mongodb'
-import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
 
 export const SetCurrentMarkingPeriodInput = inputObjectType({
   name: 'SetCurrentMarkingPeriodInput',

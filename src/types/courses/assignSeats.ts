@@ -1,7 +1,7 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { CourseInfo, StudentSeatInput } from '.'
 import { ObjectId } from 'mongodb'
-import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { NexusGenRootTypes } from '../../teachers-aid-typegen'
 // import { StudentSeatInput } from './studentSeat'
 import { NexusInputObjectTypeDef } from '@nexus/schema/dist/core'
 

@@ -1,5 +1,5 @@
 import { objectType, mutationField } from '@nexus/schema'
-import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
 import { SchoolDayTracker } from '.'
 
 export const CreateSchoolDayTrackerPayload = objectType({

@@ -1,6 +1,6 @@
 import { objectType, inputObjectType, mutationField, arg } from '@nexus/schema'
 import { hash } from 'argon2'
-import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { NexusGenRootTypes } from '../../teachers-aid-typegen'
 import { Teacher, TitleEnum } from '..'
 
 export const RegisterTeacherInput = inputObjectType({

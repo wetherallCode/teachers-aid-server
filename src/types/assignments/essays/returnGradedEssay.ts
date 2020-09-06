@@ -3,7 +3,7 @@ import { Essay } from '.'
 import { ObjectID, ObjectId } from 'mongodb'
 import { RubricEntryInput, RubricSectionEnum } from './rubrics'
 import { WritingLevelEnum } from '../..'
-import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
 
 export const ReturnGradedEssayInput = inputObjectType({
   name: 'ReturnGradedEssayInput',

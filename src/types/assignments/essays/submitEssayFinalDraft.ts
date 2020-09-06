@@ -1,7 +1,7 @@
 import { inputObjectType, objectType, mutationField, arg } from '@nexus/schema'
 import { SubmittedFinalDraftsInput, Essay } from '.'
 import { ObjectId } from 'mongodb'
-import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
 
 export const SubmitEssayFinalDraftInput = inputObjectType({
   name: 'SubmitEssayFinalDraftInput',

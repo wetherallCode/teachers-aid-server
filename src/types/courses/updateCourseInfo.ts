@@ -1,7 +1,7 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { CourseInfo, CourseTypeEnum, StudentSeat } from '.'
 import { ObjectId } from 'mongodb'
-import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { NexusGenRootTypes } from '../../teachers-aid-typegen'
 import { SchoolDayType } from '..'
 
 export const UpdateCourseInfoInput = inputObjectType({

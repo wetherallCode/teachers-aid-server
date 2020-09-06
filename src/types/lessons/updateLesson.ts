@@ -8,7 +8,7 @@ import {
   TextSectionQuestionsInput,
   PageNumbersInput,
 } from '..'
-import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { NexusGenRootTypes } from '../../teachers-aid-typegen'
 
 export const UpdateLessonInput = inputObjectType({
   name: 'UpdateLessonInput',

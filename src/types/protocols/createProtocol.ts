@@ -1,6 +1,6 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { Protocol, DiscussionTypesEnum } from '.'
-import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { NexusGenRootTypes } from '../../teachers-aid-typegen'
 import {
   AcademicOutcomeTypes,
   ProtocolActivityTypes,

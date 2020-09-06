@@ -1,7 +1,7 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { ReadingGuide } from '.'
 import { MarkingPeriodEnum, TimeOfDayEnum } from '../..'
-import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
 import { ObjectId } from 'mongodb'
 
 export const CreateReadingGuideInput = inputObjectType({
