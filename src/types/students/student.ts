@@ -2,7 +2,7 @@ import { objectType, enumType } from '@nexus/schema'
 import { User } from '../users'
 import { Course, WritingMetrics, StudentQuestion } from '..'
 import { ObjectId } from 'mongodb'
-import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { NexusGenRootTypes } from '../../teachers-aid-typegen'
 import { ResponsibilityPoints } from './responsibilityPoints'
 
 export const Student = objectType({

@@ -8,7 +8,7 @@ import { Student, Teacher, Lesson } from '..'
 import { type } from 'os'
 import { MarkingPeriodEnum } from '../general'
 import { resolve } from 'path'
-import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { NexusGenRootTypes } from '../../teachers-aid-typegen'
 import { ObjectId } from 'mongodb'
 
 export const Assignment = interfaceType({

@@ -1,7 +1,7 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { Essay, ReadingsInput, TopicInput } from '.'
 import { MarkingPeriodEnum, WritingLevelEnum, TimeOfDayEnum } from '../..'
-import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
 import { ObjectId } from 'mongodb'
 import { getRandomInt } from '../../../utilities'
 
