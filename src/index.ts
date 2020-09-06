@@ -111,7 +111,7 @@ const startServer = async () => {
     app,
     cors: {
       credentials: true,
-      origin: 'https://mrwetherall.org',
+      origin: ['https://mrwetherall.org', 'http://localhost:3000'],
     },
   })
 
