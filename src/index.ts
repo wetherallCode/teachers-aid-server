@@ -106,7 +106,7 @@ const startServer = async () => {
       }
     },
   })
-  console.log('hi')
+
   server.applyMiddleware({
     app,
     cors: {
@@ -116,7 +116,7 @@ const startServer = async () => {
   })
   const PORT = process.env.PORT || 4000
   app.listen({ port: PORT }, () =>
-    console.log(`🚀 Server ready at http://localhost:4005${server.graphqlPath}`)
+    console.log(`🚀 Server ready at ${server.graphqlPath}`)
   )
 }
 
