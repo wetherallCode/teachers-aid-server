@@ -10,7 +10,7 @@ type AcademicOrganizer {
   restatement: String!
 }
 
-enum AcademicOutomeTypes {
+enum AcademicOutcomeTypes {
   LOGIC_BUILDING
   SCHEMA_BUIDING
   SOCRATIC_QUESTIONS
@@ -354,7 +354,7 @@ type CreateLessonPayload {
 }
 
 input CreateProtocolInput {
-  academicOutcomeType: AcademicOutomeTypes!
+  academicOutcomeType: AcademicOutcomeTypes!
   markingPeriod: MarkingPeriodEnum!
   protocolActivityType: ProtocolActivityTypes!
   studentIds: [ID!]!
@@ -412,6 +412,16 @@ input CreateSignInSheetsInput {
 
 type CreateSignInSheetsPayload {
   schoolDay: SchoolDay!
+}
+
+input CreateStudentQuestionInput {
+  courseId: ID!
+  question: String!
+  studentId: ID!
+}
+
+type CreateStudentQuestionPayload {
+  studentQuestions: StudentQuestions!
 }
 
 input CreateTextSectionInput {
@@ -951,6 +961,7 @@ type Mutation {
   createSchoolDay(input: CreateSchoolDayInput!): CreateSchoolDayPayload!
   createSchoolDayTracker: CreateSchoolDayTrackerPayload!
   createSignInSheets(input: CreateSignInSheetsInput!): CreateSignInSheetsPayload!
+  createStudentQuestion(input: CreateStudentQuestionInput!): CreateStudentQuestionPayload!
   createTextSection(input: CreateTextSectionInput!): CreateTextSectionPayload!
   createUnexcusedLateness(input: CreateUnexcusedLatenessInput!): CreateUnexcusedLatenessPayload!
   createUnit(input: CreateUnitInput!): CreateUnitPayload!
@@ -1050,7 +1061,7 @@ interface ProgressMetrics {
 
 type Protocol {
   _id: ID
-  academicOutcomeType: AcademicOutomeTypes!
+  academicOutcomeType: AcademicOutcomeTypes!
   assessment: ProtocolAssessmentEnum
   assignedDate: String!
   completed: Boolean!
@@ -1478,6 +1489,20 @@ type StudentInformation {
   student: Student!
 }
 
+type StudentQuestion {
+  question: String!
+  studentId: ID!
+  timeAsked: String!
+}
+
+type StudentQuestions {
+  _id: ID
+  associatedSchoolDayId: ID!
+  course: ID!
+  date: String!
+  questions: [StudentQuestion!]!
+}
+
 type StudentSeat {
   deskNumber: Int!
   redCohortStudent: Student
@@ -1611,7 +1636,7 @@ type TextSection {
 
 """Protocol suggestions for including in a LessonPlan"""
 type TextSectionProtocols {
-  academicOutcomeTypes: AcademicOutomeTypes!
+  academicOutcomeTypes: AcademicOutcomeTypes!
   activityType: ProtocolActivityTypes!
   completed: Boolean!
   isActive: Boolean!
@@ -1619,7 +1644,7 @@ type TextSectionProtocols {
 }
 
 input TextSectionProtocolsInput {
-  academicOutcomeTypes: AcademicOutomeTypes!
+  academicOutcomeTypes: AcademicOutcomeTypes!
   activityType: ProtocolActivityTypes!
   completed: Boolean!
   isActive: Boolean!

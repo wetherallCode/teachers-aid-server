@@ -1,6 +1,7 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
-import { SchoolDay } from '.'
+import { SchoolDay, StudentQuestions } from '.'
 import { ObjectId } from 'mongodb'
+import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
 
 export const CreateSignInSheetsInput = inputObjectType({
   name: 'CreateSignInSheetsInput',
@@ -25,9 +26,11 @@ export const CreateSignInSheets = mutationField('createSignInSheets', {
     { input: { todaysDate, courseIds } },
     { schoolDayData, courseData }
   ) {
-    const schoolDayCheck = await schoolDayData.findOne({
-      todaysDate: todaysDate,
-    })
+    const schoolDayCheck: NexusGenRootTypes['SchoolDay'] = await schoolDayData.findOne(
+      {
+        todaysDate: todaysDate,
+      }
+    )
 
     if (schoolDayCheck) {
       for (const _id of courseIds) {
@@ -47,7 +50,19 @@ export const CreateSignInSheets = mutationField('createSignInSheets', {
             },
           }
         )
+
+        const newStudentQuestions: NexusGenRootTypes['StudentQuestions'] = {
+          associatedSchoolDayId: schoolDayCheck._id!,
+          course,
+          questions: [],
+          date: new Date().toLocaleDateString(),
+        }
+        const { insertedId } = await schoolDayData.insertOne(
+          newStudentQuestions
+        )
+        newStudentQuestions._id = insertedId
       }
+
       const schoolDay = await schoolDayData.findOne({ todaysDate: todaysDate })
       return { schoolDay }
     } else throw new Error('School Day does not exist')

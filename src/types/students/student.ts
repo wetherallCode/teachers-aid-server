@@ -1,6 +1,6 @@
 import { objectType, enumType } from '@nexus/schema'
 import { User } from '../users'
-import { Course, WritingMetrics } from '..'
+import { Course, WritingMetrics, StudentQuestion } from '..'
 import { ObjectId } from 'mongodb'
 import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
 import { ResponsibilityPoints } from './responsibilityPoints'
@@ -12,6 +12,19 @@ export const Student = objectType({
     t.string('schoolId', { nullable: true })
     t.boolean('virtual')
     t.field('cohort', { type: StudentCohortEnum })
+    // t.list.field('asksQuestions', {
+    //   type: StudentQuestion,
+    //   async resolve(parent, __, { schoolDayData }) {
+    //     const studentQuestions: NexusGenRootTypes['StudentQuestions'] = await schoolDayData
+    //       .find({ 'questions.studentId': new ObjectId(parent._id!) })
+    //       .toArray()
+
+    //     const questions = studentQuestions.questions.filter(
+    //       (question) => question.studentId === parent._id
+    //     )
+    //     return questions
+    //   },
+    // })
     t.field('hasContactInformation', {
       type: 'StudentInformation',
       async resolve(parent, __, { studentData }) {

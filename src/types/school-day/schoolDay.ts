@@ -2,6 +2,7 @@ import { objectType } from '@nexus/schema'
 import { SchoolDayType } from './schoolDayType'
 import { StudentCohortEnum, Student } from '../students'
 import { Course } from '..'
+import { StudentQuestions } from '../general'
 
 export const SchoolDay = objectType({
   name: 'SchoolDay',
@@ -15,6 +16,17 @@ export const SchoolDay = objectType({
       type: StudentSignInSheet,
       nullable: true,
     })
+    // t.list.field('hasStudentQuestions', {
+    //   type: StudentQuestions,
+    //   async resolve(parent, __, schoolDayData) {
+    //     const studentQuestions = await schoolDayData
+    //       .find({
+    //         associatedSchoolDayId: parent._id,
+    //       })
+    //       .toArray()
+    //     return studentQuestions
+    //   },
+    // })
   },
 })
 
