@@ -114,8 +114,8 @@ const startServer = async () => {
       origin: ['https://mrwetherall.org', 'http://localhost:3000'],
     },
   })
-
-  app.listen({ port: 4005 }, () =>
+  const PORT = process.env.PORT || 4000
+  app.listen({ port: PORT }, () =>
     console.log(`🚀 Server ready at http://localhost:4005${server.graphqlPath}`)
   )
 }
