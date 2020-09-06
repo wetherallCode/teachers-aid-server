@@ -5,7 +5,7 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "start": "--exec ts-node src/index.ts",
+    "start": "ts-node src/index.ts",
     "apollo-push": "npx apollo service:push --localSchemaFile=./teachers-aid.graphql"
   },
   "dependencies": {
