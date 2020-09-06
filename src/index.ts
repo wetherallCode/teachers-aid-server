@@ -1,4 +1,4 @@
-import 'reflect-metadata'
+// import 'reflect-metadata'
 import 'dotenv/config'
 import { ApolloServer } from 'apollo-server-express'
 import * as express from 'express'
