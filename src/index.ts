@@ -50,11 +50,11 @@ const startServer = async () => {
       secret: process.env.SESSION_SECRET as string,
       resave: false,
       cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 7,
-        // maxAge: 1000,
-        // httpOnly: true,
-        // sameSite: 'none',
-        // secure: true,
+        // maxAge: 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000,
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true,
       },
       store: store,
       saveUninitialized: false,
@@ -111,7 +111,7 @@ const startServer = async () => {
     app,
     cors: {
       credentials: true,
-      origin: 'http://localhost:3000',
+      origin: 'https://mrwetherall.org',
     },
   })
 
