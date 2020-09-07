@@ -15,6 +15,9 @@ import {
   thirtyAssignedSeats,
   thirtySixAssignedSeats,
   twelveCohortAssignedSeats,
+  twentyFourCohortAssignedSeats,
+  thirtyCohortAssignedSeats,
+  thirtySixCohortAssignedSeats,
 } from './intialAssignedSeats'
 
 export const CreateCourseInfoInput = inputObjectType({
@@ -70,7 +73,7 @@ export const CreateCourseInfo = mutationField('createCourseInfo', {
         'teachesCourses._id': new ObjectId(courseId),
       }
     )
-    courseMaxSize
+
     if (course) {
       const courseInfo: NexusGenRootTypes['CourseInfo'] = {
         course,
@@ -87,10 +90,16 @@ export const CreateCourseInfo = mutationField('createCourseInfo', {
             ? twelveCohortAssignedSeats
             : courseMaxSize === 'TWELVE'
             ? twelveAssignedSeats
+            : courseMaxSize === 'TWENTY_FOUR' && cohortBasedSeating
+            ? twentyFourCohortAssignedSeats
             : courseMaxSize === 'TWENTY_FOUR'
             ? twentyFourAssignedSeats
+            : courseMaxSize === 'THIRTY' && cohortBasedSeating
+            ? thirtyCohortAssignedSeats
             : courseMaxSize === 'THIRTY'
             ? thirtyAssignedSeats
+            : courseMaxSize === 'THIRTY_SIX' && cohortBasedSeating
+            ? thirtySixCohortAssignedSeats
             : thirtySixAssignedSeats,
       }
 
