@@ -764,6 +764,15 @@ type FindStudentByIdPayload {
   student: Student!
 }
 
+input FindStudentQuestionsInput {
+  courseId: ID!
+  date: String!
+}
+
+type FindStudentQuestionsPayload {
+  studentQuestions: [StudentQuestion!]!
+}
+
 input FindStudentsByCourseInput {
   courseId: ID!
 }
@@ -1120,6 +1129,7 @@ type Query {
   findSchoolDayByDate(input: FindSchoolDayByDateInput!): FindSchoolDayByDatePayload!
   findSchoolDayTracker: FindSchoolDayPayload!
   findStudentById(input: FindStudentByIdInput!): FindStudentByIdPayload!
+  findStudentQuestions(input: FindStudentQuestionsInput!): FindStudentQuestionsPayload!
   findStudentsByCourse(input: FindStudentsByCourseInput!): FindStudentsByCoursePayload!
   findStudentsById(input: FindStudentsByIdInput!): FindStudentsByIdPayload!
   findTextByTitle(input: FindTextByTitleInput!): FindTextByTitlePayload!
