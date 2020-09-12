@@ -32,7 +32,7 @@ export const ControlCoolDown = mutationField('controlCoolDown', {
         },
         {
           $set: {
-            'afterActivity.$.isActive': isActive,
+            'afterActivity.isActive': isActive,
           },
         }
       )

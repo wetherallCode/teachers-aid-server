@@ -32,7 +32,7 @@ export const ControlWarmUp = mutationField('controlWarmUp', {
         },
         {
           $set: {
-            'beforeActivity.$.isActive': isActive,
+            'beforeActivity.isActive': isActive,
           },
         }
       )
