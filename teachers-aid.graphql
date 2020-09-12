@@ -227,6 +227,24 @@ type ContactInfo {
   guardianPhone: String!
 }
 
+input ControlCoolDownInput {
+  isActive: Boolean!
+  lessonId: ID!
+}
+
+type ControlCoolDownPayload {
+  lesson: Lesson!
+}
+
+input ControlWarmUpInput {
+  isActive: Boolean!
+  lessonId: ID!
+}
+
+type ControlWarmUpPayload {
+  lesson: Lesson!
+}
+
 type Course {
   _id: ID
   hasCourseInfo: CourseInfo
@@ -958,6 +976,8 @@ type Mutation {
   buildRubricEntry(input: BuildRubricEntryInput!): BuildRubricEntryPayload!
   changePassword(input: ChangePasswordInput!): ChangePasswordPayload!
   changeVocabWord(input: ChangeVocabWordInput!): UpdateVocabPayload!
+  controlCoolDown(input: ControlCoolDownInput!): ControlCoolDownPayload!
+  controlWarmUp(input: ControlWarmUpInput!): ControlWarmUpPayload!
   createAbsence(input: CreateAbsenceInput!): CreateAbsencePayload!
   createCourse(input: CreateCourseInput!): CreateCoursePayload!
   createCourseInfo(input: CreateCourseInfoInput!): CreateCourseInfoPayload!
