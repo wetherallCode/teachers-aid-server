@@ -67,8 +67,9 @@ export interface NexusGenInputs {
   }
   AssessStudentProtocolInput: { // input type
     assessment?: NexusGenEnums['ProtocolAssessmentEnum'] | null; // ProtocolAssessmentEnum
-    assignedDate?: NexusGenScalars['Date'] | null; // Date
+    assignedDate?: string | null; // String
     discussionLevel?: NexusGenEnums['DiscussionTypesEnum'] | null; // DiscussionTypesEnum
+    markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
     partnerIds?: string[] | null; // [ID!]
     protocolActivityType: NexusGenEnums['ProtocolActivityTypes']; // ProtocolActivityTypes!
     studentId: string; // ID!
@@ -722,7 +723,7 @@ export interface NexusGenEnums {
   InformationStructureEnum: "CAUSE_EFFECT" | "COMPARE_CONTRAST" | "PROBLEM_SOLUTION" | "SEQUENCE"
   MarkingPeriodEnum: "FIRST" | "FOURTH" | "SECOND" | "THIRD"
   ProtocolActivityTypes: "INDIVIDUAL" | "THINK_PAIR_SHARE"
-  ProtocolAssessmentEnum: "REFUSED_TO_WORK" | "SLOW_TO_GET_STARTED" | "WORKED_POORLY" | "WORKED_WELL"
+  ProtocolAssessmentEnum: "REFUSED_TO_WORK" | "SLOW_TO_GET_STARTED" | "WORKED_POORLY" | "WORKED_VERY_WELL" | "WORKED_WELL"
   QuestionTypeEnum: "HOW_CAUSE_EFFECT" | "HOW_PROBLEM_SOLUTION" | "WHY_CAUSE_EFFECT"
   RubricSectionEnum: "ANSWER" | "CONCLUSION" | "GENERAL" | "OVERALL" | "TOPIC"
   SchoolDayType: "A" | "B"
@@ -1089,6 +1090,7 @@ export interface NexusGenRootTypes {
     essentialQuestion: string; // String!
     inUnit: NexusGenRootTypes['Unit']; // Unit!
     lessonName: string; // String!
+    lessonNotes?: string[] | null; // [String!]
     objectives?: string | null; // String
     pageNumbers: NexusGenRootTypes['PageNumbers']; // PageNumbers!
     questionList: NexusGenRootTypes['TextSectionQuestions'][]; // [TextSectionQuestions!]!
@@ -2025,6 +2027,7 @@ export interface NexusGenFieldTypes {
     essentialQuestion: string; // String!
     inUnit: NexusGenRootTypes['Unit']; // Unit!
     lessonName: string; // String!
+    lessonNotes: string[] | null; // [String!]
     objectives: string | null; // String
     pageNumbers: NexusGenRootTypes['PageNumbers']; // PageNumbers!
     questionList: NexusGenRootTypes['TextSectionQuestions'][]; // [TextSectionQuestions!]!

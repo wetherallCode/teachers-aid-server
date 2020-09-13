@@ -109,8 +109,9 @@ union AnswerTypes = HowCauseEffectAnswerType | ProblemSolutionAnswerType | WhyCa
 
 input AssessStudentProtocolInput {
   assessment: ProtocolAssessmentEnum
-  assignedDate: Date
+  assignedDate: String
   discussionLevel: DiscussionTypesEnum
+  markingPeriod: MarkingPeriodEnum!
   partnerIds: [ID!]
   protocolActivityType: ProtocolActivityTypes!
   studentId: ID!
@@ -925,6 +926,7 @@ type Lesson {
   essentialQuestion: String!
   inUnit: Unit!
   lessonName: String!
+  lessonNotes: [String!]
   objectives: String
   pageNumbers: PageNumbers!
   questionList: [TextSectionQuestions!]!
@@ -1115,6 +1117,7 @@ enum ProtocolAssessmentEnum {
   REFUSED_TO_WORK
   SLOW_TO_GET_STARTED
   WORKED_POORLY
+  WORKED_VERY_WELL
   WORKED_WELL
 }
 
