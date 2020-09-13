@@ -26,7 +26,7 @@ export const AssignReadingGuides = mutationField('assignReadingGuides', {
   async resolve(
     _,
     { input: { studentIds, associatedLessonId, assignedDate, dueDate } },
-    { assignmentData }
+    { assignmentData, studentData }
   ) {
     const readingGuides: NexusGenRootTypes['ReadingGuide'][] = []
 
@@ -51,6 +51,16 @@ export const AssignReadingGuides = mutationField('assignReadingGuides', {
               assignedDate,
               assigned: true,
             },
+          }
+        )
+        await studentData.updateOne(
+          {
+            'student._id': new ObjectId(_id),
+            markingPeriod: readingGuideValidation.markingPeriod,
+            responsibilityPoints: { $exists: true },
+          },
+          {
+            $inc: { responsibilityPoints: -2 },
           }
         )
       }

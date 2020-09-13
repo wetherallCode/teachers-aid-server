@@ -3,6 +3,7 @@ import { Protocol, DiscussionTypesEnum, ProtocolAssessmentEnum } from '.'
 import { ObjectId } from 'mongodb'
 import { NexusGenRootTypes } from '../../teachers-aid-typegen'
 import { ProtocolActivityTypes } from '..'
+import { MarkingPeriodEnum } from '../general'
 
 export const AssessStudentProtocolInput = inputObjectType({
   name: 'AssessStudentProtocolInput',
@@ -13,7 +14,8 @@ export const AssessStudentProtocolInput = inputObjectType({
       type: ProtocolActivityTypes,
       required: true,
     })
-    t.date('assignedDate')
+    t.string('assignedDate')
+    t.field('markingPeriod', { type: MarkingPeriodEnum, required: true })
     t.list.id('partnerIds')
     t.id('studentId', { required: true })
     t.field('discussionLevel', { type: DiscussionTypesEnum })
@@ -37,6 +39,7 @@ export const AssessStudentProtocol = mutationField('assessStudentProtocol', {
       input: {
         task,
         assignedDate,
+        markingPeriod,
         protocolActivityType,
         partnerIds,
         discussionLevel,
@@ -44,7 +47,7 @@ export const AssessStudentProtocol = mutationField('assessStudentProtocol', {
         studentId,
       },
     },
-    { protocolData, userData }
+    { protocolData, userData, studentData }
   ) {
     const protocols: NexusGenRootTypes['Protocol'][] = []
 
@@ -98,6 +101,18 @@ export const AssessStudentProtocol = mutationField('assessStudentProtocol', {
           },
           {
             $set: { assessment },
+          }
+        )
+        await studentData.updateOne(
+          {
+            'student._id': new ObjectId(studentId),
+            markingPeriod: markingPeriod,
+            responsibilityPoints: { $exists: true },
+          },
+          {
+            $inc: {
+              responsibilityPoints: assessment === 'WORKED_WELL' ? 1 : 2,
+            },
           }
         )
         const protocol = await protocolData.findOne({

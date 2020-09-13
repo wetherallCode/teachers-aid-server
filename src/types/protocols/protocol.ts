@@ -41,5 +41,6 @@ export const ProtocolAssessmentEnum = enumType({
     'SLOW_TO_GET_STARTED',
     'WORKED_POORLY',
     'WORKED_WELL',
+    'WORKED_VERY_WELL',
   ],
 })

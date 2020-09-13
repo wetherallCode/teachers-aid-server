@@ -9,6 +9,7 @@ export const AssignEssaysInput = inputObjectType({
     t.list.id('studentIds', { required: true })
     t.id('associatedLessonId', { required: true })
     t.date('assignedDate', { required: true })
+
     t.date('dueDate', { required: true })
   },
 })
@@ -26,12 +27,12 @@ export const AssignEssays = mutationField('assignEssays', {
   async resolve(
     _,
     { input: { studentIds, associatedLessonId, assignedDate, dueDate } },
-    { assignmentData }
+    { assignmentData, studentData }
   ) {
     const essays: NexusGenRootTypes['Essay'][] = []
 
     for (const _id of studentIds) {
-      const essayValidation: NexusGenRootTypes['Essay'][] = await assignmentData.findOne(
+      const essayValidation: NexusGenRootTypes['Essay'] = await assignmentData.findOne(
         {
           'hasOwner._id': new ObjectId(_id),
           associatedLessonId,
@@ -52,6 +53,16 @@ export const AssignEssays = mutationField('assignEssays', {
               assignedDate, //have client put in currentDate
               assigned: true,
             },
+          }
+        )
+        await studentData.updateOne(
+          {
+            'student._id': new ObjectId(_id),
+            markingPeriod: essayValidation.markingPeriod,
+            responsibilityPoints: { $exists: true },
+          },
+          {
+            $inc: { responsibilityPoints: -2 },
           }
         )
       }

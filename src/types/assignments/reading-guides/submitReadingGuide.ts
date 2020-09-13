@@ -1,6 +1,5 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { ObjectId } from 'mongodb'
-import { compareAsc } from 'date-fns'
 import { ReadingGuide } from '.'
 import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
 
@@ -66,27 +65,6 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
       }
     }
 
-    // function handleLate() {
-    //   const submittedDate: string = new Date().toLocaleDateString()
-    //   const submittedTime: string = new Date().toLocaleString().substring(10)
-
-    //   let isLate: boolean = false
-
-    //   if (
-    //     Date.parse(submittedDate) > Date.parse(readingGuideValidation.dueDate)
-    //   ) {
-    //     return (isLate = true)
-    //   }
-    //   if (
-    //     Date.parse(readingGuideValidation.dueDate) ===
-    //       Date.parse(submittedDate) &&
-    //     Date.parse(readingGuideValidation.dueTime) > Date.parse(submittedTime)
-    //   ) {
-    //     return (isLate = true)
-    //   }
-    //   return isLate
-    // }
-
     function handleLateness() {
       const submittedDateTime: string = new Date().toLocaleString()
       const dueDateTime: string = `${readingGuideValidation.dueDate}, ${readingGuideValidation.dueTime}`
@@ -95,8 +73,6 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
         return true
       } else return false
     }
-
-    console.log(handleLateness())
 
     const {
       whyWasSectionOrganized,
@@ -141,10 +117,8 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
             responsibilityPoints: { $exists: true },
           },
           {
-            $set: {
-              responsibilityPoints:
-                studentResponsibilityPoints.responsibilityPoints +
-                (complete ? 2 : 1),
+            $inc: {
+              responsibilityPoints: complete && handleLateness() ? 4 : 3,
             },
           }
         )
