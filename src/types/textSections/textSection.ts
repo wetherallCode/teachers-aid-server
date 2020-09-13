@@ -9,9 +9,9 @@ export const TextSection = objectType({
     t.field('fromChapter', { type: Chapter })
     t.field('pageNumbers', { type: PageNumbers })
     t.string('header')
-    t.list.field('hasProtocols', { type: TextSectionProtocols })
-    t.list.field('hasVocab', { type: TextSectionVocab })
-    t.list.field('hasQuestions', { type: TextSectionQuestions })
+    t.list.field('hasProtocols', { type: TextSectionProtocols, nullable: true })
+    t.list.field('hasVocab', { type: TextSectionVocab, nullable: true })
+    t.list.field('hasQuestions', { type: TextSectionQuestions, nullable: true })
   },
 })
 

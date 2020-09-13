@@ -1371,9 +1371,9 @@ export interface NexusGenRootTypes {
   TextSection: { // root type
     _id?: string | null; // ID
     fromChapter: NexusGenRootTypes['Chapter']; // Chapter!
-    hasProtocols: NexusGenRootTypes['TextSectionProtocols'][]; // [TextSectionProtocols!]!
-    hasQuestions: NexusGenRootTypes['TextSectionQuestions'][]; // [TextSectionQuestions!]!
-    hasVocab: NexusGenRootTypes['TextSectionVocab'][]; // [TextSectionVocab!]!
+    hasProtocols?: NexusGenRootTypes['TextSectionProtocols'][] | null; // [TextSectionProtocols!]
+    hasQuestions?: NexusGenRootTypes['TextSectionQuestions'][] | null; // [TextSectionQuestions!]
+    hasVocab?: NexusGenRootTypes['TextSectionVocab'][] | null; // [TextSectionVocab!]
     header: string; // String!
     pageNumbers: NexusGenRootTypes['PageNumbers']; // PageNumbers!
   }
@@ -2444,9 +2444,9 @@ export interface NexusGenFieldTypes {
   TextSection: { // field return type
     _id: string | null; // ID
     fromChapter: NexusGenRootTypes['Chapter']; // Chapter!
-    hasProtocols: NexusGenRootTypes['TextSectionProtocols'][]; // [TextSectionProtocols!]!
-    hasQuestions: NexusGenRootTypes['TextSectionQuestions'][]; // [TextSectionQuestions!]!
-    hasVocab: NexusGenRootTypes['TextSectionVocab'][]; // [TextSectionVocab!]!
+    hasProtocols: NexusGenRootTypes['TextSectionProtocols'][] | null; // [TextSectionProtocols!]
+    hasQuestions: NexusGenRootTypes['TextSectionQuestions'][] | null; // [TextSectionQuestions!]
+    hasVocab: NexusGenRootTypes['TextSectionVocab'][] | null; // [TextSectionVocab!]
     header: string; // String!
     pageNumbers: NexusGenRootTypes['PageNumbers']; // PageNumbers!
   }

@@ -1657,9 +1657,9 @@ input TextInput {
 type TextSection {
   _id: ID
   fromChapter: Chapter!
-  hasProtocols: [TextSectionProtocols!]!
-  hasQuestions: [TextSectionQuestions!]!
-  hasVocab: [TextSectionVocab!]!
+  hasProtocols: [TextSectionProtocols!]
+  hasQuestions: [TextSectionQuestions!]
+  hasVocab: [TextSectionVocab!]
   header: String!
   pageNumbers: PageNumbers!
 }
