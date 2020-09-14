@@ -2094,6 +2094,7 @@ export interface NexusGenFieldTypes {
     removeRubricEntry: NexusGenRootTypes['RemoveRubricEntryPayload']; // RemoveRubricEntryPayload!
     removeStudentsFromCourse: NexusGenRootTypes['RemoveStudentsFromCoursePayload']; // RemoveStudentsFromCoursePayload!
     removeTextSection: NexusGenRootTypes['RemoveTextSectionPayload']; // RemoveTextSectionPayload!
+    resetPassword: NexusGenRootTypes['ResetPasswordPayload']; // ResetPasswordPayload!
     respondToProtocol: NexusGenRootTypes['RespondToProtocolPayload']; // RespondToProtocolPayload!
     resubmitEssayFinalDraft: NexusGenRootTypes['ResubmitEssayFinalDraftPayload']; // ResubmitEssayFinalDraftPayload!
     returnGradedEssay: NexusGenRootTypes['ReturnGradedEssayPayload']; // ReturnGradedEssayPayload!
@@ -2747,6 +2748,9 @@ export interface NexusGenArgTypes {
     }
     removeTextSection: { // args
       input: NexusGenInputs['RemoveTextSectionInput']; // RemoveTextSectionInput!
+    }
+    resetPassword: { // args
+      input: NexusGenInputs['ResetPasswordInput']; // ResetPasswordInput!
     }
     respondToProtocol: { // args
       input: NexusGenInputs['RespondToProtocolInput']; // RespondToProtocolInput!
