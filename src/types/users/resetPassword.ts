@@ -4,7 +4,7 @@ import { User } from '.'
 import { verify, hash } from 'argon2'
 
 export const ResetPasswordInput = inputObjectType({
-	name: 'ResetPassWordInput',
+	name: 'ResetPasswordInput',
 	definition(t) {
 		t.string('userId', { required: true })
 	},
