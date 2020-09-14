@@ -3,7 +3,7 @@ import { ObjectId } from 'mongodb'
 import { User } from '.'
 import { verify, hash } from 'argon2'
 
-export const ResetPassWordInput = inputObjectType({
+export const ResetPasswordInput = inputObjectType({
 	name: 'ResetPassWordInput',
 	definition(t) {
 		t.string('userId', { required: true })
@@ -19,7 +19,7 @@ export const ResetPasswordPayload = objectType({
 
 export const ResetPassword = mutationField('resetPassword', {
 	type: ResetPasswordPayload,
-	args: { input: arg({ type: ResetPassWordInput, required: true }) },
+	args: { input: arg({ type: ResetPasswordInput, required: true }) },
 	async resolve(_, { input: { userId } }, { userData }) {
 		const userCheck = await userData.findOne({ _id: new ObjectId(userId) })
 		const hashedPassword = await hash('password')
