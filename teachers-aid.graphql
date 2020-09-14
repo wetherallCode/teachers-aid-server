@@ -1008,7 +1008,6 @@ type Mutation {
   removeRubricEntry(input: RemoveRubricEntryInput!): RemoveRubricEntryPayload!
   removeStudentsFromCourse(input: RemoveStudentsFromCourseInput!): RemoveStudentsFromCoursePayload!
   removeTextSection(input: RemoveTextSectionInput!): RemoveTextSectionPayload!
-  resetPassword(input: ResetPassWordInput!): ResetPasswordPayload!
   respondToProtocol(input: RespondToProtocolInput!): RespondToProtocolPayload!
   resubmitEssayFinalDraft(input: ResubmitEssayFinalDraftInput!): ResubmitEssayFinalDraftPayload!
   returnGradedEssay(input: ReturnGradedEssayInput!): ReturnGradedEssayPayload!
@@ -1330,7 +1329,7 @@ type RemoveTextSectionPayload {
   removed: Boolean!
 }
 
-input ResetPassWordInput {
+input ResetPasswordInput {
   userId: String!
 }
 
