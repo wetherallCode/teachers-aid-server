@@ -865,7 +865,7 @@ export interface NexusGenRootTypes {
     excusedLateness: NexusGenRootTypes['ExcusedLateness']; // ExcusedLateness!
   }
   CreateLessonPayload: { // root type
-    lesson: NexusGenRootTypes['Lesson']; // Lesson!
+    lessons: NexusGenRootTypes['Lesson'][]; // [Lesson!]!
   }
   CreateProtocolPayload: { // root type
     protocols: NexusGenRootTypes['Protocol'][]; // [Protocol!]!
@@ -1805,7 +1805,7 @@ export interface NexusGenFieldTypes {
     excusedLateness: NexusGenRootTypes['ExcusedLateness']; // ExcusedLateness!
   }
   CreateLessonPayload: { // field return type
-    lesson: NexusGenRootTypes['Lesson']; // Lesson!
+    lessons: NexusGenRootTypes['Lesson'][]; // [Lesson!]!
   }
   CreateProtocolPayload: { // field return type
     protocols: NexusGenRootTypes['Protocol'][]; // [Protocol!]!
