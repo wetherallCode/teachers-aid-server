@@ -114,6 +114,13 @@ export const SubmitEssayFinalDraft = mutationField('submitEssayFinalDraft', {
           },
         }
       )
+      if (!essayCheck.finalDraft)
+        await assignmentData.updateOne(
+          { _id: new ObjectId(_id) },
+          {
+            $push: { 'finalDraft.submittedFinalDraft': submittedFinalDraft },
+          }
+        )
 
       await studentData.updateOne(
         {
@@ -123,13 +130,6 @@ export const SubmitEssayFinalDraft = mutationField('submitEssayFinalDraft', {
         },
         {
           $inc: { responsibilityPoints: handleLateness() ? 4 : 3 },
-        }
-      )
-
-      await assignmentData.updateOne(
-        { _id: new ObjectId(_id) },
-        {
-          $push: { 'finalDraft.submittedFinalDraft': submittedFinalDraft },
         }
       )
 
