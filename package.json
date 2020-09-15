@@ -6,7 +6,8 @@
   "license": "ISC",
   "scripts": {
     "start": "nodemon --exec ts-node src/index.ts",
-    "apollo-push": "npx apollo service:push --localSchemaFile=./teachers-aid.graphql"
+    "apollo-push": "npx apollo service:push --localSchemaFile=./teachers-aid.graphql",
+    "heroku-push": "git push heroku master"
   },
   "dependencies": {
     "@nexus/schema": "^0.15.0",
