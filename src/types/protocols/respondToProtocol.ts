@@ -26,6 +26,7 @@ export const RespondToProtocol = mutationField('respondToProtocol', {
     })
 
     if (protocolCheck) {
+      console.log(protocolId, response)
       await protocolData.updateOne(
         {
           _id: new ObjectId(protocolId),
@@ -39,6 +40,7 @@ export const RespondToProtocol = mutationField('respondToProtocol', {
     const protocol = await protocolData.findOne({
       _id: new ObjectId(protocolId),
     })
+    console.log(protocol)
     return { protocol }
   },
 })
