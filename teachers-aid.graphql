@@ -369,7 +369,7 @@ input CreateLessonInput {
 }
 
 type CreateLessonPayload {
-  lessons: [Lesson!]!
+  lesson: Lesson!
 }
 
 input CreateProtocolInput {
