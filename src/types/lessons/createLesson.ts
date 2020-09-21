@@ -51,7 +51,7 @@ export const CreateLessonInput = inputObjectType({
 export const CreateLessonPayload = objectType({
   name: 'CreateLessonPayload',
   definition(t) {
-    t.field('lesson', { type: Lesson })
+    t.list.field('lessons', { type: Lesson })
   },
 })
 
@@ -82,36 +82,37 @@ export const CreateLesson = mutationField('createLesson', {
   ) {
     const unit = await lessonData.findOne({ _id: new ObjectId(inUnit) })
 
-    const courses: NexusGenRootTypes['Course'][] = []
+    const lessons: NexusGenRootTypes['Lesson'][] = []
+    console.log(assignedCourses)
     for (const courseId of assignedCourses) {
-      const course = await courseData.findOne({
+      const course: NexusGenRootTypes['Course'] = await courseData.findOne({
         _id: new ObjectId(courseId),
       })
-      courses.push(course)
+      const lesson: NexusGenRootTypes['Lesson'] = {
+        assignedDate,
+        inUnit: unit,
+        assignedMarkingPeriod,
+        lessonName,
+        pageNumbers,
+        assignedCourses: [course],
+        assignedSections,
+        assignedSectionIdList,
+        vocabList,
+        beforeActivity,
+        duringActivities,
+        afterActivity,
+        essentialQuestion,
+        questionList,
+        objectives: null,
+        dynamicLesson: 'OFF',
+      }
+
+      const { insertedId } = await lessonData.insertOne(lesson)
+      lesson._id = insertedId
+
+      lessons.push(lesson)
     }
 
-    const lesson: NexusGenRootTypes['Lesson'] = {
-      assignedDate,
-      inUnit: unit,
-      assignedMarkingPeriod,
-      lessonName,
-      pageNumbers,
-      assignedCourses: courses,
-      assignedSections,
-      assignedSectionIdList,
-      vocabList,
-      beforeActivity,
-      duringActivities,
-      afterActivity,
-      essentialQuestion,
-      questionList,
-      objectives: null,
-      dynamicLesson: 'OFF',
-    }
-
-    const { insertedId } = await lessonData.insertOne(lesson)
-    lesson._id = insertedId
-
-    return { lesson }
+    return { lessons }
   },
 })

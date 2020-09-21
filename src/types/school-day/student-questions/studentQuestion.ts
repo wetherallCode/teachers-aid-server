@@ -1,4 +1,5 @@
 import { objectType } from '@nexus/schema'
+import { Student } from '../..'
 
 export const StudentQuestions = objectType({
   name: 'StudentQuestions',
@@ -14,7 +15,7 @@ export const StudentQuestions = objectType({
 export const StudentQuestion = objectType({
   name: 'StudentQuestion',
   definition(t) {
-    t.id('studentId')
+    t.field('student', { type: Student })
     t.string('timeAsked')
     t.string('question')
   },

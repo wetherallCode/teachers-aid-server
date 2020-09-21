@@ -24,15 +24,16 @@ export const CreateStudentQuestion = mutationField('createStudentQuestion', {
   async resolve(
     _,
     { input: { studentId, courseId, question } },
-    { schoolDayData }
+    { schoolDayData, userData }
   ) {
     const studentQuestionsCheck = await schoolDayData.findOne({
       date: new Date().toLocaleDateString(),
       'course._id': new ObjectId(courseId),
       questions: { $exists: true },
     })
-    console.log(studentQuestionsCheck)
+
     if (studentQuestionsCheck) {
+      const student = await userData.findOne({ _id: new ObjectId(studentId) })
       await schoolDayData.updateOne(
         {
           date: new Date().toLocaleDateString(),
@@ -42,7 +43,7 @@ export const CreateStudentQuestion = mutationField('createStudentQuestion', {
         {
           $push: {
             questions: {
-              studentId: new ObjectId(studentId),
+              student,
               timeAsked: new Date().toLocaleTimeString(),
               question,
             },

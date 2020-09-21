@@ -369,7 +369,7 @@ input CreateLessonInput {
 }
 
 type CreateLessonPayload {
-  lesson: Lesson!
+  lessons: [Lesson!]!
 }
 
 input CreateProtocolInput {
@@ -440,6 +440,16 @@ input CreateStudentQuestionInput {
 }
 
 type CreateStudentQuestionPayload {
+  studentQuestions: StudentQuestions!
+}
+
+input CreateStudentQuestionsContainerInput {
+  associatedSchoolDayId: ID!
+  courseId: ID!
+  date: String!
+}
+
+type CreateStudentQuestionsContainerPayload {
   studentQuestions: StudentQuestions!
 }
 
@@ -993,6 +1003,7 @@ type Mutation {
   createSchoolDayTracker: CreateSchoolDayTrackerPayload!
   createSignInSheets(input: CreateSignInSheetsInput!): CreateSignInSheetsPayload!
   createStudentQuestion(input: CreateStudentQuestionInput!): CreateStudentQuestionPayload!
+  createStudentQuestionsContainer(input: CreateStudentQuestionsContainerInput!): CreateStudentQuestionsContainerPayload!
   createTextSection(input: CreateTextSectionInput!): CreateTextSectionPayload!
   createUnexcusedLateness(input: CreateUnexcusedLatenessInput!): CreateUnexcusedLatenessPayload!
   createUnit(input: CreateUnitInput!): CreateUnitPayload!
@@ -1533,7 +1544,7 @@ type StudentInformation {
 
 type StudentQuestion {
   question: String!
-  studentId: ID!
+  student: Student!
   timeAsked: String!
 }
 

@@ -12,14 +12,6 @@ export const RemoveProtocolInput = inputObjectType({
   },
 })
 
-// export const RemovedProtocolResponse = objectType({
-//   name: 'RemovedProtocolResponse',
-//   definition(t) {
-//     t.boolean('removed')
-//     t.
-//   }
-// })
-
 export const RemoveProtocolPayload = objectType({
   name: 'RemoveProtocolPayload',
   definition(t) {
@@ -56,7 +48,6 @@ export const RemoveProtocol = mutationField('removeProtocol', {
         }
       }
     }
-
     if (deleteCount === studentIds.length) {
       const { modifiedCount } = await lessonData.updateOne(
         {
@@ -72,6 +63,7 @@ export const RemoveProtocol = mutationField('removeProtocol', {
         }
       )
     }
+
     return { deleteCount }
   },
 })
