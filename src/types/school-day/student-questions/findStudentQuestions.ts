@@ -1,6 +1,6 @@
 import { objectType, inputObjectType, arg, queryField } from '@nexus/schema'
 import { StudentQuestion } from '.'
-import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
 import { ObjectId } from 'mongodb'
 
 export const FindStudentQuestionsInput = inputObjectType({
