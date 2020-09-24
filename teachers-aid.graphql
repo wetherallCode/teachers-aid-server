@@ -567,6 +567,14 @@ type FinalDraftContainer {
   submitTime: DateTime
 }
 
+input FindActiveProtocolByStudentInput {
+  studentId: ID!
+}
+
+type FindActiveProtocolByStudentPayload {
+  protocol: Protocol!
+}
+
 type FindAllStudentsPayload {
   students: [Student!]!
 }
@@ -1134,6 +1142,7 @@ enum ProtocolAssessmentEnum {
 }
 
 type Query {
+  findActiveProtocolByStudent(input: FindActiveProtocolByStudentInput!): FindActiveProtocolByStudentPayload!
   findAllStudents: FindAllStudentsPayload!
   findAllUsers: FindAllUsersPayload!
   findAssignmentById(input: FindAssignmentByIdInput!): FindAssignmentByIdPayload!

@@ -35,7 +35,7 @@ export const login = mutationField('login', {
 
     user.id = user._id.toString()
     req.session.userId = user.id
-
+    console.log((req.session.userId = user.id))
     return { user: user }
   },
 })
