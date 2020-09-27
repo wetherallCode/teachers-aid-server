@@ -1,6 +1,6 @@
 import { objectType, inputObjectType, arg, queryField } from '@nexus/schema'
 import { ObjectId } from 'mongodb'
-import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
 import { ArticleReview } from '.'
 import { MarkingPeriodEnum } from '../../general'
 
