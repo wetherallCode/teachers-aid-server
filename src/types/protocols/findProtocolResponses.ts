@@ -15,8 +15,8 @@ export const FindProtocolResponsesPayload = objectType({
   },
 })
 
-export const FindProtocolResponses = queryField('findProtocolResponses', {
-  type: FindProtocolResponsesPayload,
-  args: { input: arg({ type: FindProtocolResponsesInput, required: true }) },
-  async resolve(_, { input: {} }, {}) {},
-})
+// export const FindProtocolResponses = queryField('findProtocolResponses', {
+//   type: FindProtocolResponsesPayload,
+//   args: { input: arg({ type: FindProtocolResponsesInput, required: true }) },
+//   async resolve(_, { input: {} }, {}) {},
+// })
