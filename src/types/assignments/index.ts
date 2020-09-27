@@ -1,4 +1,5 @@
 export * from './assignments'
+export * from './article-reviews'
 export * from './essays'
 export * from './reading-guides'
 export * from './tests'

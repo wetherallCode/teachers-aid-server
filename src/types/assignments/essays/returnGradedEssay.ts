@@ -98,7 +98,7 @@ export const ReturnGradedEssay = mutationField('returnGradedEssay', {
           }
         )
 
-        if (levelPoints === 5) {
+        if (levelPoints === 10) {
           await studentData.updateOne(
             {
               'student._id': new ObjectId(student._id!),
@@ -130,7 +130,7 @@ export const ReturnGradedEssay = mutationField('returnGradedEssay', {
         },
       }
     )
-    const { modifiedCount } = await assignmentData.updateOne(
+    await assignmentData.updateOne(
       {
         _id: new ObjectId(_id),
         'finalDraft.submittedFinalDraft': {

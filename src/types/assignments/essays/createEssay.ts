@@ -56,7 +56,7 @@ export const CreateEssay = mutationField('createEssay', {
     },
     { assignmentData, userData, studentData, courseData }
   ) {
-    console.log(new Date().toISOString().substring(16, 23))
+    console.log(new Date().toISOString().substring(17, 23))
 
     const beginningValue = [
       {
@@ -169,7 +169,7 @@ export const CreateEssay = mutationField('createEssay', {
       }
     }
 
-    console.log(new Date().toISOString().substring(16, 23))
+    console.log(new Date().toISOString().substring(17, 23))
     return { essays: newEssays }
   },
 })

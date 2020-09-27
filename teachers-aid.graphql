@@ -107,6 +107,32 @@ input AdvancedSentenceStructureInput {
 
 union AnswerTypes = HowCauseEffectAnswerType | ProblemSolutionAnswerType | WhyCauseEffectAnswerType
 
+type ArticleReview {
+  _id: ID
+  articleAuthor: String!
+  articleLink: String!
+  articleTitle: String!
+  assigned: Boolean!
+  assignedDate: String!
+  bias: Boolean
+  completed: Boolean!
+  dueDate: String!
+  dueTime: String!
+  exempt: Boolean!
+  hasAssigner: Teacher!
+  hasOwner: Student!
+  issue: String!
+  late: Boolean!
+  markingPeriod: MarkingPeriodEnum!
+  paperBased: Boolean!
+  publishedDate: String
+  returned: Boolean!
+  score: Score!
+  solutions: String
+  submitted: Boolean!
+  topicsImportance: String!
+}
+
 input AssessStudentProtocolInput {
   assessment: ProtocolAssessmentEnum
   assignedDate: String
@@ -137,7 +163,7 @@ interface Assignment {
   _id: ID
   assigned: Boolean!
   assignedDate: String!
-  associatedLessonId: ID!
+  associatedLessonId: ID
   dueDate: String!
   dueTime: String!
   exempt: Boolean!
@@ -298,6 +324,19 @@ input CreateAbsenceInput {
 
 type CreateAbsencePayload {
   studentAbsence: StudentAbsence!
+}
+
+input CreateArticleReviewsInput {
+  assignedCourseId: [ID!]!
+  assignedDate: String!
+  dueDate: String!
+  dueTime: TimeOfDay!
+  hasAssignerId: String!
+  markingPeriod: MarkingPeriodEnum!
+}
+
+type CreateArticleReviewsPayload {
+  articleReviews: [ArticleReview!]!
 }
 
 input CreateCourseInfoInput {
@@ -535,7 +574,7 @@ type Essay implements Assignment {
   _id: ID
   assigned: Boolean!
   assignedDate: String!
-  associatedLessonId: ID!
+  associatedLessonId: ID
   dueDate: String!
   dueTime: String!
   exempt: Boolean!
@@ -581,6 +620,32 @@ type FindAllStudentsPayload {
 
 type FindAllUsersPayload {
   users: [User!]!
+}
+
+input FindArticleReviewByIdInput {
+  articleReviewId: ID!
+}
+
+type FindArticleReviewByIdPayload {
+  articleReview: ArticleReview!
+}
+
+input FindArticleReviewsByCourseInput {
+  courseId: ID!
+  markingPeriod: MarkingPeriodEnum
+}
+
+type FindArticleReviewsByCoursePayload {
+  articleReviews: [ArticleReview!]!
+}
+
+input FindArticleReviewsByStudentInput {
+  markingPeriod: MarkingPeriodEnum!
+  studentId: ID!
+}
+
+type FindArticleReviewsByStudentPayload {
+  articleReviews: [ArticleReview!]!
 }
 
 input FindAssignmentByIdInput {
@@ -885,6 +950,15 @@ type FinishProtocolPayload {
   protocols: [Protocol!]!
 }
 
+input GradeArticleReviewInput {
+  articleReviewId: ID!
+  earnedPoints: Int!
+}
+
+type GradeArticleReviewPayload {
+  articleReview: ArticleReview!
+}
+
 input HasAssigner {
   assignerUserName: String
 }
@@ -999,6 +1073,7 @@ type Mutation {
   controlCoolDown(input: ControlCoolDownInput!): ControlCoolDownPayload!
   controlWarmUp(input: ControlWarmUpInput!): ControlWarmUpPayload!
   createAbsence(input: CreateAbsenceInput!): CreateAbsencePayload!
+  createArticleReviews(input: CreateArticleReviewsInput!): CreateArticleReviewsPayload!
   createCourse(input: CreateCourseInput!): CreateCoursePayload!
   createCourseInfo(input: CreateCourseInfoInput!): CreateCourseInfoPayload!
   createEssay(input: CreateEssayInput!): CreateEssayPayload!
@@ -1016,6 +1091,7 @@ type Mutation {
   createUnexcusedLateness(input: CreateUnexcusedLatenessInput!): CreateUnexcusedLatenessPayload!
   createUnit(input: CreateUnitInput!): CreateUnitPayload!
   finishProtocol(input: FinishProtocolInput!): FinishProtocolPayload!
+  gradeArticleReview(input: GradeArticleReviewInput!): GradeArticleReviewPayload!
   initializeStudents(input: InitializeStudentsInput!): InitializeStudentsPayload!
   login(input: LoginInput!): LoginPayload!
   logout: Boolean!
@@ -1032,6 +1108,7 @@ type Mutation {
   resetPassword(input: ResetPasswordInput!): ResetPasswordPayload!
   respondToProtocol(input: RespondToProtocolInput!): RespondToProtocolPayload!
   resubmitEssayFinalDraft(input: ResubmitEssayFinalDraftInput!): ResubmitEssayFinalDraftPayload!
+  returnArticleReview(input: ReturnArticleReviewInput!): ReturnArticleReviewPayload!
   returnGradedEssay(input: ReturnGradedEssayInput!): ReturnGradedEssayPayload!
   returnReadingGuide(input: ReturnReadingGuideInput!): ReturnReadingGuidePayload!
   setAnswerType(input: SetAnswerTypeInput!): SetAnswerTypePayload!
@@ -1040,11 +1117,13 @@ type Mutation {
   startProtocol(input: StartProtocolInput!): StartProtocolPayload!
   startReadingGuide(input: StartReadingGuideInput!): StartReadingGuidePayload!
   studentSignIn(input: StudentSignInInput!): StudentSignInPayload!
+  submitArticleReview(input: SubmitArticleReviewInput!): SubmitArticleReviewPayload!
   submitEssayFinalDraft(input: SubmitEssayFinalDraftInput!): SubmitEssayFinalDraftPayload!
   submitReadingGuide(input: SubmitReadingGuideInput!): SubmitReadingGuidePayload!
   unAssignEssays(input: UnAssignEssaysInput!): UnAssignEssaysPayload!
   updateAcademicOrganizer(input: UpdateAcademicOrganizerInput!): UpdateAcademicOrganizerPayload!
   updateAdvancedOrganizer(input: UpdateAdvancedOrganizerInput!): UpdateAdvancedOrganizerPayload!
+  updateArticleReview(input: UpdateArticleReviewInput!): UpdateArticleReviewPayload!
   updateCourseInfo(input: UpdateCourseInfoInput!): UpdateCourseInfoPayload!
   updateDevelopingOrganizer(input: UpdateDevelopingOrganizerInput!): UpdateDevelopingOrganizerPayload!
   UpdateDynamicLesson(input: UpdateDynamicLessonInput!): UpdateDynamicLessonPayload!
@@ -1145,6 +1224,9 @@ type Query {
   findActiveProtocolByStudent(input: FindActiveProtocolByStudentInput!): FindActiveProtocolByStudentPayload!
   findAllStudents: FindAllStudentsPayload!
   findAllUsers: FindAllUsersPayload!
+  findArticleReviewById(input: FindArticleReviewByIdInput!): FindArticleReviewByIdPayload!
+  findArticleReviewsByCourse(input: FindArticleReviewsByCourseInput!): FindArticleReviewsByCoursePayload!
+  findArticleReviewsByStudent(input: FindArticleReviewsByStudentInput!): FindArticleReviewsByStudentPayload!
   findAssignmentById(input: FindAssignmentByIdInput!): FindAssignmentByIdPayload!
   findAssignmentsToGrade(input: FindAssignmentsToGradeInput!): FindAssignmentsToGradePayload!
   findChaptersInText(input: FindChaptersInTextInput!): FindChaptersInTextPayload!
@@ -1199,7 +1281,7 @@ type ReadingGuide implements Assignment {
   _id: ID
   assigned: Boolean!
   assignedDate: String!
-  associatedLessonId: ID!
+  associatedLessonId: ID
   completed: Boolean!
   dueDate: String!
   dueTime: String!
@@ -1385,6 +1467,14 @@ input ResubmitEssayFinalDraftInput {
 
 type ResubmitEssayFinalDraftPayload {
   essay: Essay!
+}
+
+input ReturnArticleReviewInput {
+  articleReviewId: ID!
+}
+
+type ReturnArticleReviewPayload {
+  articleReview: ArticleReview!
 }
 
 input ReturnedRubricEntryInput {
@@ -1596,6 +1686,15 @@ type StudentSignInSheet {
   studentsSignInlog: [Student!]
 }
 
+input SubmitArticleReviewInput {
+  articleReviewId: ID!
+  markingPeriod: MarkingPeriodEnum!
+}
+
+type SubmitArticleReviewPayload {
+  articleReview: ArticleReview!
+}
+
 input SubmitEssayFinalDraftInput {
   _id: ID!
   late: Boolean!
@@ -1654,7 +1753,7 @@ type Test implements Assignment {
   _id: ID
   assigned: Boolean!
   assignedDate: String!
-  associatedLessonId: ID!
+  associatedLessonId: ID
   dueDate: String!
   dueTime: String!
   exempt: Boolean!
@@ -1812,6 +1911,22 @@ input UpdateAdvancedOrganizerInput {
 
 type UpdateAdvancedOrganizerPayload {
   essay: Essay!
+}
+
+input UpdateArticleReviewInput {
+  articleAuthor: String!
+  articleLink: String!
+  articleReviewId: ID!
+  articleTitle: String!
+  bias: Boolean
+  issue: String!
+  publishedDate: String
+  solutions: String
+  topicsImportance: String!
+}
+
+type UpdateArticleReviewPayload {
+  articleReview: ArticleReview!
 }
 
 input UpdateCourseInfoInput {

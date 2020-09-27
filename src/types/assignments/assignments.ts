@@ -19,12 +19,12 @@ export const Assignment = interfaceType({
     t.field('hasAssigner', { type: Teacher })
     t.field('score', { type: Score })
     t.field('markingPeriod', { type: MarkingPeriodEnum })
-    t.id('associatedLessonId')
+    t.id('associatedLessonId', { nullable: true })
     t.field('lessonInfo', {
       type: Lesson,
       async resolve(parent, __, { lessonData }) {
         const lessonInfo: NexusGenRootTypes['Lesson'] = lessonData.findOne({
-          _id: new ObjectId(parent.associatedLessonId),
+          _id: new ObjectId(parent.associatedLessonId!),
         })
         return lessonInfo
       },
@@ -41,9 +41,9 @@ export const Assignment = interfaceType({
       if (assignment.hasOwnProperty('topic')) {
         return 'Essay'
       }
-      if (assignment.hasOwnProperty('testName')) {
-        return 'Test'
-      }
+      // if (assignment.hasOwnProperty('issue')) {
+      //   return 'ArticleReview'
+      // }
       return 'ReadingGuide'
     })
   },

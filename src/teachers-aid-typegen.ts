@@ -128,6 +128,14 @@ export interface NexusGenInputs {
     markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
     studentId: string; // String!
   }
+  CreateArticleReviewsInput: { // input type
+    assignedCourseId: string[]; // [ID!]!
+    assignedDate: string; // String!
+    dueDate: string; // String!
+    dueTime: NexusGenEnums['TimeOfDay']; // TimeOfDay!
+    hasAssignerId: string; // String!
+    markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
+  }
   CreateCourseInfoInput: { // input type
     cohortBasedSeating: boolean; // Boolean!
     courseId: string; // ID!
@@ -247,6 +255,17 @@ export interface NexusGenInputs {
   FindActiveProtocolByStudentInput: { // input type
     studentId: string; // ID!
   }
+  FindArticleReviewByIdInput: { // input type
+    articleReviewId: string; // ID!
+  }
+  FindArticleReviewsByCourseInput: { // input type
+    courseId: string; // ID!
+    markingPeriod?: NexusGenEnums['MarkingPeriodEnum'] | null; // MarkingPeriodEnum
+  }
+  FindArticleReviewsByStudentInput: { // input type
+    markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
+    studentId: string; // ID!
+  }
   FindAssignmentByIdInput: { // input type
     assignmentId: string; // ID!
   }
@@ -359,6 +378,10 @@ export interface NexusGenInputs {
     studentIds: string[]; // [ID!]!
     task: string; // String!
   }
+  GradeArticleReviewInput: { // input type
+    articleReviewId: string; // ID!
+    earnedPoints: number; // Int!
+  }
   HasAssigner: { // input type
     assignerUserName?: string | null; // String
   }
@@ -455,6 +478,9 @@ export interface NexusGenInputs {
     essayId: string; // ID!
     submittedFinalDraft: NexusGenInputs['SubmittedFinalDraftsInput']; // SubmittedFinalDraftsInput!
   }
+  ReturnArticleReviewInput: { // input type
+    articleReviewId: string; // ID!
+  }
   ReturnGradedEssayInput: { // input type
     _id: string; // ID!
     additionalComments?: string[] | null; // [String!]
@@ -510,6 +536,10 @@ export interface NexusGenInputs {
     lessonDate: string; // String!
     studentId: string; // ID!
     virtual?: boolean | null; // Boolean
+  }
+  SubmitArticleReviewInput: { // input type
+    articleReviewId: string; // ID!
+    markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
   }
   SubmitEssayFinalDraftInput: { // input type
     _id: string; // ID!
@@ -582,6 +612,17 @@ export interface NexusGenInputs {
     conclusion: string; // String!
     essayId: string; // ID!
     restatement: string; // String!
+  }
+  UpdateArticleReviewInput: { // input type
+    articleAuthor: string; // String!
+    articleLink: string; // String!
+    articleReviewId: string; // ID!
+    articleTitle: string; // String!
+    bias?: boolean | null; // Boolean
+    issue: string; // String!
+    publishedDate?: string | null; // String
+    solutions?: string | null; // String
+    topicsImportance: string; // String!
   }
   UpdateCourseInfoInput: { // input type
     courseId: string; // ID!
@@ -799,6 +840,31 @@ export interface NexusGenRootTypes {
     subject: string; // String!
     verb: string; // String!
   }
+  ArticleReview: { // root type
+    _id?: string | null; // ID
+    articleAuthor: string; // String!
+    articleLink: string; // String!
+    articleTitle: string; // String!
+    assigned: boolean; // Boolean!
+    assignedDate: string; // String!
+    bias?: boolean | null; // Boolean
+    completed: boolean; // Boolean!
+    dueDate: string; // String!
+    dueTime: string; // String!
+    exempt: boolean; // Boolean!
+    hasAssigner: NexusGenRootTypes['Teacher']; // Teacher!
+    hasOwner: NexusGenRootTypes['Student']; // Student!
+    issue: string; // String!
+    late: boolean; // Boolean!
+    markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
+    paperBased: boolean; // Boolean!
+    publishedDate?: string | null; // String
+    returned: boolean; // Boolean!
+    score: NexusGenRootTypes['Score']; // Score!
+    solutions?: string | null; // String
+    submitted: boolean; // Boolean!
+    topicsImportance: string; // String!
+  }
   AssessStudentProtocolPayload: { // root type
     protocols: NexusGenRootTypes['Protocol'][]; // [Protocol!]!
   }
@@ -859,6 +925,9 @@ export interface NexusGenRootTypes {
   }
   CreateAbsencePayload: { // root type
     studentAbsence: NexusGenRootTypes['StudentAbsence']; // StudentAbsence!
+  }
+  CreateArticleReviewsPayload: { // root type
+    articleReviews: NexusGenRootTypes['ArticleReview'][]; // [ArticleReview!]!
   }
   CreateCourseInfoPayload: { // root type
     courseInfo: NexusGenRootTypes['CourseInfo']; // CourseInfo!
@@ -923,7 +992,7 @@ export interface NexusGenRootTypes {
     _id?: string | null; // ID
     assigned: boolean; // Boolean!
     assignedDate: string; // String!
-    associatedLessonId: string; // ID!
+    associatedLessonId?: string | null; // ID
     dueDate: string; // String!
     dueTime: string; // String!
     exempt: boolean; // Boolean!
@@ -959,6 +1028,15 @@ export interface NexusGenRootTypes {
   }
   FindAllUsersPayload: { // root type
     users: NexusGenRootTypes['User'][]; // [User!]!
+  }
+  FindArticleReviewByIdPayload: { // root type
+    articleReview: NexusGenRootTypes['ArticleReview']; // ArticleReview!
+  }
+  FindArticleReviewsByCoursePayload: { // root type
+    articleReviews: NexusGenRootTypes['ArticleReview'][]; // [ArticleReview!]!
+  }
+  FindArticleReviewsByStudentPayload: { // root type
+    articleReviews: NexusGenRootTypes['ArticleReview'][]; // [ArticleReview!]!
   }
   FindAssignmentByIdPayload: { // root type
     assignment: NexusGenRootTypes['Assignment']; // Assignment!
@@ -1077,6 +1155,9 @@ export interface NexusGenRootTypes {
   FinishProtocolPayload: { // root type
     protocols: NexusGenRootTypes['Protocol'][]; // [Protocol!]!
   }
+  GradeArticleReviewPayload: { // root type
+    articleReview: NexusGenRootTypes['ArticleReview']; // ArticleReview!
+  }
   HowCauseEffectAnswerType: { // root type
     after: string; // String!
     before: string; // String!
@@ -1164,7 +1245,7 @@ export interface NexusGenRootTypes {
     _id?: string | null; // ID
     assigned: boolean; // Boolean!
     assignedDate: string; // String!
-    associatedLessonId: string; // ID!
+    associatedLessonId?: string | null; // ID
     completed: boolean; // Boolean!
     dueDate: string; // String!
     dueTime: string; // String!
@@ -1244,6 +1325,9 @@ export interface NexusGenRootTypes {
   }
   ResubmitEssayFinalDraftPayload: { // root type
     essay: NexusGenRootTypes['Essay']; // Essay!
+  }
+  ReturnArticleReviewPayload: { // root type
+    articleReview: NexusGenRootTypes['ArticleReview']; // ArticleReview!
   }
   ReturnGradedEssayPayload: { // root type
     essay: NexusGenRootTypes['Essay']; // Essay!
@@ -1342,6 +1426,9 @@ export interface NexusGenRootTypes {
     lessonDate: NexusGenScalars['Date']; // Date!
     studentsSignInlog?: NexusGenRootTypes['Student'][] | null; // [Student!]
   }
+  SubmitArticleReviewPayload: { // root type
+    articleReview: NexusGenRootTypes['ArticleReview']; // ArticleReview!
+  }
   SubmitEssayFinalDraftPayload: { // root type
     essay: NexusGenRootTypes['Essay']; // Essay!
   }
@@ -1372,7 +1459,7 @@ export interface NexusGenRootTypes {
     _id?: string | null; // ID
     assigned: boolean; // Boolean!
     assignedDate: string; // String!
-    associatedLessonId: string; // ID!
+    associatedLessonId?: string | null; // ID
     dueDate: string; // String!
     dueTime: string; // String!
     exempt: boolean; // Boolean!
@@ -1437,6 +1524,9 @@ export interface NexusGenRootTypes {
   }
   UpdateAdvancedOrganizerPayload: { // root type
     essay: NexusGenRootTypes['Essay']; // Essay!
+  }
+  UpdateArticleReviewPayload: { // root type
+    articleReview: NexusGenRootTypes['ArticleReview']; // ArticleReview!
   }
   UpdateCourseInfoPayload: { // root type
     courseInfo: NexusGenRootTypes['CourseInfo']; // CourseInfo!
@@ -1550,6 +1640,7 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
   ControlWarmUpInput: NexusGenInputs['ControlWarmUpInput'];
   CourseInput: NexusGenInputs['CourseInput'];
   CreateAbsenceInput: NexusGenInputs['CreateAbsenceInput'];
+  CreateArticleReviewsInput: NexusGenInputs['CreateArticleReviewsInput'];
   CreateCourseInfoInput: NexusGenInputs['CreateCourseInfoInput'];
   CreateCourseInput: NexusGenInputs['CreateCourseInput'];
   CreateEssayInput: NexusGenInputs['CreateEssayInput'];
@@ -1568,6 +1659,9 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
   DevelopingOrganizerInput: NexusGenInputs['DevelopingOrganizerInput'];
   DevelopingSentenceStructureInput: NexusGenInputs['DevelopingSentenceStructureInput'];
   FindActiveProtocolByStudentInput: NexusGenInputs['FindActiveProtocolByStudentInput'];
+  FindArticleReviewByIdInput: NexusGenInputs['FindArticleReviewByIdInput'];
+  FindArticleReviewsByCourseInput: NexusGenInputs['FindArticleReviewsByCourseInput'];
+  FindArticleReviewsByStudentInput: NexusGenInputs['FindArticleReviewsByStudentInput'];
   FindAssignmentByIdInput: NexusGenInputs['FindAssignmentByIdInput'];
   FindAssignmentsToGradeInput: NexusGenInputs['FindAssignmentsToGradeInput'];
   FindChapterTitleInput: NexusGenInputs['FindChapterTitleInput'];
@@ -1602,6 +1696,7 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
   FindTextSectionsByIdInput: NexusGenInputs['FindTextSectionsByIdInput'];
   FindUserDataInput: NexusGenInputs['FindUserDataInput'];
   FinishProtocolInput: NexusGenInputs['FinishProtocolInput'];
+  GradeArticleReviewInput: NexusGenInputs['GradeArticleReviewInput'];
   HasAssigner: NexusGenInputs['HasAssigner'];
   HasOwnerInput: NexusGenInputs['HasOwnerInput'];
   InitializeStudentsInput: NexusGenInputs['InitializeStudentsInput'];
@@ -1625,6 +1720,7 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
   ResetPasswordInput: NexusGenInputs['ResetPasswordInput'];
   RespondToProtocolInput: NexusGenInputs['RespondToProtocolInput'];
   ResubmitEssayFinalDraftInput: NexusGenInputs['ResubmitEssayFinalDraftInput'];
+  ReturnArticleReviewInput: NexusGenInputs['ReturnArticleReviewInput'];
   ReturnGradedEssayInput: NexusGenInputs['ReturnGradedEssayInput'];
   ReturnReadingGuideInput: NexusGenInputs['ReturnReadingGuideInput'];
   ReturnedRubricEntryInput: NexusGenInputs['ReturnedRubricEntryInput'];
@@ -1636,6 +1732,7 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
   StartReadingGuideInput: NexusGenInputs['StartReadingGuideInput'];
   StudentSeatInput: NexusGenInputs['StudentSeatInput'];
   StudentSignInInput: NexusGenInputs['StudentSignInInput'];
+  SubmitArticleReviewInput: NexusGenInputs['SubmitArticleReviewInput'];
   SubmitEssayFinalDraftInput: NexusGenInputs['SubmitEssayFinalDraftInput'];
   SubmitReadingGuideInput: NexusGenInputs['SubmitReadingGuideInput'];
   SubmittedFinalDraftsInput: NexusGenInputs['SubmittedFinalDraftsInput'];
@@ -1650,6 +1747,7 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
   UnitInput: NexusGenInputs['UnitInput'];
   UpdateAcademicOrganizerInput: NexusGenInputs['UpdateAcademicOrganizerInput'];
   UpdateAdvancedOrganizerInput: NexusGenInputs['UpdateAdvancedOrganizerInput'];
+  UpdateArticleReviewInput: NexusGenInputs['UpdateArticleReviewInput'];
   UpdateCourseInfoInput: NexusGenInputs['UpdateCourseInfoInput'];
   UpdateDevelopingOrganizerInput: NexusGenInputs['UpdateDevelopingOrganizerInput'];
   UpdateDynamicLessonInput: NexusGenInputs['UpdateDynamicLessonInput'];
@@ -1741,6 +1839,31 @@ export interface NexusGenFieldTypes {
     subject: string; // String!
     verb: string; // String!
   }
+  ArticleReview: { // field return type
+    _id: string | null; // ID
+    articleAuthor: string; // String!
+    articleLink: string; // String!
+    articleTitle: string; // String!
+    assigned: boolean; // Boolean!
+    assignedDate: string; // String!
+    bias: boolean | null; // Boolean
+    completed: boolean; // Boolean!
+    dueDate: string; // String!
+    dueTime: string; // String!
+    exempt: boolean; // Boolean!
+    hasAssigner: NexusGenRootTypes['Teacher']; // Teacher!
+    hasOwner: NexusGenRootTypes['Student']; // Student!
+    issue: string; // String!
+    late: boolean; // Boolean!
+    markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
+    paperBased: boolean; // Boolean!
+    publishedDate: string | null; // String
+    returned: boolean; // Boolean!
+    score: NexusGenRootTypes['Score']; // Score!
+    solutions: string | null; // String
+    submitted: boolean; // Boolean!
+    topicsImportance: string; // String!
+  }
   AssessStudentProtocolPayload: { // field return type
     protocols: NexusGenRootTypes['Protocol'][]; // [Protocol!]!
   }
@@ -1808,6 +1931,9 @@ export interface NexusGenFieldTypes {
   CreateAbsencePayload: { // field return type
     studentAbsence: NexusGenRootTypes['StudentAbsence']; // StudentAbsence!
   }
+  CreateArticleReviewsPayload: { // field return type
+    articleReviews: NexusGenRootTypes['ArticleReview'][]; // [ArticleReview!]!
+  }
   CreateCourseInfoPayload: { // field return type
     courseInfo: NexusGenRootTypes['CourseInfo']; // CourseInfo!
   }
@@ -1871,7 +1997,7 @@ export interface NexusGenFieldTypes {
     _id: string | null; // ID
     assigned: boolean; // Boolean!
     assignedDate: string; // String!
-    associatedLessonId: string; // ID!
+    associatedLessonId: string | null; // ID
     dueDate: string; // String!
     dueTime: string; // String!
     exempt: boolean; // Boolean!
@@ -1908,6 +2034,15 @@ export interface NexusGenFieldTypes {
   }
   FindAllUsersPayload: { // field return type
     users: NexusGenRootTypes['User'][]; // [User!]!
+  }
+  FindArticleReviewByIdPayload: { // field return type
+    articleReview: NexusGenRootTypes['ArticleReview']; // ArticleReview!
+  }
+  FindArticleReviewsByCoursePayload: { // field return type
+    articleReviews: NexusGenRootTypes['ArticleReview'][]; // [ArticleReview!]!
+  }
+  FindArticleReviewsByStudentPayload: { // field return type
+    articleReviews: NexusGenRootTypes['ArticleReview'][]; // [ArticleReview!]!
   }
   FindAssignmentByIdPayload: { // field return type
     assignment: NexusGenRootTypes['Assignment']; // Assignment!
@@ -2026,6 +2161,9 @@ export interface NexusGenFieldTypes {
   FinishProtocolPayload: { // field return type
     protocols: NexusGenRootTypes['Protocol'][]; // [Protocol!]!
   }
+  GradeArticleReviewPayload: { // field return type
+    articleReview: NexusGenRootTypes['ArticleReview']; // ArticleReview!
+  }
   HowCauseEffectAnswerType: { // field return type
     after: string; // String!
     before: string; // String!
@@ -2090,6 +2228,7 @@ export interface NexusGenFieldTypes {
     controlCoolDown: NexusGenRootTypes['ControlCoolDownPayload']; // ControlCoolDownPayload!
     controlWarmUp: NexusGenRootTypes['ControlWarmUpPayload']; // ControlWarmUpPayload!
     createAbsence: NexusGenRootTypes['CreateAbsencePayload']; // CreateAbsencePayload!
+    createArticleReviews: NexusGenRootTypes['CreateArticleReviewsPayload']; // CreateArticleReviewsPayload!
     createCourse: NexusGenRootTypes['CreateCoursePayload']; // CreateCoursePayload!
     createCourseInfo: NexusGenRootTypes['CreateCourseInfoPayload']; // CreateCourseInfoPayload!
     createEssay: NexusGenRootTypes['CreateEssayPayload']; // CreateEssayPayload!
@@ -2107,6 +2246,7 @@ export interface NexusGenFieldTypes {
     createUnexcusedLateness: NexusGenRootTypes['CreateUnexcusedLatenessPayload']; // CreateUnexcusedLatenessPayload!
     createUnit: NexusGenRootTypes['CreateUnitPayload']; // CreateUnitPayload!
     finishProtocol: NexusGenRootTypes['FinishProtocolPayload']; // FinishProtocolPayload!
+    gradeArticleReview: NexusGenRootTypes['GradeArticleReviewPayload']; // GradeArticleReviewPayload!
     initializeStudents: NexusGenRootTypes['InitializeStudentsPayload']; // InitializeStudentsPayload!
     login: NexusGenRootTypes['LoginPayload']; // LoginPayload!
     logout: boolean; // Boolean!
@@ -2123,6 +2263,7 @@ export interface NexusGenFieldTypes {
     resetPassword: NexusGenRootTypes['ResetPasswordPayload']; // ResetPasswordPayload!
     respondToProtocol: NexusGenRootTypes['RespondToProtocolPayload']; // RespondToProtocolPayload!
     resubmitEssayFinalDraft: NexusGenRootTypes['ResubmitEssayFinalDraftPayload']; // ResubmitEssayFinalDraftPayload!
+    returnArticleReview: NexusGenRootTypes['ReturnArticleReviewPayload']; // ReturnArticleReviewPayload!
     returnGradedEssay: NexusGenRootTypes['ReturnGradedEssayPayload']; // ReturnGradedEssayPayload!
     returnReadingGuide: NexusGenRootTypes['ReturnReadingGuidePayload']; // ReturnReadingGuidePayload!
     setAnswerType: NexusGenRootTypes['SetAnswerTypePayload']; // SetAnswerTypePayload!
@@ -2131,11 +2272,13 @@ export interface NexusGenFieldTypes {
     startProtocol: NexusGenRootTypes['StartProtocolPayload']; // StartProtocolPayload!
     startReadingGuide: NexusGenRootTypes['StartReadingGuidePayload']; // StartReadingGuidePayload!
     studentSignIn: NexusGenRootTypes['StudentSignInPayload']; // StudentSignInPayload!
+    submitArticleReview: NexusGenRootTypes['SubmitArticleReviewPayload']; // SubmitArticleReviewPayload!
     submitEssayFinalDraft: NexusGenRootTypes['SubmitEssayFinalDraftPayload']; // SubmitEssayFinalDraftPayload!
     submitReadingGuide: NexusGenRootTypes['SubmitReadingGuidePayload']; // SubmitReadingGuidePayload!
     unAssignEssays: NexusGenRootTypes['UnAssignEssaysPayload']; // UnAssignEssaysPayload!
     updateAcademicOrganizer: NexusGenRootTypes['UpdateAcademicOrganizerPayload']; // UpdateAcademicOrganizerPayload!
     updateAdvancedOrganizer: NexusGenRootTypes['UpdateAdvancedOrganizerPayload']; // UpdateAdvancedOrganizerPayload!
+    updateArticleReview: NexusGenRootTypes['UpdateArticleReviewPayload']; // UpdateArticleReviewPayload!
     updateCourseInfo: NexusGenRootTypes['UpdateCourseInfoPayload']; // UpdateCourseInfoPayload!
     updateDevelopingOrganizer: NexusGenRootTypes['UpdateDevelopingOrganizerPayload']; // UpdateDevelopingOrganizerPayload!
     UpdateDynamicLesson: NexusGenRootTypes['UpdateDynamicLessonPayload']; // UpdateDynamicLessonPayload!
@@ -2195,6 +2338,9 @@ export interface NexusGenFieldTypes {
     findActiveProtocolByStudent: NexusGenRootTypes['FindActiveProtocolByStudentPayload']; // FindActiveProtocolByStudentPayload!
     findAllStudents: NexusGenRootTypes['FindAllStudentsPayload']; // FindAllStudentsPayload!
     findAllUsers: NexusGenRootTypes['FindAllUsersPayload']; // FindAllUsersPayload!
+    findArticleReviewById: NexusGenRootTypes['FindArticleReviewByIdPayload']; // FindArticleReviewByIdPayload!
+    findArticleReviewsByCourse: NexusGenRootTypes['FindArticleReviewsByCoursePayload']; // FindArticleReviewsByCoursePayload!
+    findArticleReviewsByStudent: NexusGenRootTypes['FindArticleReviewsByStudentPayload']; // FindArticleReviewsByStudentPayload!
     findAssignmentById: NexusGenRootTypes['FindAssignmentByIdPayload']; // FindAssignmentByIdPayload!
     findAssignmentsToGrade: NexusGenRootTypes['FindAssignmentsToGradePayload']; // FindAssignmentsToGradePayload!
     findChaptersInText: NexusGenRootTypes['FindChaptersInTextPayload']; // FindChaptersInTextPayload!
@@ -2242,7 +2388,7 @@ export interface NexusGenFieldTypes {
     _id: string | null; // ID
     assigned: boolean; // Boolean!
     assignedDate: string; // String!
-    associatedLessonId: string; // ID!
+    associatedLessonId: string | null; // ID
     completed: boolean; // Boolean!
     dueDate: string; // String!
     dueTime: string; // String!
@@ -2323,6 +2469,9 @@ export interface NexusGenFieldTypes {
   }
   ResubmitEssayFinalDraftPayload: { // field return type
     essay: NexusGenRootTypes['Essay']; // Essay!
+  }
+  ReturnArticleReviewPayload: { // field return type
+    articleReview: NexusGenRootTypes['ArticleReview']; // ArticleReview!
   }
   ReturnGradedEssayPayload: { // field return type
     essay: NexusGenRootTypes['Essay']; // Essay!
@@ -2429,6 +2578,9 @@ export interface NexusGenFieldTypes {
     lessonDate: NexusGenScalars['Date']; // Date!
     studentsSignInlog: NexusGenRootTypes['Student'][] | null; // [Student!]
   }
+  SubmitArticleReviewPayload: { // field return type
+    articleReview: NexusGenRootTypes['ArticleReview']; // ArticleReview!
+  }
   SubmitEssayFinalDraftPayload: { // field return type
     essay: NexusGenRootTypes['Essay']; // Essay!
   }
@@ -2459,7 +2611,7 @@ export interface NexusGenFieldTypes {
     _id: string | null; // ID
     assigned: boolean; // Boolean!
     assignedDate: string; // String!
-    associatedLessonId: string; // ID!
+    associatedLessonId: string | null; // ID
     dueDate: string; // String!
     dueTime: string; // String!
     exempt: boolean; // Boolean!
@@ -2527,6 +2679,9 @@ export interface NexusGenFieldTypes {
   }
   UpdateAdvancedOrganizerPayload: { // field return type
     essay: NexusGenRootTypes['Essay']; // Essay!
+  }
+  UpdateArticleReviewPayload: { // field return type
+    articleReview: NexusGenRootTypes['ArticleReview']; // ArticleReview!
   }
   UpdateCourseInfoPayload: { // field return type
     courseInfo: NexusGenRootTypes['CourseInfo']; // CourseInfo!
@@ -2617,7 +2772,7 @@ export interface NexusGenFieldTypes {
     _id: string | null; // ID
     assigned: boolean; // Boolean!
     assignedDate: string; // String!
-    associatedLessonId: string; // ID!
+    associatedLessonId: string | null; // ID
     dueDate: string; // String!
     dueTime: string; // String!
     exempt: boolean; // Boolean!
@@ -2695,6 +2850,9 @@ export interface NexusGenArgTypes {
     createAbsence: { // args
       input: NexusGenInputs['CreateAbsenceInput']; // CreateAbsenceInput!
     }
+    createArticleReviews: { // args
+      input: NexusGenInputs['CreateArticleReviewsInput']; // CreateArticleReviewsInput!
+    }
     createCourse: { // args
       input: NexusGenInputs['CreateCourseInput']; // CreateCourseInput!
     }
@@ -2743,6 +2901,9 @@ export interface NexusGenArgTypes {
     finishProtocol: { // args
       input: NexusGenInputs['FinishProtocolInput']; // FinishProtocolInput!
     }
+    gradeArticleReview: { // args
+      input: NexusGenInputs['GradeArticleReviewInput']; // GradeArticleReviewInput!
+    }
     initializeStudents: { // args
       input: NexusGenInputs['InitializeStudentsInput']; // InitializeStudentsInput!
     }
@@ -2788,6 +2949,9 @@ export interface NexusGenArgTypes {
     resubmitEssayFinalDraft: { // args
       input: NexusGenInputs['ResubmitEssayFinalDraftInput']; // ResubmitEssayFinalDraftInput!
     }
+    returnArticleReview: { // args
+      input: NexusGenInputs['ReturnArticleReviewInput']; // ReturnArticleReviewInput!
+    }
     returnGradedEssay: { // args
       input: NexusGenInputs['ReturnGradedEssayInput']; // ReturnGradedEssayInput!
     }
@@ -2812,6 +2976,9 @@ export interface NexusGenArgTypes {
     studentSignIn: { // args
       input: NexusGenInputs['StudentSignInInput']; // StudentSignInInput!
     }
+    submitArticleReview: { // args
+      input: NexusGenInputs['SubmitArticleReviewInput']; // SubmitArticleReviewInput!
+    }
     submitEssayFinalDraft: { // args
       input: NexusGenInputs['SubmitEssayFinalDraftInput']; // SubmitEssayFinalDraftInput!
     }
@@ -2826,6 +2993,9 @@ export interface NexusGenArgTypes {
     }
     updateAdvancedOrganizer: { // args
       input: NexusGenInputs['UpdateAdvancedOrganizerInput']; // UpdateAdvancedOrganizerInput!
+    }
+    updateArticleReview: { // args
+      input: NexusGenInputs['UpdateArticleReviewInput']; // UpdateArticleReviewInput!
     }
     updateCourseInfo: { // args
       input: NexusGenInputs['UpdateCourseInfoInput']; // UpdateCourseInfoInput!
@@ -2891,6 +3061,15 @@ export interface NexusGenArgTypes {
   Query: {
     findActiveProtocolByStudent: { // args
       input: NexusGenInputs['FindActiveProtocolByStudentInput']; // FindActiveProtocolByStudentInput!
+    }
+    findArticleReviewById: { // args
+      input: NexusGenInputs['FindArticleReviewByIdInput']; // FindArticleReviewByIdInput!
+    }
+    findArticleReviewsByCourse: { // args
+      input: NexusGenInputs['FindArticleReviewsByCourseInput']; // FindArticleReviewsByCourseInput!
+    }
+    findArticleReviewsByStudent: { // args
+      input: NexusGenInputs['FindArticleReviewsByStudentInput']; // FindArticleReviewsByStudentInput!
     }
     findAssignmentById: { // args
       input: NexusGenInputs['FindAssignmentByIdInput']; // FindAssignmentByIdInput!
@@ -3013,9 +3192,9 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "AcademicOrganizer" | "AcademicSentenceStructure" | "AddCourseToTeacherPayload" | "AddNewChapterPayload" | "AddNewTextPayload" | "AddStudentsToCoursePayload" | "AddUserEmailPayload" | "AddVocabWordPayload" | "AdvancedOrganizer" | "AdvancedSentenceStructure" | "AssessStudentProtocolPayload" | "AssignEssaysPayload" | "AssignReadingGuidesPayload" | "AssignSeatsPayload" | "BuildRubricEntryPayload" | "ChangePasswordPayload" | "Chapter" | "ComprehensionMetrics" | "ContactInfo" | "ControlCoolDownPayload" | "ControlWarmUpPayload" | "Course" | "CourseInfo" | "CreateAbsencePayload" | "CreateCourseInfoPayload" | "CreateCoursePayload" | "CreateEssayPayload" | "CreateExcusedLatenessPayload" | "CreateLessonPayload" | "CreateProtocolPayload" | "CreateReadingGuidePayload" | "CreateResponsibilityPointsPayload" | "CreateSchoolDayPayload" | "CreateSchoolDayTrackerPayload" | "CreateSignInSheetsPayload" | "CreateStudentQuestionPayload" | "CreateStudentQuestionsContainerPayload" | "CreateTextSectionPayload" | "CreateUnexcusedLatenessPayload" | "CreateUnitPayload" | "DevelopingOrganizer" | "DevelopingSentenceStructure" | "Essay" | "ExcusedLateness" | "FinalDraftContainer" | "FindActiveProtocolByStudentPayload" | "FindAllStudentsPayload" | "FindAllUsersPayload" | "FindAssignmentByIdPayload" | "FindAssignmentsToGradePayload" | "FindChapterTitlePayload" | "FindChaptersInTextPayload" | "FindCompletedEssaysByStudentIdPayload" | "FindCourseByIdPayload" | "FindCourseInfoByCourseIdPayload" | "FindCoursesByIdPayload" | "FindCurrentMarkingPeriodPayload" | "FindEssayByIdPayload" | "FindEssayByStudentIdAndLessonIdPayload" | "FindEssaysByAssociatedLessonIdAndCourseIdPayload" | "FindEssaysByAssociatedLessonIdPayload" | "FindEssaysByUserNameAndMarkingPeriodPayload" | "FindEssaysToCompleteByStudentIdPayload" | "FindEssaysToGradeByIdPayload" | "FindLessonByCourseAndDatePayload" | "FindLessonByCoursePayload" | "FindLessonByIdPayload" | "FindLessonsByUnitPayload" | "FindReadingGuideByIdPayload" | "FindReadingGuidesByAssociatedLessonAndCourseIdPayload" | "FindReadingGuidesToCompleteByStudentIdPayload" | "FindRubricEntriesByCategoryPayload" | "FindRubricEntriesPayload" | "FindSchoolDayByDatePayload" | "FindSchoolDayPayload" | "FindStudentByIdPayload" | "FindStudentQuestionsPayload" | "FindStudentsByCoursePayload" | "FindStudentsByIdPayload" | "FindTextByTitlePayload" | "FindTextSectionByIdPayload" | "FindTextSectionsByChapterPayload" | "FindTextSectionsByIdPayload" | "FindTextsPayload" | "FindUnitsPayload" | "FindUserDataPayload" | "FinishProtocolPayload" | "HowCauseEffectAnswerType" | "HowCauseEffectMetrics" | "HowProblemSolutionMetrics" | "InitializeStudentsPayload" | "Lesson" | "LessonTextSections" | "LoginPayload" | "MarkingPeriod" | "Mutation" | "OverallWritingMetric" | "PageNumbers" | "PasswordCheckPayload" | "ProblemSolutionAnswerType" | "Protocol" | "Query" | "ReadingGuide" | "ReadingGuideFinalContainer" | "Readings" | "RegisterStudentPayload" | "RegisterTeacherPayload" | "RemoveAbsencePayload" | "RemoveAssignedSeatPayload" | "RemoveCoursePayload" | "RemoveLatenessPayload" | "RemoveProtocolPayload" | "RemoveRubricEntryPayload" | "RemoveSchoolDayPayload" | "RemoveStudentsFromCoursePayload" | "RemoveSubmittedEssayFinalDraftPayload" | "RemoveTextSectionPayload" | "ResetPasswordPayload" | "RespondToProtocolPayload" | "ResponsibilityPoints" | "ResubmitEssayFinalDraftPayload" | "ReturnGradedEssayPayload" | "ReturnReadingGuidePayload" | "RubricEntry" | "SchoolDay" | "SchoolDayTracker" | "Score" | "SetAnswerTypePayload" | "SetCurrentMarkingPeriodPayload" | "SetOrganizerPayload" | "StartProtocolPayload" | "StartReadingGuidePayload" | "Student" | "StudentAbsence" | "StudentInformation" | "StudentQuestion" | "StudentQuestions" | "StudentSeat" | "StudentSignInPayload" | "StudentSignInSheet" | "SubmitEssayFinalDraftPayload" | "SubmitReadingGuidePayload" | "SubmittedFinalDraft" | "Teacher" | "Test" | "Text" | "TextSection" | "TextSectionProtocols" | "TextSectionQuestions" | "TextSectionVocab" | "Topic" | "UnAssignEssaysPayload" | "UnexcusedLateness" | "Unit" | "UpdateAcademicOrganizerPayload" | "UpdateAdvancedOrganizerPayload" | "UpdateCourseInfoPayload" | "UpdateDevelopingOrganizerPayload" | "UpdateDynamicLessonPayload" | "UpdateEssayByStudentPayload" | "UpdateEssayLatenessPayload" | "UpdateEssaysByLessonPayload" | "UpdateEssaysByQuestionPayload" | "UpdateEssaysByStudentsAndSectionPayload" | "UpdateGradingDraftPayload" | "UpdateHowCauseEffectPayload" | "UpdateLessonPayload" | "UpdateProblemSolutionPayload" | "UpdateProtocolPayload" | "UpdateReadingGuidePayload" | "UpdateResponsibilityPointsPayload" | "UpdateRubricEntryPayload" | "UpdateSchoolDayPayload" | "UpdateTextSectionPayload" | "UpdateVocabPayload" | "UpdateWhyCauseEffectPayload" | "UpdateWorkingDraftPayload" | "WhyCauseEffectAnswerType" | "WhyCauseEffectMetrics" | "WorkingDraft" | "WritingMetrics";
+export type NexusGenObjectNames = "AcademicOrganizer" | "AcademicSentenceStructure" | "AddCourseToTeacherPayload" | "AddNewChapterPayload" | "AddNewTextPayload" | "AddStudentsToCoursePayload" | "AddUserEmailPayload" | "AddVocabWordPayload" | "AdvancedOrganizer" | "AdvancedSentenceStructure" | "ArticleReview" | "AssessStudentProtocolPayload" | "AssignEssaysPayload" | "AssignReadingGuidesPayload" | "AssignSeatsPayload" | "BuildRubricEntryPayload" | "ChangePasswordPayload" | "Chapter" | "ComprehensionMetrics" | "ContactInfo" | "ControlCoolDownPayload" | "ControlWarmUpPayload" | "Course" | "CourseInfo" | "CreateAbsencePayload" | "CreateArticleReviewsPayload" | "CreateCourseInfoPayload" | "CreateCoursePayload" | "CreateEssayPayload" | "CreateExcusedLatenessPayload" | "CreateLessonPayload" | "CreateProtocolPayload" | "CreateReadingGuidePayload" | "CreateResponsibilityPointsPayload" | "CreateSchoolDayPayload" | "CreateSchoolDayTrackerPayload" | "CreateSignInSheetsPayload" | "CreateStudentQuestionPayload" | "CreateStudentQuestionsContainerPayload" | "CreateTextSectionPayload" | "CreateUnexcusedLatenessPayload" | "CreateUnitPayload" | "DevelopingOrganizer" | "DevelopingSentenceStructure" | "Essay" | "ExcusedLateness" | "FinalDraftContainer" | "FindActiveProtocolByStudentPayload" | "FindAllStudentsPayload" | "FindAllUsersPayload" | "FindArticleReviewByIdPayload" | "FindArticleReviewsByCoursePayload" | "FindArticleReviewsByStudentPayload" | "FindAssignmentByIdPayload" | "FindAssignmentsToGradePayload" | "FindChapterTitlePayload" | "FindChaptersInTextPayload" | "FindCompletedEssaysByStudentIdPayload" | "FindCourseByIdPayload" | "FindCourseInfoByCourseIdPayload" | "FindCoursesByIdPayload" | "FindCurrentMarkingPeriodPayload" | "FindEssayByIdPayload" | "FindEssayByStudentIdAndLessonIdPayload" | "FindEssaysByAssociatedLessonIdAndCourseIdPayload" | "FindEssaysByAssociatedLessonIdPayload" | "FindEssaysByUserNameAndMarkingPeriodPayload" | "FindEssaysToCompleteByStudentIdPayload" | "FindEssaysToGradeByIdPayload" | "FindLessonByCourseAndDatePayload" | "FindLessonByCoursePayload" | "FindLessonByIdPayload" | "FindLessonsByUnitPayload" | "FindReadingGuideByIdPayload" | "FindReadingGuidesByAssociatedLessonAndCourseIdPayload" | "FindReadingGuidesToCompleteByStudentIdPayload" | "FindRubricEntriesByCategoryPayload" | "FindRubricEntriesPayload" | "FindSchoolDayByDatePayload" | "FindSchoolDayPayload" | "FindStudentByIdPayload" | "FindStudentQuestionsPayload" | "FindStudentsByCoursePayload" | "FindStudentsByIdPayload" | "FindTextByTitlePayload" | "FindTextSectionByIdPayload" | "FindTextSectionsByChapterPayload" | "FindTextSectionsByIdPayload" | "FindTextsPayload" | "FindUnitsPayload" | "FindUserDataPayload" | "FinishProtocolPayload" | "GradeArticleReviewPayload" | "HowCauseEffectAnswerType" | "HowCauseEffectMetrics" | "HowProblemSolutionMetrics" | "InitializeStudentsPayload" | "Lesson" | "LessonTextSections" | "LoginPayload" | "MarkingPeriod" | "Mutation" | "OverallWritingMetric" | "PageNumbers" | "PasswordCheckPayload" | "ProblemSolutionAnswerType" | "Protocol" | "Query" | "ReadingGuide" | "ReadingGuideFinalContainer" | "Readings" | "RegisterStudentPayload" | "RegisterTeacherPayload" | "RemoveAbsencePayload" | "RemoveAssignedSeatPayload" | "RemoveCoursePayload" | "RemoveLatenessPayload" | "RemoveProtocolPayload" | "RemoveRubricEntryPayload" | "RemoveSchoolDayPayload" | "RemoveStudentsFromCoursePayload" | "RemoveSubmittedEssayFinalDraftPayload" | "RemoveTextSectionPayload" | "ResetPasswordPayload" | "RespondToProtocolPayload" | "ResponsibilityPoints" | "ResubmitEssayFinalDraftPayload" | "ReturnArticleReviewPayload" | "ReturnGradedEssayPayload" | "ReturnReadingGuidePayload" | "RubricEntry" | "SchoolDay" | "SchoolDayTracker" | "Score" | "SetAnswerTypePayload" | "SetCurrentMarkingPeriodPayload" | "SetOrganizerPayload" | "StartProtocolPayload" | "StartReadingGuidePayload" | "Student" | "StudentAbsence" | "StudentInformation" | "StudentQuestion" | "StudentQuestions" | "StudentSeat" | "StudentSignInPayload" | "StudentSignInSheet" | "SubmitArticleReviewPayload" | "SubmitEssayFinalDraftPayload" | "SubmitReadingGuidePayload" | "SubmittedFinalDraft" | "Teacher" | "Test" | "Text" | "TextSection" | "TextSectionProtocols" | "TextSectionQuestions" | "TextSectionVocab" | "Topic" | "UnAssignEssaysPayload" | "UnexcusedLateness" | "Unit" | "UpdateAcademicOrganizerPayload" | "UpdateAdvancedOrganizerPayload" | "UpdateArticleReviewPayload" | "UpdateCourseInfoPayload" | "UpdateDevelopingOrganizerPayload" | "UpdateDynamicLessonPayload" | "UpdateEssayByStudentPayload" | "UpdateEssayLatenessPayload" | "UpdateEssaysByLessonPayload" | "UpdateEssaysByQuestionPayload" | "UpdateEssaysByStudentsAndSectionPayload" | "UpdateGradingDraftPayload" | "UpdateHowCauseEffectPayload" | "UpdateLessonPayload" | "UpdateProblemSolutionPayload" | "UpdateProtocolPayload" | "UpdateReadingGuidePayload" | "UpdateResponsibilityPointsPayload" | "UpdateRubricEntryPayload" | "UpdateSchoolDayPayload" | "UpdateTextSectionPayload" | "UpdateVocabPayload" | "UpdateWhyCauseEffectPayload" | "UpdateWorkingDraftPayload" | "WhyCauseEffectAnswerType" | "WhyCauseEffectMetrics" | "WorkingDraft" | "WritingMetrics";
 
-export type NexusGenInputNames = "AcademicSentenceStructureInput" | "AddCourseToTeacherInput" | "AddNewChapterInput" | "AddNewTextInput" | "AddStudentsToCourseInput" | "AddUserEmailInput" | "AddVocabWordInput" | "AdvancedSentenceStructureInput" | "AssessStudentProtocolInput" | "AssignEssaysInput" | "AssignReadingGuidesInput" | "AssignSeatsInput" | "BuildRubricEntryInput" | "ChangePasswordInput" | "ChangeVocabWordInput" | "ControlCoolDownInput" | "ControlWarmUpInput" | "CourseInput" | "CreateAbsenceInput" | "CreateCourseInfoInput" | "CreateCourseInput" | "CreateEssayInput" | "CreateExcusedLatenessInput" | "CreateLessonInput" | "CreateProtocolInput" | "CreateReadingGuideInput" | "CreateResponsibilityPointsInput" | "CreateSchoolDayInput" | "CreateSignInSheetsInput" | "CreateStudentQuestionInput" | "CreateStudentQuestionsContainerInput" | "CreateTextSectionInput" | "CreateUnexcusedLatenessInput" | "CreateUnitInput" | "DevelopingOrganizerInput" | "DevelopingSentenceStructureInput" | "FindActiveProtocolByStudentInput" | "FindAssignmentByIdInput" | "FindAssignmentsToGradeInput" | "FindChapterTitleInput" | "FindChaptersInTextInput" | "FindCompletedEssaysByStudentIdInput" | "FindCourseByIdInput" | "FindCourseInfoByCourseIdInput" | "FindCoursesByIdInput" | "FindEssayByIdInput" | "FindEssayByStudentIdAndLessonIdInput" | "FindEssaysByAssociatedLessonIdAndCourseIdInput" | "FindEssaysByAssociatedLessonIdInput" | "FindEssaysByUserNameAndMarkingPeriodInput" | "FindEssaysToCompleteByStudentIdInput" | "FindEssaysToGradeByIdInput" | "FindLessonByCourseAndDateInput" | "FindLessonByCourseInput" | "FindLessonByIdInput" | "FindLessonsByUnitInput" | "FindReadingGuideByIdInput" | "FindReadingGuidesByAssociatedLessonAndCourseIdInput" | "FindReadingGuidesToCompleteByStudentIdInput" | "FindRubricEntriesByCategoryInput" | "FindSchoolDayByDateInput" | "FindStudentByIdInput" | "FindStudentQuestionsInput" | "FindStudentsByCourseInput" | "FindStudentsByIdInput" | "FindTextByTitleInput" | "FindTextSectionByIdInput" | "FindTextSectionsByChapterInput" | "FindTextSectionsByIdInput" | "FindUserDataInput" | "FinishProtocolInput" | "HasAssigner" | "HasOwnerInput" | "InitializeStudentsInput" | "LessonTextSectionsInput" | "LoginInput" | "PageNumbersInput" | "PasswordCheckInput" | "ReadingsInput" | "RegisterStudentInput" | "RegisterTeacherInput" | "RemoveAbsenceInput" | "RemoveAssignedSeatInput" | "RemoveCourseInput" | "RemoveLatenessInput" | "RemoveProtocolInput" | "RemoveRubricEntryInput" | "RemoveSchoolDayInput" | "RemoveStudentsFromCourseInput" | "RemoveSubmittedEssayFinalDraftInput" | "RemoveTextSectionInput" | "ResetPasswordInput" | "RespondToProtocolInput" | "ResubmitEssayFinalDraftInput" | "ReturnGradedEssayInput" | "ReturnReadingGuideInput" | "ReturnedRubricEntryInput" | "RubricEntryInput" | "SetAnswerTypeInput" | "SetCurrentMarkingPeriodInput" | "SetOrganizerInput" | "StartProtocolInput" | "StartReadingGuideInput" | "StudentSeatInput" | "StudentSignInInput" | "SubmitEssayFinalDraftInput" | "SubmitReadingGuideInput" | "SubmittedFinalDraftsInput" | "TextChapterInput" | "TextInput" | "TextSectionProtocolsInput" | "TextSectionQuestionsInput" | "TextSectionVocabInput" | "TopicInput" | "TopicTypeInput" | "UnAssignEssaysInput" | "UnitInput" | "UpdateAcademicOrganizerInput" | "UpdateAdvancedOrganizerInput" | "UpdateCourseInfoInput" | "UpdateDevelopingOrganizerInput" | "UpdateDynamicLessonInput" | "UpdateEssayByStudentInput" | "UpdateEssayLatenessInput" | "UpdateEssaysByLessonInput" | "UpdateEssaysByQuestionInput" | "UpdateEssaysByStudentsAndSectionInput" | "UpdateGradingDraftInput" | "UpdateHowCauseEffectInput" | "UpdateLessonInput" | "UpdateLessonProtocolInput" | "UpdateProblemSolutionInput" | "UpdateReadingGuideInput" | "UpdateResponsibilityPointsInput" | "UpdateRubricEntryInput" | "UpdateSchoolDayInput" | "UpdateTextSectionInput" | "UpdateWhyCauseEffectInput" | "UpdateWorkingDraftInput";
+export type NexusGenInputNames = "AcademicSentenceStructureInput" | "AddCourseToTeacherInput" | "AddNewChapterInput" | "AddNewTextInput" | "AddStudentsToCourseInput" | "AddUserEmailInput" | "AddVocabWordInput" | "AdvancedSentenceStructureInput" | "AssessStudentProtocolInput" | "AssignEssaysInput" | "AssignReadingGuidesInput" | "AssignSeatsInput" | "BuildRubricEntryInput" | "ChangePasswordInput" | "ChangeVocabWordInput" | "ControlCoolDownInput" | "ControlWarmUpInput" | "CourseInput" | "CreateAbsenceInput" | "CreateArticleReviewsInput" | "CreateCourseInfoInput" | "CreateCourseInput" | "CreateEssayInput" | "CreateExcusedLatenessInput" | "CreateLessonInput" | "CreateProtocolInput" | "CreateReadingGuideInput" | "CreateResponsibilityPointsInput" | "CreateSchoolDayInput" | "CreateSignInSheetsInput" | "CreateStudentQuestionInput" | "CreateStudentQuestionsContainerInput" | "CreateTextSectionInput" | "CreateUnexcusedLatenessInput" | "CreateUnitInput" | "DevelopingOrganizerInput" | "DevelopingSentenceStructureInput" | "FindActiveProtocolByStudentInput" | "FindArticleReviewByIdInput" | "FindArticleReviewsByCourseInput" | "FindArticleReviewsByStudentInput" | "FindAssignmentByIdInput" | "FindAssignmentsToGradeInput" | "FindChapterTitleInput" | "FindChaptersInTextInput" | "FindCompletedEssaysByStudentIdInput" | "FindCourseByIdInput" | "FindCourseInfoByCourseIdInput" | "FindCoursesByIdInput" | "FindEssayByIdInput" | "FindEssayByStudentIdAndLessonIdInput" | "FindEssaysByAssociatedLessonIdAndCourseIdInput" | "FindEssaysByAssociatedLessonIdInput" | "FindEssaysByUserNameAndMarkingPeriodInput" | "FindEssaysToCompleteByStudentIdInput" | "FindEssaysToGradeByIdInput" | "FindLessonByCourseAndDateInput" | "FindLessonByCourseInput" | "FindLessonByIdInput" | "FindLessonsByUnitInput" | "FindReadingGuideByIdInput" | "FindReadingGuidesByAssociatedLessonAndCourseIdInput" | "FindReadingGuidesToCompleteByStudentIdInput" | "FindRubricEntriesByCategoryInput" | "FindSchoolDayByDateInput" | "FindStudentByIdInput" | "FindStudentQuestionsInput" | "FindStudentsByCourseInput" | "FindStudentsByIdInput" | "FindTextByTitleInput" | "FindTextSectionByIdInput" | "FindTextSectionsByChapterInput" | "FindTextSectionsByIdInput" | "FindUserDataInput" | "FinishProtocolInput" | "GradeArticleReviewInput" | "HasAssigner" | "HasOwnerInput" | "InitializeStudentsInput" | "LessonTextSectionsInput" | "LoginInput" | "PageNumbersInput" | "PasswordCheckInput" | "ReadingsInput" | "RegisterStudentInput" | "RegisterTeacherInput" | "RemoveAbsenceInput" | "RemoveAssignedSeatInput" | "RemoveCourseInput" | "RemoveLatenessInput" | "RemoveProtocolInput" | "RemoveRubricEntryInput" | "RemoveSchoolDayInput" | "RemoveStudentsFromCourseInput" | "RemoveSubmittedEssayFinalDraftInput" | "RemoveTextSectionInput" | "ResetPasswordInput" | "RespondToProtocolInput" | "ResubmitEssayFinalDraftInput" | "ReturnArticleReviewInput" | "ReturnGradedEssayInput" | "ReturnReadingGuideInput" | "ReturnedRubricEntryInput" | "RubricEntryInput" | "SetAnswerTypeInput" | "SetCurrentMarkingPeriodInput" | "SetOrganizerInput" | "StartProtocolInput" | "StartReadingGuideInput" | "StudentSeatInput" | "StudentSignInInput" | "SubmitArticleReviewInput" | "SubmitEssayFinalDraftInput" | "SubmitReadingGuideInput" | "SubmittedFinalDraftsInput" | "TextChapterInput" | "TextInput" | "TextSectionProtocolsInput" | "TextSectionQuestionsInput" | "TextSectionVocabInput" | "TopicInput" | "TopicTypeInput" | "UnAssignEssaysInput" | "UnitInput" | "UpdateAcademicOrganizerInput" | "UpdateAdvancedOrganizerInput" | "UpdateArticleReviewInput" | "UpdateCourseInfoInput" | "UpdateDevelopingOrganizerInput" | "UpdateDynamicLessonInput" | "UpdateEssayByStudentInput" | "UpdateEssayLatenessInput" | "UpdateEssaysByLessonInput" | "UpdateEssaysByQuestionInput" | "UpdateEssaysByStudentsAndSectionInput" | "UpdateGradingDraftInput" | "UpdateHowCauseEffectInput" | "UpdateLessonInput" | "UpdateLessonProtocolInput" | "UpdateProblemSolutionInput" | "UpdateReadingGuideInput" | "UpdateResponsibilityPointsInput" | "UpdateRubricEntryInput" | "UpdateSchoolDayInput" | "UpdateTextSectionInput" | "UpdateWhyCauseEffectInput" | "UpdateWorkingDraftInput";
 
 export type NexusGenEnumNames = "AcademicOutcomeTypes" | "BasicQuestionEnum" | "CourseMaxSizeEnum" | "CourseTypeEnum" | "DiscussionTypesEnum" | "DynamicLessonEnums" | "InformationStructureEnum" | "MarkingPeriodEnum" | "ProtocolActivityTypes" | "ProtocolAssessmentEnum" | "QuestionTypeEnum" | "RubricSectionEnum" | "SchoolDayType" | "StudentCohortEnum" | "TimeOfDay" | "TitleEnum" | "WritingLevelEnum";
 
