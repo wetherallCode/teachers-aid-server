@@ -35,7 +35,8 @@ export const AssignReadingGuides = mutationField('assignReadingGuides', {
         {
           'hasOwner._id': new ObjectId(_id),
           associatedLessonId,
-          completed: { $exists: true },
+          articleTitle: { $exists: false },
+          workingDraft: { $exists: false },
         }
       )
       if (readingGuideValidation) {

@@ -35,12 +35,17 @@ export const CreateArticleReviews = mutationField('createArticleReviews', {
         hasAssignerId,
         assignedCourseId,
         dueDate,
-        dueTime,
+        // dueTime,
         assignedDate,
         markingPeriod,
       },
     },
-    { userData, assignmentData, courseData, studentData }
+    {
+      userData,
+      assignmentData,
+      // courseData,
+      studentData,
+    }
   ) {
     console.log(new Date().toISOString().substring(17, 20))
     const assigner: NexusGenRootTypes['Teacher'] = await userData.findOne({
@@ -59,93 +64,102 @@ export const CreateArticleReviews = mutationField('createArticleReviews', {
         studentList.push(student)
       }
     }
-
+    assignmentData
     const newArticleReviews: NexusGenRootTypes['ArticleReview'][] = []
-
+    let i = 0
     for (const student of studentList) {
-      const articleReviewCheck: NexusGenRootTypes['ArticleReview'] = await assignmentData.findOne(
-        { 'hasOwner._id': new ObjectId(student._id!), assignedDate }
+      // console.log(student.inCourses.map((course) => course.name))
+      // const articleReviewCheck: NexusGenRootTypes['ArticleReview'] = await assignmentData.findOne(
+      //   { 'hasOwner._id': new ObjectId(student._id!), assignedDate }
+      // )
+
+      // console.log(
+      //   articleReviewCheck.hasOwner.inCourses.map((course) => course.name)
+      // )
+      // i = i + 1
+
+      // console.log(i)
+      // if (articleReviewCheck) {
+      // } else {
+      // const studentCoursesIds = student.inCourses.map((course) => course._id)
+      // const teacherCoursesIds = assigner.teachesCourses.map(
+      //   (course) => course._id
+      // )
+      // const courseList: string[] = []
+      // const studentCourses: any = []
+      // studentCoursesIds.forEach((id) => studentCourses.push(id?.toString()))
+      // teacherCoursesIds.forEach((id) => {
+      //   if (studentCourses.includes(id?.toString())) {
+      //     courseList.push(id!)
+      //   }
+      // })
+      // const courseId = courseList[0]
+      // const assignedCourseInfo: NexusGenRootTypes['CourseInfo'] = await courseData.findOne(
+      //   { 'course._id': courseId }
+      // )
+
+      // function assignedDueTime(time: string) {
+      //   if (time === 'BEFORE_SCHOOL') {
+      //     return '8:00:00 AM'
+      //   }
+      //   if (time === 'BEFORE_CLASS') {
+      //     return assignedCourseInfo.startsAt
+      //   }
+      //   if (time === 'AFTER_CLASS') {
+      //     return assignedCourseInfo.endsAt
+      //   }
+      //   if (time === 'AFTER_SCHOOL') {
+      //     return '2:15:00 PM'
+      //   }
+      //   return '8:00:00 AM'
+      // }
+
+      // const dueTimeForAssignment = assignedDueTime(dueTime)
+      console.log(student.inCourses.map((course) => course.name))
+      const newArticleReview: NexusGenRootTypes['ArticleReview'] = {
+        articleAuthor: '',
+        articleLink: '',
+        articleTitle: '',
+        publishedDate: '',
+        assigned: true,
+        bias: null,
+        issue: '',
+        solutions: '',
+        topicsImportance: '',
+        assignedDate,
+        dueDate,
+        // dueTime: dueTimeForAssignment,
+        dueTime: '8:00:00 AM',
+        exempt: false,
+        hasAssigner: assigner,
+        hasOwner: student,
+        late: true,
+        markingPeriod,
+        paperBased: false,
+        score: {
+          earnedPoints: 0,
+          maxPoints: 10,
+        },
+        completed: false,
+        submitted: false,
+        returned: false,
+      }
+
+      await studentData.updateOne(
+        {
+          'student._id': new ObjectId(student._id!),
+          markingPeriod,
+          responsibilityPoints: { $exists: true },
+        },
+        {
+          $inc: { responsibilityPoints: -2 },
+        }
       )
 
-      if (!articleReviewCheck) {
-        const studentCoursesIds = student.inCourses.map((course) => course._id)
-        const teacherCoursesIds = assigner.teachesCourses.map(
-          (course) => course._id
-        )
-        const courseList: string[] = []
-        const studentCourses: any = []
-        studentCoursesIds.forEach((id) => studentCourses.push(id?.toString()))
-        teacherCoursesIds.forEach((id) => {
-          if (studentCourses.includes(id?.toString())) {
-            courseList.push(id!)
-          }
-        })
-        const courseId = courseList[0]
-        const assignedCourseInfo: NexusGenRootTypes['CourseInfo'] = await courseData.findOne(
-          { 'course._id': courseId }
-        )
-
-        function assignedDueTime(time: string) {
-          if (time === 'BEFORE_SCHOOL') {
-            return '8:00:00 AM'
-          }
-          if (time === 'BEFORE_CLASS') {
-            return assignedCourseInfo.startsAt
-          }
-          if (time === 'AFTER_CLASS') {
-            return assignedCourseInfo.endsAt
-          }
-          if (time === 'AFTER_SCHOOL') {
-            return '2:15:00 PM'
-          }
-          return '8:00:00 AM'
-        }
-
-        const dueTimeForAssignment = assignedDueTime(dueTime)
-
-        const newArticleReview: NexusGenRootTypes['ArticleReview'] = {
-          articleAuthor: '',
-          articleLink: '',
-          articleTitle: '',
-          publishedDate: '',
-          assigned: true,
-          bias: null,
-          issue: '',
-          solutions: '',
-          topicsImportance: '',
-          assignedDate,
-          dueDate,
-          dueTime: dueTimeForAssignment,
-          exempt: false,
-          hasAssigner: assigner,
-          hasOwner: student,
-          late: true,
-          markingPeriod,
-          paperBased: false,
-          score: {
-            earnedPoints: 0,
-            maxPoints: 10,
-          },
-          completed: false,
-          submitted: false,
-          returned: false,
-        }
-
-        await studentData.updateOne(
-          {
-            'student._id': new ObjectId(student._id!),
-            markingPeriod,
-            responsibilityPoints: { $exists: true },
-          },
-          {
-            $inc: { responsibilityPoints: -2 },
-          }
-        )
-
-        const { insertedId } = await assignmentData.insertOne(newArticleReview)
-        newArticleReview._id = insertedId
-        newArticleReviews.push(newArticleReview)
-      }
+      const { insertedId } = await assignmentData.insertOne(newArticleReview)
+      newArticleReview._id = insertedId
+      newArticleReviews.push(newArticleReview)
+      // }
     }
     console.log(new Date().toISOString().substring(17, 20))
     return { articleReviews: newArticleReviews }

@@ -36,7 +36,8 @@ export const FindReadingGuidesByAssociatedLessonAndCourseId = queryField(
         .find({
           associatedLessonId: lessonId,
           'hasOwner.inCourses._id': new ObjectId(courseId),
-          completed: { $exists: true },
+          articleTitle: { $exists: false },
+          workingDraft: { $exists: false },
         })
         .toArray()
 

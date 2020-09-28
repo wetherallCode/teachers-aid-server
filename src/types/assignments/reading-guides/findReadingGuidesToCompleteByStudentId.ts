@@ -31,7 +31,8 @@ export const FindReadingGuidesToCompleteByStudentId = queryField(
         .find({
           'hasOwner._id': new ObjectId(studentId),
           assigned: true,
-          completed: { $exists: true },
+          articleTitle: { $exists: false },
+          workingDraft: { $exists: false },
         })
         .toArray()
       return { readingGuides }
