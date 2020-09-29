@@ -1,6 +1,7 @@
 import { objectType, inputObjectType, arg, queryField } from '@nexus/schema'
 import { Student } from '.'
 import { ObjectId } from 'mongodb'
+import { NexusGenRootTypes } from '../../teachers-aid-typegen'
 
 export const FindStudentsByCourseInput = inputObjectType({
   name: 'FindStudentsByCourseInput',
@@ -20,9 +21,10 @@ export const FindStudentsByCourse = queryField('findStudentsByCourse', {
   type: FindStudentsByCoursePayload,
   args: { input: arg({ type: FindStudentsByCourseInput, required: true }) },
   async resolve(_, { input: { courseId } }, { userData }) {
-    const students = await userData
+    const students: NexusGenRootTypes['Student'][] = await userData
       .find({ 'inCourses._id': new ObjectId(courseId) })
       .toArray()
+
     return { students }
   },
 })

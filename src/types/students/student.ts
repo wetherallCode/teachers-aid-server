@@ -38,8 +38,11 @@ export const Student = objectType({
     t.list.field('hasAssignments', {
       type: 'Assignment',
       async resolve(parent, __, { assignmentData }) {
-        const assignments = await assignmentData
-          .find({ 'hasOwner._id': new ObjectId(parent._id!) })
+        const assignments: NexusGenRootTypes['Assignment'][] = await assignmentData
+          .find({
+            'hasOwner._id': new ObjectId(parent._id!),
+            articleTitle: { $exists: false },
+          })
           .toArray()
 
         return assignments
