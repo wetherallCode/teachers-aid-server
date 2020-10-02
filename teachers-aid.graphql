@@ -254,6 +254,12 @@ type ContactInfo {
   guardianPhone: String!
 }
 
+enum ContactTypeEnum {
+  EMAIL
+  PHONE
+  VIDEO
+}
+
 input ControlCoolDownInput {
   isActive: Boolean!
   lessonId: ID!
@@ -409,6 +415,18 @@ input CreateLessonInput {
 
 type CreateLessonPayload {
   lessons: [Lesson!]!
+}
+
+input CreateParentContactInput {
+  contactType: ContactTypeEnum!
+  contentOfContact: String!
+  date: String!
+  studentId: ID!
+  teacherId: ID!
+}
+
+type CreateParentContactPayload {
+  parentContact: ParentContact!
 }
 
 input CreateProtocolInput {
@@ -809,6 +827,14 @@ type FindLessonsByUnitPayload {
   lessons: [Lesson!]!
 }
 
+input FindParentContactsByTeacherIdInput {
+  teacherId: ID!
+}
+
+type FindParentContactsByTeacherIdPayload {
+  parentContacts: [ParentContact!]!
+}
+
 input FindReadingGuideByIdInput {
   readingGuideId: ID!
 }
@@ -1079,6 +1105,7 @@ type Mutation {
   createEssay(input: CreateEssayInput!): CreateEssayPayload!
   createExcusedLateness(input: CreateExcusedLatenessInput!): CreateExcusedLatenessPayload!
   createLesson(input: CreateLessonInput!): CreateLessonPayload!
+  createParentContact(input: CreateParentContactInput!): CreateParentContactPayload!
   createProtocol(input: CreateProtocolInput!): CreateProtocolPayload!
   createReadingGuide(input: CreateReadingGuideInput!): CreateReadingGuidePayload!
   createResponsibilityPoints(input: CreateResponsibilityPointsInput!): CreateResponsibilityPointsPayload!
@@ -1142,6 +1169,7 @@ type Mutation {
   updateHowCauseEffect(input: UpdateHowCauseEffectInput!): UpdateHowCauseEffectPayload!
   updateLesson(input: UpdateLessonInput!): UpdateLessonPayload!
   updateLessonProtocol(input: UpdateLessonProtocolInput!): UpdateProtocolPayload!
+  updateParentContact(input: UpdateParentContactInput!): UpdateParentContactPayload!
   updateProblemSolution(input: UpdateProblemSolutionInput!): UpdateProblemSolutionPayload!
   updateReadingGuide(input: UpdateReadingGuideInput!): UpdateReadingGuidePayload!
   updateResponsibilityPoints(input: UpdateResponsibilityPointsInput!): UpdateResponsibilityPointsPayload!
@@ -1167,6 +1195,15 @@ type PageNumbers {
 input PageNumbersInput {
   endingPage: Int!
   startingPage: Int!
+}
+
+type ParentContact {
+  _id: ID
+  contactType: ContactTypeEnum!
+  contentOfContact: String!
+  date: String!
+  studentId: ID!
+  teacherId: ID!
 }
 
 input PasswordCheckInput {
@@ -1247,6 +1284,7 @@ type Query {
   findLessonByCourseAndDate(input: FindLessonByCourseAndDateInput!): FindLessonByCourseAndDatePayload!
   findLessonById(input: FindLessonByIdInput!): FindLessonByIdPayload!
   findLessonsByUnit(input: FindLessonsByUnitInput!): FindLessonsByUnitPayload!
+  findParentContactsByTeacherId(input: FindParentContactsByTeacherIdInput!): FindParentContactsByTeacherIdPayload!
   findReadingGuideById(input: FindReadingGuideByIdInput!): FindReadingGuideByIdPayload!
   findReadingGuidesByAssociatedLessonAndCourseId(input: FindReadingGuidesByAssociatedLessonAndCourseIdInput!): FindReadingGuidesByAssociatedLessonAndCourseIdPayload!
   findReadingGuidesToCompleteByStudentId(input: FindReadingGuidesToCompleteByStudentIdInput!): FindReadingGuidesToCompleteByStudentIdPayload!
@@ -1741,6 +1779,7 @@ type Teacher implements User {
   _id: ID
   email: String
   firstName: String!
+  hasParentContacts: [ParentContact!]!
   lastName: String!
   middleName: String
   password: String!
@@ -2068,6 +2107,19 @@ input UpdateLessonProtocolInput {
   lessonId: ID!
   studentIds: [ID!]!
   task: String!
+}
+
+input UpdateParentContactInput {
+  contactId: ID!
+  contactType: ContactTypeEnum!
+  contentOfContact: String!
+  date: String!
+  studentId: ID!
+  teacherId: ID!
+}
+
+type UpdateParentContactPayload {
+  parentContact: ParentContact!
 }
 
 input UpdateProblemSolutionInput {

@@ -1,3 +1,7 @@
 export * from './teacher'
 export * from './registerTeacher'
 export * from './addCourseToTeacher'
+export * from './parentContact'
+export * from './createParentContact'
+export * from './updateParentContact'
+export * from './findParentContactsByTeacherId'
