@@ -1,6 +1,7 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { NexusGenRootTypes } from '../../teachers-aid-typegen'
 import { ContactTypeEnum, ParentContact } from '.'
+import { ObjectId } from 'mongodb'
 
 export const CreateParentContactInput = inputObjectType({
   name: 'CreateParentContactInput',
@@ -26,12 +27,14 @@ export const CreateParentContact = mutationField('createParentContact', {
   async resolve(
     _,
     { input: { contactType, date, studentId, contentOfContact, teacherId } },
-    { teacherData }
+    { teacherData, userData }
   ) {
+    const student = await userData.findOne({ _id: new ObjectId(studentId) })
+
     const newContact: NexusGenRootTypes['ParentContact'] = {
       contactType,
       date,
-      studentId,
+      student: student,
       teacherId,
       contentOfContact,
     }

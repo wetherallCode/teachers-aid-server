@@ -1,4 +1,5 @@
 import { enumType, objectType } from '@nexus/schema'
+import { Student } from '../students'
 
 export const ParentContact = objectType({
   name: 'ParentContact',
@@ -6,7 +7,7 @@ export const ParentContact = objectType({
     t.id('_id', { nullable: true })
     t.field('contactType', { type: ContactTypeEnum })
     t.string('date')
-    t.id('studentId')
+    t.field('student', { type: Student })
     t.string('contentOfContact')
     t.id('teacherId')
   },
