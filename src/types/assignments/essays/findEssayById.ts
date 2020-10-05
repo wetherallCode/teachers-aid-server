@@ -24,7 +24,9 @@ export const FindEssayById = queryField('findEssayById', {
     const essay: NexusGenRootTypes['Essay'] = await assignmentData.findOne({
       _id: new ObjectID(_id),
     })
-
+    console.log(
+      essay.finalDraft?.submittedFinalDraft.map((draft) => draft.rubricEntries)
+    )
     return { essay }
   },
 })

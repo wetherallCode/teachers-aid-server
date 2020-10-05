@@ -50,8 +50,8 @@ const startServer = async () => {
       secret: process.env.SESSION_SECRET as string,
       resave: false,
       cookie: {
-        // maxAge: 1000 * 60 * 60 * 24 * 7,
-        maxAge: 1000 * 60 * 90,
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+        // maxAge: 1000 * 60 * 90,
         httpOnly: true,
         sameSite: 'none',
         secure: true,
@@ -84,6 +84,7 @@ const startServer = async () => {
       let lessonData = db.collection('lessonData')
       let generalData = db.collection('generalData')
       let studentData = db.collection('studentData')
+      let teacherData = db.collection('teacherData')
       let rubricData = db.collection('rubricData')
       let protocolData = db.collection('protocolData')
       let schoolDayData = db.collection('schoolDayData')
@@ -94,6 +95,7 @@ const startServer = async () => {
         userData,
         assignmentData,
         studentData,
+        teacherData,
         courseData,
         textSectionData,
         textData,

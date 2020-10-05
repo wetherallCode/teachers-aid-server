@@ -504,6 +504,7 @@ export interface NexusGenInputs {
     score: number; // Int!
   }
   ReturnedRubricEntryInput: { // input type
+    _id?: string | null; // ID
     entry: string; // String!
     howToImprove?: string | null; // String
     rubricSection: NexusGenEnums['RubricSectionEnum']; // RubricSectionEnum!
@@ -1244,7 +1245,7 @@ export interface NexusGenRootTypes {
     contactType: NexusGenEnums['ContactTypeEnum']; // ContactTypeEnum!
     contentOfContact: string; // String!
     date: string; // String!
-    studentId: string; // ID!
+    student: NexusGenRootTypes['Student']; // Student!
     teacherId: string; // ID!
   }
   PasswordCheckPayload: { // root type
@@ -2361,7 +2362,7 @@ export interface NexusGenFieldTypes {
     contactType: NexusGenEnums['ContactTypeEnum']; // ContactTypeEnum!
     contentOfContact: string; // String!
     date: string; // String!
-    studentId: string; // ID!
+    student: NexusGenRootTypes['Student']; // Student!
     teacherId: string; // ID!
   }
   PasswordCheckPayload: { // field return type

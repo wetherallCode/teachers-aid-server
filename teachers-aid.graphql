@@ -1202,7 +1202,7 @@ type ParentContact {
   contactType: ContactTypeEnum!
   contentOfContact: String!
   date: String!
-  studentId: ID!
+  student: Student!
   teacherId: ID!
 }
 
@@ -1516,6 +1516,7 @@ type ReturnArticleReviewPayload {
 }
 
 input ReturnedRubricEntryInput {
+  _id: ID
   entry: String!
   howToImprove: String
   rubricSection: RubricSectionEnum!
