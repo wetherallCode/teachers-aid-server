@@ -23,6 +23,7 @@ export const ReturnGradedEssayInput = inputObjectType({
 export const ReturnedRubricEntryInput = inputObjectType({
   name: 'ReturnedRubricEntryInput',
   definition(t) {
+    t.id('_id')
     t.string('entry', { required: true })
     t.int('score', { required: true })
     t.field('rubricSection', { type: RubricSectionEnum, required: true })
