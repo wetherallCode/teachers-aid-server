@@ -42,6 +42,11 @@ export const ResubmitEssayFinalDraft = mutationField(
           children: [{ text: '' }],
         },
       ]
+      const lastSubmissionGraded = essayCheck.finalDraft?.submittedFinalDraft[
+        essayCheck.finalDraft.submittedFinalDraft.length - 1
+      ].graded!
+
+      const alreadyGraded = essayCheck.finalDraft?.submitted === true
 
       if (essayCheck) {
         await assignmentData.updateOne(

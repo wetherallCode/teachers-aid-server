@@ -545,6 +545,14 @@ scalar Date
 
 scalar DateTime
 
+input DeleteReviewsInput {
+  assignedDate: String!
+}
+
+type DeleteReviewsPayload {
+  removed: Boolean!
+}
+
 type DevelopingOrganizer {
   answer: String!
   basicQuestionType: BasicQuestionEnum
@@ -1117,6 +1125,7 @@ type Mutation {
   createTextSection(input: CreateTextSectionInput!): CreateTextSectionPayload!
   createUnexcusedLateness(input: CreateUnexcusedLatenessInput!): CreateUnexcusedLatenessPayload!
   createUnit(input: CreateUnitInput!): CreateUnitPayload!
+  deleteReviews(input: DeleteReviewsInput!): DeleteReviewsPayload!
   finishProtocol(input: FinishProtocolInput!): FinishProtocolPayload!
   gradeArticleReview(input: GradeArticleReviewInput!): GradeArticleReviewPayload!
   initializeStudents(input: InitializeStudentsInput!): InitializeStudentsPayload!
@@ -1527,7 +1536,7 @@ input ReturnGradedEssayInput {
   _id: ID!
   additionalComments: [String!]
   draftNumber: Int!
-  gradingDraft: JSON!
+  gradingDraft: String!
   rubricEntries: [ReturnedRubricEntryInput!]!
   score: Float!
 }
