@@ -9,7 +9,7 @@ export const ReturnGradedEssayInput = inputObjectType({
   name: 'ReturnGradedEssayInput',
   definition(t) {
     t.id('_id', { required: true })
-    t.JSON('gradingDraft', { required: true })
+    t.string('gradingDraft', { required: true })
     t.list.field('rubricEntries', {
       type: ReturnedRubricEntryInput,
       required: true,
