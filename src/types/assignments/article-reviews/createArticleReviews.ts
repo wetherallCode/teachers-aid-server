@@ -115,7 +115,7 @@ export const CreateArticleReviews = mutationField('createArticleReviews', {
       // }
 
       // const dueTimeForAssignment = assignedDueTime(dueTime)
-      console.log(student.inCourses.map((course) => course.name))
+
       const newArticleReview: NexusGenRootTypes['ArticleReview'] = {
         articleAuthor: '',
         articleLink: '',
