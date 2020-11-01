@@ -34,6 +34,7 @@ export const FindEssaysToCompleteByStudentId = queryField(
           workingDraft: { $exists: true },
         })
         .toArray()
+
       return { essays }
     },
   }

@@ -1,6 +1,6 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
-import { ResponsibilityPoints } from '.'
-import { MarkingPeriodEnum } from '../general'
+import { ResponsibilityPoints } from '..'
+import { MarkingPeriodEnum } from '../../general'
 import { ObjectId } from 'mongodb'
 
 export const UpdateResponsibilityPointsInput = inputObjectType({

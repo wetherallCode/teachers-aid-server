@@ -3,7 +3,7 @@ import { User } from '../users'
 import { Course, WritingMetrics, StudentQuestion } from '..'
 import { ObjectId } from 'mongodb'
 import { NexusGenRootTypes } from '../../teachers-aid-typegen'
-import { ResponsibilityPoints } from './responsibilityPoints'
+import { ResponsibilityPoints } from './responsibilityPoints/responsibilityPoints'
 
 export const Student = objectType({
   name: 'Student',

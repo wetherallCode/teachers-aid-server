@@ -1,7 +1,7 @@
 import { objectType } from '@nexus/schema'
-import { MarkingPeriodEnum } from '../general'
-import { Student } from './student'
-import { Course } from '../courses'
+import { MarkingPeriodEnum } from '../../general'
+import { Student } from '../student'
+import { Course } from '../../courses'
 
 export const ResponsibilityPoints = objectType({
   name: 'ResponsibilityPoints',
