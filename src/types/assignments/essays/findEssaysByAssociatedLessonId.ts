@@ -11,7 +11,7 @@ export const FindEssaysByAssociatedLessonIdInput = inputObjectType({
 export const FindEssaysByAssociatedLessonIdPayload = objectType({
   name: 'FindEssaysByAssociatedLessonIdPayload',
   definition(t) {
-    t.field('essays', { type: Essay })
+    t.list.field('essays', { type: Essay })
   },
 })
 
@@ -23,10 +23,12 @@ export const FindEssaysByAssociatedLessonId = queryField(
       input: arg({ type: FindEssaysByAssociatedLessonIdInput, required: true }),
     },
     async resolve(_, { input: { associatedLessonId } }, { assignmentData }) {
-      const essays = await assignmentData.findOne({
-        associatedLessonId,
-        workingDraft: { $exists: true },
-      })
+      const essays = await assignmentData
+        .find({
+          associatedLessonId,
+          workingDraft: { $exists: true },
+        })
+        .toArray()
       return { essays }
     },
   }
