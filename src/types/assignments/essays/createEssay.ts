@@ -134,7 +134,6 @@ export const CreateEssay = mutationField('createEssay', {
             overallWritingMetric: { $exists: true },
           }
         )
-
         const individualTopic: NexusGenRootTypes['Topic'][] = topicList.filter(
           (topic: NexusGenRootTypes['Topic']) =>
             topic.writingLevel ===
@@ -163,6 +162,7 @@ export const CreateEssay = mutationField('createEssay', {
           late: true,
           exempt: false,
         }
+
         const { insertedId } = await assignmentData.insertOne(newEssay)
         newEssay._id = insertedId
         newEssays.push(newEssay)
