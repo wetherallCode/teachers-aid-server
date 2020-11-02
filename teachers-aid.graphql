@@ -773,7 +773,7 @@ input FindEssaysByAssociatedLessonIdInput {
 }
 
 type FindEssaysByAssociatedLessonIdPayload {
-  essays: Essay!
+  essays: [Essay!]!
 }
 
 input FindEssaysByUserNameAndMarkingPeriodInput {
@@ -866,6 +866,14 @@ input FindReadingGuidesToCompleteByStudentIdInput {
 
 type FindReadingGuidesToCompleteByStudentIdPayload {
   readingGuides: [ReadingGuide!]!
+}
+
+input FindResponsibilityPointsByCourseInput {
+  courseId: ID!
+}
+
+type FindResponsibilityPointsByCoursePayload {
+  responsibilityPointList: [ResponsibilityPoints!]!
 }
 
 input FindRubricEntriesByCategoryInput {
@@ -1297,6 +1305,7 @@ type Query {
   findReadingGuideById(input: FindReadingGuideByIdInput!): FindReadingGuideByIdPayload!
   findReadingGuidesByAssociatedLessonAndCourseId(input: FindReadingGuidesByAssociatedLessonAndCourseIdInput!): FindReadingGuidesByAssociatedLessonAndCourseIdPayload!
   findReadingGuidesToCompleteByStudentId(input: FindReadingGuidesToCompleteByStudentIdInput!): FindReadingGuidesToCompleteByStudentIdPayload!
+  findResponsibilityPointsByCourse(input: FindResponsibilityPointsByCourseInput!): FindResponsibilityPointsByCoursePayload!
   findRubricEntries: FindRubricEntriesPayload!
   findRubricEntriesByCategory(input: FindRubricEntriesByCategoryInput!): FindRubricEntriesByCategoryPayload!
   findSchoolDayByDate(input: FindSchoolDayByDateInput!): FindSchoolDayByDatePayload!
