@@ -33,7 +33,7 @@ export const FindArticleReviewsByStudent = queryField(
       const articleReviews = await assignmentData
         .find({
           'hasOwner._id': new ObjectId(studentId),
-          assigned: true,
+          // assigned: true,
           articleTitle: { $exists: true },
           markingPeriod,
         })
