@@ -16,8 +16,11 @@ export const ReadingGuide = objectType({
 export const ReadingGuideFinalContainer = objectType({
   name: 'ReadingGuideFinalContainer',
   definition(t) {
-    t.list.field('howIsSectionOrganized', { type: InformationStructureEnum })
-    t.string('whyWasSectionOrganized')
+    t.list.field('howIsSectionOrganized', {
+      type: InformationStructureEnum,
+      nullable: true,
+    })
+    t.string('whyWasSectionOrganized', { nullable: true })
     t.string('majorIssue')
     t.boolean('majorIssueSolved')
     t.string('majorSolution')

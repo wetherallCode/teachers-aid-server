@@ -1356,13 +1356,13 @@ type ReadingGuide implements Assignment {
 
 type ReadingGuideFinalContainer {
   clarifyingQuestions: [String!]!
-  howIsSectionOrganized: [InformationStructureEnum!]!
+  howIsSectionOrganized: [InformationStructureEnum!]
   majorIssue: String!
   majorIssueSolved: Boolean!
   majorSolution: String!
   submitted: Boolean!
   submitTime: String
-  whyWasSectionOrganized: String!
+  whyWasSectionOrganized: String
 }
 
 type Readings {

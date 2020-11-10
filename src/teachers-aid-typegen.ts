@@ -1308,13 +1308,13 @@ export interface NexusGenRootTypes {
   }
   ReadingGuideFinalContainer: { // root type
     clarifyingQuestions: string[]; // [String!]!
-    howIsSectionOrganized: NexusGenEnums['InformationStructureEnum'][]; // [InformationStructureEnum!]!
+    howIsSectionOrganized?: NexusGenEnums['InformationStructureEnum'][] | null; // [InformationStructureEnum!]
     majorIssue: string; // String!
     majorIssueSolved: boolean; // Boolean!
     majorSolution: string; // String!
     submitted: boolean; // Boolean!
     submitTime?: string | null; // String
-    whyWasSectionOrganized: string; // String!
+    whyWasSectionOrganized?: string | null; // String
   }
   Readings: { // root type
     readingPages: string; // String!
@@ -2486,13 +2486,13 @@ export interface NexusGenFieldTypes {
   }
   ReadingGuideFinalContainer: { // field return type
     clarifyingQuestions: string[]; // [String!]!
-    howIsSectionOrganized: NexusGenEnums['InformationStructureEnum'][]; // [InformationStructureEnum!]!
+    howIsSectionOrganized: NexusGenEnums['InformationStructureEnum'][] | null; // [InformationStructureEnum!]
     majorIssue: string; // String!
     majorIssueSolved: boolean; // Boolean!
     majorSolution: string; // String!
     submitted: boolean; // Boolean!
     submitTime: string | null; // String
-    whyWasSectionOrganized: string; // String!
+    whyWasSectionOrganized: string | null; // String
   }
   Readings: { // field return type
     readingPages: string; // String!
