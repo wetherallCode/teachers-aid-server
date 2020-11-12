@@ -129,7 +129,7 @@ export const SubmitEssayFinalDraft = mutationField('submitEssayFinalDraft', {
           responsibilityPoints: { $exists: true },
         },
         {
-          $inc: { responsibilityPoints: handleLateness() ? 4 : 3 },
+          $inc: { responsibilityPoints: handleLateness() ? 4 : 7 },
         }
       )
 
