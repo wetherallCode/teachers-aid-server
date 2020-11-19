@@ -29,7 +29,7 @@ export const SubmitEssayFinalDraft = mutationField('submitEssayFinalDraft', {
   async resolve(
     _,
     { input: { _id, submittedFinalDraft, late, paperBased } },
-    { assignmentData, studentData }
+    { assignmentData, studentData, generalData }
   ) {
     const essayCheck: NexusGenRootTypes['Essay'] = await assignmentData.findOne(
       { _id: new ObjectId(_id) }
@@ -40,7 +40,9 @@ export const SubmitEssayFinalDraft = mutationField('submitEssayFinalDraft', {
         children: [{ text: '' }],
       },
     ]
-
+    const currentMarkingPeriod: NexusGenRootTypes['MarkingPeriod'] = await generalData.findOne(
+      { currentMarkingPeriod: { $exists: true } }
+    )
     // Determine if essay is late
     function handleLate() {
       const submittedDate: string = new Date().toLocaleDateString()
@@ -125,7 +127,7 @@ export const SubmitEssayFinalDraft = mutationField('submitEssayFinalDraft', {
       await studentData.updateOne(
         {
           'student._id': new ObjectId(essayCheck.hasOwner._id!),
-          markingPeriod: essayCheck.markingPeriod,
+          markingPeriod: currentMarkingPeriod.currentMarkingPeriod,
           responsibilityPoints: { $exists: true },
         },
         {
