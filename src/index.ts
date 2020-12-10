@@ -50,8 +50,8 @@ const startServer = async () => {
       secret: process.env.SESSION_SECRET as string,
       resave: false,
       cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 7,
-        // maxAge: 1000 * 60 * 90,
+        // maxAge: 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 90,
         httpOnly: true,
         sameSite: 'none',
         secure: true,
@@ -60,7 +60,7 @@ const startServer = async () => {
       saveUninitialized: false,
     }) as any
   )
-
+  console.log('working')
   const MONGO_DB = process.env.DB_HOST
   const client = await MongoClient.connect(MONGO_DB as string, {
     useNewUrlParser: true,
