@@ -60,7 +60,7 @@ const startServer = async () => {
       saveUninitialized: false,
     }) as any
   )
-
+  console.log('working')
   const MONGO_DB = process.env.DB_HOST
   const client = await MongoClient.connect(MONGO_DB as string, {
     useNewUrlParser: true,
