@@ -133,6 +133,16 @@ type ArticleReview {
   topicsImportance: String!
 }
 
+input AssessIndividualProtocolsInput {
+  assessment: ProtocolAssessmentEnum
+  markingPeriod: MarkingPeriodEnum!
+  protocolId: ID!
+}
+
+type AssessIndividualProtocolsPayload {
+  protocol: Protocol!
+}
+
 input AssessStudentProtocolInput {
   assessment: ProtocolAssessmentEnum
   assignedDate: String
@@ -640,6 +650,14 @@ type FindActiveProtocolByStudentPayload {
   protocol: Protocol!
 }
 
+input FindActiveProtocolsByCourseInput {
+  courseId: ID!
+}
+
+type FindActiveProtocolsByCoursePayload {
+  protocols: [Protocol!]!
+}
+
 type FindAllStudentsPayload {
   students: [Student!]!
 }
@@ -1105,6 +1123,7 @@ type Mutation {
   addStudentsToCourse(input: AddStudentsToCourseInput!): AddStudentsToCoursePayload!
   addUserEmail(input: AddUserEmailInput!): AddUserEmailPayload!
   addVocabWord(input: AddVocabWordInput!): AddVocabWordPayload!
+  assessIndividualProtocols(input: AssessIndividualProtocolsInput!): AssessIndividualProtocolsPayload!
   assessStudentProtocol(input: AssessStudentProtocolInput!): AssessStudentProtocolPayload!
   assignEssays(input: AssignEssaysInput!): AssignEssaysPayload!
   assignReadingGuides(input: AssignReadingGuidesInput!): AssignReadingGuidesPayload!
@@ -1276,6 +1295,7 @@ enum ProtocolAssessmentEnum {
 
 type Query {
   findActiveProtocolByStudent(input: FindActiveProtocolByStudentInput!): FindActiveProtocolByStudentPayload!
+  findActiveProtocolsByCourse(input: FindActiveProtocolsByCourseInput!): FindActiveProtocolsByCoursePayload!
   findAllStudents: FindAllStudentsPayload!
   findAllUsers: FindAllUsersPayload!
   findArticleReviewById(input: FindArticleReviewByIdInput!): FindArticleReviewByIdPayload!
