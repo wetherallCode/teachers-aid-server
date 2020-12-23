@@ -94,6 +94,17 @@ export const SubmitEssayFinalDraft = mutationField('submitEssayFinalDraft', {
           }
         )
 
+        await studentData.updateOne(
+          {
+            'student._id': new ObjectId(essayCheck.hasOwner._id!),
+            markingPeriod: currentMarkingPeriod.currentMarkingPeriod,
+            responsibilityPoints: { $exists: true },
+          },
+          {
+            $inc: { responsibilityPoints: handleLateness() ? 4 : 7 },
+          }
+        )
+
         const submittedEssay = await assignmentData.findOne({
           _id: new ObjectId(_id),
         })
