@@ -53,6 +53,7 @@ export const UpdateTextSection = mutationField('updateTextSection', {
     { textData }
   ) {
     const chapter = await textData.findOne({ _id: new ObjectId(fromChapterId) })
+
     await textData.updateOne(
       { _id: new ObjectId(_id) },
       {
