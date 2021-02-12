@@ -34,8 +34,7 @@ export const FindTemporaryTasks = queryField('findTemporaryTasks', {
         taskNumber,
       })
       .toArray()
-    if (temporaryTaskCheck.length > 0) {
-      return { temporaryTasks: temporaryTaskCheck }
-    } else throw new Error('Tasks have not been created')
+
+    return { temporaryTasks: temporaryTaskCheck }
   },
 })
