@@ -7,7 +7,7 @@ export const FindTemporaryTasksInput = inputObjectType({
   name: 'FindTemporaryTasksInput',
   definition(t) {
     t.string('dateIssued', { required: true })
-    t.int('taskNumber', { required: true })
+    // t.int('taskNumber', { required: true })
     t.id('courseId', { required: true })
   },
 })
@@ -22,16 +22,12 @@ export const FindTemporaryTasksPayload = objectType({
 export const FindTemporaryTasks = queryField('findTemporaryTasks', {
   type: FindTemporaryTasksPayload,
   args: { input: arg({ type: FindTemporaryTasksInput, required: true }) },
-  async resolve(
-    _,
-    { input: { dateIssued, taskNumber, courseId } },
-    { temporaryTaskData }
-  ) {
+  async resolve(_, { input: { dateIssued, courseId } }, { temporaryTaskData }) {
     const temporaryTaskCheck: NexusGenRootTypes['TemporaryTask'][] = await temporaryTaskData
       .find({
         dateIssued,
         'student.inCourses._id': new ObjectId(courseId),
-        taskNumber,
+        // taskNumber,
       })
       .toArray()
 
