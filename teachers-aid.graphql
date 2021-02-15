@@ -520,6 +520,16 @@ type CreateStudentQuestionsContainerPayload {
   studentQuestions: StudentQuestions!
 }
 
+input CreateTemporaryTasksInput {
+  courseId: ID!
+  dateIssued: String!
+  taskNumber: Int!
+}
+
+type CreateTemporaryTasksPayload {
+  temporaryTasks: [TemporaryTask!]!
+}
+
 input CreateTextSectionInput {
   fromChapterId: String!
   hasProtocols: [TextSectionProtocolsInput!]!
@@ -560,6 +570,16 @@ input DeleteReviewsInput {
 }
 
 type DeleteReviewsPayload {
+  removed: Boolean!
+}
+
+input DeleteTemporaryTasksInput {
+  courseId: ID!
+  dateIssued: String!
+  taskNumber: Int!
+}
+
+type DeleteTemporaryTasksPayload {
   removed: Boolean!
 }
 
@@ -633,6 +653,14 @@ type ExcusedLateness {
   dayLateExcused: Date!
   markingPeriod: MarkingPeriodEnum!
   student: Student!
+}
+
+input ExemptArticleReviewInput {
+  articleReviewId: ID!
+}
+
+type ExemptArticleReviewPayload {
+  articleReview: ArticleReview!
 }
 
 type FinalDraftContainer {
@@ -951,6 +979,15 @@ type FindStudentsByIdPayload {
   students: [Student!]!
 }
 
+input FindTemporaryTasksInput {
+  courseId: ID!
+  dateIssued: String!
+}
+
+type FindTemporaryTasksPayload {
+  temporaryTasks: [TemporaryTask!]!
+}
+
 input FindTextByTitleInput {
   title: String
 }
@@ -1017,6 +1054,16 @@ input GradeArticleReviewInput {
 
 type GradeArticleReviewPayload {
   articleReview: ArticleReview!
+}
+
+input GradeTemporaryTaskInput {
+  _id: ID!
+  answered: Boolean!
+  studentPresent: Boolean!
+}
+
+type GradeTemporaryTaskPayload {
+  temporaryTask: TemporaryTask!
 }
 
 input HasAssigner {
@@ -1149,12 +1196,16 @@ type Mutation {
   createSignInSheets(input: CreateSignInSheetsInput!): CreateSignInSheetsPayload!
   createStudentQuestion(input: CreateStudentQuestionInput!): CreateStudentQuestionPayload!
   createStudentQuestionsContainer(input: CreateStudentQuestionsContainerInput!): CreateStudentQuestionsContainerPayload!
+  createTemporaryTasks(input: CreateTemporaryTasksInput!): CreateTemporaryTasksPayload!
   createTextSection(input: CreateTextSectionInput!): CreateTextSectionPayload!
   createUnexcusedLateness(input: CreateUnexcusedLatenessInput!): CreateUnexcusedLatenessPayload!
   createUnit(input: CreateUnitInput!): CreateUnitPayload!
   deleteReviews(input: DeleteReviewsInput!): DeleteReviewsPayload!
+  deleteTemporaryTasks(input: DeleteTemporaryTasksInput!): DeleteTemporaryTasksPayload!
+  exemptArticleReview(input: ExemptArticleReviewInput!): ExemptArticleReviewPayload!
   finishProtocol(input: FinishProtocolInput!): FinishProtocolPayload!
   gradeArticleReview(input: GradeArticleReviewInput!): GradeArticleReviewPayload!
+  gradeTemporaryTask(input: GradeTemporaryTaskInput!): GradeTemporaryTaskPayload!
   initializeStudents(input: InitializeStudentsInput!): InitializeStudentsPayload!
   login(input: LoginInput!): LoginPayload!
   logout: Boolean!
@@ -1211,6 +1262,7 @@ type Mutation {
   updateResponsibilityPoints(input: UpdateResponsibilityPointsInput!): UpdateResponsibilityPointsPayload!
   updateRubricEntry(input: UpdateRubricEntryInput!): UpdateRubricEntryPayload!
   updateSchoolDay(input: UpdateSchoolDayInput!): UpdateSchoolDayPayload!
+  updateTemporaryTasks(input: UpdateTemporaryTasksInput!): UpdateTemporaryTasksPayload!
   updateTextSection(input: UpdateTextSectionInput!): UpdateTextSectionPayload!
   updateWhyCauseEffect(input: UpdateWhyCauseEffectInput!): UpdateWhyCauseEffectPayload!
   updateWorkingDraft(input: UpdateWorkingDraftInput!): UpdateWorkingDraftPayload!
@@ -1334,6 +1386,7 @@ type Query {
   findStudentQuestions(input: FindStudentQuestionsInput!): FindStudentQuestionsPayload!
   findStudentsByCourse(input: FindStudentsByCourseInput!): FindStudentsByCoursePayload!
   findStudentsById(input: FindStudentsByIdInput!): FindStudentsByIdPayload!
+  findTemporaryTasks(input: FindTemporaryTasksInput!): FindTemporaryTasksPayload!
   findTextByTitle(input: FindTextByTitleInput!): FindTextByTitlePayload!
   findTexts: FindTextsPayload!
   findTextSectionById(input: FindTextSectionByIdInput!): FindTextSectionByIdPayload!
@@ -1827,6 +1880,15 @@ type Teacher implements User {
   userName: String!
 }
 
+type TemporaryTask {
+  _id: ID
+  answered: Boolean!
+  dateIssued: String!
+  student: Student!
+  studentPresent: Boolean!
+  taskNumber: Int!
+}
+
 type Test implements Assignment {
   _id: ID
   assigned: Boolean!
@@ -2225,6 +2287,18 @@ input UpdateSchoolDayInput {
 
 type UpdateSchoolDayPayload {
   schoolDay: SchoolDay!
+}
+
+input UpdateTemporaryTasksInput {
+  courseId: ID!
+  dateIssued: String!
+  newDateIssued: String
+  newTaskNumber: Int
+  taskNumber: Int!
+}
+
+type UpdateTemporaryTasksPayload {
+  temporaryTasks: [TemporaryTask!]!
 }
 
 input UpdateTextSectionInput {
