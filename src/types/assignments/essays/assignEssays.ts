@@ -9,7 +9,6 @@ export const AssignEssaysInput = inputObjectType({
     t.list.id('studentIds', { required: true })
     t.id('associatedLessonId', { required: true })
     t.date('assignedDate', { required: true })
-
     t.date('dueDate', { required: true })
   },
 })

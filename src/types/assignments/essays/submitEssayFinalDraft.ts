@@ -43,6 +43,7 @@ export const SubmitEssayFinalDraft = mutationField('submitEssayFinalDraft', {
     const currentMarkingPeriod: NexusGenRootTypes['MarkingPeriod'] = await generalData.findOne(
       { currentMarkingPeriod: { $exists: true } }
     )
+
     // Determine if essay is late
     function handleLate() {
       const submittedDate: string = new Date().toLocaleDateString()
