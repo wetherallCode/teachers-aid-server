@@ -872,6 +872,14 @@ type FindLessonByIdPayload {
   lesson: Lesson!
 }
 
+input FindLessonsByAssignedDateInput {
+  assignedDate: String!
+}
+
+type FindLessonsByAssignedDatePayload {
+  lessons: [Lesson!]
+}
+
 input FindLessonsByUnitInput {
   courseId: ID!
   unitId: ID!
@@ -1381,6 +1389,7 @@ type Query {
   findLessonByCourse(input: FindLessonByCourseInput!): FindLessonByCoursePayload!
   findLessonByCourseAndDate(input: FindLessonByCourseAndDateInput!): FindLessonByCourseAndDatePayload!
   findLessonById(input: FindLessonByIdInput!): FindLessonByIdPayload!
+  findLessonsByAssignedDate(input: FindLessonsByAssignedDateInput!): FindLessonsByAssignedDatePayload!
   findLessonsByUnit(input: FindLessonsByUnitInput!): FindLessonsByUnitPayload!
   findParentContactsByTeacherId(input: FindParentContactsByTeacherIdInput!): FindParentContactsByTeacherIdPayload!
   findReadingGuideById(input: FindReadingGuideByIdInput!): FindReadingGuideByIdPayload!
