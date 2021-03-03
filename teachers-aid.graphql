@@ -728,6 +728,15 @@ type FindAssignmentByIdPayload {
   assignment: Assignment!
 }
 
+input FindAssignmentByStudentIdInput {
+  studentId: ID!
+}
+
+type FindAssignmentByStudentIdPayload {
+  articleReviews: [ArticleReview!]!
+  assignments: [Assignment!]!
+}
+
 input FindAssignmentsToGradeInput {
   teacherUserName: String!
 }
@@ -1371,6 +1380,7 @@ type Query {
   findArticleReviewsByCourse(input: FindArticleReviewsByCourseInput!): FindArticleReviewsByCoursePayload!
   findArticleReviewsByStudent(input: FindArticleReviewsByStudentInput!): FindArticleReviewsByStudentPayload!
   findAssignmentById(input: FindAssignmentByIdInput!): FindAssignmentByIdPayload!
+  findAssignmentByStudentId(input: FindAssignmentByStudentIdInput!): FindAssignmentByStudentIdPayload!
   findAssignmentsToGrade(input: FindAssignmentsToGradeInput!): FindAssignmentsToGradePayload!
   findChaptersInText(input: FindChaptersInTextInput!): FindChaptersInTextPayload!
   findChapterTitle(input: FindChapterTitleInput!): FindChapterTitlePayload!
