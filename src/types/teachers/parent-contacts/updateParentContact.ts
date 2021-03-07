@@ -1,6 +1,6 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { ObjectId } from 'mongodb'
-import { ContactTypeEnum, ParentContact } from '.'
+import { ContactTypeEnum, ParentContact } from '..'
 
 export const UpdateParentContactInput = inputObjectType({
   name: 'UpdateParentContactInput',

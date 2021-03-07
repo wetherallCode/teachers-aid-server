@@ -1,6 +1,6 @@
 import { objectType, inputObjectType, arg, queryField } from '@nexus/schema'
 import { ParentContact } from './parentContact'
-import { NexusGenRootTypes } from '../../teachers-aid-typegen'
+import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
 
 export const FindParentContactsByTeacherIdInput = inputObjectType({
   name: 'FindParentContactsByTeacherIdInput',

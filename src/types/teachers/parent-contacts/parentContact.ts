@@ -1,5 +1,5 @@
 import { enumType, objectType } from '@nexus/schema'
-import { Student } from '../students'
+import { Student } from '../..'
 
 export const ParentContact = objectType({
   name: 'ParentContact',

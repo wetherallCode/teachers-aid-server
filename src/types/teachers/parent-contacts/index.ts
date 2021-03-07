@@ -1,0 +1,5 @@
+export * from './parentContact'
+export * from './createParentContact'
+export * from './findParentContactsByTeacherId'
+export * from './updateParentContact'
+export * from './findContactsByStudentId'

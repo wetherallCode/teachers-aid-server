@@ -1,6 +1,6 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
-import { NexusGenRootTypes } from '../../teachers-aid-typegen'
-import { ContactTypeEnum, ParentContact } from '.'
+import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
+import { ContactTypeEnum, ParentContact } from '..'
 import { ObjectId } from 'mongodb'
 
 export const CreateParentContactInput = inputObjectType({
