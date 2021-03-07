@@ -1013,6 +1013,14 @@ type FindStudentsByIdPayload {
   students: [Student!]!
 }
 
+input FindTemporaryTasksByStudentIdInput {
+  studentId: ID!
+}
+
+type FindTemporaryTasksByStudentIdPayload {
+  temporaryTasks: [TemporaryTask!]!
+}
+
 input FindTemporaryTasksInput {
   courseId: ID!
   dateIssued: String!
@@ -1425,6 +1433,7 @@ type Query {
   findStudentsByCourse(input: FindStudentsByCourseInput!): FindStudentsByCoursePayload!
   findStudentsById(input: FindStudentsByIdInput!): FindStudentsByIdPayload!
   findTemporaryTasks(input: FindTemporaryTasksInput!): FindTemporaryTasksPayload!
+  findTemporaryTasksByStudentId(input: FindTemporaryTasksByStudentIdInput!): FindTemporaryTasksByStudentIdPayload!
   findTextByTitle(input: FindTextByTitleInput!): FindTextByTitlePayload!
   findTexts: FindTextsPayload!
   findTextSectionById(input: FindTextSectionByIdInput!): FindTextSectionByIdPayload!
