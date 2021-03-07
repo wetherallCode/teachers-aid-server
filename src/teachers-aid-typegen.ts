@@ -240,6 +240,7 @@ export interface NexusGenInputs {
   CreateTemporaryTasksInput: { // input type
     courseId: string; // ID!
     dateIssued: string; // String!
+    markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
     taskNumber: number; // Int!
   }
   CreateTextSectionInput: { // input type
@@ -1595,6 +1596,7 @@ export interface NexusGenRootTypes {
     _id?: string | null; // ID
     answered: boolean; // Boolean!
     dateIssued: string; // String!
+    markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
     student: NexusGenRootTypes['Student']; // Student!
     studentPresent: boolean; // Boolean!
     taskNumber: number; // Int!
@@ -2856,6 +2858,7 @@ export interface NexusGenFieldTypes {
     _id: string | null; // ID
     answered: boolean; // Boolean!
     dateIssued: string; // String!
+    markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
     student: NexusGenRootTypes['Student']; // Student!
     studentPresent: boolean; // Boolean!
     taskNumber: number; // Int!

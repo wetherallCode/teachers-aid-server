@@ -523,6 +523,7 @@ type CreateStudentQuestionsContainerPayload {
 input CreateTemporaryTasksInput {
   courseId: ID!
   dateIssued: String!
+  markingPeriod: MarkingPeriodEnum!
   taskNumber: Int!
 }
 
@@ -1931,6 +1932,7 @@ type TemporaryTask {
   _id: ID
   answered: Boolean!
   dateIssued: String!
+  markingPeriod: MarkingPeriodEnum!
   student: Student!
   studentPresent: Boolean!
   taskNumber: Int!

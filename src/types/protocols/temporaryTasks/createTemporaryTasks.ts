@@ -2,6 +2,7 @@ import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { ObjectId } from 'mongodb'
 import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
 import { TemporaryTask } from '.'
+import { MarkingPeriodEnum } from '../../general'
 
 export const CreateTemporaryTasksInput = inputObjectType({
   name: 'CreateTemporaryTasksInput',
@@ -9,6 +10,7 @@ export const CreateTemporaryTasksInput = inputObjectType({
     t.string('dateIssued', { required: true })
     t.int('taskNumber', { required: true })
     t.id('courseId', { required: true })
+    t.field('markingPeriod', { type: MarkingPeriodEnum, required: true })
   },
 })
 
@@ -24,7 +26,7 @@ export const CreateTemporaryTasks = mutationField('createTemporaryTasks', {
   args: { input: arg({ type: CreateTemporaryTasksInput, required: true }) },
   async resolve(
     _,
-    { input: { dateIssued, taskNumber, courseId } },
+    { input: { dateIssued, taskNumber, courseId, markingPeriod } },
     { temporaryTaskData, userData }
   ) {
     const taskCheck: NexusGenRootTypes['TemporaryTask'][] = await temporaryTaskData
@@ -51,6 +53,7 @@ export const CreateTemporaryTasks = mutationField('createTemporaryTasks', {
           studentPresent: true,
           taskNumber,
           student: student,
+          markingPeriod: markingPeriod,
         }
 
         const { insertedId } = await temporaryTaskData.insertOne(
