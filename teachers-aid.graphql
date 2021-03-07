@@ -769,6 +769,14 @@ type FindCompletedEssaysByStudentIdPayload {
   essays: [Essay!]!
 }
 
+input FindContactsByStudentIdInput {
+  studentId: ID!
+}
+
+type FindContactsByStudentIdPayload {
+  parentContacts: [ParentContact!]!
+}
+
 input FindCourseByIdInput {
   courseId: ID!
 }
@@ -1385,6 +1393,7 @@ type Query {
   findChaptersInText(input: FindChaptersInTextInput!): FindChaptersInTextPayload!
   findChapterTitle(input: FindChapterTitleInput!): FindChapterTitlePayload!
   findCompletedEssaysByStudentId(input: FindCompletedEssaysByStudentIdInput!): FindCompletedEssaysByStudentIdPayload!
+  findContactsByStudentId(input: FindContactsByStudentIdInput!): FindContactsByStudentIdPayload!
   findCourseById(input: FindCourseByIdInput!): FindCourseByIdPayload!
   findCourseInfoByCourseId(input: FindCourseInfoByCourseIdInput!): FindCourseInfoByCourseIdPayload!
   findCoursesById(input: FindCoursesByIdInput!): FindCoursesByIdPayload!
