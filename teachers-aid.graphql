@@ -957,6 +957,14 @@ type FindResponsibilityPointsByCoursePayload {
   responsibilityPointList: [ResponsibilityPoints!]!
 }
 
+input FindResponsibilityPointsByStudentIdInput {
+  studentId: ID!
+}
+
+type FindResponsibilityPointsByStudentIdPayload {
+  responsibilityPoints: [ResponsibilityPoints!]!
+}
+
 input FindRubricEntriesByCategoryInput {
   rubricWritingLevel: WritingLevelEnum!
 }
@@ -1077,6 +1085,14 @@ input FindUserDataInput {
 
 type FindUserDataPayload {
   user: User!
+}
+
+input FindWritingMetricsInput {
+  studentId: ID!
+}
+
+type FindWritingMetricsPayload {
+  writingMetrics: WritingMetrics!
 }
 
 input FinishProtocolInput {
@@ -1425,6 +1441,7 @@ type Query {
   findReadingGuidesByCourseIdAndAssignedDate(input: FindReadingGuidesByCourseIdAndAssignedDateInput!): FindReadingGuidesByCourseIdAndAssignedDatePayload!
   findReadingGuidesToCompleteByStudentId(input: FindReadingGuidesToCompleteByStudentIdInput!): FindReadingGuidesToCompleteByStudentIdPayload!
   findResponsibilityPointsByCourse(input: FindResponsibilityPointsByCourseInput!): FindResponsibilityPointsByCoursePayload!
+  findResponsibilityPointsByStudentId(input: FindResponsibilityPointsByStudentIdInput!): FindResponsibilityPointsByStudentIdPayload!
   findRubricEntries: FindRubricEntriesPayload!
   findRubricEntriesByCategory(input: FindRubricEntriesByCategoryInput!): FindRubricEntriesByCategoryPayload!
   findSchoolDayByDate(input: FindSchoolDayByDateInput!): FindSchoolDayByDatePayload!
@@ -1442,6 +1459,7 @@ type Query {
   findTextSectionsById(input: FindTextSectionsByIdInput!): FindTextSectionsByIdPayload!
   findUnits: FindUnitsPayload!
   findUserData(input: FindUserDataInput!): FindUserDataPayload!
+  findWritingMetrics(input: FindWritingMetricsInput!): FindWritingMetricsPayload!
   me: User
   passwordCheck(input: PasswordCheckInput!): PasswordCheckPayload!
   removeSchoolDay(input: RemoveSchoolDayInput!): RemoveSchoolDayPayload!
