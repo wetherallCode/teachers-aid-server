@@ -616,6 +616,7 @@ export interface NexusGenInputs {
     late: boolean; // Boolean!
     paperBased: boolean; // Boolean!
     submittedFinalDraft: NexusGenInputs['SubmittedFinalDraftsInput']; // SubmittedFinalDraftsInput!
+    submitTime: string; // String!
   }
   SubmitReadingGuideInput: { // input type
     completeReadingGuide?: boolean | null; // Boolean

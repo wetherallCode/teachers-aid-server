@@ -1896,6 +1896,7 @@ input SubmitEssayFinalDraftInput {
   late: Boolean!
   paperBased: Boolean!
   submittedFinalDraft: SubmittedFinalDraftsInput!
+  submitTime: String!
 }
 
 type SubmitEssayFinalDraftPayload {
