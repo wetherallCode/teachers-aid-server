@@ -623,6 +623,7 @@ export interface NexusGenInputs {
     late: boolean; // Boolean!
     paperBased: boolean; // Boolean!
     readingGuideId: string; // ID!
+    submitTime: string; // String!
   }
   SubmittedFinalDraftsInput: { // input type
     additionalComments?: string[] | null; // [String!]

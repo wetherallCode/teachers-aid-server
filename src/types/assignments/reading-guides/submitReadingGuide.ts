@@ -9,6 +9,7 @@ export const SubmitReadingGuideInput = inputObjectType({
   definition(t) {
     t.id('readingGuideId', { required: true })
     t.boolean('late', { required: true })
+    t.string('submitTime', { required: true })
     t.boolean('paperBased', { required: true })
     t.boolean('completeReadingGuide')
   },
@@ -26,7 +27,15 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
   args: { input: arg({ type: SubmitReadingGuideInput, required: true }) },
   async resolve(
     _,
-    { input: { readingGuideId, late, paperBased, completeReadingGuide } },
+    {
+      input: {
+        readingGuideId,
+        late,
+        submitTime,
+        paperBased,
+        completeReadingGuide,
+      },
+    },
     { assignmentData, studentData, generalData }
   ) {
     const readingGuideValidation: NexusGenRootTypes['ReadingGuide'] = await assignmentData.findOne(
@@ -90,7 +99,7 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
     }
 
     function handleLateness() {
-      const submittedDateTime: string = new Date().toLocaleString()
+      const submittedDateTime: string = submitTime
       const dueDateTime: string = `${readingGuideValidation.dueDate}, ${readingGuideValidation.dueTime}`
 
       if (Date.parse(submittedDateTime) > Date.parse(dueDateTime)) {
@@ -107,7 +116,6 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
     const clarifyingQuestionComplete = clarifyingQuestions.length! !== 0
     const majorSolutionComplete = majorSolution !== ''
     const majorIssueComplete = majorIssue !== ''
-    // const majorIssueSolved = majorIssueSolved
 
     const complete =
       clarifyingQuestionComplete && majorSolutionComplete && majorIssueComplete
@@ -130,7 +138,7 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
                 : 2,
             late: handleLateness(),
             'readingGuideFinal.submitted': true,
-            'readingGuideFinal.submitTime': new Date().toLocaleString(),
+            'readingGuideFinal.submitTime': submitTime,
           },
         }
       )
@@ -148,7 +156,7 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
                   ? readingGuideValidation.score.maxPoints + 2
                   : complete && handleLateness() === true
                   ? (readingGuideValidation.score.maxPoints % 2) + 2
-                  : 4,
+                  : 3,
             },
           }
         )
