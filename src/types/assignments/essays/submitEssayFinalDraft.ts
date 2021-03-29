@@ -45,24 +45,6 @@ export const SubmitEssayFinalDraft = mutationField('submitEssayFinalDraft', {
     )
 
     // Determine if essay is late
-    function handleLate() {
-      const submittedDate: string = new Date().toLocaleDateString()
-      const submittedTime: string = new Date().toLocaleString().substring(10)
-
-      let isLate: boolean = false
-
-      if (submittedDate > essayCheck.dueDate) {
-        isLate = true
-      }
-      if (
-        essayCheck.dueDate === submittedDate &&
-        essayCheck.dueTime < submittedTime
-      ) {
-        isLate = true
-      }
-      return isLate
-    }
-
     function handleLateness() {
       const submittedDateTime: string = new Date().toLocaleString()
       const dueDateTime: string = `${essayCheck.dueDate}, ${essayCheck.dueTime}`
