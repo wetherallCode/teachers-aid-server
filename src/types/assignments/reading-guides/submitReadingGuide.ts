@@ -2,6 +2,7 @@ import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { ObjectId } from 'mongodb'
 import { ReadingGuide } from '.'
 import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
+import { Score } from '../assignments'
 
 export const SubmitReadingGuideInput = inputObjectType({
   name: 'SubmitReadingGuideInput',
@@ -98,7 +99,6 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
     }
 
     const {
-      whyWasSectionOrganized,
       majorIssue,
       majorSolution,
       clarifyingQuestions,
@@ -107,13 +107,10 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
     const clarifyingQuestionComplete = clarifyingQuestions.length! !== 0
     const majorSolutionComplete = majorSolution !== ''
     const majorIssueComplete = majorIssue !== ''
-    const whyOrganizedComplete = whyWasSectionOrganized !== ''
+    // const majorIssueSolved = majorIssueSolved
 
     const complete =
-      clarifyingQuestionComplete &&
-      majorSolutionComplete &&
-      majorIssueComplete &&
-      whyOrganizedComplete
+      clarifyingQuestionComplete && majorSolutionComplete && majorIssueComplete
 
     if (readingGuideValidation) {
       assignmentData.updateOne(
@@ -127,9 +124,9 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
             assigned: false,
             'score.earnedPoints':
               complete && handleLateness() === false
-                ? 10
+                ? readingGuideValidation.score.maxPoints
                 : complete && handleLateness() === true
-                ? 5
+                ? readingGuideValidation.score.maxPoints % 2
                 : 2,
             late: handleLateness(),
             'readingGuideFinal.submitted': true,
@@ -148,9 +145,9 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
             $inc: {
               responsibilityPoints:
                 complete && handleLateness() === false
-                  ? 12
+                  ? readingGuideValidation.score.maxPoints + 2
                   : complete && handleLateness() === true
-                  ? 7
+                  ? (readingGuideValidation.score.maxPoints % 2) + 2
                   : 4,
             },
           }
