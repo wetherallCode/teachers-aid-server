@@ -11,6 +11,7 @@ type AcademicOrganizer {
 }
 
 enum AcademicOutcomeTypes {
+  CAUSE_AND_EFFECT_RECOGNITION
   LOGIC_BUILDING
   SCHEMA_BUIDING
   SOCRATIC_QUESTIONS
@@ -1210,6 +1211,10 @@ type LoginPayload {
   user: User!
 }
 
+type MarkAllProtocolsInactivePayload {
+  inactive: Boolean!
+}
+
 type MarkingPeriod {
   _id: ID
   currentMarkingPeriod: MarkingPeriodEnum!
@@ -1268,6 +1273,7 @@ type Mutation {
   initializeStudents(input: InitializeStudentsInput!): InitializeStudentsPayload!
   login(input: LoginInput!): LoginPayload!
   logout: Boolean!
+  markAllProtocolsInactive: MarkAllProtocolsInactivePayload!
   registerStudent(input: RegisterStudentInput!): RegisterStudentPayload!
   registerTeacher(input: RegisterTeacherInput!): RegisterTeacherPayload!
   removeAbsence(input: RemoveAbsenceInput!): RemoveAbsencePayload!
@@ -1393,6 +1399,7 @@ type Protocol {
 
 enum ProtocolActivityTypes {
   INDIVIDUAL
+  SMALL_GROUP
   THINK_PAIR_SHARE
 }
 
