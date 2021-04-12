@@ -74,7 +74,7 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
           studentData.updateOne(
             {
               'student._id': new ObjectId(readingGuideValidation.hasOwner._id!),
-              markingPeriod: currentMarkingPeriod.currentMarkingPeriod,
+              markingPeriod: readingGuideValidation.markingPeriod,
               responsibilityPoints: { $exists: true },
             },
             {
@@ -146,7 +146,7 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
         studentData.updateOne(
           {
             'student._id': new ObjectId(readingGuideValidation.hasOwner._id!),
-            markingPeriod: currentMarkingPeriod.currentMarkingPeriod,
+            markingPeriod: readingGuideValidation.markingPeriod,
             responsibilityPoints: { $exists: true },
           },
           {
