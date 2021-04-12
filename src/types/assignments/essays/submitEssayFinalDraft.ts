@@ -81,7 +81,7 @@ export const SubmitEssayFinalDraft = mutationField('submitEssayFinalDraft', {
         await studentData.updateOne(
           {
             'student._id': new ObjectId(essayCheck.hasOwner._id!),
-            markingPeriod: currentMarkingPeriod.currentMarkingPeriod,
+            markingPeriod: essayCheck.markingPeriod,
             responsibilityPoints: { $exists: true },
           },
           {
@@ -122,7 +122,7 @@ export const SubmitEssayFinalDraft = mutationField('submitEssayFinalDraft', {
       await studentData.updateOne(
         {
           'student._id': new ObjectId(essayCheck.hasOwner._id!),
-          markingPeriod: currentMarkingPeriod.currentMarkingPeriod,
+          markingPeriod: essayCheck.markingPeriod,
           responsibilityPoints: { $exists: true },
         },
         {
