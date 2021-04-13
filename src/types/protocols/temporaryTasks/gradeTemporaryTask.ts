@@ -27,7 +27,6 @@ export const GradeTemporaryTask = mutationField('gradeTemporaryTask', {
     { input: { _id, answered, studentPresent } },
     { temporaryTaskData, generalData, studentData }
   ) {
-    studentData
     const temporaryTaskCheck: NexusGenRootTypes['TemporaryTask'] = await temporaryTaskData.findOne(
       {
         _id: new ObjectId(_id),
