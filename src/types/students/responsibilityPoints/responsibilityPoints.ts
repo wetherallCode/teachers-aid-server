@@ -8,7 +8,7 @@ export const ResponsibilityPoints = objectType({
   definition(t) {
     t.id('_id', { nullable: true })
     t.field('student', { type: Student })
-    t.int('responsibilityPoints')
+    t.float('responsibilityPoints')
     t.field('inCourse', { type: Course })
     t.field('markingPeriod', { type: MarkingPeriodEnum })
   },
