@@ -1474,7 +1474,7 @@ export interface NexusGenRootTypes {
     _id?: string | null; // ID
     inCourse: NexusGenRootTypes['Course']; // Course!
     markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
-    responsibilityPoints: number; // Int!
+    responsibilityPoints: number; // Float!
     student: NexusGenRootTypes['Student']; // Student!
   }
   ResubmitEssayFinalDraftPayload: { // root type
@@ -2741,7 +2741,7 @@ export interface NexusGenFieldTypes {
     _id: string | null; // ID
     inCourse: NexusGenRootTypes['Course']; // Course!
     markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
-    responsibilityPoints: number; // Int!
+    responsibilityPoints: number; // Float!
     student: NexusGenRootTypes['Student']; // Student!
   }
   ResubmitEssayFinalDraftPayload: { // field return type

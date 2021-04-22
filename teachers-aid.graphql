@@ -1658,7 +1658,7 @@ type ResponsibilityPoints {
   _id: ID
   inCourse: Course!
   markingPeriod: MarkingPeriodEnum!
-  responsibilityPoints: Int!
+  responsibilityPoints: Float!
   student: Student!
 }
 
