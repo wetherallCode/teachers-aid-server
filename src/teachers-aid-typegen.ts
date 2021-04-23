@@ -449,6 +449,7 @@ export interface NexusGenInputs {
   GradeTemporaryTaskInput: { // input type
     _id: string; // ID!
     answered: boolean; // Boolean!
+    responsibilityPoints: number; // Float!
     studentPresent: boolean; // Boolean!
   }
   HasAssigner: { // input type
@@ -807,7 +808,7 @@ export interface NexusGenInputs {
   }
   UpdateResponsibilityPointsInput: { // input type
     markingPeriod?: NexusGenEnums['MarkingPeriodEnum'] | null; // MarkingPeriodEnum
-    points: number; // Int!
+    points: number; // Float!
     studentId: string; // ID!
   }
   UpdateRubricEntryInput: { // input type

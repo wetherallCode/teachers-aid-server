@@ -1119,6 +1119,7 @@ type GradeArticleReviewPayload {
 input GradeTemporaryTaskInput {
   _id: ID!
   answered: Boolean!
+  responsibilityPoints: Float!
   studentPresent: Boolean!
 }
 
@@ -2332,7 +2333,7 @@ type UpdateReadingGuidePayload {
 
 input UpdateResponsibilityPointsInput {
   markingPeriod: MarkingPeriodEnum
-  points: Int!
+  points: Float!
   studentId: ID!
 }
 

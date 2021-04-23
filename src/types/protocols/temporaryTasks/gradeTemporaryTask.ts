@@ -9,6 +9,7 @@ export const GradeTemporaryTaskInput = inputObjectType({
     t.id('_id', { required: true })
     t.boolean('answered', { required: true })
     t.boolean('studentPresent', { required: true })
+    t.float('responsibilityPoints', { required: true })
   },
 })
 
@@ -24,7 +25,7 @@ export const GradeTemporaryTask = mutationField('gradeTemporaryTask', {
   args: { input: arg({ type: GradeTemporaryTaskInput, required: true }) },
   async resolve(
     _,
-    { input: { _id, answered, studentPresent } },
+    { input: { _id, answered, studentPresent, responsibilityPoints } },
     { temporaryTaskData, generalData, studentData }
   ) {
     const temporaryTaskCheck: NexusGenRootTypes['TemporaryTask'] = await temporaryTaskData.findOne(
@@ -32,7 +33,7 @@ export const GradeTemporaryTask = mutationField('gradeTemporaryTask', {
         _id: new ObjectId(_id),
       }
     )
-
+    responsibilityPoints
     const mp = await generalData.findOne({
       currentMarkingPeriod: { $exists: true },
     })
@@ -57,7 +58,7 @@ export const GradeTemporaryTask = mutationField('gradeTemporaryTask', {
             responsibilityPoints: { $exists: true },
           },
           {
-            $inc: { responsibilityPoints: -2 },
+            $inc: { responsibilityPoints: -responsibilityPoints },
           }
         )
       }
@@ -71,7 +72,7 @@ export const GradeTemporaryTask = mutationField('gradeTemporaryTask', {
             responsibilityPoints: { $exists: true },
           },
           {
-            $inc: { responsibilityPoints: 2 },
+            $inc: { responsibilityPoints: responsibilityPoints },
           }
         )
       }
