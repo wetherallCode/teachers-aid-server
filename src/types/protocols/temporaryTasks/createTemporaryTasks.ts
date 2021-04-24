@@ -54,6 +54,7 @@ export const CreateTemporaryTasks = mutationField('createTemporaryTasks', {
           taskNumber,
           student: student,
           markingPeriod: markingPeriod,
+          lastGrade: 0,
         }
 
         const { insertedId } = await temporaryTaskData.insertOne(

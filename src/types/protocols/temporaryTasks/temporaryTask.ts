@@ -13,5 +13,6 @@ export const TemporaryTask = objectType({
     t.int('taskNumber')
     t.field('markingPeriod', { type: MarkingPeriodEnum })
     t.boolean('studentPresent')
+    t.float('lastGrade')
   },
 })

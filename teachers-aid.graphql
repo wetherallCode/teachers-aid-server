@@ -1119,6 +1119,7 @@ type GradeArticleReviewPayload {
 input GradeTemporaryTaskInput {
   _id: ID!
   answered: Boolean!
+  lastGrade: Float!
   responsibilityPoints: Float!
   studentPresent: Boolean!
 }
@@ -1960,6 +1961,7 @@ type TemporaryTask {
   _id: ID
   answered: Boolean!
   dateIssued: String!
+  lastGrade: Float!
   markingPeriod: MarkingPeriodEnum!
   student: Student!
   studentPresent: Boolean!

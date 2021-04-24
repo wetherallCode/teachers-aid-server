@@ -449,6 +449,7 @@ export interface NexusGenInputs {
   GradeTemporaryTaskInput: { // input type
     _id: string; // ID!
     answered: boolean; // Boolean!
+    lastGrade: number; // Float!
     responsibilityPoints: number; // Float!
     studentPresent: boolean; // Boolean!
   }
@@ -1614,6 +1615,7 @@ export interface NexusGenRootTypes {
     _id?: string | null; // ID
     answered: boolean; // Boolean!
     dateIssued: string; // String!
+    lastGrade: number; // Float!
     markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
     student: NexusGenRootTypes['Student']; // Student!
     studentPresent: boolean; // Boolean!
@@ -2890,6 +2892,7 @@ export interface NexusGenFieldTypes {
     _id: string | null; // ID
     answered: boolean; // Boolean!
     dateIssued: string; // String!
+    lastGrade: number; // Float!
     markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
     student: NexusGenRootTypes['Student']; // Student!
     studentPresent: boolean; // Boolean!
