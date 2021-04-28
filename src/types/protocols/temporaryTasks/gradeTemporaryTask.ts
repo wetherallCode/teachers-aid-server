@@ -36,7 +36,7 @@ export const GradeTemporaryTask = mutationField('gradeTemporaryTask', {
         _id: new ObjectId(_id),
       }
     )
-    responsibilityPoints
+    // console.log(lastGrade)
     const mp = await generalData.findOne({
       currentMarkingPeriod: { $exists: true },
     })
@@ -49,6 +49,10 @@ export const GradeTemporaryTask = mutationField('gradeTemporaryTask', {
           $set: {
             answered,
             studentPresent,
+            lastGrade:
+              temporaryTaskCheck.answered && !answered
+                ? 0
+                : responsibilityPoints,
           },
         }
       )
@@ -62,7 +66,7 @@ export const GradeTemporaryTask = mutationField('gradeTemporaryTask', {
           },
           {
             $inc: { responsibilityPoints: -lastGrade },
-            $set: { lastGrade: 0 },
+            // $set: { lastGrade: 0 },
           }
         )
       }
@@ -76,15 +80,17 @@ export const GradeTemporaryTask = mutationField('gradeTemporaryTask', {
             responsibilityPoints: { $exists: true },
           },
           {
-            $set: { lastGrade: responsibilityPoints },
             $inc: { responsibilityPoints: responsibilityPoints },
           }
         )
       }
 
-      const temporaryTask = await temporaryTaskData.findOne({
-        _id: new ObjectId(_id),
-      })
+      const temporaryTask: NexusGenRootTypes['TemporaryTask'] = await temporaryTaskData.findOne(
+        {
+          _id: new ObjectId(_id),
+        }
+      )
+      console.log(temporaryTask.lastGrade)
       return { temporaryTask }
     } else throw new Error('Task not created')
   },
