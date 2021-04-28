@@ -5,6 +5,7 @@
   "author": "",
   "license": "ISC",
   "scripts": {
+    "tsc-start": "tsc && node dist/main.js",
     "start": "nodemon --exec ts-node src/index.ts",
     "apollo-push": "npx apollo service:push --localSchemaFile=./teachers-aid.graphql",
     "heroku-push": "git push heroku master"

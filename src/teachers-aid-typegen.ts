@@ -449,6 +449,8 @@ export interface NexusGenInputs {
   GradeTemporaryTaskInput: { // input type
     _id: string; // ID!
     answered: boolean; // Boolean!
+    lastGrade: number; // Float!
+    responsibilityPoints: number; // Float!
     studentPresent: boolean; // Boolean!
   }
   HasAssigner: { // input type
@@ -807,7 +809,7 @@ export interface NexusGenInputs {
   }
   UpdateResponsibilityPointsInput: { // input type
     markingPeriod?: NexusGenEnums['MarkingPeriodEnum'] | null; // MarkingPeriodEnum
-    points: number; // Int!
+    points: number; // Float!
     studentId: string; // ID!
   }
   UpdateRubricEntryInput: { // input type
@@ -1474,7 +1476,7 @@ export interface NexusGenRootTypes {
     _id?: string | null; // ID
     inCourse: NexusGenRootTypes['Course']; // Course!
     markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
-    responsibilityPoints: number; // Int!
+    responsibilityPoints: number; // Float!
     student: NexusGenRootTypes['Student']; // Student!
   }
   ResubmitEssayFinalDraftPayload: { // root type
@@ -1613,6 +1615,7 @@ export interface NexusGenRootTypes {
     _id?: string | null; // ID
     answered: boolean; // Boolean!
     dateIssued: string; // String!
+    lastGrade: number; // Float!
     markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
     student: NexusGenRootTypes['Student']; // Student!
     studentPresent: boolean; // Boolean!
@@ -2741,7 +2744,7 @@ export interface NexusGenFieldTypes {
     _id: string | null; // ID
     inCourse: NexusGenRootTypes['Course']; // Course!
     markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
-    responsibilityPoints: number; // Int!
+    responsibilityPoints: number; // Float!
     student: NexusGenRootTypes['Student']; // Student!
   }
   ResubmitEssayFinalDraftPayload: { // field return type
@@ -2889,6 +2892,7 @@ export interface NexusGenFieldTypes {
     _id: string | null; // ID
     answered: boolean; // Boolean!
     dateIssued: string; // String!
+    lastGrade: number; // Float!
     markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
     student: NexusGenRootTypes['Student']; // Student!
     studentPresent: boolean; // Boolean!

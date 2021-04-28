@@ -9,6 +9,8 @@ export const GradeTemporaryTaskInput = inputObjectType({
     t.id('_id', { required: true })
     t.boolean('answered', { required: true })
     t.boolean('studentPresent', { required: true })
+    t.float('responsibilityPoints', { required: true })
+    t.float('lastGrade', { required: true })
   },
 })
 
@@ -24,16 +26,17 @@ export const GradeTemporaryTask = mutationField('gradeTemporaryTask', {
   args: { input: arg({ type: GradeTemporaryTaskInput, required: true }) },
   async resolve(
     _,
-    { input: { _id, answered, studentPresent } },
+    {
+      input: { _id, answered, studentPresent, responsibilityPoints, lastGrade },
+    },
     { temporaryTaskData, generalData, studentData }
   ) {
-    studentData
     const temporaryTaskCheck: NexusGenRootTypes['TemporaryTask'] = await temporaryTaskData.findOne(
       {
         _id: new ObjectId(_id),
       }
     )
-
+    // console.log(lastGrade)
     const mp = await generalData.findOne({
       currentMarkingPeriod: { $exists: true },
     })
@@ -46,6 +49,10 @@ export const GradeTemporaryTask = mutationField('gradeTemporaryTask', {
           $set: {
             answered,
             studentPresent,
+            lastGrade:
+              temporaryTaskCheck.answered && !answered
+                ? 0
+                : responsibilityPoints,
           },
         }
       )
@@ -58,7 +65,8 @@ export const GradeTemporaryTask = mutationField('gradeTemporaryTask', {
             responsibilityPoints: { $exists: true },
           },
           {
-            $inc: { responsibilityPoints: -2 },
+            $inc: { responsibilityPoints: -lastGrade },
+            // $set: { lastGrade: 0 },
           }
         )
       }
@@ -72,14 +80,17 @@ export const GradeTemporaryTask = mutationField('gradeTemporaryTask', {
             responsibilityPoints: { $exists: true },
           },
           {
-            $inc: { responsibilityPoints: 2 },
+            $inc: { responsibilityPoints: responsibilityPoints },
           }
         )
       }
 
-      const temporaryTask = await temporaryTaskData.findOne({
-        _id: new ObjectId(_id),
-      })
+      const temporaryTask: NexusGenRootTypes['TemporaryTask'] = await temporaryTaskData.findOne(
+        {
+          _id: new ObjectId(_id),
+        }
+      )
+      console.log(temporaryTask.lastGrade)
       return { temporaryTask }
     } else throw new Error('Task not created')
   },
