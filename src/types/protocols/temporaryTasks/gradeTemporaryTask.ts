@@ -8,7 +8,6 @@ export const GradeTemporaryTaskInput = inputObjectType({
   definition(t) {
     t.id('_id', { required: true })
     t.boolean('answered', { required: true })
-    t.boolean('studentPresent', { required: true })
     t.float('responsibilityPoints', { required: true })
     t.float('lastGrade', { required: true })
   },
@@ -27,7 +26,7 @@ export const GradeTemporaryTask = mutationField('gradeTemporaryTask', {
   async resolve(
     _,
     {
-      input: { _id, answered, studentPresent, responsibilityPoints, lastGrade },
+      input: { _id, answered, responsibilityPoints, lastGrade },
     },
     { temporaryTaskData, generalData, studentData }
   ) {
@@ -48,7 +47,6 @@ export const GradeTemporaryTask = mutationField('gradeTemporaryTask', {
         {
           $set: {
             answered,
-            studentPresent,
             lastGrade:
               temporaryTaskCheck.answered && !answered
                 ? 0
@@ -66,7 +64,6 @@ export const GradeTemporaryTask = mutationField('gradeTemporaryTask', {
           },
           {
             $inc: { responsibilityPoints: -lastGrade },
-            // $set: { lastGrade: 0 },
           }
         )
       }
@@ -90,7 +87,7 @@ export const GradeTemporaryTask = mutationField('gradeTemporaryTask', {
           _id: new ObjectId(_id),
         }
       )
-      console.log(temporaryTask.lastGrade)
+
       return { temporaryTask }
     } else throw new Error('Task not created')
   },
