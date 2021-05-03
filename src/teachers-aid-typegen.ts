@@ -451,7 +451,6 @@ export interface NexusGenInputs {
     answered: boolean; // Boolean!
     lastGrade: number; // Float!
     responsibilityPoints: number; // Float!
-    studentPresent: boolean; // Boolean!
   }
   HasAssigner: { // input type
     assignerUserName?: string | null; // String

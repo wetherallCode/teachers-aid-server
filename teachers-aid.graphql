@@ -1121,7 +1121,6 @@ input GradeTemporaryTaskInput {
   answered: Boolean!
   lastGrade: Float!
   responsibilityPoints: Float!
-  studentPresent: Boolean!
 }
 
 type GradeTemporaryTaskPayload {
