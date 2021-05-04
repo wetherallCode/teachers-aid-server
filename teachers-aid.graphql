@@ -11,6 +11,7 @@ type AcademicOrganizer {
 }
 
 enum AcademicOutcomeTypes {
+  CAUSE_AND_EFFECT_RECOGNITION
   LOGIC_BUILDING
   SCHEMA_BUIDING
   SOCRATIC_QUESTIONS
@@ -523,6 +524,7 @@ type CreateStudentQuestionsContainerPayload {
 input CreateTemporaryTasksInput {
   courseId: ID!
   dateIssued: String!
+  markingPeriod: MarkingPeriodEnum!
   taskNumber: Int!
 }
 
@@ -956,6 +958,14 @@ type FindResponsibilityPointsByCoursePayload {
   responsibilityPointList: [ResponsibilityPoints!]!
 }
 
+input FindResponsibilityPointsByStudentIdInput {
+  studentId: ID!
+}
+
+type FindResponsibilityPointsByStudentIdPayload {
+  responsibilityPoints: [ResponsibilityPoints!]!
+}
+
 input FindRubricEntriesByCategoryInput {
   rubricWritingLevel: WritingLevelEnum!
 }
@@ -1078,6 +1088,14 @@ type FindUserDataPayload {
   user: User!
 }
 
+input FindWritingMetricsInput {
+  studentId: ID!
+}
+
+type FindWritingMetricsPayload {
+  writingMetrics: WritingMetrics!
+}
+
 input FinishProtocolInput {
   assignedDate: Date!
   lessonId: ID!
@@ -1101,7 +1119,8 @@ type GradeArticleReviewPayload {
 input GradeTemporaryTaskInput {
   _id: ID!
   answered: Boolean!
-  studentPresent: Boolean!
+  lastGrade: Float!
+  responsibilityPoints: Float!
 }
 
 type GradeTemporaryTaskPayload {
@@ -1193,6 +1212,10 @@ type LoginPayload {
   user: User!
 }
 
+type MarkAllProtocolsInactivePayload {
+  inactive: Boolean!
+}
+
 type MarkingPeriod {
   _id: ID
   currentMarkingPeriod: MarkingPeriodEnum!
@@ -1206,8 +1229,13 @@ enum MarkingPeriodEnum {
 }
 
 input MarkTemporaryTaskAbsentInput {
+<<<<<<< HEAD
   studentPresent: Boolean
   taskId: ID!
+=======
+  _id: ID!
+  studentPresent: Boolean!
+>>>>>>> 300f0a97ab852bfc94b43dbcb056cfaa215d07ba
 }
 
 type MarkTemporaryTaskAbsentPayload {
@@ -1260,6 +1288,8 @@ type Mutation {
   initializeStudents(input: InitializeStudentsInput!): InitializeStudentsPayload!
   login(input: LoginInput!): LoginPayload!
   logout: Boolean!
+  markAllProtocolsInactive: MarkAllProtocolsInactivePayload!
+  markTemporaryTaskAbsent(input: MarkTemporaryTaskAbsentInput!): MarkTemporaryTaskAbsentPayload!
   registerStudent(input: RegisterStudentInput!): RegisterStudentPayload!
   registerTeacher(input: RegisterTeacherInput!): RegisterTeacherPayload!
   removeAbsence(input: RemoveAbsenceInput!): RemoveAbsencePayload!
@@ -1385,6 +1415,7 @@ type Protocol {
 
 enum ProtocolActivityTypes {
   INDIVIDUAL
+  SMALL_GROUP
   THINK_PAIR_SHARE
 }
 
@@ -1433,6 +1464,7 @@ type Query {
   findReadingGuidesByCourseIdAndAssignedDate(input: FindReadingGuidesByCourseIdAndAssignedDateInput!): FindReadingGuidesByCourseIdAndAssignedDatePayload!
   findReadingGuidesToCompleteByStudentId(input: FindReadingGuidesToCompleteByStudentIdInput!): FindReadingGuidesToCompleteByStudentIdPayload!
   findResponsibilityPointsByCourse(input: FindResponsibilityPointsByCourseInput!): FindResponsibilityPointsByCoursePayload!
+  findResponsibilityPointsByStudentId(input: FindResponsibilityPointsByStudentIdInput!): FindResponsibilityPointsByStudentIdPayload!
   findRubricEntries: FindRubricEntriesPayload!
   findRubricEntriesByCategory(input: FindRubricEntriesByCategoryInput!): FindRubricEntriesByCategoryPayload!
   findSchoolDayByDate(input: FindSchoolDayByDateInput!): FindSchoolDayByDatePayload!
@@ -1450,6 +1482,7 @@ type Query {
   findTextSectionsById(input: FindTextSectionsByIdInput!): FindTextSectionsByIdPayload!
   findUnits: FindUnitsPayload!
   findUserData(input: FindUserDataInput!): FindUserDataPayload!
+  findWritingMetrics(input: FindWritingMetricsInput!): FindWritingMetricsPayload!
   me: User
   passwordCheck(input: PasswordCheckInput!): PasswordCheckPayload!
   removeSchoolDay(input: RemoveSchoolDayInput!): RemoveSchoolDayPayload!
@@ -1641,7 +1674,7 @@ type ResponsibilityPoints {
   _id: ID
   inCourse: Course!
   markingPeriod: MarkingPeriodEnum!
-  responsibilityPoints: Int!
+  responsibilityPoints: Float!
   student: Student!
 }
 
@@ -1886,6 +1919,7 @@ input SubmitEssayFinalDraftInput {
   late: Boolean!
   paperBased: Boolean!
   submittedFinalDraft: SubmittedFinalDraftsInput!
+  submitTime: String!
 }
 
 type SubmitEssayFinalDraftPayload {
@@ -1897,6 +1931,7 @@ input SubmitReadingGuideInput {
   late: Boolean!
   paperBased: Boolean!
   readingGuideId: ID!
+  submitTime: String!
 }
 
 type SubmitReadingGuidePayload {
@@ -1940,6 +1975,8 @@ type TemporaryTask {
   _id: ID
   answered: Boolean!
   dateIssued: String!
+  lastGrade: Float!
+  markingPeriod: MarkingPeriodEnum!
   student: Student!
   studentPresent: Boolean!
   taskNumber: Int!
@@ -2312,7 +2349,7 @@ type UpdateReadingGuidePayload {
 
 input UpdateResponsibilityPointsInput {
   markingPeriod: MarkingPeriodEnum
-  points: Int!
+  points: Float!
   studentId: ID!
 }
 

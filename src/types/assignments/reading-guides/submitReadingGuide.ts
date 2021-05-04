@@ -2,12 +2,14 @@ import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { ObjectId } from 'mongodb'
 import { ReadingGuide } from '.'
 import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
+import { Score } from '../assignments'
 
 export const SubmitReadingGuideInput = inputObjectType({
   name: 'SubmitReadingGuideInput',
   definition(t) {
     t.id('readingGuideId', { required: true })
     t.boolean('late', { required: true })
+    t.string('submitTime', { required: true })
     t.boolean('paperBased', { required: true })
     t.boolean('completeReadingGuide')
   },
@@ -25,7 +27,15 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
   args: { input: arg({ type: SubmitReadingGuideInput, required: true }) },
   async resolve(
     _,
-    { input: { readingGuideId, late, paperBased, completeReadingGuide } },
+    {
+      input: {
+        readingGuideId,
+        late,
+        submitTime,
+        paperBased,
+        completeReadingGuide,
+      },
+    },
     { assignmentData, studentData, generalData }
   ) {
     const readingGuideValidation: NexusGenRootTypes['ReadingGuide'] = await assignmentData.findOne(
@@ -64,7 +74,7 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
           studentData.updateOne(
             {
               'student._id': new ObjectId(readingGuideValidation.hasOwner._id!),
-              markingPeriod: currentMarkingPeriod.currentMarkingPeriod,
+              markingPeriod: readingGuideValidation.markingPeriod,
               responsibilityPoints: { $exists: true },
             },
             {
@@ -89,7 +99,7 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
     }
 
     function handleLateness() {
-      const submittedDateTime: string = new Date().toLocaleString()
+      const submittedDateTime: string = submitTime
       const dueDateTime: string = `${readingGuideValidation.dueDate}, ${readingGuideValidation.dueTime}`
 
       if (Date.parse(submittedDateTime) > Date.parse(dueDateTime)) {
@@ -98,7 +108,6 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
     }
 
     const {
-      whyWasSectionOrganized,
       majorIssue,
       majorSolution,
       clarifyingQuestions,
@@ -107,13 +116,9 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
     const clarifyingQuestionComplete = clarifyingQuestions.length! !== 0
     const majorSolutionComplete = majorSolution !== ''
     const majorIssueComplete = majorIssue !== ''
-    const whyOrganizedComplete = whyWasSectionOrganized !== ''
 
     const complete =
-      clarifyingQuestionComplete &&
-      majorSolutionComplete &&
-      majorIssueComplete &&
-      whyOrganizedComplete
+      clarifyingQuestionComplete && majorSolutionComplete && majorIssueComplete
 
     if (readingGuideValidation) {
       assignmentData.updateOne(
@@ -127,13 +132,13 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
             assigned: false,
             'score.earnedPoints':
               complete && handleLateness() === false
-                ? 10
+                ? readingGuideValidation.score.maxPoints
                 : complete && handleLateness() === true
-                ? 5
+                ? readingGuideValidation.score.maxPoints % 2
                 : 2,
             late: handleLateness(),
             'readingGuideFinal.submitted': true,
-            'readingGuideFinal.submitTime': new Date().toLocaleString(),
+            'readingGuideFinal.submitTime': submitTime,
           },
         }
       )
@@ -141,17 +146,17 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
         studentData.updateOne(
           {
             'student._id': new ObjectId(readingGuideValidation.hasOwner._id!),
-            markingPeriod: currentMarkingPeriod.currentMarkingPeriod,
+            markingPeriod: readingGuideValidation.markingPeriod,
             responsibilityPoints: { $exists: true },
           },
           {
             $inc: {
               responsibilityPoints:
                 complete && handleLateness() === false
-                  ? 12
+                  ? readingGuideValidation.score.maxPoints + 2
                   : complete && handleLateness() === true
-                  ? 7
-                  : 4,
+                  ? (readingGuideValidation.score.maxPoints % 2) + 2
+                  : 3,
             },
           }
         )

@@ -31,10 +31,15 @@ export const TextSectionProtocolsInput = inputObjectType({
 
 export const ProtocolActivityTypes = enumType({
   name: 'ProtocolActivityTypes',
-  members: ['THINK_PAIR_SHARE', 'INDIVIDUAL'],
+  members: ['THINK_PAIR_SHARE', 'INDIVIDUAL', 'SMALL_GROUP'],
 })
 
 export const AcademicOutcomeTypes = enumType({
   name: 'AcademicOutcomeTypes',
-  members: ['SCHEMA_BUIDING', 'LOGIC_BUILDING', 'SOCRATIC_QUESTIONS'],
+  members: [
+    'SCHEMA_BUIDING',
+    'LOGIC_BUILDING',
+    'SOCRATIC_QUESTIONS',
+    'CAUSE_AND_EFFECT_RECOGNITION',
+  ],
 })

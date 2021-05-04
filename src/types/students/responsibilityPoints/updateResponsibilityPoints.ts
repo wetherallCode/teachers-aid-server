@@ -8,7 +8,7 @@ export const UpdateResponsibilityPointsInput = inputObjectType({
   definition(t) {
     t.id('studentId', { required: true })
     t.field('markingPeriod', { type: MarkingPeriodEnum })
-    t.int('points', { required: true })
+    t.float('points', { required: true })
   },
 })
 
