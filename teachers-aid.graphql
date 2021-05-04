@@ -1205,6 +1205,15 @@ enum MarkingPeriodEnum {
   THIRD
 }
 
+input MarkTemporaryTaskAbsentInput {
+  studentPresent: Boolean
+  taskId: ID!
+}
+
+type MarkTemporaryTaskAbsentPayload {
+  temporaryTask: TemporaryTask!
+}
+
 type Mutation {
   addCourseToTeacher(input: AddCourseToTeacherInput!): AddCourseToTeacherPayload!
   addNewChapter(input: AddNewChapterInput!): AddNewChapterPayload!
