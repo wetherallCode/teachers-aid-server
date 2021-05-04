@@ -1229,13 +1229,8 @@ enum MarkingPeriodEnum {
 }
 
 input MarkTemporaryTaskAbsentInput {
-<<<<<<< HEAD
   studentPresent: Boolean
   taskId: ID!
-=======
-  _id: ID!
-  studentPresent: Boolean!
->>>>>>> 300f0a97ab852bfc94b43dbcb056cfaa215d07ba
 }
 
 type MarkTemporaryTaskAbsentPayload {
@@ -1289,7 +1284,6 @@ type Mutation {
   login(input: LoginInput!): LoginPayload!
   logout: Boolean!
   markAllProtocolsInactive: MarkAllProtocolsInactivePayload!
-  markTemporaryTaskAbsent(input: MarkTemporaryTaskAbsentInput!): MarkTemporaryTaskAbsentPayload!
   registerStudent(input: RegisterStudentInput!): RegisterStudentPayload!
   registerTeacher(input: RegisterTeacherInput!): RegisterTeacherPayload!
   removeAbsence(input: RemoveAbsenceInput!): RemoveAbsencePayload!
