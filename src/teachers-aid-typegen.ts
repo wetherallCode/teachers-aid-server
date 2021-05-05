@@ -2519,6 +2519,7 @@ export interface NexusGenFieldTypes {
     login: NexusGenRootTypes['LoginPayload']; // LoginPayload!
     logout: boolean; // Boolean!
     markAllProtocolsInactive: NexusGenRootTypes['MarkAllProtocolsInactivePayload']; // MarkAllProtocolsInactivePayload!
+    markTemporaryTaskAbsent: NexusGenRootTypes['MarkTemporaryTaskAbsentPayload']; // MarkTemporaryTaskAbsentPayload!
     registerStudent: NexusGenRootTypes['RegisterStudentPayload']; // RegisterStudentPayload!
     registerTeacher: NexusGenRootTypes['RegisterTeacherPayload']; // RegisterTeacherPayload!
     removeAbsence: NexusGenRootTypes['RemoveAbsencePayload']; // RemoveAbsencePayload!
@@ -3237,6 +3238,9 @@ export interface NexusGenArgTypes {
     }
     login: { // args
       input: NexusGenInputs['LoginInput']; // LoginInput!
+    }
+    markTemporaryTaskAbsent: { // args
+      input: NexusGenInputs['MarkTemporaryTaskAbsentInput']; // MarkTemporaryTaskAbsentInput!
     }
     registerStudent: { // args
       input: NexusGenInputs['RegisterStudentInput']; // RegisterStudentInput!
