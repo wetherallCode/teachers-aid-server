@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.UpdateEssaysByQuestion = exports.UpdateEssaysByQuestionPayload = exports.UpdateEssaysByQuestionInput = void 0;
 const schema_1 = require("@nexus/schema");
 const _1 = require(".");
 const textSections_1 = require("../../textSections");
@@ -20,7 +21,7 @@ exports.UpdateEssaysByQuestionInput = schema_1.inputObjectType({
         t.string('originalQuestion', { required: true });
         t.string('newQuestion', { required: true });
         t.field('newQuestionType', { type: textSections_1.QuestionTypeEnum, required: true });
-        t.field('newWritingLevel', { type: students_1.WritingLevelType, required: true });
+        t.field('newWritingLevel', { type: students_1.WritingLevelEnum, required: true });
     },
 });
 exports.UpdateEssaysByQuestionPayload = schema_1.objectType({

@@ -1,7 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.TextSectionQuestionsInput = exports.TextSectionQuestions = exports.QuestionTypeEnum = exports.TextSectionVocabInput = exports.TextSectionVocab = exports.PageNumbersInput = exports.PageNumbers = exports.TextSection = void 0;
 const schema_1 = require("@nexus/schema");
 const texts_1 = require("../texts");
+const _1 = require(".");
 exports.TextSection = schema_1.objectType({
     name: 'TextSection',
     definition(t) {
@@ -9,9 +11,9 @@ exports.TextSection = schema_1.objectType({
         t.field('fromChapter', { type: texts_1.Chapter });
         t.field('pageNumbers', { type: exports.PageNumbers });
         t.string('header');
-        t.list.field('hasProtocols', { type: exports.TextSectionProtocols });
-        t.list.field('hasVocab', { type: exports.TextSectionVocab });
-        t.list.field('hasQuestions', { type: exports.TextSectionQuestions });
+        t.list.field('hasProtocols', { type: _1.TextSectionProtocols, nullable: true });
+        t.list.field('hasVocab', { type: exports.TextSectionVocab, nullable: true });
+        t.list.field('hasQuestions', { type: exports.TextSectionQuestions, nullable: true });
     },
 });
 exports.PageNumbers = schema_1.objectType({
@@ -42,40 +44,9 @@ exports.TextSectionVocabInput = schema_1.inputObjectType({
         t.string('definition', { required: true });
     },
 });
-exports.TextSectionProtocols = schema_1.objectType({
-    name: 'TextSectionProtocols',
-    description: 'Protocol suggestions for including in a LessonPlan',
-    definition(t) {
-        t.field('activityType', { type: exports.ProtocolActivityTypes });
-        t.field('academicOutcomeTypes', { type: exports.AcademicOutcomeTypes });
-        t.string('task');
-    },
-});
-exports.TextSectionProtocolsInput = schema_1.inputObjectType({
-    name: 'TextSectionProtocolsInput',
-    definition(t) {
-        t.field('activityType', {
-            type: exports.ProtocolActivityTypes,
-            required: true,
-        });
-        t.field('academicOutcomeTypes', {
-            type: exports.AcademicOutcomeTypes,
-            required: true,
-        });
-        t.string('task', { required: true });
-    },
-});
-exports.ProtocolActivityTypes = schema_1.enumType({
-    name: 'ProtocolActivityTypes',
-    members: ['THINK_PAIR_SHARE', 'INDIVIDUAL'],
-});
-exports.AcademicOutcomeTypes = schema_1.enumType({
-    name: 'AcademicOutomeTypes',
-    members: ['SCHEMA_BUIDING', 'LOGIC_BUILDING', 'SOCRATIC_QUESTIONS'],
-});
 exports.QuestionTypeEnum = schema_1.enumType({
     name: 'QuestionTypeEnum',
-    members: ['HOW_PROBLEM_SOLUTION', 'WHY_CAUSE_EFFECT', 'HOW_CAUSE_EFFECT'],
+    members: ['HOW_PROBLEM_SOLUTION', 'HOW_CAUSE_EFFECT', 'WHY_CAUSE_EFFECT'],
 });
 exports.TextSectionQuestions = schema_1.objectType({
     name: 'TextSectionQuestions',

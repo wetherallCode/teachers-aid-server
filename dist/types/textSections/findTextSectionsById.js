@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.FindTextSectionsById = exports.FindTextSectionsByIdPayload = exports.FindTextSectionsByIdInput = void 0;
 const schema_1 = require("@nexus/schema");
 const _1 = require(".");
 const mongodb_1 = require("mongodb");

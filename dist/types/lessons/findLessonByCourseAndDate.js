@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.FindLessonByCourseAndDate = exports.FindLessonByCourseAndDatePayload = exports.FindLessonByCourseAndDateInput = void 0;
 const schema_1 = require("@nexus/schema");
 const _1 = require(".");
 const mongodb_1 = require("mongodb");
@@ -22,7 +23,7 @@ exports.FindLessonByCourseAndDateInput = schema_1.inputObjectType({
 exports.FindLessonByCourseAndDatePayload = schema_1.objectType({
     name: 'FindLessonByCourseAndDatePayload',
     definition(t) {
-        t.field('lesson', { type: _1.Lesson });
+        t.field('lesson', { type: _1.Lesson, nullable: true });
     },
 });
 exports.FindLessonByCourseAndDate = schema_1.queryField('findLessonByCourseAndDate', {
@@ -33,7 +34,7 @@ exports.FindLessonByCourseAndDate = schema_1.queryField('findLessonByCourseAndDa
     resolve(_, { input: { courseId, lessonDate } }, { lessonData }) {
         return __awaiter(this, void 0, void 0, function* () {
             const lesson = yield lessonData.findOne({
-                'assignedCourse._id': new mongodb_1.ObjectId(courseId),
+                'assignedCourses._id': new mongodb_1.ObjectId(courseId),
                 assignedDate: lessonDate,
             });
             return { lesson };

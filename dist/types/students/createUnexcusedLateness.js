@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CreateUnexcusedLateness = exports.CreateUnexcusedLatenessPayload = exports.CreateUnexcusedLatenessInput = void 0;
 const schema_1 = require("@nexus/schema");
 const general_1 = require("../general");
 const _1 = require(".");
@@ -50,7 +51,7 @@ exports.CreateUnexcusedLateness = schema_1.mutationField('createUnexcusedLatenes
                     dayLate,
                     markingPeriod,
                 };
-                const insertedId = yield studentData.insertOne(unexcusedLateness);
+                const { insertedId } = yield studentData.insertOne(unexcusedLateness);
                 unexcusedLateness._id = insertedId;
                 return { unexcusedLateness };
             }

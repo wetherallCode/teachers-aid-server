@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CreateAbsence = exports.CreateAbsencePayload = exports.CreateAbsenceInput = void 0;
 const schema_1 = require("@nexus/schema");
 const studentAbsence_1 = require("./studentAbsence");
 const general_1 = require("../general");
@@ -48,7 +49,7 @@ exports.CreateAbsence = schema_1.mutationField('createAbsence', {
                     dayAbsent,
                     markingPeriod,
                 };
-                const insertedId = yield studentData.insertOne(studentAbsence);
+                const { insertedId } = yield studentData.insertOne(studentAbsence);
                 studentAbsence._id = insertedId;
                 return { studentAbsence };
             }

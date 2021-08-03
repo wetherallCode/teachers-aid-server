@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CreateLesson = exports.CreateLessonPayload = exports.CreateLessonInput = void 0;
 const schema_1 = require("@nexus/schema");
 const _1 = require(".");
 const general_1 = require("../general");
@@ -62,11 +63,11 @@ exports.CreateLesson = schema_1.mutationField('createLesson', {
     args: { input: schema_1.arg({ type: exports.CreateLessonInput, required: true }) },
     resolve(_, { input: { assignedDate, inUnit, lessonName, assignedMarkingPeriod, assignedCourses, pageNumbers, assignedSections, assignedSectionIdList, vocabList, beforeActivity, duringActivities, afterActivity, questionList, essentialQuestion, }, }, { lessonData, courseData }) {
         return __awaiter(this, void 0, void 0, function* () {
-            const lessons = [];
             const unit = yield lessonData.findOne({ _id: new mongodb_1.ObjectId(inUnit) });
-            for (const _id in assignedCourses) {
+            const lessons = [];
+            for (const courseId of assignedCourses) {
                 const course = yield courseData.findOne({
-                    _id: new mongodb_1.ObjectId(assignedCourses[_id]),
+                    _id: new mongodb_1.ObjectId(courseId),
                 });
                 const lesson = {
                     assignedDate,
@@ -74,8 +75,7 @@ exports.CreateLesson = schema_1.mutationField('createLesson', {
                     assignedMarkingPeriod,
                     lessonName,
                     pageNumbers,
-                    assignedCourse: course,
-                    linkedCourseIds: assignedCourses,
+                    assignedCourses: [course],
                     assignedSections,
                     assignedSectionIdList,
                     vocabList,
@@ -85,10 +85,11 @@ exports.CreateLesson = schema_1.mutationField('createLesson', {
                     essentialQuestion,
                     questionList,
                     objectives: null,
+                    dynamicLesson: 'OFF',
                 };
                 const { insertedId } = yield lessonData.insertOne(lesson);
                 lesson._id = insertedId;
-                lessons.unshift(lesson);
+                lessons.push(lesson);
             }
             return { lessons };
         });

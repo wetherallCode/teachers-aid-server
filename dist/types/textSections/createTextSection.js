@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CreateTextSection = exports.CreateTextSectionPayload = exports.CreateTextSectionInput = void 0;
 const schema_1 = require("@nexus/schema");
 const _1 = require(".");
 const textSection_1 = require("./textSection");

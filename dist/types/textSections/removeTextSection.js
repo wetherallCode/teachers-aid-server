@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.RemoveTextSection = exports.RemoveTextSectionPayload = exports.RemoveTextSectionInput = void 0;
 const schema_1 = require("@nexus/schema");
 const mongodb_1 = require("mongodb");
 exports.RemoveTextSectionInput = schema_1.inputObjectType({
@@ -32,13 +33,17 @@ exports.RemoveTextSection = schema_1.mutationField('removeTextSection', {
                 _id: new mongodb_1.ObjectID(_id),
             });
             if (doesTextSectionExist) {
-                yield textData.deleteOne({
+                const { deletedCount } = yield textData.deleteOne({
                     _id: new mongodb_1.ObjectID(_id),
                 });
+                if (deletedCount === 1) {
+                    return { removed: true };
+                }
+                else
+                    throw new Error('Something went wrong');
             }
             else
                 throw new Error('Text Section does not exist!');
-            return { removed: true };
         });
     },
 });

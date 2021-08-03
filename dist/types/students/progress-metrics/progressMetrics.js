@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ProgressMetrics = void 0;
 const schema_1 = require("@nexus/schema");
 const __1 = require("..");
 exports.ProgressMetrics = schema_1.interfaceType({

@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.RemoveLateness = exports.RemoveLatenessPayload = exports.RemoveLatenessInput = void 0;
 const schema_1 = require("@nexus/schema");
 const mongodb_1 = require("mongodb");
 exports.RemoveLatenessInput = schema_1.inputObjectType({
@@ -30,13 +31,16 @@ exports.RemoveLateness = schema_1.mutationField('removeLateness', {
         return __awaiter(this, void 0, void 0, function* () {
             const lateness = yield studentData.findOne({ _id: new mongodb_1.ObjectId(_id) });
             if (lateness) {
-                const returnedValue = yield studentData.deleteOne({
+                const { deletedCount } = yield studentData.deleteOne({
                     _id: new mongodb_1.ObjectId(_id),
                 });
-                return { removed: returnedValue.deletedCount > 0 };
+                if (deletedCount === 1) {
+                    return { removed: true };
+                }
+                throw new Error('Something went wrong');
             }
             else
-                return { removed: false };
+                throw new Error('Lateness does not exist!');
         });
     },
 });

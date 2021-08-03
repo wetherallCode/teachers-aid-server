@@ -9,8 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.FindStudentsById = exports.FindStudentsByIdPayload = exports.FindStudentsByIdInput = void 0;
 const schema_1 = require("@nexus/schema");
-const students_1 = require("./students");
+const student_1 = require("./student");
 const mongodb_1 = require("mongodb");
 exports.FindStudentsByIdInput = schema_1.inputObjectType({
     name: 'FindStudentsByIdInput',
@@ -21,7 +22,7 @@ exports.FindStudentsByIdInput = schema_1.inputObjectType({
 exports.FindStudentsByIdPayload = schema_1.objectType({
     name: 'FindStudentsByIdPayload',
     definition(t) {
-        t.list.field('students', { type: students_1.Student });
+        t.list.field('students', { type: student_1.Student });
     },
 });
 exports.FindStudentsById = schema_1.queryField('findStudentsById', {

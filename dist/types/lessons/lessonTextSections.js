@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.LessonTextSectionsInput = exports.LessonTextSections = void 0;
 const schema_1 = require("@nexus/schema");
 exports.LessonTextSections = schema_1.objectType({
     name: 'LessonTextSections',

@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.FindTexts = exports.FindTextsPayload = void 0;
 const schema_1 = require("@nexus/schema");
 const text_1 = require("./text");
 exports.FindTextsPayload = schema_1.objectType({

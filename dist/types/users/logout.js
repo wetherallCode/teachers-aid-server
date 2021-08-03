@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.logout = void 0;
 const schema_1 = require("@nexus/schema");
 exports.logout = schema_1.mutationField('logout', {
     type: 'Boolean',

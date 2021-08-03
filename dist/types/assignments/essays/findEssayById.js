@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.FindEssayById = exports.FindEssayByIdPayload = exports.FindEssayByIdInput = void 0;
 const schema_1 = require("@nexus/schema");
 const _1 = require(".");
 const mongodb_1 = require("mongodb");
@@ -29,7 +30,9 @@ exports.FindEssayById = schema_1.queryField('findEssayById', {
     args: { input: schema_1.arg({ type: exports.FindEssayByIdInput, required: true }) },
     resolve(_, { input: { _id } }, { assignmentData }) {
         return __awaiter(this, void 0, void 0, function* () {
-            const essay = yield assignmentData.findOne({ _id: new mongodb_1.ObjectID(_id) });
+            const essay = yield assignmentData.findOne({
+                _id: new mongodb_1.ObjectID(_id),
+            });
             return { essay };
         });
     },

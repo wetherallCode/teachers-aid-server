@@ -9,16 +9,29 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CourseTypeEnum = exports.CourseInput = exports.Course = void 0;
 const schema_1 = require("@nexus/schema");
 const __1 = require("..");
 const mongodb_1 = require("mongodb");
 const lessons_1 = require("../lessons");
+const courseInfo_1 = require("./courseInfo");
 exports.Course = schema_1.objectType({
     name: 'Course',
     definition(t) {
         t.id('_id', { nullable: true });
         t.string('name');
-        t.field('courseType', { type: exports.CourseTypeEnum });
+        t.field('hasCourseInfo', {
+            type: courseInfo_1.CourseInfo,
+            resolve(parent, __, { courseData }) {
+                return __awaiter(this, void 0, void 0, function* () {
+                    const info = yield courseData.findOne({
+                        '': parent._id,
+                    });
+                    return info;
+                });
+            },
+            nullable: true,
+        });
         t.field('hasTeacher', {
             type: __1.Teacher,
             resolve(parent, __, { userData }) {
@@ -27,6 +40,31 @@ exports.Course = schema_1.objectType({
                         'teachesCourses._id': new mongodb_1.ObjectId(parent._id),
                     });
                     return teacher;
+                });
+            },
+        });
+        t.list.field('hasSignInSheets', {
+            type: __1.StudentSignInSheet,
+            resolve(parent, __, { schoolDayData }) {
+                return __awaiter(this, void 0, void 0, function* () {
+                    const schoolDay = yield schoolDayData
+                        .find({
+                        'signInSheets.course._id': new mongodb_1.ObjectId(parent._id),
+                    })
+                        .toArray();
+                    const StudentSignInSheetList = [];
+                    schoolDay.forEach((day) => {
+                        const { signInSheets } = day;
+                        signInSheets === null || signInSheets === void 0 ? void 0 : signInSheets.forEach((sheet) => {
+                            const signInsheet = {
+                                course: sheet.course,
+                                lessonDate: sheet.lessonDate,
+                                studentsSignInlog: sheet.studentsSignInlog,
+                            };
+                            StudentSignInSheetList.push(signInsheet);
+                        });
+                    });
+                    return StudentSignInSheetList;
                 });
             },
         });
@@ -47,7 +85,7 @@ exports.Course = schema_1.objectType({
                 return __awaiter(this, void 0, void 0, function* () {
                     const lessons = yield lessonData
                         .find({
-                        'assignedCourse._id': new mongodb_1.ObjectId(parent._id),
+                        'assignedCourses._id': new mongodb_1.ObjectId(parent._id),
                     })
                         .toArray();
                     return lessons;

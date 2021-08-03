@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.login = exports.LoginPayload = exports.LoginInput = void 0;
 const schema_1 = require("@nexus/schema");
 const argon2_1 = require("argon2");
 const _1 = require(".");
@@ -37,11 +38,9 @@ exports.login = schema_1.mutationField('login', {
                 throw new Error('Wrong User Name');
             }
             const valid = yield argon2_1.verify(user.password, password);
-            if (!valid) {
-                throw new Error('Wrong Password');
-            }
             user.id = user._id.toString();
             req.session.userId = user.id;
+            console.log((req.session.userId = user.id));
             return { user: user };
         });
     },

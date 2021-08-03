@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.UpdateLesson = exports.UpdateLessonPayload = exports.UpdateLessonInput = void 0;
 const schema_1 = require("@nexus/schema");
 const _1 = require(".");
 const mongodb_1 = require("mongodb");
@@ -66,7 +67,7 @@ exports.UpdateLesson = schema_1.mutationField('updateLesson', {
             });
             for (const _id in linkedCourseIds) {
                 yield lessonData.updateOne({
-                    'assignedCourse._id': new mongodb_1.ObjectId(linkedCourseIds[_id]),
+                    'assignedCourses._id': new mongodb_1.ObjectId(linkedCourseIds[_id]),
                     lessonName,
                 }, {
                     $set: {
@@ -89,7 +90,7 @@ exports.UpdateLesson = schema_1.mutationField('updateLesson', {
             const lessons = [];
             for (const _id in linkedCourseIds) {
                 const lesson = yield lessonData.findOne({
-                    'assignedCourse._id': new mongodb_1.ObjectId(linkedCourseIds[_id]),
+                    'assignedCourses._id': new mongodb_1.ObjectId(linkedCourseIds[_id]),
                     lessonName,
                 });
                 lessons.unshift(lesson);

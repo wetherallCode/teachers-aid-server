@@ -76,17 +76,27 @@ const startServer = () => __awaiter(void 0, void 0, void 0, function* () {
             let lessonData = db.collection('lessonData');
             let generalData = db.collection('generalData');
             let studentData = db.collection('studentData');
+            let teacherData = db.collection('teacherData');
+            let rubricData = db.collection('rubricData');
+            let protocolData = db.collection('protocolData');
+            let schoolDayData = db.collection('schoolDayData');
+            let temporaryTaskData = db.collection('temporaryTaskData');
             return {
                 req,
                 res,
                 userData,
                 assignmentData,
                 studentData,
+                teacherData,
                 courseData,
                 textSectionData,
                 textData,
                 lessonData,
                 generalData,
+                rubricData,
+                protocolData,
+                schoolDayData,
+                temporaryTaskData,
                 db,
             };
         }),
@@ -95,10 +105,11 @@ const startServer = () => __awaiter(void 0, void 0, void 0, function* () {
         app,
         cors: {
             credentials: true,
-            origin: 'http://localhost:3001',
+            origin: ['https://mrwetherall.org', 'http://localhost:3000'],
         },
     });
-    app.listen({ port: 4005 }, () => console.log(`🚀 Server ready at http://localhost:4005${server.graphqlPath}`));
+    const PORT = process.env.PORT || 4000;
+    app.listen({ port: PORT }, () => console.log(`🚀 Server ready at${server.graphqlPath}`));
 });
 startServer();
 //# sourceMappingURL=index.js.map

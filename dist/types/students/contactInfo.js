@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ContactInfo = void 0;
 const schema_1 = require("@nexus/schema");
 exports.ContactInfo = schema_1.objectType({
     name: 'ContactInfo',

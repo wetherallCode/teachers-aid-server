@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.FindEssaysByUserNameAndMarkingPeriod = exports.FindEssaysByUserNameAndMarkingPeriodPayload = exports.FindEssaysByUserNameAndMarkingPeriodInput = void 0;
 const schema_1 = require("@nexus/schema");
 const _1 = require(".");
 const general_1 = require("../../general");
@@ -39,6 +40,7 @@ exports.FindEssaysByUserNameAndMarkingPeriod = schema_1.queryField('findEssaysBy
                 .find({
                 'hasOwner.userName': userName,
                 markingPeriod,
+                workingDraft: { $exists: true },
             })
                 .toArray();
             return { essay };

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.StudentAbsence = void 0;
 const schema_1 = require("@nexus/schema");
 const general_1 = require("../general");
 const _1 = require(".");

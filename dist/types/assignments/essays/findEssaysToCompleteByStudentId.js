@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.FindEssaysToCompleteByStudentId = exports.FindEssaysToCompleteByStudentIdPayload = exports.FindEssaysToCompleteByStudentIdInput = void 0;
 const schema_1 = require("@nexus/schema");
 const _1 = require(".");
 const mongodb_1 = require("mongodb");
@@ -35,7 +36,11 @@ exports.FindEssaysToCompleteByStudentId = schema_1.queryField('findEssaysToCompl
     resolve(_, { input: { studentId } }, { assignmentData }) {
         return __awaiter(this, void 0, void 0, function* () {
             const essays = yield assignmentData
-                .find({ 'hasOwner._id': new mongodb_1.ObjectId(studentId), assigned: true })
+                .find({
+                'hasOwner._id': new mongodb_1.ObjectId(studentId),
+                assigned: true,
+                workingDraft: { $exists: true },
+            })
                 .toArray();
             return { essays };
         });

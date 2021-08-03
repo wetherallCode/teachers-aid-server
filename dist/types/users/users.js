@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.User = void 0;
 const schema_1 = require("@nexus/schema");
 exports.User = schema_1.interfaceType({
     name: 'User',
@@ -7,6 +8,7 @@ exports.User = schema_1.interfaceType({
         t.id('_id', { nullable: true });
         t.string('userName');
         t.string('firstName');
+        t.string('middleName', { nullable: true });
         t.string('lastName');
         t.string('email', { nullable: true });
         t.string('password');

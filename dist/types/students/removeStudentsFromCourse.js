@@ -9,8 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.RemoveStudentsFromCourse = exports.RemoveStudentsFromCoursePayload = exports.RemoveStudentsFromCourseInput = void 0;
 const schema_1 = require("@nexus/schema");
-const students_1 = require("./students");
+const student_1 = require("./student");
 const mongodb_1 = require("mongodb");
 exports.RemoveStudentsFromCourseInput = schema_1.inputObjectType({
     name: 'RemoveStudentsFromCourseInput',
@@ -22,7 +23,7 @@ exports.RemoveStudentsFromCourseInput = schema_1.inputObjectType({
 exports.RemoveStudentsFromCoursePayload = schema_1.objectType({
     name: 'RemoveStudentsFromCoursePayload',
     definition(t) {
-        t.list.field('students', { type: students_1.Student });
+        t.list.field('students', { type: student_1.Student });
     },
 });
 exports.RemoveStudentsFromCourse = schema_1.mutationField('removeStudentsFromCourse', {

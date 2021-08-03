@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ChangeVocabWord = exports.ChangeVocabWordPayload = exports.ChangeVocabWordInput = void 0;
 const schema_1 = require("@nexus/schema");
 const textSection_1 = require("./textSection");
 const mongodb_1 = require("mongodb");

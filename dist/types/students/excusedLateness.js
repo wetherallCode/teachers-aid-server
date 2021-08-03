@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ExcusedLateness = void 0;
 const schema_1 = require("@nexus/schema");
 const __1 = require("..");
 const general_1 = require("../general");

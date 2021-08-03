@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.FindLessonsByUnit = exports.FindLessonsByUnitPayload = exports.FindLessonsByUnitInput = void 0;
 const schema_1 = require("@nexus/schema");
 const _1 = require(".");
 const mongodb_1 = require("mongodb");
@@ -33,7 +34,7 @@ exports.FindLessonsByUnit = schema_1.queryField('findLessonsByUnit', {
             const lessons = yield lessonData
                 .find({
                 'inUnit._id': new mongodb_1.ObjectId(unitId),
-                'assignedCourse._id': new mongodb_1.ObjectId(courseId),
+                'assignedCourses._id': new mongodb_1.ObjectId(courseId),
             })
                 .toArray();
             return { lessons };

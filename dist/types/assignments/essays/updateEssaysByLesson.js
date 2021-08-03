@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.UpdateEssaysByLesson = exports.UpdateEssaysByLessonPayload = exports.UpdateEssaysByLessonInput = void 0;
 const schema_1 = require("@nexus/schema");
 const essays_1 = require("./essays");
 const general_1 = require("../../general");
@@ -27,17 +28,20 @@ exports.UpdateEssaysByLessonPayload = schema_1.objectType({
 });
 exports.UpdateEssaysByLesson = schema_1.mutationField('updateEssaysByLesson', {
     type: exports.UpdateEssaysByLessonPayload,
+    description: 'only useful for changing marking period',
     args: { input: schema_1.arg({ type: exports.UpdateEssaysByLessonInput, required: true }) },
     resolve(_, { input: { lessonId, markingPeriod } }, { assignmentData }) {
         return __awaiter(this, void 0, void 0, function* () {
             const essayValidation = yield assignmentData
                 .find({
                 associatedLessonId: lessonId,
+                workingDraft: { $exists: true },
             })
                 .toArray();
             if (essayValidation.length > 0) {
                 yield assignmentData.updateMany({
                     associatedLessonId: lessonId,
+                    workingDraft: { $exists: true },
                 }, { $set: { markingPeriod: markingPeriod } });
                 const essays = yield assignmentData
                     .find({

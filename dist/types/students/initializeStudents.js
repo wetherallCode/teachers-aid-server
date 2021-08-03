@@ -9,15 +9,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.InitializeStudents = exports.InitializeStudentsPayload = exports.InitializeStudentsInput = void 0;
 const schema_1 = require("@nexus/schema");
 const _1 = require(".");
 const mongodb_1 = require("mongodb");
-const general_1 = require("../general");
 exports.InitializeStudentsInput = schema_1.inputObjectType({
     name: 'InitializeStudentsInput',
     definition(t) {
         t.list.id('studentIds', { required: true });
-        t.field('markingPeriod', { type: general_1.MarkingPeriodEnum, required: true });
+        t.id('courseId', { required: true });
     },
 });
 exports.InitializeStudentsPayload = schema_1.objectType({
@@ -29,33 +29,37 @@ exports.InitializeStudentsPayload = schema_1.objectType({
 exports.InitializeStudents = schema_1.mutationField('initializeStudents', {
     type: exports.InitializeStudentsPayload,
     args: { input: schema_1.arg({ type: exports.InitializeStudentsInput, required: true }) },
-    resolve(_, { input: { studentIds, markingPeriod } }, { userData, studentData }) {
+    resolve(_, { input: { studentIds, courseId } }, { userData, studentData, courseData }) {
         return __awaiter(this, void 0, void 0, function* () {
-            let studentList = [];
-            let studentWithResponsibilityPoints = [];
+            const course = yield courseData.findOne({ _id: new mongodb_1.ObjectId(courseId) });
+            const markingPeriodList = [
+                'FIRST',
+                'SECOND',
+                'THIRD',
+                'FOURTH',
+            ];
+            let responsibilityPointsList = [];
             for (const _id of studentIds) {
                 const student = yield userData.findOne({ _id: new mongodb_1.ObjectId(_id) });
-                const responsibilityPointsCheck = yield studentData.findOne({
-                    'student._id': new mongodb_1.ObjectId(_id),
-                    responsibilityPoints: { $exists: true },
-                    markingPeriod: markingPeriod,
-                });
-                if (!responsibilityPointsCheck) {
-                    const responsibilityPoints = {
-                        markingPeriod,
-                        responsibilityPoints: 100,
-                        student,
-                    };
-                    const insertedId = yield studentData.insertOne(responsibilityPoints);
-                    responsibilityPoints._id = insertedId;
-                    studentList.push(responsibilityPoints);
+                for (const mp of markingPeriodList) {
+                    const responsibilityPointsCheck = yield studentData.findOne({
+                        'student._id': new mongodb_1.ObjectId(_id),
+                        responsibilityPoints: { $exists: true },
+                        markingPeriod: mp,
+                        inCourse: course,
+                    });
+                    if (!responsibilityPointsCheck) {
+                        const responsibilityPoints = {
+                            markingPeriod: mp,
+                            responsibilityPoints: 100,
+                            student,
+                            inCourse: course,
+                        };
+                        const { insertedId } = yield studentData.insertOne(responsibilityPoints);
+                        responsibilityPoints._id = insertedId;
+                        responsibilityPointsList.push(responsibilityPoints);
+                    }
                 }
-                else
-                    studentWithResponsibilityPoints.push(student);
-            }
-            const studentsWithContactInfo = [];
-            for (const _id of studentIds) {
-                const student = yield userData.findOne({ _id: new mongodb_1.ObjectId(_id) });
                 const contactInfoCheck = yield studentData.findOne({
                     'student._id': new mongodb_1.ObjectId(_id),
                     contactInfo: { $exists: true },
@@ -72,14 +76,9 @@ exports.InitializeStudents = schema_1.mutationField('initializeStudents', {
                             },
                         ],
                     };
-                    const insertedId = yield studentData.insertOne(studentInformation);
+                    const { insertedId } = yield studentData.insertOne(studentInformation);
                     studentInformation._id = insertedId;
                 }
-                studentsWithContactInfo.push(student);
-            }
-            const studentsWithPreExistingWritingMetrics = [];
-            for (const _id of studentIds) {
-                const student = yield userData.findOne({ _id: new mongodb_1.ObjectId(_id) });
                 const studentWritingMetric = yield studentData.findOne({
                     'student._id': new mongodb_1.ObjectId(_id),
                     howCauseEffectMetrics: { $exists: true },
@@ -87,6 +86,7 @@ exports.InitializeStudents = schema_1.mutationField('initializeStudents', {
                 if (!studentWritingMetric) {
                     const writingMetric = {
                         student,
+                        inCourse: course,
                         overallWritingMetric: {
                             overallWritingLevel: 'DEVELOPING',
                             levelPoints: 0,
@@ -104,11 +104,9 @@ exports.InitializeStudents = schema_1.mutationField('initializeStudents', {
                             levelPoints: 0,
                         },
                     };
-                    const insertedId = yield studentData.insertOne(writingMetric);
+                    const { insertedId } = yield studentData.insertOne(writingMetric);
                     writingMetric._id = insertedId;
                 }
-                else
-                    studentsWithPreExistingWritingMetrics.push(student);
             }
             const students = [];
             for (const _id of studentIds) {

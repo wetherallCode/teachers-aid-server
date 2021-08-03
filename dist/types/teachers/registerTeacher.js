@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.RegisterTeacher = exports.RegisterTeacherPayload = exports.RegisterTeacherInput = void 0;
 const schema_1 = require("@nexus/schema");
 const argon2_1 = require("argon2");
 const __1 = require("..");
@@ -32,7 +33,7 @@ exports.RegisterTeacherPayload = schema_1.objectType({
         t.field('teacher', { type: __1.Teacher });
     },
 });
-exports.RegisterTeacher = schema_1.mutationField('RegisterTeacher', {
+exports.RegisterTeacher = schema_1.mutationField('registerTeacher', {
     type: exports.RegisterTeacherPayload,
     args: {
         input: schema_1.arg({ type: exports.RegisterTeacherInput, required: true }),

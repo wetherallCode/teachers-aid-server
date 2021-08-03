@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.FindTextByTitle = exports.FindTextByTitlePayload = exports.FindTextByTitleInput = void 0;
 const schema_1 = require("@nexus/schema");
 const texts_1 = require("../texts");
 exports.FindTextByTitleInput = schema_1.inputObjectType({

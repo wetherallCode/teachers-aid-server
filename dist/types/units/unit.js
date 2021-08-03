@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.UnitInput = exports.Unit = void 0;
 const schema_1 = require("@nexus/schema");
 const lessons_1 = require("../lessons");
 exports.Unit = schema_1.objectType({

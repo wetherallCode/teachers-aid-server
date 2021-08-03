@@ -9,14 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CreateCourse = exports.CreateCoursePayload = exports.CreateCourseInput = void 0;
 const schema_1 = require("@nexus/schema");
 const _1 = require(".");
-const course_1 = require("./course");
 exports.CreateCourseInput = schema_1.inputObjectType({
     name: 'CreateCourseInput',
     definition(t) {
         t.string('name', { required: true });
-        t.field('courseType', { type: course_1.CourseTypeEnum, required: true });
     },
 });
 exports.CreateCoursePayload = schema_1.objectType({
@@ -28,10 +27,9 @@ exports.CreateCoursePayload = schema_1.objectType({
 exports.CreateCourse = schema_1.mutationField('createCourse', {
     type: exports.CreateCoursePayload,
     args: { input: schema_1.arg({ type: exports.CreateCourseInput, required: true }) },
-    resolve(_, { input: { name, courseType } }, { courseData }) {
+    resolve(_, { input: { name } }, { courseData }) {
         return __awaiter(this, void 0, void 0, function* () {
             const newCourse = {
-                courseType,
                 name,
             };
             const { insertedId } = yield courseData.insertOne(newCourse);

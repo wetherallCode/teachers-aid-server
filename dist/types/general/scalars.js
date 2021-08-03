@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.JSONScalar = exports.DateTime = exports.TimeScalar = exports.DateScalar = void 0;
 const schema_1 = require("@nexus/schema");
 const graphql_type_json_1 = require("graphql-type-json");
 exports.DateScalar = schema_1.scalarType({
