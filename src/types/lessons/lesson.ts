@@ -6,7 +6,7 @@ import {
   TextSectionVocab,
   TextSectionQuestions,
   PageNumbers,
-} from '../textSections'
+} from '../texts/textSections'
 import { LessonTextSections } from './lessonTextSections'
 import { Unit } from '../units'
 import { DynamicLessonEnums } from './dynamicLesson'

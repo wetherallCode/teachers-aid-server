@@ -6,7 +6,7 @@ import {
   TextSectionQuestionsInput,
   TextSectionVocabInput,
   PageNumbersInput,
-} from '../textSections'
+} from '../texts/textSections'
 import { NexusGenRootTypes } from '../../teachers-aid-typegen'
 import { ObjectId } from 'mongodb'
 
