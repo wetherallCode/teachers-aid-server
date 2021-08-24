@@ -18,9 +18,10 @@ export const Essay = objectType({
 export const Topic = objectType({
   name: 'Topic',
   definition(t) {
-    t.field('questionType', { type: QuestionTypeEnum })
     t.string('question')
+    t.field('questionType', { type: QuestionTypeEnum })
     t.field('writingLevel', { type: WritingLevelEnum })
+    t.id('essayQuestionId')
   },
 })
 
@@ -30,7 +31,72 @@ export const TopicInput = inputObjectType({
     t.string('question', { required: true })
     t.field('questionType', { type: QuestionTypeEnum, required: true })
     t.field('writingLevel', { type: WritingLevelEnum, required: true })
+    t.id('essayQuestionId', { required: true })
   },
+})
+
+export const QuestionPartsContainer = objectType({
+  name: 'QuestionPartsContainer',
+  definition(t) {
+    t.string('originalQuestion')
+    t.string('modifiedQuestion')
+    t.field('questionWord', { type: QuestionWordEnum })
+    t.string('helpingVerb')
+    t.string('completeSubject')
+    t.string('simpleSubject')
+    t.field('nounType', { type: NounTypeEnum })
+    t.field('verbType', { type: VerbTypeEnum })
+    t.boolean('compoundNoun')
+    t.string('completePredicate')
+    t.string('simplePredicate')
+    t.string('object', { nullable: true })
+    t.string('subjectCompliment', { nullable: true })
+    t.field('questionType', { type: QuestionTypeEnum })
+  },
+})
+
+export const QuestionPartsContainerInput = inputObjectType({
+  name: 'QuestionPartsContainerInput',
+  definition(t) {
+    t.string('originalQuestion', { required: true })
+    t.string('modifiedQuestion', { required: true })
+    t.field('questionWord', { type: QuestionWordEnum, required: true })
+    t.string('helpingVerb', { required: true })
+    t.string('completeSubject', { required: true })
+    t.string('simpleSubject', { required: true })
+    t.field('nounType', { type: NounTypeEnum, required: true })
+    t.field('verbType', { type: VerbTypeEnum, required: true })
+    t.boolean('compoundNoun', { required: true })
+    t.string('completePredicate', { required: true })
+    t.string('simplePredicate', { required: true })
+    t.string('object')
+    t.string('subjectCompliment')
+    t.field('questionType', { type: QuestionTypeEnum, required: true })
+  },
+})
+
+export const QuestionWordEnum = enumType({
+  name: 'QuestionWordEnum',
+  members: ['HOW', 'WHY'],
+})
+
+export const NounTypeEnum = enumType({
+  name: 'NounTypeEnum',
+  members: [
+    'PERSON',
+    'PEOPLE',
+    'PLACE',
+    'PLACES',
+    'THING',
+    'THINGS',
+    'IDEAS',
+    'IDEA',
+  ],
+})
+
+export const VerbTypeEnum = enumType({
+  name: 'VerbTypeEnum',
+  members: ['ACTION', 'BEING', 'FEELING', 'HAVING'],
 })
 
 export const ReadingsInput = inputObjectType({
