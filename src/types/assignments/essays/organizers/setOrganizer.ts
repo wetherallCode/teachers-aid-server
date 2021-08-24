@@ -23,21 +23,24 @@ export const SetOrganizer = mutationField('setOrganizer', {
   type: SetOrganizerPayload,
   args: { input: arg({ type: SetOrganizerInput, required: true }) },
   async resolve(_, { input: { essayId, writingLevel } }, { assignmentData }) {
-    const organizerCheck: NexusGenRootTypes['Essay'] = await assignmentData.findOne(
-      {
+    const organizerCheck: NexusGenRootTypes['Essay'] =
+      await assignmentData.findOne({
         _id: new ObjectId(essayId!),
-      }
-    )
+      })
     if (!organizerCheck.workingDraft.organizer) {
       if (writingLevel === 'DEVELOPING') {
+        console.log('developing')
         const developingOrganizer: NexusGenRootTypes['DevelopingOrganizer'] = {
           developingSentenceStructure: {
             subject: '',
             verb: '',
+            object: '',
+            subjectCompliment: '',
           },
           restatement: '',
           answer: '',
           conclusion: '',
+          // organizerType: 'DEVELOPING',
         }
         await assignmentData.updateOne(
           { _id: new ObjectId(essayId) },
@@ -45,9 +48,10 @@ export const SetOrganizer = mutationField('setOrganizer', {
             $set: { 'workingDraft.organizer': developingOrganizer },
           }
         )
-        const essay = await assignmentData.findOne({
+        const essay: NexusGenRootTypes['Essay'] = await assignmentData.findOne({
           _id: new ObjectId(essayId),
         })
+        console.log(essay.workingDraft.organizer)
         return { essay }
       }
       if (writingLevel === 'ACADEMIC') {
@@ -56,9 +60,11 @@ export const SetOrganizer = mutationField('setOrganizer', {
             subject: '',
             verb: '',
             object: '',
+            subjectCompliment: '',
           },
           restatement: '',
           conclusion: '',
+          // organizerType: 'ACADEMIC',
         }
         await assignmentData.updateOne(
           { _id: new ObjectId(essayId!) },
@@ -77,7 +83,9 @@ export const SetOrganizer = mutationField('setOrganizer', {
             subject: '',
             verb: '',
             object: '',
+            subjectCompliment: '',
           },
+          // organizerType: 'ADVANCED',
           restatement: '',
           conclusion: '',
         }

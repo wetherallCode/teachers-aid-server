@@ -23,6 +23,8 @@ export const DevelopingSentenceStructure = objectType({
   definition(t) {
     t.string('subject')
     t.string('verb')
+    t.string('object', { nullable: true })
+    t.string('subjectCompliment', { nullable: true })
   },
 })
 
@@ -31,6 +33,8 @@ export const DevelopingSentenceStructureInput = inputObjectType({
   definition(t) {
     t.string('subject', { required: true })
     t.string('verb', { required: true })
+    t.string('object')
+    t.string('subjectCompliment')
   },
 })
 

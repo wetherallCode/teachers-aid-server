@@ -1,6 +1,7 @@
 import { objectType, inputObjectType } from '@nexus/schema'
+import { QuestionTypeEnum } from '../../../texts/textSections/textSection'
 import { AnswerTypes } from './answerTypes'
-import { QuestionTypeEnum } from '../../../textSections/textSection'
+// import { QuestionTypeEnum } from '../../../textSections/textSection'
 
 export const AcademicOrganizer = objectType({
   name: 'AcademicOrganizer',
@@ -20,6 +21,7 @@ export const AcademicSentenceStructure = objectType({
     t.string('subject')
     t.string('verb')
     t.string('object', { nullable: true })
+    t.string('subjectCompliment', { nullable: true })
   },
 })
 
@@ -29,5 +31,6 @@ export const AcademicSentenceStructureInput = inputObjectType({
     t.string('subject', { required: true })
     t.string('verb', { required: true })
     t.string('object')
+    t.string('subjectCompliment')
   },
 })
