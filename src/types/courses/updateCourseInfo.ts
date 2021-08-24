@@ -1,8 +1,23 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
-import { CourseInfo, CourseTypeEnum, StudentSeat } from '.'
+import {
+  CourseInfo,
+  CourseMaxSizeEnum,
+  CourseTypeEnum,
+  StudentSeatInput,
+} from '.'
 import { ObjectId } from 'mongodb'
 import { NexusGenRootTypes } from '../../teachers-aid-typegen'
 import { SchoolDayType } from '..'
+import {
+  twelveAssignedSeats,
+  twentyFourAssignedSeats,
+  thirtyAssignedSeats,
+  thirtySixAssignedSeats,
+  twelveCohortAssignedSeats,
+  twentyFourCohortAssignedSeats,
+  thirtyCohortAssignedSeats,
+  thirtySixCohortAssignedSeats,
+} from './intialAssignedSeats'
 
 export const UpdateCourseInfoInput = inputObjectType({
   name: 'UpdateCourseInfoInput',
@@ -13,8 +28,10 @@ export const UpdateCourseInfoInput = inputObjectType({
     t.string('endsAt')
     t.string('halfDayStartsAt')
     t.string('halfDayEndsAt')
+    t.boolean('cohortBasedSeating')
     t.field('courseType', { type: CourseTypeEnum })
     t.field('schoolDayType', { type: SchoolDayType })
+    t.field('courseMaxSize', { type: CourseMaxSizeEnum, required: true })
   },
 })
 
@@ -40,6 +57,8 @@ export const UpdateCourseInfo = mutationField('updateCourseInfo', {
         halfDayEndsAt,
         courseType,
         schoolDayType,
+        courseMaxSize,
+        cohortBasedSeating,
       },
     },
     { courseData, userData }
@@ -84,6 +103,23 @@ export const UpdateCourseInfo = mutationField('updateCourseInfo', {
             halfDayEndsAt,
             courseType,
             schoolDayType,
+            cohortBasedSeating,
+            assignedSeats:
+              courseMaxSize === 'TWELVE' && cohortBasedSeating
+                ? twelveCohortAssignedSeats
+                : courseMaxSize === 'TWELVE'
+                ? twelveAssignedSeats
+                : courseMaxSize === 'TWENTY_FOUR' && cohortBasedSeating
+                ? twentyFourCohortAssignedSeats
+                : courseMaxSize === 'TWENTY_FOUR'
+                ? twentyFourAssignedSeats
+                : courseMaxSize === 'THIRTY' && cohortBasedSeating
+                ? thirtyCohortAssignedSeats
+                : courseMaxSize === 'THIRTY'
+                ? thirtyAssignedSeats
+                : courseMaxSize === 'THIRTY_SIX' && cohortBasedSeating
+                ? thirtySixCohortAssignedSeats
+                : thirtySixAssignedSeats,
           },
         }
       )
