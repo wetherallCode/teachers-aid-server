@@ -36,6 +36,8 @@ export const Assignment = interfaceType({
     t.string('dueDate')
     t.boolean('late')
     t.boolean('exempt')
+    t.boolean('missing')
+    t.field('gradeType', { type: GradeTypeEnum })
     t.field('readings', { type: Readings })
     t.resolveType((assignment) => {
       if (assignment.hasOwnProperty('topic')) {
@@ -80,4 +82,9 @@ export const Readings = objectType({
 export const TimeOfDayEnum = enumType({
   name: 'TimeOfDay',
   members: ['BEFORE_SCHOOL', 'BEFORE_CLASS', 'AFTER_CLASS', 'AFTER_SCHOOL'],
+})
+
+export const GradeTypeEnum = enumType({
+  name: 'GradeTypeEnum',
+  members: ['PRIMARY', 'SECONDARY', 'SUPPORTIVE'],
 })
