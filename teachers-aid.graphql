@@ -20,13 +20,19 @@ enum AcademicOutcomeTypes {
 type AcademicSentenceStructure {
   object: String
   subject: String!
+  subjectCompliment: String
   verb: String!
 }
 
 input AcademicSentenceStructureInput {
   object: String
   subject: String!
+  subjectCompliment: String
   verb: String!
+}
+
+type AddAssociatedCourseIdPayload {
+  courseInfo: [CourseInfo!]!
 }
 
 input AddCourseToTeacherInput {
@@ -97,12 +103,14 @@ type AdvancedOrganizer {
 type AdvancedSentenceStructure {
   object: String
   subject: String!
+  subjectCompliment: String
   verb: String!
 }
 
 input AdvancedSentenceStructureInput {
   object: String
   subject: String!
+  subjectCompliment: String
   verb: String!
 }
 
@@ -178,11 +186,13 @@ interface Assignment {
   dueDate: String!
   dueTime: String!
   exempt: Boolean!
+  gradeType: GradeTypeEnum!
   hasAssigner: Teacher!
   hasOwner: Student!
   late: Boolean!
   lessonInfo: Lesson!
   markingPeriod: MarkingPeriodEnum!
+  missing: Boolean!
   paperBased: Boolean!
   readings: Readings!
   score: Score!
@@ -249,7 +259,7 @@ type Chapter {
   chapterNumber: Int!
   chapterTitle: String!
   fromText: Text!
-  hasSections: TextSection!
+  hasSections: [TextSection!]!
 }
 
 type ComprehensionMetrics implements ProgressMetrics {
@@ -302,6 +312,7 @@ type Course {
 type CourseInfo {
   _id: ID
   assignedSeats: [StudentSeat!]!
+  associatedCourseId: ID
   cohortBasedSeating: Boolean!
   course: Course!
   courseType: CourseTypeEnum!
@@ -395,6 +406,15 @@ input CreateEssayInput {
 
 type CreateEssayPayload {
   essays: [Essay!]!
+}
+
+input CreateEssayQuestionInput {
+  associatedTextSectionsIds: [String!]!
+  questionPartsInput: QuestionPartsContainerInput!
+}
+
+type CreateEssayQuestionPayload {
+  essayQuestion: EssayQuestion!
 }
 
 input CreateExcusedLatenessInput {
@@ -563,9 +583,37 @@ type CreateUnitPayload {
   unit: Unit!
 }
 
+type CreateWritingMetricsPayload {
+  created: Boolean!
+}
+
 scalar Date
 
 scalar DateTime
+
+type DeleteAllAssignmentsPayload {
+  removed: Boolean!
+}
+
+type DeleteAllParentContactsPayload {
+  removed: Boolean!
+}
+
+type DeleteAllProtocolsPayload {
+  removed: Boolean!
+}
+
+type DeleteAllSchoolDaysPayload {
+  removed: Boolean!
+}
+
+type DeleteAllStudentDataPayload {
+  removed: Boolean!
+}
+
+type DeleteAllTemporaryTasksPayload {
+  removed: Boolean!
+}
 
 input DeleteReviewsInput {
   assignedDate: String!
@@ -602,12 +650,16 @@ input DevelopingOrganizerInput {
 }
 
 type DevelopingSentenceStructure {
+  object: String
   subject: String!
+  subjectCompliment: String
   verb: String!
 }
 
 input DevelopingSentenceStructureInput {
+  object: String
   subject: String!
+  subjectCompliment: String
   verb: String!
 }
 
@@ -637,17 +689,26 @@ type Essay implements Assignment {
   dueTime: String!
   exempt: Boolean!
   finalDraft: FinalDraftContainer
+  gradeType: GradeTypeEnum!
   hasAssigner: Teacher!
   hasOwner: Student!
   late: Boolean!
   lessonInfo: Lesson!
   leveledUp: Boolean!
   markingPeriod: MarkingPeriodEnum!
+  missing: Boolean!
   paperBased: Boolean!
   readings: Readings!
   score: Score!
   topic: Topic!
   workingDraft: WorkingDraft!
+}
+
+type EssayQuestion implements Question {
+  _id: ID
+  associatedTextSectionsIds: [ID!]!
+  questionParts: QuestionPartsContainer!
+  questionUsageType: QuestionUsageTypeEnum!
 }
 
 type ExcusedLateness {
@@ -747,6 +808,14 @@ type FindAssignmentsToGradePayload {
   assignments: [Assignment!]!
 }
 
+input FindChaptersByTextIdInput {
+  textId: ID!
+}
+
+type FindChaptersByTextIdPayload {
+  chapters: [Chapter!]!
+}
+
 input FindChaptersInTextInput {
   textTitle: String!
 }
@@ -822,6 +891,14 @@ input FindEssayByStudentIdAndLessonIdInput {
 
 type FindEssayByStudentIdAndLessonIdPayload {
   essay: Essay!
+}
+
+input FindEssayQuestionByIdInput {
+  essayQuestionId: ID!
+}
+
+type FindEssayQuestionByIdPayload {
+  essayQuestion: EssayQuestion!
 }
 
 input FindEssaysByAssociatedLessonIdAndCourseIdInput {
@@ -906,6 +983,14 @@ input FindLessonsByUnitInput {
 
 type FindLessonsByUnitPayload {
   lessons: [Lesson!]!
+}
+
+input FindLessonStatusInput {
+  lessonId: ID!
+}
+
+type FindLessonStatusPayload {
+  lesson: Lesson!
 }
 
 input FindParentContactsByTeacherIdInput {
@@ -1127,6 +1212,12 @@ type GradeTemporaryTaskPayload {
   temporaryTask: TemporaryTask!
 }
 
+enum GradeTypeEnum {
+  PRIMARY
+  SECONDARY
+  SUPPORTIVE
+}
+
 input HasAssigner {
   assignerUserName: String
 }
@@ -1238,6 +1329,7 @@ type MarkTemporaryTaskAbsentPayload {
 }
 
 type Mutation {
+  addAssociatedCourseId: AddAssociatedCourseIdPayload!
   addCourseToTeacher(input: AddCourseToTeacherInput!): AddCourseToTeacherPayload!
   addNewChapter(input: AddNewChapterInput!): AddNewChapterPayload!
   addNewText(input: AddNewTextInput!): AddNewTextPayload!
@@ -1259,6 +1351,7 @@ type Mutation {
   createCourse(input: CreateCourseInput!): CreateCoursePayload!
   createCourseInfo(input: CreateCourseInfoInput!): CreateCourseInfoPayload!
   createEssay(input: CreateEssayInput!): CreateEssayPayload!
+  createEssayQuestion(input: CreateEssayQuestionInput!): CreateEssayQuestionPayload!
   createExcusedLateness(input: CreateExcusedLatenessInput!): CreateExcusedLatenessPayload!
   createLesson(input: CreateLessonInput!): CreateLessonPayload!
   createParentContact(input: CreateParentContactInput!): CreateParentContactPayload!
@@ -1274,6 +1367,13 @@ type Mutation {
   createTextSection(input: CreateTextSectionInput!): CreateTextSectionPayload!
   createUnexcusedLateness(input: CreateUnexcusedLatenessInput!): CreateUnexcusedLatenessPayload!
   createUnit(input: CreateUnitInput!): CreateUnitPayload!
+  createWritingMetrics: CreateWritingMetricsPayload!
+  deleteAllAssignments: DeleteAllAssignmentsPayload!
+  deleteAllParentContacts: DeleteAllParentContactsPayload!
+  deleteAllProtocols: DeleteAllProtocolsPayload!
+  deleteAllSchoolDays: DeleteAllSchoolDaysPayload!
+  deleteAllStudentData: DeleteAllStudentDataPayload!
+  deleteAllTemporaryTasks: DeleteAllTemporaryTasksPayload!
   deleteReviews(input: DeleteReviewsInput!): DeleteReviewsPayload!
   deleteTemporaryTasks(input: DeleteTemporaryTasksInput!): DeleteTemporaryTasksPayload!
   exemptArticleReview(input: ExemptArticleReviewInput!): ExemptArticleReviewPayload!
@@ -1342,6 +1442,17 @@ type Mutation {
   updateTextSection(input: UpdateTextSectionInput!): UpdateTextSectionPayload!
   updateWhyCauseEffect(input: UpdateWhyCauseEffectInput!): UpdateWhyCauseEffectPayload!
   updateWorkingDraft(input: UpdateWorkingDraftInput!): UpdateWorkingDraftPayload!
+}
+
+enum NounTypeEnum {
+  IDEA
+  IDEAS
+  PEOPLE
+  PERSON
+  PLACE
+  PLACES
+  THING
+  THINGS
 }
 
 union Organizers = AcademicOrganizer | AdvancedOrganizer | DevelopingOrganizer
@@ -1433,6 +1544,7 @@ type Query {
   findAssignmentById(input: FindAssignmentByIdInput!): FindAssignmentByIdPayload!
   findAssignmentByStudentId(input: FindAssignmentByStudentIdInput!): FindAssignmentByStudentIdPayload!
   findAssignmentsToGrade(input: FindAssignmentsToGradeInput!): FindAssignmentsToGradePayload!
+  findChaptersByTextId(input: FindChaptersByTextIdInput!): FindChaptersByTextIdPayload!
   findChaptersInText(input: FindChaptersInTextInput!): FindChaptersInTextPayload!
   findChapterTitle(input: FindChapterTitleInput!): FindChapterTitlePayload!
   findCompletedEssaysByStudentId(input: FindCompletedEssaysByStudentIdInput!): FindCompletedEssaysByStudentIdPayload!
@@ -1443,6 +1555,7 @@ type Query {
   findCurrentMarkingPeriod: FindCurrentMarkingPeriodPayload!
   findEssayById(input: FindEssayByIdInput!): FindEssayByIdPayload!
   findEssayByStudentIdAndLessonId(input: FindEssayByStudentIdAndLessonIdInput!): FindEssayByStudentIdAndLessonIdPayload!
+  findEssayQuestionById(input: FindEssayQuestionByIdInput!): FindEssayQuestionByIdPayload!
   findEssaysByAssociatedLessonId(input: FindEssaysByAssociatedLessonIdInput!): FindEssaysByAssociatedLessonIdPayload!
   findEssaysByAssociatedLessonIdAndCourseId(input: FindEssaysByAssociatedLessonIdAndCourseIdInput!): FindEssaysByAssociatedLessonIdAndCourseIdPayload!
   findEssaysByUserNameAndMarkingPeriod(input: FindEssaysByUserNameAndMarkingPeriodInput!): FindEssaysByUserNameAndMarkingPeriodPayload!
@@ -1453,6 +1566,7 @@ type Query {
   findLessonById(input: FindLessonByIdInput!): FindLessonByIdPayload!
   findLessonsByAssignedDate(input: FindLessonsByAssignedDateInput!): FindLessonsByAssignedDatePayload!
   findLessonsByUnit(input: FindLessonsByUnitInput!): FindLessonsByUnitPayload!
+  findLessonStatus(input: FindLessonStatusInput!): FindLessonStatusPayload!
   findParentContactsByTeacherId(input: FindParentContactsByTeacherIdInput!): FindParentContactsByTeacherIdPayload!
   findReadingGuideById(input: FindReadingGuideByIdInput!): FindReadingGuideByIdPayload!
   findReadingGuidesByAssociatedLessonAndCourseId(input: FindReadingGuidesByAssociatedLessonAndCourseIdInput!): FindReadingGuidesByAssociatedLessonAndCourseIdPayload!
@@ -1484,10 +1598,59 @@ type Query {
   removeSubmittedEssayFinalDraft(input: RemoveSubmittedEssayFinalDraftInput!): RemoveSubmittedEssayFinalDraftPayload!
 }
 
+interface Question {
+  _id: ID
+  questionUsageType: QuestionUsageTypeEnum!
+}
+
+type QuestionPartsContainer {
+  completePredicate: String!
+  completeSubject: String!
+  compoundNoun: Boolean!
+  helpingVerb: String!
+  modifiedQuestion: String!
+  nounType: NounTypeEnum!
+  object: String
+  originalQuestion: String!
+  questionType: QuestionTypeEnum!
+  questionWord: QuestionWordEnum!
+  simplePredicate: String!
+  simpleSubject: String!
+  subjectCompliment: String
+  verbType: VerbTypeEnum!
+}
+
+input QuestionPartsContainerInput {
+  completePredicate: String!
+  completeSubject: String!
+  compoundNoun: Boolean!
+  helpingVerb: String!
+  modifiedQuestion: String!
+  nounType: NounTypeEnum!
+  object: String
+  originalQuestion: String!
+  questionType: QuestionTypeEnum!
+  questionWord: QuestionWordEnum!
+  simplePredicate: String!
+  simpleSubject: String!
+  subjectCompliment: String
+  verbType: VerbTypeEnum!
+}
+
 enum QuestionTypeEnum {
   HOW_CAUSE_EFFECT
   HOW_PROBLEM_SOLUTION
   WHY_CAUSE_EFFECT
+}
+
+enum QuestionUsageTypeEnum {
+  ESSAY
+  TEST
+}
+
+enum QuestionWordEnum {
+  HOW
+  WHY
 }
 
 type ReadingGuide implements Assignment {
@@ -1500,11 +1663,13 @@ type ReadingGuide implements Assignment {
   dueTime: String!
   exempt: Boolean!
   graded: Boolean!
+  gradeType: GradeTypeEnum!
   hasAssigner: Teacher!
   hasOwner: Student!
   late: Boolean!
   lessonInfo: Lesson!
   markingPeriod: MarkingPeriodEnum!
+  missing: Boolean!
   paperBased: Boolean!
   readingGuideFinal: ReadingGuideFinalContainer
   readings: Readings!
@@ -1985,11 +2150,13 @@ type Test implements Assignment {
   dueDate: String!
   dueTime: String!
   exempt: Boolean!
+  gradeType: GradeTypeEnum!
   hasAssigner: Teacher!
   hasOwner: Student!
   late: Boolean!
   lessonInfo: Lesson!
   markingPeriod: MarkingPeriodEnum!
+  missing: Boolean!
   paperBased: Boolean!
   readings: Readings!
   score: Score!
@@ -2016,6 +2183,7 @@ input TextInput {
 type TextSection {
   _id: ID
   fromChapter: Chapter!
+  hasEssayQuestions: [EssayQuestion!]!
   hasProtocols: [TextSectionProtocols!]
   hasQuestions: [TextSectionQuestions!]
   hasVocab: [TextSectionVocab!]
@@ -2077,12 +2245,14 @@ enum TitleEnum {
 }
 
 type Topic {
+  essayQuestionId: ID!
   question: String!
   questionType: QuestionTypeEnum!
   writingLevel: WritingLevelEnum!
 }
 
 input TopicInput {
+  essayQuestionId: ID!
   question: String!
   questionType: QuestionTypeEnum!
   writingLevel: WritingLevelEnum!
@@ -2158,7 +2328,9 @@ type UpdateArticleReviewPayload {
 }
 
 input UpdateCourseInfoInput {
+  cohortBasedSeating: Boolean
   courseId: ID!
+  courseMaxSize: CourseMaxSizeEnum!
   courseType: CourseTypeEnum
   endsAt: String
   halfDayEndsAt: String
@@ -2434,6 +2606,13 @@ interface User {
   middleName: String
   password: String!
   userName: String!
+}
+
+enum VerbTypeEnum {
+  ACTION
+  BEING
+  FEELING
+  HAVING
 }
 
 type WhyCauseEffectAnswerType {
