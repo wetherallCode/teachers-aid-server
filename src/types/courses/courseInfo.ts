@@ -8,6 +8,7 @@ export const CourseInfo = objectType({
   definition(t) {
     t.id('_id', { nullable: true })
     t.field('course', { type: Course })
+    t.id('associatedCourseId', { nullable: true })
     t.string('startsAt')
     t.string('endsAt')
     t.string('halfDayStartsAt')

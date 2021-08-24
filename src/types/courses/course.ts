@@ -15,7 +15,7 @@ export const Course = objectType({
       type: CourseInfo,
       async resolve(parent, __, { courseData }) {
         const info = await courseData.findOne({
-          'course._id': parent._id!,
+          associatedCourseId: parent._id!,
         })
         return info
       },
@@ -39,7 +39,8 @@ export const Course = objectType({
           })
           .toArray()
 
-        const StudentSignInSheetList: NexusGenRootTypes['StudentSignInSheet'][] = []
+        const StudentSignInSheetList: NexusGenRootTypes['StudentSignInSheet'][] =
+          []
 
         schoolDay.forEach((day) => {
           const { signInSheets } = day

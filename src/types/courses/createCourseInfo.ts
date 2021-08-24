@@ -67,7 +67,9 @@ export const CreateCourseInfo = mutationField('createCourseInfo', {
     },
     { courseData, userData }
   ) {
-    const course = await courseData.findOne({ _id: new ObjectId(courseId) })
+    const course: NexusGenRootTypes['Course'] = await courseData.findOne({
+      _id: new ObjectId(courseId),
+    })
     const coursesTeacher: NexusGenRootTypes['Teacher'] = await userData.findOne(
       {
         'teachesCourses._id': new ObjectId(courseId),
@@ -84,6 +86,7 @@ export const CreateCourseInfo = mutationField('createCourseInfo', {
         halfDayEndsAt,
         courseType,
         schoolDayType,
+        associatedCourseId: course._id,
         cohortBasedSeating,
         assignedSeats:
           courseMaxSize === 'TWELVE' && cohortBasedSeating
