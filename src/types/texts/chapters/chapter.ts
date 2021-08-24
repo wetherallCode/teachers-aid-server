@@ -1,7 +1,7 @@
 import { objectType, inputObjectType } from '@nexus/schema'
-import { Text } from '.'
-import { TextSection } from './textSections'
-import { NexusGenRootTypes } from '../../teachers-aid-typegen'
+import { Text } from '..'
+import { TextSection } from '../textSections'
+import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
 import { ObjectId } from 'mongodb'
 
 export const Chapter = objectType({
