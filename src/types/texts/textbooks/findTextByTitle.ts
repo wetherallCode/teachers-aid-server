@@ -1,5 +1,5 @@
 import { inputObjectType, objectType, queryField, arg } from '@nexus/schema'
-import { Text } from '../texts'
+import { Text } from '../textbooks'
 
 export const FindTextByTitleInput = inputObjectType({
   name: 'FindTextByTitleInput',

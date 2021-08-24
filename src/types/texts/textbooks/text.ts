@@ -1,5 +1,5 @@
 import { objectType, inputObjectType } from '@nexus/schema'
-import { Chapter } from '.'
+import { Chapter } from '..'
 
 export const Text = objectType({
   name: 'Text',

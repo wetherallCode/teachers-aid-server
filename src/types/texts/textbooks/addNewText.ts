@@ -1,6 +1,6 @@
 import { inputObjectType, objectType, arg, mutationField } from '@nexus/schema'
-import { Text } from '../texts'
-import { NexusGenRootTypes } from '../../teachers-aid-typegen'
+import { Text } from '.'
+import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
 
 export const AddNewTextInput = inputObjectType({
   name: 'AddNewTextInput',
