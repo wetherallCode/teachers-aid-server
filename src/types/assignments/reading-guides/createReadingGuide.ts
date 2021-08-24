@@ -80,9 +80,8 @@ export const CreateReadingGuide = mutationField('createReadingGuide', {
         }
       })
       const courseId = courseList[0]
-      const assignedCourseInfo: NexusGenRootTypes['CourseInfo'] = await courseData.findOne(
-        { 'course._id': courseId }
-      )
+      const assignedCourseInfo: NexusGenRootTypes['CourseInfo'] =
+        await courseData.findOne({ 'course._id': courseId })
 
       function assignedDueTime(time: string) {
         if (time === 'BEFORE_SCHOOL') {
@@ -112,7 +111,9 @@ export const CreateReadingGuide = mutationField('createReadingGuide', {
         dueTime: dueTimeForAssignment,
         readings,
         paperBased: false,
+        missing: false,
         markingPeriod,
+        gradeType: 'SUPPORTIVE',
         hasAssigner: assigner,
         hasOwner: await userData.findOne({
           _id: new ObjectId(student._id!),
