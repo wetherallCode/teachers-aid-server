@@ -106,9 +106,8 @@ export const CreateEssay = mutationField('createEssay', {
           }
         })
         const courseId = courseList[0]
-        const assignedCourseInfo: NexusGenRootTypes['CourseInfo'] = await courseData.findOne(
-          { 'course._id': courseId }
-        )
+        const assignedCourseInfo: NexusGenRootTypes['CourseInfo'] =
+          await courseData.findOne({ 'course._id': courseId })
 
         function assignedDueTime(time: string) {
           if (time === 'BEFORE_SCHOOL') {
@@ -128,14 +127,14 @@ export const CreateEssay = mutationField('createEssay', {
 
         const dueTimeForAssignment = assignedDueTime(dueTime)
 
-        const writingMetric: NexusGenRootTypes['WritingMetrics'] = await studentData.findOne(
-          {
+        const writingMetric: NexusGenRootTypes['WritingMetrics'] =
+          await studentData.findOne({
             'student._id': student._id,
             overallWritingMetric: { $exists: true },
-          }
-        )
+          })
+
         const individualTopic: NexusGenRootTypes['Topic'][] = topicList.filter(
-          (topic: NexusGenRootTypes['Topic']) =>
+          (topic) =>
             topic.writingLevel ===
             writingMetric.overallWritingMetric.overallWritingLevel
         )
@@ -148,7 +147,9 @@ export const CreateEssay = mutationField('createEssay', {
           associatedLessonId,
           dueDate,
           readings,
+          missing: true,
           leveledUp: false,
+          gradeType: 'PRIMARY',
           paperBased: false,
           workingDraft: {
             draft: JSON.stringify(beginningValue),
