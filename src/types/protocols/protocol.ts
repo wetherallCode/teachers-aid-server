@@ -1,6 +1,9 @@
 import { enumType, objectType } from '@nexus/schema'
 import { MarkingPeriodEnum } from '../general'
-import { AcademicOutcomeTypes, ProtocolActivityTypes } from '../textSections'
+import {
+  AcademicOutcomeTypes,
+  ProtocolActivityTypes,
+} from '../texts/textSections'
 import { Student, User } from '..'
 
 export const Protocol = objectType({
