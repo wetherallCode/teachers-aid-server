@@ -1,6 +1,6 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { Essay } from '..'
-import { QuestionTypeEnum } from '../../../textSections/textSection'
+import { QuestionTypeEnum } from '../../../texts/textSections/textSection'
 import { ObjectId } from 'mongodb'
 import { NexusGenRootTypes } from '../../../../teachers-aid-typegen'
 

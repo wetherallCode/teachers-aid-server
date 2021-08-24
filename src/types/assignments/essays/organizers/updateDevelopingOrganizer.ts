@@ -46,9 +46,8 @@ export const UpdateDevelopingOrganizer = mutationField(
       },
       { assignmentData }
     ) {
-      const organizerTypeCheck: NexusGenRootTypes['Essay'] = await assignmentData.findOne(
-        { _id: new ObjectId(essayId) }
-      )
+      const organizerTypeCheck: NexusGenRootTypes['Essay'] =
+        await assignmentData.findOne({ _id: new ObjectId(essayId) })
 
       if (
         organizerTypeCheck.workingDraft.organizer!.hasOwnProperty(
@@ -60,7 +59,8 @@ export const UpdateDevelopingOrganizer = mutationField(
           {
             $set: {
               'workingDraft.organizer.basicQuestionType': basicQuestionType,
-              'workingDraft.organizer.developingSentenceStructure': developingSentenceStructure,
+              'workingDraft.organizer.developingSentenceStructure':
+                developingSentenceStructure,
               'workingDraft.organizer.restatement': restatement,
               'workingDraft.organizer.answer': answer,
               'workingDraft.organizer.conclusion': conclusion,
