@@ -1,6 +1,7 @@
 import { objectType, enumType, inputObjectType } from '@nexus/schema'
-import { Chapter } from '../texts'
+import { Chapter } from '..'
 import { TextSectionProtocols } from '.'
+import { resolve } from 'path'
 
 export const TextSection = objectType({
   name: 'TextSection',
@@ -12,6 +13,19 @@ export const TextSection = objectType({
     t.list.field('hasProtocols', { type: TextSectionProtocols, nullable: true })
     t.list.field('hasVocab', { type: TextSectionVocab, nullable: true })
     t.list.field('hasQuestions', { type: TextSectionQuestions, nullable: true })
+    t.list.field('hasEssayQuestions', {
+      type: 'EssayQuestion',
+      async resolve(parent, __, { questionData }) {
+        const essayQuestions = await questionData
+          .find({
+            questionUsageType: 'ESSAY',
+            associatedTextSectionsIds: parent._id?.toString(),
+          })
+          .toArray()
+
+        return essayQuestions
+      },
+    })
   },
 })
 

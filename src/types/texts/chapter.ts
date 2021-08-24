@@ -1,7 +1,8 @@
 import { objectType, inputObjectType } from '@nexus/schema'
 import { Text } from '.'
-import { resolve } from 'dns'
-import { TextSection } from '../textSections'
+import { TextSection } from './textSections'
+import { NexusGenRootTypes } from '../../teachers-aid-typegen'
+import { ObjectId } from 'mongodb'
 
 export const Chapter = objectType({
   name: 'Chapter',
@@ -10,10 +11,14 @@ export const Chapter = objectType({
     t.int('chapterNumber')
     t.string('chapterTitle')
     t.field('fromText', { type: Text })
-    t.field('hasSections', {
+    t.list.field('hasSections', {
       type: TextSection,
       async resolve(parent, __, { textData }) {
-        const sections = await textData.find({ _id: parent._id }).toArray()
+        const sections: NexusGenRootTypes['TextSection'][] = await textData
+          .find({
+            'fromChapter._id': new ObjectId(parent._id!),
+          })
+          .toArray()
         return sections
       },
     })
