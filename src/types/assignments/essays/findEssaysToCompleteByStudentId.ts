@@ -30,7 +30,7 @@ export const FindEssaysToCompleteByStudentId = queryField(
       const essays = await assignmentData
         .find({
           'hasOwner._id': new ObjectId(studentId),
-          assigned: true,
+          // assigned: true,
           workingDraft: { $exists: true },
         })
         .toArray()
