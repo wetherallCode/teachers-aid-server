@@ -21,13 +21,12 @@ export const FindStudentsById = queryField('findStudentsById', {
   type: FindStudentsByIdPayload,
   args: { input: arg({ type: FindStudentsByIdInput, required: true }) },
   async resolve(_, { input: { studentIds } }, { userData }) {
-    console.log(new Date().toISOString())
     const students: NexusGenRootTypes['Student'][] = []
     for (const _id of studentIds) {
       const student = await userData.findOne({ _id: new ObjectId(_id) })
       students.push(student)
     }
-    console.log(new Date().toISOString())
+
     return { students }
   },
 })

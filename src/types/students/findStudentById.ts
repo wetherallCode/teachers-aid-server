@@ -21,13 +21,14 @@ export const FindStudentById = queryField('findStudentById', {
   type: FindStudentByIdPayload,
   args: { input: arg({ type: FindStudentByIdInput, required: true }) },
   async resolve(_, { input: { studentId } }, { userData, protocolData }) {
-    const student = await userData.findOne({
+    const student: NexusGenRootTypes['Student'] = await userData.findOne({
       _id: new ObjectId(studentId),
       inCourses: { $exists: true },
     })
-    const studentInfo: any = await protocolData.findOne({
-      'student._id': new ObjectId(student._id),
-    })
+    protocolData
+    // const studentInfo: any = await protocolData.findOne({
+    //   'student._id': new ObjectId(student._id),
+    // })
 
     return { student }
   },

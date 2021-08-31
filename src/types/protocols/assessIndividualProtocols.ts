@@ -32,11 +32,10 @@ export const AssessIndividualProtocols = mutationField(
       { input: { protocolId, markingPeriod, assessment } },
       { protocolData, studentData }
     ) {
-      const protocol: NexusGenRootTypes['Protocol'] = await protocolData.findOne(
-        {
+      const protocol: NexusGenRootTypes['Protocol'] =
+        await protocolData.findOne({
           _id: new ObjectId(protocolId),
-        }
-      )
+        })
       if (protocol) {
         protocolData.updateOne(
           {
@@ -50,7 +49,7 @@ export const AssessIndividualProtocols = mutationField(
           }
         )
 
-        console.log(protocol.assessment === null && assessment !== null)
+        // console.log(protocol.assessment === null && assessment !== null)
         if (protocol.assessment === null && assessment !== null) {
           studentData.updateOne(
             {

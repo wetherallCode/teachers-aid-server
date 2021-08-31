@@ -10,5 +10,6 @@ export const DynamicLessonEnums = enumType({
     'VOCAB',
     'LESSON_DETAILS',
     'EXIT_ACTIVITY',
+    'ASSIGNED_SEATING',
   ],
 })

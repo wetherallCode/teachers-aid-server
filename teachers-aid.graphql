@@ -224,6 +224,10 @@ enum BasicQuestionEnum {
   WHY
 }
 
+type Behavior {
+  _id: ID
+}
+
 input BuildRubricEntryInput {
   entry: String!
   howToImprove: String
@@ -415,6 +419,15 @@ input CreateEssayQuestionInput {
 
 type CreateEssayQuestionPayload {
   essayQuestion: EssayQuestion!
+}
+
+input CreateEssentialQuestionInput {
+  associatedTextSectionsIds: [String!]!
+  question: String!
+}
+
+type CreateEssentialQuestionPayload {
+  essentialQuestion: EssentialQuestion!
 }
 
 input CreateExcusedLatenessInput {
@@ -665,12 +678,14 @@ input DevelopingSentenceStructureInput {
 
 enum DiscussionTypesEnum {
   DISCUSSED
+  LITTLE_TO_NO_DISCUSSION
   NOT_REQUIRED
   SOME_DISCUSSION
   THOROUGHLY_DISCUSSED
 }
 
 enum DynamicLessonEnums {
+  ASSIGNED_SEATING
   EXIT_ACTIVITY
   LESSON_DETAILS
   OFF
@@ -708,6 +723,13 @@ type EssayQuestion implements Question {
   _id: ID
   associatedTextSectionsIds: [ID!]!
   questionParts: QuestionPartsContainer!
+  questionUsageType: QuestionUsageTypeEnum!
+}
+
+type EssentialQuestion implements Question {
+  _id: ID
+  associatedTextSectionsIds: [ID!]!
+  question: String!
   questionUsageType: QuestionUsageTypeEnum!
 }
 
@@ -941,6 +963,14 @@ input FindEssaysToGradeByIdInput {
 
 type FindEssaysToGradeByIdPayload {
   essays: [Essay!]!
+}
+
+input FindEssentialQuestionsByAssociatedTextSectionIdsInput {
+  textSectionIds: [ID!]!
+}
+
+type FindEssentialQuestionsByAssociatedTextSectionIdsPayload {
+  essentialQuestions: [EssentialQuestion!]!
 }
 
 input FindLessonByCourseAndDateInput {
@@ -1352,6 +1382,7 @@ type Mutation {
   createCourseInfo(input: CreateCourseInfoInput!): CreateCourseInfoPayload!
   createEssay(input: CreateEssayInput!): CreateEssayPayload!
   createEssayQuestion(input: CreateEssayQuestionInput!): CreateEssayQuestionPayload!
+  createEssentialQuestion(input: CreateEssentialQuestionInput!): CreateEssentialQuestionPayload!
   createExcusedLateness(input: CreateExcusedLatenessInput!): CreateExcusedLatenessPayload!
   createLesson(input: CreateLessonInput!): CreateLessonPayload!
   createParentContact(input: CreateParentContactInput!): CreateParentContactPayload!
@@ -1561,6 +1592,7 @@ type Query {
   findEssaysByUserNameAndMarkingPeriod(input: FindEssaysByUserNameAndMarkingPeriodInput!): FindEssaysByUserNameAndMarkingPeriodPayload!
   findEssaysToCompleteByStudentId(input: FindEssaysToCompleteByStudentIdInput!): FindEssaysToCompleteByStudentIdPayload!
   findEssaysToGradeById(input: FindEssaysToGradeByIdInput!): FindEssaysToGradeByIdPayload!
+  findEssentialQuestionsByAssociatedTextSectionIds(input: FindEssentialQuestionsByAssociatedTextSectionIdsInput!): FindEssentialQuestionsByAssociatedTextSectionIdsPayload!
   findLessonByCourse(input: FindLessonByCourseInput!): FindLessonByCoursePayload!
   findLessonByCourseAndDate(input: FindLessonByCourseAndDateInput!): FindLessonByCourseAndDatePayload!
   findLessonById(input: FindLessonByIdInput!): FindLessonByIdPayload!
@@ -1645,6 +1677,7 @@ enum QuestionTypeEnum {
 
 enum QuestionUsageTypeEnum {
   ESSAY
+  ESSENTIAL_QUESTION
   TEST
 }
 

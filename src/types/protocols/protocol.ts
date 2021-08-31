@@ -31,6 +31,7 @@ export const DiscussionTypesEnum = enumType({
   name: 'DiscussionTypesEnum',
   members: [
     'NOT_REQUIRED',
+    'LITTLE_TO_NO_DISCUSSION',
     'SOME_DISCUSSION',
     'DISCUSSED',
     'THOROUGHLY_DISCUSSED',

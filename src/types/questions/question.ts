@@ -5,13 +5,16 @@ export const Question = interfaceType({
   definition(t) {
     t.id('_id', { nullable: true })
     t.field('questionUsageType', { type: QuestionUsageTypeEnum })
-    t.resolveType(() => {
-      return 'EssayQuestion'
+    t.resolveType((question) => {
+      if (question.hasOwnProperty('questionParts')) {
+        return 'EssayQuestion'
+      }
+      return 'EssentialQuestion'
     })
   },
 })
 
 export const QuestionUsageTypeEnum = enumType({
   name: 'QuestionUsageTypeEnum',
-  members: ['ESSAY', 'TEST'],
+  members: ['ESSAY', 'TEST', 'ESSENTIAL_QUESTION'],
 })

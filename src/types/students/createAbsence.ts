@@ -31,12 +31,13 @@ export const CreateAbsence = mutationField('createAbsence', {
     const student: NexusGenRootTypes['Student'] = await userData.findOne({
       _id: new ObjectId(studentId),
     })
-    const studentAbsences: NexusGenRootTypes['StudentAbsence'][] = await studentData
-      .find({
-        'student._id': new ObjectId(student._id!),
-        dayAbsent: { $exists: true },
-      })
-      .toArray()
+    const studentAbsences: NexusGenRootTypes['StudentAbsence'][] =
+      await studentData
+        .find({
+          'student._id': new ObjectId(student._id!),
+          dayAbsent: { $exists: true },
+        })
+        .toArray()
 
     const absenceSearch = studentAbsences.some(
       (absence) => absence.dayAbsent === dayAbsent

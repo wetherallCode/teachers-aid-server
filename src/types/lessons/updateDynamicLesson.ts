@@ -2,6 +2,7 @@ import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { Lesson } from '.'
 import { ObjectId } from 'mongodb'
 import { DynamicLessonEnums } from './dynamicLesson'
+import { timeAFunction } from '../../utilities'
 
 export const UpdateDynamicLessonInput = inputObjectType({
   name: 'UpdateDynamicLessonInput',
@@ -26,6 +27,7 @@ export const UpdateDynamicLesson = mutationField('UpdateDynamicLesson', {
     { input: { lessonId, dynamicLessonUpdate } },
     { lessonData }
   ) {
+    const startTime = new Date().toISOString()
     const lessonCheck = await lessonData.findOne({
       _id: new ObjectId(lessonId),
     })
@@ -44,7 +46,8 @@ export const UpdateDynamicLesson = mutationField('UpdateDynamicLesson', {
       const lesson = await lessonData.findOne({
         _id: new ObjectId(lessonId),
       })
-
+      const endTime = new Date().toISOString()
+      console.log(timeAFunction(startTime, endTime))
       return { lesson }
     } else throw new Error('Lesson does not exist.')
   },

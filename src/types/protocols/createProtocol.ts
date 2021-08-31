@@ -7,6 +7,7 @@ import {
   MarkingPeriodEnum,
 } from '..'
 import { ObjectId } from 'mongodb'
+import { timeAFunction } from '../../utilities'
 
 export const CreateProtocolInput = inputObjectType({
   name: 'CreateProtocolInput',
@@ -53,14 +54,16 @@ export const CreateProtocol = mutationField('createProtocol', {
     { protocolData, userData }
   ) {
     const protocols: NexusGenRootTypes['Protocol'][] = []
-
+    const startTime = new Date().toISOString()
     for (const studentId of studentIds) {
       const student = await userData.findOne({ _id: new ObjectId(studentId) })
-      const protocolCheck = await protocolData.findOne({
-        'student._id': new ObjectId(studentId),
+      const protocolCheck: NexusGenRootTypes['Protocol'] =
+        await protocolData.findOne({
+          'student._id': new ObjectId(studentId),
 
-        task,
-      })
+          task,
+        })
+      // protocolCheck.protocolActivityType==='SMALL_GROUP'
       if (!protocolCheck) {
         const protocol: NexusGenRootTypes['Protocol'] = {
           academicOutcomeType,
@@ -72,12 +75,17 @@ export const CreateProtocol = mutationField('createProtocol', {
           startTime: new Date().toLocaleTimeString(),
           student,
           task,
+          assessment: 'WORKED_WELL',
+          discussionLevel:
+            protocolActivityType === 'SMALL_GROUP' ? 'DISCUSSED' : null,
         }
         const { insertedId } = await protocolData.insertOne(protocol)
         protocol._id = insertedId
         protocols.push(protocol)
       }
     }
+    const endTime = new Date().toISOString()
+    console.log(timeAFunction(startTime, endTime))
     return { protocols }
   },
 })

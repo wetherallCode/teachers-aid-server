@@ -35,6 +35,7 @@ export const ReturnReadingGuide = mutationField('returnReadingGuide', {
             'score.earnedPoints': score,
             'readingGuideFinal.returned': true,
             'readingGuideFinal.graded': true,
+            missing: false,
           },
         }
       )
