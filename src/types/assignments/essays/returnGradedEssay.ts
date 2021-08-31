@@ -77,16 +77,29 @@ export const ReturnGradedEssay = mutationField('returnGradedEssay', {
     }
 
     if (!essay.leveledUp) {
-      if (score >= 4) {
-        const studentToLevelUp: NexusGenRootTypes['WritingMetrics'] = await studentData.findOne(
-          {
-            'student._id': new ObjectId(student._id!),
-            overallWritingMetric: { $exists: true },
-          }
-        )
+      // if (score >= 4) {
+      const studentToLevelUp: NexusGenRootTypes['WritingMetrics'] =
+        await studentData.findOne({
+          'student._id': new ObjectId(student._id!),
+          overallWritingMetric: { $exists: true },
+        })
 
-        const { levelPoints } = studentToLevelUp.overallWritingMetric
+      const { levelPoints } = studentToLevelUp.overallWritingMetric
 
+      await studentData.updateOne(
+        {
+          'student._id': new ObjectId(student._id!),
+          overallWritingMetric: { $exists: true },
+        },
+        {
+          $set: {
+            'overallWritingMetric.levelPoints': levelPoints + score,
+          },
+        }
+      )
+
+      if (levelPoints > 50) {
+        console.log('this should upgrade student')
         await studentData.updateOne(
           {
             'student._id': new ObjectId(student._id!),
@@ -94,32 +107,19 @@ export const ReturnGradedEssay = mutationField('returnGradedEssay', {
           },
           {
             $set: {
-              'overallWritingMetric.levelPoints': levelPoints + 1,
+              'overallWritingMetric.overallWritingLevel': 'ACADEMIC',
             },
-          }
-        )
-
-        if (levelPoints === 10) {
-          await studentData.updateOne(
-            {
-              'student._id': new ObjectId(student._id!),
-              overallWritingMetric: { $exists: true },
-            },
-            {
-              $set: {
-                'overallWritingMetric.overallWritingLevel': 'ACADEMIC',
-              },
-            }
-          )
-        }
-
-        await assignmentData.updateOne(
-          { _id: new ObjectId(_id) },
-          {
-            $set: { leveledUp: true },
           }
         )
       }
+
+      await assignmentData.updateOne(
+        { _id: new ObjectId(_id) },
+        {
+          $set: { leveledUp: true },
+        }
+      )
+      // }
     }
 
     await assignmentData.updateOne(
@@ -142,7 +142,8 @@ export const ReturnGradedEssay = mutationField('returnGradedEssay', {
         $set: {
           'finalDraft.submittedFinalDraft.$.draft': gradingDraft,
           'finalDraft.submittedFinalDraft.$.rubricEntries': rubricEntries,
-          'finalDraft.submittedFinalDraft.$.additionalComments': additionalComments,
+          'finalDraft.submittedFinalDraft.$.additionalComments':
+            additionalComments,
           'finalDraft.submittedFinalDraft.$.score': score,
           'finalDraft.submittedFinalDraft.$.graded': true,
         },
