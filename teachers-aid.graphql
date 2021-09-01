@@ -1960,6 +1960,7 @@ type SchoolDayTracker {
 
 enum SchoolDayType {
   A
+  AB
   B
 }
 

@@ -918,7 +918,7 @@ export interface NexusGenEnums {
   QuestionUsageTypeEnum: "ESSAY" | "ESSENTIAL_QUESTION" | "TEST"
   QuestionWordEnum: "HOW" | "WHY"
   RubricSectionEnum: "ANSWER" | "CONCLUSION" | "GENERAL" | "OVERALL" | "TOPIC"
-  SchoolDayType: "A" | "B"
+  SchoolDayType: "A" | "AB" | "B"
   StudentCohortEnum: "RED" | "WHITE"
   TimeOfDay: "AFTER_CLASS" | "AFTER_SCHOOL" | "BEFORE_CLASS" | "BEFORE_SCHOOL"
   TitleEnum: "MISS" | "MR" | "MRS" | "MS"

@@ -27,7 +27,7 @@ export const FindCompletedEssaysByStudentId = queryField(
       const essays = await assignmentData
         .find({
           'hasOwner._id': new ObjectId(studentId),
-          'finalDraft.submitted': true,
+          finalDraft: { $exists: true },
         })
         .toArray()
       return { essays }
