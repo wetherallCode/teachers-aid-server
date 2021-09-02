@@ -338,6 +338,7 @@ enum CourseMaxSizeEnum {
   THIRTY_SIX
   TWELVE
   TWENTY_FOUR
+  TWENTY_SIX
 }
 
 enum CourseTypeEnum {
