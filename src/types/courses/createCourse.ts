@@ -20,12 +20,16 @@ export const CreateCourse = mutationField('createCourse', {
   type: CreateCoursePayload,
   args: { input: arg({ type: CreateCourseInput, required: true }) },
   async resolve(_, { input: { name } }, { courseData }) {
-    const newCourse: NexusGenRootTypes['Course'] = {
-      name,
-    }
+    const courseCheck = await courseData.findOne({ name })
+    console.log(courseCheck)
+    if (!courseCheck) {
+      const newCourse: NexusGenRootTypes['Course'] = {
+        name,
+      }
 
-    const { insertedId } = await courseData.insertOne(newCourse)
-    newCourse._id = insertedId
-    return { course: newCourse }
+      const { insertedId } = await courseData.insertOne(newCourse)
+      newCourse._id = insertedId
+      return { course: newCourse }
+    } else throw new Error('Course Name Taken')
   },
 })
