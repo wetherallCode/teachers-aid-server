@@ -33,82 +33,87 @@ export const InitializeStudents = mutationField('initializeStudents', {
       'THIRD',
       'FOURTH',
     ]
-    let responsibilityPointsList: NexusGenRootTypes['ResponsibilityPoints'][] = []
+    let responsibilityPointsList: NexusGenRootTypes['ResponsibilityPoints'][] =
+      []
 
     for (const _id of studentIds) {
-      const student = await userData.findOne({ _id: new ObjectId(_id) })
-
-      // creates 4 marking periods of responsibility point documents
-      for (const mp of markingPeriodList) {
-        const responsibilityPointsCheck = await studentData.findOne({
-          'student._id': new ObjectId(_id),
-          responsibilityPoints: { $exists: true },
-          markingPeriod: mp,
-          inCourse: course,
-        })
-
-        if (!responsibilityPointsCheck) {
-          const responsibilityPoints: NexusGenRootTypes['ResponsibilityPoints'] = {
+      const student: NexusGenRootTypes['Student'] = await userData.findOne({
+        _id: new ObjectId(_id),
+      })
+      if (student) {
+        // creates 4 marking periods of responsibility point documents
+        for (const mp of markingPeriodList) {
+          const responsibilityPointsCheck = await studentData.findOne({
+            'student._id': new ObjectId(_id),
+            responsibilityPoints: { $exists: true },
             markingPeriod: mp,
-            responsibilityPoints: 100,
+            inCourse: course,
+          })
+
+          if (!responsibilityPointsCheck) {
+            const responsibilityPoints: NexusGenRootTypes['ResponsibilityPoints'] =
+              {
+                markingPeriod: mp,
+                responsibilityPoints: 100,
+                student,
+                inCourse: course,
+              }
+            const { insertedId } = await studentData.insertOne(
+              responsibilityPoints
+            )
+            responsibilityPoints._id = insertedId
+            responsibilityPointsList.push(responsibilityPoints)
+          }
+        }
+        // creates contactInfo for each student
+        const contactInfoCheck = await studentData.findOne({
+          'student._id': new ObjectId(_id),
+          contactInfo: { $exists: true },
+        })
+        if (!contactInfoCheck) {
+          const studentInformation: NexusGenRootTypes['StudentInformation'] = {
+            student,
+            contactInfo: [
+              {
+                guardianFirstName: '',
+                guardianLastName: '',
+                guardianPhone: '',
+                guardianEmail: '',
+              },
+            ],
+          }
+          const { insertedId } = await studentData.insertOne(studentInformation)
+          studentInformation._id = insertedId
+        }
+        // creates WritingMetrics for each student
+        const studentWritingMetric = await studentData.findOne({
+          'student._id': new ObjectId(_id),
+          howCauseEffectMetrics: { $exists: true },
+        })
+        if (!studentWritingMetric) {
+          const writingMetric: NexusGenRootTypes['WritingMetrics'] = {
             student,
             inCourse: course,
-          }
-          const { insertedId } = await studentData.insertOne(
-            responsibilityPoints
-          )
-          responsibilityPoints._id = insertedId
-          responsibilityPointsList.push(responsibilityPoints)
-        }
-      }
-      // creates contactInfo for each student
-      const contactInfoCheck = await studentData.findOne({
-        'student._id': new ObjectId(_id),
-        contactInfo: { $exists: true },
-      })
-      if (!contactInfoCheck) {
-        const studentInformation: NexusGenRootTypes['StudentInformation'] = {
-          student,
-          contactInfo: [
-            {
-              guardianFirstName: '',
-              guardianLastName: '',
-              guardianPhone: '',
-              guardianEmail: '',
+            overallWritingMetric: {
+              overallWritingLevel: 'DEVELOPING',
+              levelPoints: 0,
             },
-          ],
+            howCauseEffectMetrics: {
+              howCauseEffectLevel: 'DEVELOPING',
+              levelPoints: 0,
+            },
+            howProblemSolutionMetrics: {
+              howProblemSolutionLevel: 'DEVELOPING',
+              levelPoints: 0,
+            },
+            whyCauseEffectMetrics: {
+              whyCauseEffectLevel: 'DEVELOPING',
+              levelPoints: 0,
+            },
+          }
+          const { insertedId } = await studentData.insertOne(writingMetric)
+          writingMetric._id = insertedId
         }
-        const { insertedId } = await studentData.insertOne(studentInformation)
-        studentInformation._id = insertedId
-      }
-      // creates WritingMetrics for each student
-      const studentWritingMetric = await studentData.findOne({
-        'student._id': new ObjectId(_id),
-        howCauseEffectMetrics: { $exists: true },
-      })
-      if (!studentWritingMetric) {
-        const writingMetric: NexusGenRootTypes['WritingMetrics'] = {
-          student,
-          inCourse: course,
-          overallWritingMetric: {
-            overallWritingLevel: 'DEVELOPING',
-            levelPoints: 0,
-          },
-          howCauseEffectMetrics: {
-            howCauseEffectLevel: 'DEVELOPING',
-            levelPoints: 0,
-          },
-          howProblemSolutionMetrics: {
-            howProblemSolutionLevel: 'DEVELOPING',
-            levelPoints: 0,
-          },
-          whyCauseEffectMetrics: {
-            whyCauseEffectLevel: 'DEVELOPING',
-            levelPoints: 0,
-          },
-        }
-        const { insertedId } = await studentData.insertOne(writingMetric)
-        writingMetric._id = insertedId
       }
     }
     const students: NexusGenRootTypes['Student'][] = []

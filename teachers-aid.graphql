@@ -772,6 +772,10 @@ type FindActiveProtocolsByCoursePayload {
   protocols: [Protocol!]!
 }
 
+type FindAllCourseTitlesPayload {
+  courses: [Course!]!
+}
+
 type FindAllStudentsPayload {
   students: [Student!]!
 }
@@ -1568,6 +1572,7 @@ enum ProtocolAssessmentEnum {
 type Query {
   findActiveProtocolByStudent(input: FindActiveProtocolByStudentInput!): FindActiveProtocolByStudentPayload!
   findActiveProtocolsByCourse(input: FindActiveProtocolsByCourseInput!): FindActiveProtocolsByCoursePayload!
+  findAllCourseTitles: FindAllCourseTitlesPayload!
   findAllStudents: FindAllStudentsPayload!
   findAllUsers: FindAllUsersPayload!
   findArticleReviewById(input: FindArticleReviewByIdInput!): FindArticleReviewByIdPayload!
