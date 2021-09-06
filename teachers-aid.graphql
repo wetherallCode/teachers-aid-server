@@ -453,6 +453,7 @@ input CreateLessonInput {
   essentialQuestion: String!
   inUnit: ID!
   lessonName: String!
+  lessonType: LessonTypeEnum!
   pageNumbers: PageNumbersInput!
   questionList: [TextSectionQuestionsInput!]!
   vocabList: [TextSectionVocabInput!]!
@@ -1313,6 +1314,7 @@ type Lesson {
   inUnit: Unit!
   lessonName: String!
   lessonNotes: [String!]
+  lessonType: LessonTypeEnum!
   objectives: String
   pageNumbers: PageNumbers!
   questionList: [TextSectionQuestions!]!

@@ -32,6 +32,7 @@ export const Lesson = objectType({
     t.string('objectives', { nullable: true })
     t.field('dynamicLesson', { type: DynamicLessonEnums })
     t.list.string('lessonNotes', { nullable: true })
+    t.field('lessonType', { type: LessonTypeEnum })
   },
 })
 

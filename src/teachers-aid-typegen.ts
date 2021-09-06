@@ -194,6 +194,7 @@ export interface NexusGenInputs {
     essentialQuestion: string; // String!
     inUnit: string; // ID!
     lessonName: string; // String!
+    lessonType: NexusGenEnums['LessonTypeEnum']; // LessonTypeEnum!
     pageNumbers: NexusGenInputs['PageNumbersInput']; // PageNumbersInput!
     questionList: NexusGenInputs['TextSectionQuestionsInput'][]; // [TextSectionQuestionsInput!]!
     vocabList: NexusGenInputs['TextSectionVocabInput'][]; // [TextSectionVocabInput!]!
@@ -1453,6 +1454,7 @@ export interface NexusGenRootTypes {
     inUnit: NexusGenRootTypes['Unit']; // Unit!
     lessonName: string; // String!
     lessonNotes?: string[] | null; // [String!]
+    lessonType: NexusGenEnums['LessonTypeEnum']; // LessonTypeEnum!
     objectives?: string | null; // String
     pageNumbers: NexusGenRootTypes['PageNumbers']; // PageNumbers!
     questionList: NexusGenRootTypes['TextSectionQuestions'][]; // [TextSectionQuestions!]!
@@ -2668,6 +2670,7 @@ export interface NexusGenFieldTypes {
     inUnit: NexusGenRootTypes['Unit']; // Unit!
     lessonName: string; // String!
     lessonNotes: string[] | null; // [String!]
+    lessonType: NexusGenEnums['LessonTypeEnum']; // LessonTypeEnum!
     objectives: string | null; // String
     pageNumbers: NexusGenRootTypes['PageNumbers']; // PageNumbers!
     questionList: NexusGenRootTypes['TextSectionQuestions'][]; // [TextSectionQuestions!]!

@@ -1,5 +1,5 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
-import { Lesson, LessonTextSectionsInput } from '.'
+import { Lesson, LessonTextSectionsInput, LessonTypeEnum } from '.'
 import { MarkingPeriodEnum } from '../general'
 import {
   TextSectionProtocolsInput,
@@ -45,6 +45,7 @@ export const CreateLessonInput = inputObjectType({
       required: true,
     })
     t.string('essentialQuestion', { required: true })
+    t.field('lessonType', { type: LessonTypeEnum, required: true })
   },
 })
 
@@ -76,6 +77,7 @@ export const CreateLesson = mutationField('createLesson', {
         afterActivity,
         questionList,
         essentialQuestion,
+        lessonType,
       },
     },
     { lessonData, courseData }
@@ -106,6 +108,7 @@ export const CreateLesson = mutationField('createLesson', {
         questionList,
         objectives: null,
         dynamicLesson: 'OFF',
+        lessonType,
       }
 
       const { insertedId } = await lessonData.insertOne(lesson)
