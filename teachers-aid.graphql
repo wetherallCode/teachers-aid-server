@@ -1329,6 +1329,11 @@ input LessonTextSectionsInput {
   startingSection: String!
 }
 
+enum LessonTypeEnum {
+  INTRODUCTORY
+  REINFORCEMENT
+}
+
 input LoginInput {
   password: String!
   userName: String!
