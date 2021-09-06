@@ -1,4 +1,4 @@
-import { objectType } from '@nexus/schema'
+import { enumType, objectType } from '@nexus/schema'
 import { Course } from '../courses'
 import { MarkingPeriodEnum } from '../general'
 import {
@@ -33,4 +33,9 @@ export const Lesson = objectType({
     t.field('dynamicLesson', { type: DynamicLessonEnums })
     t.list.string('lessonNotes', { nullable: true })
   },
+})
+
+export const LessonTypeEnum = enumType({
+  name: 'LessonTypeEnum',
+  members: ['INTRODUCTORY', 'REINFORCEMENT'],
 })
