@@ -113,7 +113,7 @@ export const CreateReadingGuide = mutationField('createReadingGuide', {
         paperBased: false,
         missing: false,
         markingPeriod,
-        gradeType: 'SUPPORTIVE',
+        gradeType: 'SECONDARY',
         hasAssigner: assigner,
         hasOwner: await userData.findOne({
           _id: new ObjectId(student._id!),
