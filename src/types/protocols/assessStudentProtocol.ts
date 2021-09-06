@@ -82,13 +82,12 @@ export const AssessStudentProtocol = mutationField('assessStudentProtocol', {
             $set: { partners: partnerObjects, discussionLevel, assessment },
           }
         )
-        const protocol: NexusGenRootTypes['Protocol'] = await protocolData.findOne(
-          {
+        const protocol: NexusGenRootTypes['Protocol'] =
+          await protocolData.findOne({
             'student._id': new ObjectId(_id),
             task,
             assignedDate,
-          }
-        )
+          })
 
         protocols.push(protocol)
       } else {
