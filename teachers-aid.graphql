@@ -114,6 +114,18 @@ input AdvancedSentenceStructureInput {
   verb: String!
 }
 
+type AnswerList {
+  answer: String!
+  correct: Boolean!
+  partiallyCorrect: Boolean!
+}
+
+input AnswerListInput {
+  answer: String!
+  correct: Boolean!
+  partiallyCorrect: Boolean!
+}
+
 union AnswerTypes = HowCauseEffectAnswerType | ProblemSolutionAnswerType | WhyCauseEffectAnswerType
 
 type ArticleReview {
@@ -485,6 +497,18 @@ input CreateProtocolInput {
 
 type CreateProtocolPayload {
   protocols: [Protocol!]!
+}
+
+input CreateQuizQuestionInput {
+  answerList: [AnswerListInput!]!
+  associatedTextSectionId: ID!
+  difficultyLevel: QuizQuestionDifficultyLevelEnum!
+  question: String!
+  questionType: QuizQuestionTypeEnum!
+}
+
+type CreateQuizQuestionPayload {
+  quizQuestion: QuizQuestion!
 }
 
 input CreateReadingGuideInput {
@@ -1037,6 +1061,14 @@ type FindParentContactsByTeacherIdPayload {
   parentContacts: [ParentContact!]!
 }
 
+input FindQuizQuestionsByTextSectionIdInput {
+  associatedTextSectionId: ID!
+}
+
+type FindQuizQuestionsByTextSectionIdPayload {
+  quizQuestions: [QuizQuestion!]!
+}
+
 input FindReadingGuideByIdInput {
   readingGuideId: ID!
 }
@@ -1399,6 +1431,7 @@ type Mutation {
   createLesson(input: CreateLessonInput!): CreateLessonPayload!
   createParentContact(input: CreateParentContactInput!): CreateParentContactPayload!
   createProtocol(input: CreateProtocolInput!): CreateProtocolPayload!
+  createQuizQuestion(input: CreateQuizQuestionInput!): CreateQuizQuestionPayload!
   createReadingGuide(input: CreateReadingGuideInput!): CreateReadingGuidePayload!
   createResponsibilityPoints(input: CreateResponsibilityPointsInput!): CreateResponsibilityPointsPayload!
   createSchoolDay(input: CreateSchoolDayInput!): CreateSchoolDayPayload!
@@ -1613,6 +1646,7 @@ type Query {
   findLessonsByUnit(input: FindLessonsByUnitInput!): FindLessonsByUnitPayload!
   findLessonStatus(input: FindLessonStatusInput!): FindLessonStatusPayload!
   findParentContactsByTeacherId(input: FindParentContactsByTeacherIdInput!): FindParentContactsByTeacherIdPayload!
+  findQuizQuestionsByTextSectionId(input: FindQuizQuestionsByTextSectionIdInput!): FindQuizQuestionsByTextSectionIdPayload!
   findReadingGuideById(input: FindReadingGuideByIdInput!): FindReadingGuideByIdPayload!
   findReadingGuidesByAssociatedLessonAndCourseId(input: FindReadingGuidesByAssociatedLessonAndCourseIdInput!): FindReadingGuidesByAssociatedLessonAndCourseIdPayload!
   findReadingGuidesByCourseIdAndAssignedDate(input: FindReadingGuidesByCourseIdAndAssignedDateInput!): FindReadingGuidesByCourseIdAndAssignedDatePayload!
@@ -1691,12 +1725,33 @@ enum QuestionTypeEnum {
 enum QuestionUsageTypeEnum {
   ESSAY
   ESSENTIAL_QUESTION
-  TEST
+  QUIZ
 }
 
 enum QuestionWordEnum {
   HOW
   WHY
+}
+
+type QuizQuestion implements Question {
+  _id: ID
+  answerList: [AnswerList!]!
+  associatedTextSectionId: ID!
+  difficultyLevel: QuizQuestionDifficultyLevelEnum!
+  question: String!
+  questionType: QuizQuestionTypeEnum!
+  questionUsageType: QuestionUsageTypeEnum!
+}
+
+enum QuizQuestionDifficultyLevelEnum {
+  CHALLENGING
+  DIFFICULT
+  EASY
+}
+
+enum QuizQuestionTypeEnum {
+  MULTIPLE_CHOICE
+  TRUE_FALSE
 }
 
 type ReadingGuide implements Assignment {

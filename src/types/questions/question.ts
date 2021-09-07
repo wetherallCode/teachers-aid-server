@@ -9,6 +9,9 @@ export const Question = interfaceType({
       if (question.hasOwnProperty('questionParts')) {
         return 'EssayQuestion'
       }
+      if (question.hasOwnProperty('individualQuestions')) {
+        return 'QuizQuestion'
+      }
       return 'EssentialQuestion'
     })
   },
@@ -16,5 +19,5 @@ export const Question = interfaceType({
 
 export const QuestionUsageTypeEnum = enumType({
   name: 'QuestionUsageTypeEnum',
-  members: ['ESSAY', 'TEST', 'ESSENTIAL_QUESTION'],
+  members: ['ESSAY', 'ESSENTIAL_QUESTION', 'QUIZ'],
 })

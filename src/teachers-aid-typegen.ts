@@ -67,6 +67,11 @@ export interface NexusGenInputs {
     subjectCompliment?: string | null; // String
     verb: string; // String!
   }
+  AnswerListInput: { // input type
+    answer: string; // String!
+    correct: boolean; // Boolean!
+    partiallyCorrect: boolean; // Boolean!
+  }
   AssessIndividualProtocolsInput: { // input type
     assessment?: NexusGenEnums['ProtocolAssessmentEnum'] | null; // ProtocolAssessmentEnum
     markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
@@ -212,6 +217,13 @@ export interface NexusGenInputs {
     protocolActivityType: NexusGenEnums['ProtocolActivityTypes']; // ProtocolActivityTypes!
     studentIds: string[]; // [ID!]!
     task: string; // String!
+  }
+  CreateQuizQuestionInput: { // input type
+    answerList: NexusGenInputs['AnswerListInput'][]; // [AnswerListInput!]!
+    associatedTextSectionId: string; // ID!
+    difficultyLevel: NexusGenEnums['QuizQuestionDifficultyLevelEnum']; // QuizQuestionDifficultyLevelEnum!
+    question: string; // String!
+    questionType: NexusGenEnums['QuizQuestionTypeEnum']; // QuizQuestionTypeEnum!
   }
   CreateReadingGuideInput: { // input type
     assignedCourseIds: string[]; // [ID!]!
@@ -396,6 +408,9 @@ export interface NexusGenInputs {
   }
   FindParentContactsByTeacherIdInput: { // input type
     teacherId: string; // ID!
+  }
+  FindQuizQuestionsByTextSectionIdInput: { // input type
+    associatedTextSectionId: string; // ID!
   }
   FindReadingGuideByIdInput: { // input type
     readingGuideId: string; // ID!
@@ -917,8 +932,10 @@ export interface NexusGenEnums {
   ProtocolActivityTypes: "INDIVIDUAL" | "SMALL_GROUP" | "THINK_PAIR_SHARE"
   ProtocolAssessmentEnum: "REFUSED_TO_WORK" | "SLOW_TO_GET_STARTED" | "WORKED_POORLY" | "WORKED_VERY_WELL" | "WORKED_WELL"
   QuestionTypeEnum: "HOW_CAUSE_EFFECT" | "HOW_PROBLEM_SOLUTION" | "WHY_CAUSE_EFFECT"
-  QuestionUsageTypeEnum: "ESSAY" | "ESSENTIAL_QUESTION" | "TEST"
+  QuestionUsageTypeEnum: "ESSAY" | "ESSENTIAL_QUESTION" | "QUIZ"
   QuestionWordEnum: "HOW" | "WHY"
+  QuizQuestionDifficultyLevelEnum: "CHALLENGING" | "DIFFICULT" | "EASY"
+  QuizQuestionTypeEnum: "MULTIPLE_CHOICE" | "TRUE_FALSE"
   RubricSectionEnum: "ANSWER" | "CONCLUSION" | "GENERAL" | "OVERALL" | "TOPIC"
   SchoolDayType: "A" | "AB" | "B"
   StudentCohortEnum: "RED" | "WHITE"
@@ -987,6 +1004,11 @@ export interface NexusGenRootTypes {
     subject: string; // String!
     subjectCompliment?: string | null; // String
     verb: string; // String!
+  }
+  AnswerList: { // root type
+    answer: string; // String!
+    correct: boolean; // Boolean!
+    partiallyCorrect: boolean; // Boolean!
   }
   ArticleReview: { // root type
     _id?: string | null; // ID
@@ -1110,6 +1132,9 @@ export interface NexusGenRootTypes {
   }
   CreateProtocolPayload: { // root type
     protocols: NexusGenRootTypes['Protocol'][]; // [Protocol!]!
+  }
+  CreateQuizQuestionPayload: { // root type
+    quizQuestion: NexusGenRootTypes['QuizQuestion']; // QuizQuestion!
   }
   CreateReadingGuidePayload: { // root type
     readingGuides: NexusGenRootTypes['ReadingGuide'][]; // [ReadingGuide!]!
@@ -1342,6 +1367,9 @@ export interface NexusGenRootTypes {
   FindParentContactsByTeacherIdPayload: { // root type
     parentContacts: NexusGenRootTypes['ParentContact'][]; // [ParentContact!]!
   }
+  FindQuizQuestionsByTextSectionIdPayload: { // root type
+    quizQuestions: NexusGenRootTypes['QuizQuestion'][]; // [QuizQuestion!]!
+  }
   FindReadingGuideByIdPayload: { // root type
     readingGuide: NexusGenRootTypes['ReadingGuide']; // ReadingGuide!
   }
@@ -1536,6 +1564,15 @@ export interface NexusGenRootTypes {
     simpleSubject: string; // String!
     subjectCompliment?: string | null; // String
     verbType: NexusGenEnums['VerbTypeEnum']; // VerbTypeEnum!
+  }
+  QuizQuestion: { // root type
+    _id?: string | null; // ID
+    answerList: NexusGenRootTypes['AnswerList'][]; // [AnswerList!]!
+    associatedTextSectionId: string; // ID!
+    difficultyLevel: NexusGenEnums['QuizQuestionDifficultyLevelEnum']; // QuizQuestionDifficultyLevelEnum!
+    question: string; // String!
+    questionType: NexusGenEnums['QuizQuestionTypeEnum']; // QuizQuestionTypeEnum!
+    questionUsageType: NexusGenEnums['QuestionUsageTypeEnum']; // QuestionUsageTypeEnum!
   }
   ReadingGuide: { // root type
     _id?: string | null; // ID
@@ -1932,7 +1969,7 @@ export interface NexusGenRootTypes {
   }
   Assignment: NexusGenRootTypes['Essay'] | NexusGenRootTypes['ReadingGuide'] | NexusGenRootTypes['Test'];
   ProgressMetrics: NexusGenRootTypes['ComprehensionMetrics'] | NexusGenRootTypes['WritingMetrics'];
-  Question: NexusGenRootTypes['EssayQuestion'] | NexusGenRootTypes['EssentialQuestion'];
+  Question: NexusGenRootTypes['EssayQuestion'] | NexusGenRootTypes['EssentialQuestion'] | NexusGenRootTypes['QuizQuestion'];
   User: NexusGenRootTypes['Student'] | NexusGenRootTypes['Teacher'];
   AnswerTypes: NexusGenRootTypes['HowCauseEffectAnswerType'] | NexusGenRootTypes['ProblemSolutionAnswerType'] | NexusGenRootTypes['WhyCauseEffectAnswerType'];
   Organizers: NexusGenRootTypes['AcademicOrganizer'] | NexusGenRootTypes['AdvancedOrganizer'] | NexusGenRootTypes['DevelopingOrganizer'];
@@ -1947,6 +1984,7 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
   AddUserEmailInput: NexusGenInputs['AddUserEmailInput'];
   AddVocabWordInput: NexusGenInputs['AddVocabWordInput'];
   AdvancedSentenceStructureInput: NexusGenInputs['AdvancedSentenceStructureInput'];
+  AnswerListInput: NexusGenInputs['AnswerListInput'];
   AssessIndividualProtocolsInput: NexusGenInputs['AssessIndividualProtocolsInput'];
   AssessStudentProtocolInput: NexusGenInputs['AssessStudentProtocolInput'];
   AssignEssaysInput: NexusGenInputs['AssignEssaysInput'];
@@ -1969,6 +2007,7 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
   CreateLessonInput: NexusGenInputs['CreateLessonInput'];
   CreateParentContactInput: NexusGenInputs['CreateParentContactInput'];
   CreateProtocolInput: NexusGenInputs['CreateProtocolInput'];
+  CreateQuizQuestionInput: NexusGenInputs['CreateQuizQuestionInput'];
   CreateReadingGuideInput: NexusGenInputs['CreateReadingGuideInput'];
   CreateResponsibilityPointsInput: NexusGenInputs['CreateResponsibilityPointsInput'];
   CreateSchoolDayInput: NexusGenInputs['CreateSchoolDayInput'];
@@ -2016,6 +2055,7 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
   FindLessonsByAssignedDateInput: NexusGenInputs['FindLessonsByAssignedDateInput'];
   FindLessonsByUnitInput: NexusGenInputs['FindLessonsByUnitInput'];
   FindParentContactsByTeacherIdInput: NexusGenInputs['FindParentContactsByTeacherIdInput'];
+  FindQuizQuestionsByTextSectionIdInput: NexusGenInputs['FindQuizQuestionsByTextSectionIdInput'];
   FindReadingGuideByIdInput: NexusGenInputs['FindReadingGuideByIdInput'];
   FindReadingGuidesByAssociatedLessonAndCourseIdInput: NexusGenInputs['FindReadingGuidesByAssociatedLessonAndCourseIdInput'];
   FindReadingGuidesByCourseIdAndAssignedDateInput: NexusGenInputs['FindReadingGuidesByCourseIdAndAssignedDateInput'];
@@ -2131,6 +2171,8 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
   QuestionTypeEnum: NexusGenEnums['QuestionTypeEnum'];
   QuestionUsageTypeEnum: NexusGenEnums['QuestionUsageTypeEnum'];
   QuestionWordEnum: NexusGenEnums['QuestionWordEnum'];
+  QuizQuestionDifficultyLevelEnum: NexusGenEnums['QuizQuestionDifficultyLevelEnum'];
+  QuizQuestionTypeEnum: NexusGenEnums['QuizQuestionTypeEnum'];
   RubricSectionEnum: NexusGenEnums['RubricSectionEnum'];
   SchoolDayType: NexusGenEnums['SchoolDayType'];
   StudentCohortEnum: NexusGenEnums['StudentCohortEnum'];
@@ -2196,6 +2238,11 @@ export interface NexusGenFieldTypes {
     subject: string; // String!
     subjectCompliment: string | null; // String
     verb: string; // String!
+  }
+  AnswerList: { // field return type
+    answer: string; // String!
+    correct: boolean; // Boolean!
+    partiallyCorrect: boolean; // Boolean!
   }
   ArticleReview: { // field return type
     _id: string | null; // ID
@@ -2325,6 +2372,9 @@ export interface NexusGenFieldTypes {
   }
   CreateProtocolPayload: { // field return type
     protocols: NexusGenRootTypes['Protocol'][]; // [Protocol!]!
+  }
+  CreateQuizQuestionPayload: { // field return type
+    quizQuestion: NexusGenRootTypes['QuizQuestion']; // QuizQuestion!
   }
   CreateReadingGuidePayload: { // field return type
     readingGuides: NexusGenRootTypes['ReadingGuide'][]; // [ReadingGuide!]!
@@ -2558,6 +2608,9 @@ export interface NexusGenFieldTypes {
   FindParentContactsByTeacherIdPayload: { // field return type
     parentContacts: NexusGenRootTypes['ParentContact'][]; // [ParentContact!]!
   }
+  FindQuizQuestionsByTextSectionIdPayload: { // field return type
+    quizQuestions: NexusGenRootTypes['QuizQuestion'][]; // [QuizQuestion!]!
+  }
   FindReadingGuideByIdPayload: { // field return type
     readingGuide: NexusGenRootTypes['ReadingGuide']; // ReadingGuide!
   }
@@ -2722,6 +2775,7 @@ export interface NexusGenFieldTypes {
     createLesson: NexusGenRootTypes['CreateLessonPayload']; // CreateLessonPayload!
     createParentContact: NexusGenRootTypes['CreateParentContactPayload']; // CreateParentContactPayload!
     createProtocol: NexusGenRootTypes['CreateProtocolPayload']; // CreateProtocolPayload!
+    createQuizQuestion: NexusGenRootTypes['CreateQuizQuestionPayload']; // CreateQuizQuestionPayload!
     createReadingGuide: NexusGenRootTypes['CreateReadingGuidePayload']; // CreateReadingGuidePayload!
     createResponsibilityPoints: NexusGenRootTypes['CreateResponsibilityPointsPayload']; // CreateResponsibilityPointsPayload!
     createSchoolDay: NexusGenRootTypes['CreateSchoolDayPayload']; // CreateSchoolDayPayload!
@@ -2882,6 +2936,7 @@ export interface NexusGenFieldTypes {
     findLessonsByUnit: NexusGenRootTypes['FindLessonsByUnitPayload']; // FindLessonsByUnitPayload!
     findLessonStatus: NexusGenRootTypes['FindLessonStatusPayload']; // FindLessonStatusPayload!
     findParentContactsByTeacherId: NexusGenRootTypes['FindParentContactsByTeacherIdPayload']; // FindParentContactsByTeacherIdPayload!
+    findQuizQuestionsByTextSectionId: NexusGenRootTypes['FindQuizQuestionsByTextSectionIdPayload']; // FindQuizQuestionsByTextSectionIdPayload!
     findReadingGuideById: NexusGenRootTypes['FindReadingGuideByIdPayload']; // FindReadingGuideByIdPayload!
     findReadingGuidesByAssociatedLessonAndCourseId: NexusGenRootTypes['FindReadingGuidesByAssociatedLessonAndCourseIdPayload']; // FindReadingGuidesByAssociatedLessonAndCourseIdPayload!
     findReadingGuidesByCourseIdAndAssignedDate: NexusGenRootTypes['FindReadingGuidesByCourseIdAndAssignedDatePayload']; // FindReadingGuidesByCourseIdAndAssignedDatePayload!
@@ -2926,6 +2981,15 @@ export interface NexusGenFieldTypes {
     simpleSubject: string; // String!
     subjectCompliment: string | null; // String
     verbType: NexusGenEnums['VerbTypeEnum']; // VerbTypeEnum!
+  }
+  QuizQuestion: { // field return type
+    _id: string | null; // ID
+    answerList: NexusGenRootTypes['AnswerList'][]; // [AnswerList!]!
+    associatedTextSectionId: string; // ID!
+    difficultyLevel: NexusGenEnums['QuizQuestionDifficultyLevelEnum']; // QuizQuestionDifficultyLevelEnum!
+    question: string; // String!
+    questionType: NexusGenEnums['QuizQuestionTypeEnum']; // QuizQuestionTypeEnum!
+    questionUsageType: NexusGenEnums['QuestionUsageTypeEnum']; // QuestionUsageTypeEnum!
   }
   ReadingGuide: { // field return type
     _id: string | null; // ID
@@ -3455,6 +3519,9 @@ export interface NexusGenArgTypes {
     createProtocol: { // args
       input: NexusGenInputs['CreateProtocolInput']; // CreateProtocolInput!
     }
+    createQuizQuestion: { // args
+      input: NexusGenInputs['CreateQuizQuestionInput']; // CreateQuizQuestionInput!
+    }
     createReadingGuide: { // args
       input: NexusGenInputs['CreateReadingGuideInput']; // CreateReadingGuideInput!
     }
@@ -3763,6 +3830,9 @@ export interface NexusGenArgTypes {
     findParentContactsByTeacherId: { // args
       input: NexusGenInputs['FindParentContactsByTeacherIdInput']; // FindParentContactsByTeacherIdInput!
     }
+    findQuizQuestionsByTextSectionId: { // args
+      input: NexusGenInputs['FindQuizQuestionsByTextSectionIdInput']; // FindQuizQuestionsByTextSectionIdInput!
+    }
     findReadingGuideById: { // args
       input: NexusGenInputs['FindReadingGuideByIdInput']; // FindReadingGuideByIdInput!
     }
@@ -3840,17 +3910,17 @@ export interface NexusGenAbstractResolveReturnTypes {
   Organizers: "AcademicOrganizer" | "AdvancedOrganizer" | "DevelopingOrganizer"
   Assignment: "Essay" | "ReadingGuide" | "Test"
   ProgressMetrics: "ComprehensionMetrics" | "WritingMetrics"
-  Question: "EssayQuestion" | "EssentialQuestion"
+  Question: "EssayQuestion" | "EssentialQuestion" | "QuizQuestion"
   User: "Student" | "Teacher"
 }
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "AcademicOrganizer" | "AcademicSentenceStructure" | "AddAssociatedCourseIdPayload" | "AddCourseToTeacherPayload" | "AddNewChapterPayload" | "AddNewTextPayload" | "AddStudentsToCoursePayload" | "AddUserEmailPayload" | "AddVocabWordPayload" | "AdvancedOrganizer" | "AdvancedSentenceStructure" | "ArticleReview" | "AssessIndividualProtocolsPayload" | "AssessStudentProtocolPayload" | "AssignEssaysPayload" | "AssignReadingGuidesPayload" | "AssignSeatsPayload" | "Behavior" | "BuildRubricEntryPayload" | "ChangePasswordPayload" | "Chapter" | "ComprehensionMetrics" | "ContactInfo" | "ControlCoolDownPayload" | "ControlWarmUpPayload" | "Course" | "CourseInfo" | "CreateAbsencePayload" | "CreateArticleReviewsPayload" | "CreateCourseInfoPayload" | "CreateCoursePayload" | "CreateEssayPayload" | "CreateEssayQuestionPayload" | "CreateEssentialQuestionPayload" | "CreateExcusedLatenessPayload" | "CreateLessonPayload" | "CreateParentContactPayload" | "CreateProtocolPayload" | "CreateReadingGuidePayload" | "CreateResponsibilityPointsPayload" | "CreateSchoolDayPayload" | "CreateSchoolDayTrackerPayload" | "CreateSignInSheetsPayload" | "CreateStudentQuestionPayload" | "CreateStudentQuestionsContainerPayload" | "CreateTemporaryTasksPayload" | "CreateTextSectionPayload" | "CreateUnexcusedLatenessPayload" | "CreateUnitPayload" | "CreateWritingMetricsPayload" | "DeleteAllAssignmentsPayload" | "DeleteAllParentContactsPayload" | "DeleteAllProtocolsPayload" | "DeleteAllSchoolDaysPayload" | "DeleteAllStudentDataPayload" | "DeleteAllTemporaryTasksPayload" | "DeleteReviewsPayload" | "DeleteTemporaryTasksPayload" | "DevelopingOrganizer" | "DevelopingSentenceStructure" | "Essay" | "EssayQuestion" | "EssentialQuestion" | "ExcusedLateness" | "ExemptArticleReviewPayload" | "FinalDraftContainer" | "FindActiveProtocolByStudentPayload" | "FindActiveProtocolsByCoursePayload" | "FindAllCourseTitlesPayload" | "FindAllStudentsPayload" | "FindAllUsersPayload" | "FindArticleReviewByIdPayload" | "FindArticleReviewsByCoursePayload" | "FindArticleReviewsByStudentPayload" | "FindAssignmentByIdPayload" | "FindAssignmentByStudentIdPayload" | "FindAssignmentsToGradePayload" | "FindChapterTitlePayload" | "FindChaptersByTextIdPayload" | "FindChaptersInTextPayload" | "FindCompletedEssaysByStudentIdPayload" | "FindContactsByStudentIdPayload" | "FindCourseByIdPayload" | "FindCourseInfoByCourseIdPayload" | "FindCoursesByIdPayload" | "FindCurrentMarkingPeriodPayload" | "FindEssayByIdPayload" | "FindEssayByStudentIdAndLessonIdPayload" | "FindEssayQuestionByIdPayload" | "FindEssaysByAssociatedLessonIdAndCourseIdPayload" | "FindEssaysByAssociatedLessonIdPayload" | "FindEssaysByUserNameAndMarkingPeriodPayload" | "FindEssaysToCompleteByStudentIdPayload" | "FindEssaysToGradeByIdPayload" | "FindEssentialQuestionsByAssociatedTextSectionIdsPayload" | "FindLessonByCourseAndDatePayload" | "FindLessonByCoursePayload" | "FindLessonByIdPayload" | "FindLessonStatusPayload" | "FindLessonsByAssignedDatePayload" | "FindLessonsByUnitPayload" | "FindParentContactsByTeacherIdPayload" | "FindReadingGuideByIdPayload" | "FindReadingGuidesByAssociatedLessonAndCourseIdPayload" | "FindReadingGuidesByCourseIdAndAssignedDatePayload" | "FindReadingGuidesToCompleteByStudentIdPayload" | "FindResponsibilityPointsByCoursePayload" | "FindResponsibilityPointsByStudentIdPayload" | "FindRubricEntriesByCategoryPayload" | "FindRubricEntriesPayload" | "FindSchoolDayByDatePayload" | "FindSchoolDayPayload" | "FindStudentByIdPayload" | "FindStudentQuestionsPayload" | "FindStudentsByCoursePayload" | "FindStudentsByIdPayload" | "FindTemporaryTasksByStudentIdPayload" | "FindTemporaryTasksPayload" | "FindTextByTitlePayload" | "FindTextSectionByIdPayload" | "FindTextSectionsByChapterPayload" | "FindTextSectionsByIdPayload" | "FindTextsPayload" | "FindUnitsPayload" | "FindUserDataPayload" | "FindWritingMetricsPayload" | "FinishProtocolPayload" | "GradeArticleReviewPayload" | "GradeTemporaryTaskPayload" | "HowCauseEffectAnswerType" | "HowCauseEffectMetrics" | "HowProblemSolutionMetrics" | "InitializeStudentsPayload" | "Lesson" | "LessonTextSections" | "LoginPayload" | "MarkAllProtocolsInactivePayload" | "MarkTemporaryTaskAbsentPayload" | "MarkingPeriod" | "Mutation" | "OverallWritingMetric" | "PageNumbers" | "ParentContact" | "PasswordCheckPayload" | "ProblemSolutionAnswerType" | "Protocol" | "Query" | "QuestionPartsContainer" | "ReadingGuide" | "ReadingGuideFinalContainer" | "Readings" | "RegisterStudentPayload" | "RegisterTeacherPayload" | "RemoveAbsencePayload" | "RemoveAssignedSeatPayload" | "RemoveCoursePayload" | "RemoveLatenessPayload" | "RemoveProtocolPayload" | "RemoveRubricEntryPayload" | "RemoveSchoolDayPayload" | "RemoveStudentsFromCoursePayload" | "RemoveSubmittedEssayFinalDraftPayload" | "RemoveTextSectionPayload" | "ResetPasswordPayload" | "RespondToProtocolPayload" | "ResponsibilityPoints" | "ResubmitEssayFinalDraftPayload" | "ReturnArticleReviewPayload" | "ReturnGradedEssayPayload" | "ReturnReadingGuidePayload" | "RubricEntry" | "SchoolDay" | "SchoolDayTracker" | "Score" | "SetAnswerTypePayload" | "SetCurrentMarkingPeriodPayload" | "SetOrganizerPayload" | "StartProtocolPayload" | "StartReadingGuidePayload" | "Student" | "StudentAbsence" | "StudentInformation" | "StudentQuestion" | "StudentQuestions" | "StudentSeat" | "StudentSignInPayload" | "StudentSignInSheet" | "SubmitArticleReviewPayload" | "SubmitEssayFinalDraftPayload" | "SubmitReadingGuidePayload" | "SubmittedFinalDraft" | "Teacher" | "TemporaryTask" | "Test" | "Text" | "TextSection" | "TextSectionProtocols" | "TextSectionQuestions" | "TextSectionVocab" | "Topic" | "UnAssignEssaysPayload" | "UnexcusedLateness" | "Unit" | "UpdateAcademicOrganizerPayload" | "UpdateAdvancedOrganizerPayload" | "UpdateArticleReviewPayload" | "UpdateCourseInfoPayload" | "UpdateDevelopingOrganizerPayload" | "UpdateDynamicLessonPayload" | "UpdateEssayByStudentPayload" | "UpdateEssayLatenessPayload" | "UpdateEssaysByLessonPayload" | "UpdateEssaysByQuestionPayload" | "UpdateEssaysByStudentsAndSectionPayload" | "UpdateGradingDraftPayload" | "UpdateHowCauseEffectPayload" | "UpdateLessonPayload" | "UpdateParentContactPayload" | "UpdateProblemSolutionPayload" | "UpdateProtocolPayload" | "UpdateReadingGuidePayload" | "UpdateResponsibilityPointsPayload" | "UpdateRubricEntryPayload" | "UpdateSchoolDayPayload" | "UpdateTemporaryTasksPayload" | "UpdateTextSectionPayload" | "UpdateVocabPayload" | "UpdateWhyCauseEffectPayload" | "UpdateWorkingDraftPayload" | "WhyCauseEffectAnswerType" | "WhyCauseEffectMetrics" | "WorkingDraft" | "WritingMetrics";
+export type NexusGenObjectNames = "AcademicOrganizer" | "AcademicSentenceStructure" | "AddAssociatedCourseIdPayload" | "AddCourseToTeacherPayload" | "AddNewChapterPayload" | "AddNewTextPayload" | "AddStudentsToCoursePayload" | "AddUserEmailPayload" | "AddVocabWordPayload" | "AdvancedOrganizer" | "AdvancedSentenceStructure" | "AnswerList" | "ArticleReview" | "AssessIndividualProtocolsPayload" | "AssessStudentProtocolPayload" | "AssignEssaysPayload" | "AssignReadingGuidesPayload" | "AssignSeatsPayload" | "Behavior" | "BuildRubricEntryPayload" | "ChangePasswordPayload" | "Chapter" | "ComprehensionMetrics" | "ContactInfo" | "ControlCoolDownPayload" | "ControlWarmUpPayload" | "Course" | "CourseInfo" | "CreateAbsencePayload" | "CreateArticleReviewsPayload" | "CreateCourseInfoPayload" | "CreateCoursePayload" | "CreateEssayPayload" | "CreateEssayQuestionPayload" | "CreateEssentialQuestionPayload" | "CreateExcusedLatenessPayload" | "CreateLessonPayload" | "CreateParentContactPayload" | "CreateProtocolPayload" | "CreateQuizQuestionPayload" | "CreateReadingGuidePayload" | "CreateResponsibilityPointsPayload" | "CreateSchoolDayPayload" | "CreateSchoolDayTrackerPayload" | "CreateSignInSheetsPayload" | "CreateStudentQuestionPayload" | "CreateStudentQuestionsContainerPayload" | "CreateTemporaryTasksPayload" | "CreateTextSectionPayload" | "CreateUnexcusedLatenessPayload" | "CreateUnitPayload" | "CreateWritingMetricsPayload" | "DeleteAllAssignmentsPayload" | "DeleteAllParentContactsPayload" | "DeleteAllProtocolsPayload" | "DeleteAllSchoolDaysPayload" | "DeleteAllStudentDataPayload" | "DeleteAllTemporaryTasksPayload" | "DeleteReviewsPayload" | "DeleteTemporaryTasksPayload" | "DevelopingOrganizer" | "DevelopingSentenceStructure" | "Essay" | "EssayQuestion" | "EssentialQuestion" | "ExcusedLateness" | "ExemptArticleReviewPayload" | "FinalDraftContainer" | "FindActiveProtocolByStudentPayload" | "FindActiveProtocolsByCoursePayload" | "FindAllCourseTitlesPayload" | "FindAllStudentsPayload" | "FindAllUsersPayload" | "FindArticleReviewByIdPayload" | "FindArticleReviewsByCoursePayload" | "FindArticleReviewsByStudentPayload" | "FindAssignmentByIdPayload" | "FindAssignmentByStudentIdPayload" | "FindAssignmentsToGradePayload" | "FindChapterTitlePayload" | "FindChaptersByTextIdPayload" | "FindChaptersInTextPayload" | "FindCompletedEssaysByStudentIdPayload" | "FindContactsByStudentIdPayload" | "FindCourseByIdPayload" | "FindCourseInfoByCourseIdPayload" | "FindCoursesByIdPayload" | "FindCurrentMarkingPeriodPayload" | "FindEssayByIdPayload" | "FindEssayByStudentIdAndLessonIdPayload" | "FindEssayQuestionByIdPayload" | "FindEssaysByAssociatedLessonIdAndCourseIdPayload" | "FindEssaysByAssociatedLessonIdPayload" | "FindEssaysByUserNameAndMarkingPeriodPayload" | "FindEssaysToCompleteByStudentIdPayload" | "FindEssaysToGradeByIdPayload" | "FindEssentialQuestionsByAssociatedTextSectionIdsPayload" | "FindLessonByCourseAndDatePayload" | "FindLessonByCoursePayload" | "FindLessonByIdPayload" | "FindLessonStatusPayload" | "FindLessonsByAssignedDatePayload" | "FindLessonsByUnitPayload" | "FindParentContactsByTeacherIdPayload" | "FindQuizQuestionsByTextSectionIdPayload" | "FindReadingGuideByIdPayload" | "FindReadingGuidesByAssociatedLessonAndCourseIdPayload" | "FindReadingGuidesByCourseIdAndAssignedDatePayload" | "FindReadingGuidesToCompleteByStudentIdPayload" | "FindResponsibilityPointsByCoursePayload" | "FindResponsibilityPointsByStudentIdPayload" | "FindRubricEntriesByCategoryPayload" | "FindRubricEntriesPayload" | "FindSchoolDayByDatePayload" | "FindSchoolDayPayload" | "FindStudentByIdPayload" | "FindStudentQuestionsPayload" | "FindStudentsByCoursePayload" | "FindStudentsByIdPayload" | "FindTemporaryTasksByStudentIdPayload" | "FindTemporaryTasksPayload" | "FindTextByTitlePayload" | "FindTextSectionByIdPayload" | "FindTextSectionsByChapterPayload" | "FindTextSectionsByIdPayload" | "FindTextsPayload" | "FindUnitsPayload" | "FindUserDataPayload" | "FindWritingMetricsPayload" | "FinishProtocolPayload" | "GradeArticleReviewPayload" | "GradeTemporaryTaskPayload" | "HowCauseEffectAnswerType" | "HowCauseEffectMetrics" | "HowProblemSolutionMetrics" | "InitializeStudentsPayload" | "Lesson" | "LessonTextSections" | "LoginPayload" | "MarkAllProtocolsInactivePayload" | "MarkTemporaryTaskAbsentPayload" | "MarkingPeriod" | "Mutation" | "OverallWritingMetric" | "PageNumbers" | "ParentContact" | "PasswordCheckPayload" | "ProblemSolutionAnswerType" | "Protocol" | "Query" | "QuestionPartsContainer" | "QuizQuestion" | "ReadingGuide" | "ReadingGuideFinalContainer" | "Readings" | "RegisterStudentPayload" | "RegisterTeacherPayload" | "RemoveAbsencePayload" | "RemoveAssignedSeatPayload" | "RemoveCoursePayload" | "RemoveLatenessPayload" | "RemoveProtocolPayload" | "RemoveRubricEntryPayload" | "RemoveSchoolDayPayload" | "RemoveStudentsFromCoursePayload" | "RemoveSubmittedEssayFinalDraftPayload" | "RemoveTextSectionPayload" | "ResetPasswordPayload" | "RespondToProtocolPayload" | "ResponsibilityPoints" | "ResubmitEssayFinalDraftPayload" | "ReturnArticleReviewPayload" | "ReturnGradedEssayPayload" | "ReturnReadingGuidePayload" | "RubricEntry" | "SchoolDay" | "SchoolDayTracker" | "Score" | "SetAnswerTypePayload" | "SetCurrentMarkingPeriodPayload" | "SetOrganizerPayload" | "StartProtocolPayload" | "StartReadingGuidePayload" | "Student" | "StudentAbsence" | "StudentInformation" | "StudentQuestion" | "StudentQuestions" | "StudentSeat" | "StudentSignInPayload" | "StudentSignInSheet" | "SubmitArticleReviewPayload" | "SubmitEssayFinalDraftPayload" | "SubmitReadingGuidePayload" | "SubmittedFinalDraft" | "Teacher" | "TemporaryTask" | "Test" | "Text" | "TextSection" | "TextSectionProtocols" | "TextSectionQuestions" | "TextSectionVocab" | "Topic" | "UnAssignEssaysPayload" | "UnexcusedLateness" | "Unit" | "UpdateAcademicOrganizerPayload" | "UpdateAdvancedOrganizerPayload" | "UpdateArticleReviewPayload" | "UpdateCourseInfoPayload" | "UpdateDevelopingOrganizerPayload" | "UpdateDynamicLessonPayload" | "UpdateEssayByStudentPayload" | "UpdateEssayLatenessPayload" | "UpdateEssaysByLessonPayload" | "UpdateEssaysByQuestionPayload" | "UpdateEssaysByStudentsAndSectionPayload" | "UpdateGradingDraftPayload" | "UpdateHowCauseEffectPayload" | "UpdateLessonPayload" | "UpdateParentContactPayload" | "UpdateProblemSolutionPayload" | "UpdateProtocolPayload" | "UpdateReadingGuidePayload" | "UpdateResponsibilityPointsPayload" | "UpdateRubricEntryPayload" | "UpdateSchoolDayPayload" | "UpdateTemporaryTasksPayload" | "UpdateTextSectionPayload" | "UpdateVocabPayload" | "UpdateWhyCauseEffectPayload" | "UpdateWorkingDraftPayload" | "WhyCauseEffectAnswerType" | "WhyCauseEffectMetrics" | "WorkingDraft" | "WritingMetrics";
 
-export type NexusGenInputNames = "AcademicSentenceStructureInput" | "AddCourseToTeacherInput" | "AddNewChapterInput" | "AddNewTextInput" | "AddStudentsToCourseInput" | "AddUserEmailInput" | "AddVocabWordInput" | "AdvancedSentenceStructureInput" | "AssessIndividualProtocolsInput" | "AssessStudentProtocolInput" | "AssignEssaysInput" | "AssignReadingGuidesInput" | "AssignSeatsInput" | "BuildRubricEntryInput" | "ChangePasswordInput" | "ChangeVocabWordInput" | "ControlCoolDownInput" | "ControlWarmUpInput" | "CourseInput" | "CreateAbsenceInput" | "CreateArticleReviewsInput" | "CreateCourseInfoInput" | "CreateCourseInput" | "CreateEssayInput" | "CreateEssayQuestionInput" | "CreateEssentialQuestionInput" | "CreateExcusedLatenessInput" | "CreateLessonInput" | "CreateParentContactInput" | "CreateProtocolInput" | "CreateReadingGuideInput" | "CreateResponsibilityPointsInput" | "CreateSchoolDayInput" | "CreateSignInSheetsInput" | "CreateStudentQuestionInput" | "CreateStudentQuestionsContainerInput" | "CreateTemporaryTasksInput" | "CreateTextSectionInput" | "CreateUnexcusedLatenessInput" | "CreateUnitInput" | "DeleteReviewsInput" | "DeleteTemporaryTasksInput" | "DevelopingOrganizerInput" | "DevelopingSentenceStructureInput" | "ExemptArticleReviewInput" | "FindActiveProtocolByStudentInput" | "FindActiveProtocolsByCourseInput" | "FindArticleReviewByIdInput" | "FindArticleReviewsByCourseInput" | "FindArticleReviewsByStudentInput" | "FindAssignmentByIdInput" | "FindAssignmentByStudentIdInput" | "FindAssignmentsToGradeInput" | "FindChapterTitleInput" | "FindChaptersByTextIdInput" | "FindChaptersInTextInput" | "FindCompletedEssaysByStudentIdInput" | "FindContactsByStudentIdInput" | "FindCourseByIdInput" | "FindCourseInfoByCourseIdInput" | "FindCoursesByIdInput" | "FindEssayByIdInput" | "FindEssayByStudentIdAndLessonIdInput" | "FindEssayQuestionByIdInput" | "FindEssaysByAssociatedLessonIdAndCourseIdInput" | "FindEssaysByAssociatedLessonIdInput" | "FindEssaysByUserNameAndMarkingPeriodInput" | "FindEssaysToCompleteByStudentIdInput" | "FindEssaysToGradeByIdInput" | "FindEssentialQuestionsByAssociatedTextSectionIdsInput" | "FindLessonByCourseAndDateInput" | "FindLessonByCourseInput" | "FindLessonByIdInput" | "FindLessonStatusInput" | "FindLessonsByAssignedDateInput" | "FindLessonsByUnitInput" | "FindParentContactsByTeacherIdInput" | "FindReadingGuideByIdInput" | "FindReadingGuidesByAssociatedLessonAndCourseIdInput" | "FindReadingGuidesByCourseIdAndAssignedDateInput" | "FindReadingGuidesToCompleteByStudentIdInput" | "FindResponsibilityPointsByCourseInput" | "FindResponsibilityPointsByStudentIdInput" | "FindRubricEntriesByCategoryInput" | "FindSchoolDayByDateInput" | "FindStudentByIdInput" | "FindStudentQuestionsInput" | "FindStudentsByCourseInput" | "FindStudentsByIdInput" | "FindTemporaryTasksByStudentIdInput" | "FindTemporaryTasksInput" | "FindTextByTitleInput" | "FindTextSectionByIdInput" | "FindTextSectionsByChapterInput" | "FindTextSectionsByIdInput" | "FindUserDataInput" | "FindWritingMetricsInput" | "FinishProtocolInput" | "GradeArticleReviewInput" | "GradeTemporaryTaskInput" | "HasAssigner" | "HasOwnerInput" | "InitializeStudentsInput" | "LessonTextSectionsInput" | "LoginInput" | "MarkTemporaryTaskAbsentInput" | "PageNumbersInput" | "PasswordCheckInput" | "QuestionPartsContainerInput" | "ReadingsInput" | "RegisterStudentInput" | "RegisterTeacherInput" | "RemoveAbsenceInput" | "RemoveAssignedSeatInput" | "RemoveCourseInput" | "RemoveLatenessInput" | "RemoveProtocolInput" | "RemoveRubricEntryInput" | "RemoveSchoolDayInput" | "RemoveStudentsFromCourseInput" | "RemoveSubmittedEssayFinalDraftInput" | "RemoveTextSectionInput" | "ResetPasswordInput" | "RespondToProtocolInput" | "ResubmitEssayFinalDraftInput" | "ReturnArticleReviewInput" | "ReturnGradedEssayInput" | "ReturnReadingGuideInput" | "ReturnedRubricEntryInput" | "RubricEntryInput" | "SetAnswerTypeInput" | "SetCurrentMarkingPeriodInput" | "SetOrganizerInput" | "StartProtocolInput" | "StartReadingGuideInput" | "StudentSeatInput" | "StudentSignInInput" | "SubmitArticleReviewInput" | "SubmitEssayFinalDraftInput" | "SubmitReadingGuideInput" | "SubmittedFinalDraftsInput" | "TextChapterInput" | "TextInput" | "TextSectionProtocolsInput" | "TextSectionQuestionsInput" | "TextSectionVocabInput" | "TopicInput" | "TopicTypeInput" | "UnAssignEssaysInput" | "UnitInput" | "UpdateAcademicOrganizerInput" | "UpdateAdvancedOrganizerInput" | "UpdateArticleReviewInput" | "UpdateCourseInfoInput" | "UpdateDevelopingOrganizerInput" | "UpdateDynamicLessonInput" | "UpdateEssayByStudentInput" | "UpdateEssayLatenessInput" | "UpdateEssaysByLessonInput" | "UpdateEssaysByQuestionInput" | "UpdateEssaysByStudentsAndSectionInput" | "UpdateGradingDraftInput" | "UpdateHowCauseEffectInput" | "UpdateLessonInput" | "UpdateLessonProtocolInput" | "UpdateParentContactInput" | "UpdateProblemSolutionInput" | "UpdateReadingGuideInput" | "UpdateResponsibilityPointsInput" | "UpdateRubricEntryInput" | "UpdateSchoolDayInput" | "UpdateTemporaryTasksInput" | "UpdateTextSectionInput" | "UpdateWhyCauseEffectInput" | "UpdateWorkingDraftInput";
+export type NexusGenInputNames = "AcademicSentenceStructureInput" | "AddCourseToTeacherInput" | "AddNewChapterInput" | "AddNewTextInput" | "AddStudentsToCourseInput" | "AddUserEmailInput" | "AddVocabWordInput" | "AdvancedSentenceStructureInput" | "AnswerListInput" | "AssessIndividualProtocolsInput" | "AssessStudentProtocolInput" | "AssignEssaysInput" | "AssignReadingGuidesInput" | "AssignSeatsInput" | "BuildRubricEntryInput" | "ChangePasswordInput" | "ChangeVocabWordInput" | "ControlCoolDownInput" | "ControlWarmUpInput" | "CourseInput" | "CreateAbsenceInput" | "CreateArticleReviewsInput" | "CreateCourseInfoInput" | "CreateCourseInput" | "CreateEssayInput" | "CreateEssayQuestionInput" | "CreateEssentialQuestionInput" | "CreateExcusedLatenessInput" | "CreateLessonInput" | "CreateParentContactInput" | "CreateProtocolInput" | "CreateQuizQuestionInput" | "CreateReadingGuideInput" | "CreateResponsibilityPointsInput" | "CreateSchoolDayInput" | "CreateSignInSheetsInput" | "CreateStudentQuestionInput" | "CreateStudentQuestionsContainerInput" | "CreateTemporaryTasksInput" | "CreateTextSectionInput" | "CreateUnexcusedLatenessInput" | "CreateUnitInput" | "DeleteReviewsInput" | "DeleteTemporaryTasksInput" | "DevelopingOrganizerInput" | "DevelopingSentenceStructureInput" | "ExemptArticleReviewInput" | "FindActiveProtocolByStudentInput" | "FindActiveProtocolsByCourseInput" | "FindArticleReviewByIdInput" | "FindArticleReviewsByCourseInput" | "FindArticleReviewsByStudentInput" | "FindAssignmentByIdInput" | "FindAssignmentByStudentIdInput" | "FindAssignmentsToGradeInput" | "FindChapterTitleInput" | "FindChaptersByTextIdInput" | "FindChaptersInTextInput" | "FindCompletedEssaysByStudentIdInput" | "FindContactsByStudentIdInput" | "FindCourseByIdInput" | "FindCourseInfoByCourseIdInput" | "FindCoursesByIdInput" | "FindEssayByIdInput" | "FindEssayByStudentIdAndLessonIdInput" | "FindEssayQuestionByIdInput" | "FindEssaysByAssociatedLessonIdAndCourseIdInput" | "FindEssaysByAssociatedLessonIdInput" | "FindEssaysByUserNameAndMarkingPeriodInput" | "FindEssaysToCompleteByStudentIdInput" | "FindEssaysToGradeByIdInput" | "FindEssentialQuestionsByAssociatedTextSectionIdsInput" | "FindLessonByCourseAndDateInput" | "FindLessonByCourseInput" | "FindLessonByIdInput" | "FindLessonStatusInput" | "FindLessonsByAssignedDateInput" | "FindLessonsByUnitInput" | "FindParentContactsByTeacherIdInput" | "FindQuizQuestionsByTextSectionIdInput" | "FindReadingGuideByIdInput" | "FindReadingGuidesByAssociatedLessonAndCourseIdInput" | "FindReadingGuidesByCourseIdAndAssignedDateInput" | "FindReadingGuidesToCompleteByStudentIdInput" | "FindResponsibilityPointsByCourseInput" | "FindResponsibilityPointsByStudentIdInput" | "FindRubricEntriesByCategoryInput" | "FindSchoolDayByDateInput" | "FindStudentByIdInput" | "FindStudentQuestionsInput" | "FindStudentsByCourseInput" | "FindStudentsByIdInput" | "FindTemporaryTasksByStudentIdInput" | "FindTemporaryTasksInput" | "FindTextByTitleInput" | "FindTextSectionByIdInput" | "FindTextSectionsByChapterInput" | "FindTextSectionsByIdInput" | "FindUserDataInput" | "FindWritingMetricsInput" | "FinishProtocolInput" | "GradeArticleReviewInput" | "GradeTemporaryTaskInput" | "HasAssigner" | "HasOwnerInput" | "InitializeStudentsInput" | "LessonTextSectionsInput" | "LoginInput" | "MarkTemporaryTaskAbsentInput" | "PageNumbersInput" | "PasswordCheckInput" | "QuestionPartsContainerInput" | "ReadingsInput" | "RegisterStudentInput" | "RegisterTeacherInput" | "RemoveAbsenceInput" | "RemoveAssignedSeatInput" | "RemoveCourseInput" | "RemoveLatenessInput" | "RemoveProtocolInput" | "RemoveRubricEntryInput" | "RemoveSchoolDayInput" | "RemoveStudentsFromCourseInput" | "RemoveSubmittedEssayFinalDraftInput" | "RemoveTextSectionInput" | "ResetPasswordInput" | "RespondToProtocolInput" | "ResubmitEssayFinalDraftInput" | "ReturnArticleReviewInput" | "ReturnGradedEssayInput" | "ReturnReadingGuideInput" | "ReturnedRubricEntryInput" | "RubricEntryInput" | "SetAnswerTypeInput" | "SetCurrentMarkingPeriodInput" | "SetOrganizerInput" | "StartProtocolInput" | "StartReadingGuideInput" | "StudentSeatInput" | "StudentSignInInput" | "SubmitArticleReviewInput" | "SubmitEssayFinalDraftInput" | "SubmitReadingGuideInput" | "SubmittedFinalDraftsInput" | "TextChapterInput" | "TextInput" | "TextSectionProtocolsInput" | "TextSectionQuestionsInput" | "TextSectionVocabInput" | "TopicInput" | "TopicTypeInput" | "UnAssignEssaysInput" | "UnitInput" | "UpdateAcademicOrganizerInput" | "UpdateAdvancedOrganizerInput" | "UpdateArticleReviewInput" | "UpdateCourseInfoInput" | "UpdateDevelopingOrganizerInput" | "UpdateDynamicLessonInput" | "UpdateEssayByStudentInput" | "UpdateEssayLatenessInput" | "UpdateEssaysByLessonInput" | "UpdateEssaysByQuestionInput" | "UpdateEssaysByStudentsAndSectionInput" | "UpdateGradingDraftInput" | "UpdateHowCauseEffectInput" | "UpdateLessonInput" | "UpdateLessonProtocolInput" | "UpdateParentContactInput" | "UpdateProblemSolutionInput" | "UpdateReadingGuideInput" | "UpdateResponsibilityPointsInput" | "UpdateRubricEntryInput" | "UpdateSchoolDayInput" | "UpdateTemporaryTasksInput" | "UpdateTextSectionInput" | "UpdateWhyCauseEffectInput" | "UpdateWorkingDraftInput";
 
-export type NexusGenEnumNames = "AcademicOutcomeTypes" | "BasicQuestionEnum" | "ContactTypeEnum" | "CourseMaxSizeEnum" | "CourseTypeEnum" | "DiscussionTypesEnum" | "DynamicLessonEnums" | "GradeTypeEnum" | "InformationStructureEnum" | "LessonTypeEnum" | "MarkingPeriodEnum" | "NounTypeEnum" | "ProtocolActivityTypes" | "ProtocolAssessmentEnum" | "QuestionTypeEnum" | "QuestionUsageTypeEnum" | "QuestionWordEnum" | "RubricSectionEnum" | "SchoolDayType" | "StudentCohortEnum" | "TimeOfDay" | "TitleEnum" | "VerbTypeEnum" | "WritingLevelEnum";
+export type NexusGenEnumNames = "AcademicOutcomeTypes" | "BasicQuestionEnum" | "ContactTypeEnum" | "CourseMaxSizeEnum" | "CourseTypeEnum" | "DiscussionTypesEnum" | "DynamicLessonEnums" | "GradeTypeEnum" | "InformationStructureEnum" | "LessonTypeEnum" | "MarkingPeriodEnum" | "NounTypeEnum" | "ProtocolActivityTypes" | "ProtocolAssessmentEnum" | "QuestionTypeEnum" | "QuestionUsageTypeEnum" | "QuestionWordEnum" | "QuizQuestionDifficultyLevelEnum" | "QuizQuestionTypeEnum" | "RubricSectionEnum" | "SchoolDayType" | "StudentCohortEnum" | "TimeOfDay" | "TitleEnum" | "VerbTypeEnum" | "WritingLevelEnum";
 
 export type NexusGenInterfaceNames = "Assignment" | "ProgressMetrics" | "Question" | "User";
 
