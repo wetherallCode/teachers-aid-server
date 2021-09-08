@@ -40,6 +40,7 @@ export interface NexusGenInputs {
   }
   AddDeskToAssignedSeatsInput: { // input type
     courseId: string; // ID!
+    deskNumber: number; // Int!
   }
   AddNewChapterInput: { // input type
     chapterNumber: number; // Int!
