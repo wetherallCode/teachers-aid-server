@@ -44,6 +44,14 @@ type AddCourseToTeacherPayload {
   teacher: Teacher!
 }
 
+input AddDeskToAssignedSeatsInput {
+  courseId: ID!
+}
+
+type AddDeskToAssignedSeatsPayload {
+  courseInfo: CourseInfo!
+}
+
 input AddNewChapterInput {
   chapterNumber: Int!
   chapterTitle: String!
@@ -1405,6 +1413,7 @@ type MarkTemporaryTaskAbsentPayload {
 type Mutation {
   addAssociatedCourseId: AddAssociatedCourseIdPayload!
   addCourseToTeacher(input: AddCourseToTeacherInput!): AddCourseToTeacherPayload!
+  addDeskToAssignedSeats(input: AddDeskToAssignedSeatsInput!): AddDeskToAssignedSeatsPayload!
   addNewChapter(input: AddNewChapterInput!): AddNewChapterPayload!
   addNewText(input: AddNewTextInput!): AddNewTextPayload!
   addStudentsToCourse(input: AddStudentsToCourseInput!): AddStudentsToCoursePayload!
