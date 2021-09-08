@@ -46,6 +46,7 @@ type AddCourseToTeacherPayload {
 
 input AddDeskToAssignedSeatsInput {
   courseId: ID!
+  deskNumber: Int!
 }
 
 type AddDeskToAssignedSeatsPayload {
