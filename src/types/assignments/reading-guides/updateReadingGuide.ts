@@ -6,12 +6,18 @@ export const UpdateReadingGuideInput = inputObjectType({
   name: 'UpdateReadingGuideInput',
   definition(t) {
     t.id('readingGuideId', { required: true })
-    t.list.field('howIsSectionOrganized', { type: InformationStructureEnum })
-    t.string('whyWasSectionOrganized', { required: true })
-    t.string('majorIssue', { required: true })
-    t.boolean('majorIssueSolved', { required: true })
-    t.string('majorSolution', { required: true })
-    t.list.string('clarifyingQuestions', { required: true })
+    // t.list.field('howIsSectionOrganized', { type: InformationStructureEnum })
+    // t.string('whyWasSectionOrganized', { required: true })
+    // t.string('majorIssue', { required: true })
+    // t.boolean('majorIssueSolved', { required: true })
+    // t.string('majorSolution', { required: true })
+    // t.list.string('clarifyingQuestions', { required: true })
+    t.list.string('problems', { required: true })
+    t.string('biggestProblem', { required: true })
+    t.string('reasonForBiggestProblem', { required: true })
+    t.list.string('importantPeople', { required: true })
+    t.string('howArePeopleInvolvedInProblems', { required: true })
+    t.string('sectionConsequences', { required: true })
   },
 })
 
@@ -30,12 +36,19 @@ export const UpdateReadingGuide = mutationField('updateReadingGuide', {
     {
       input: {
         readingGuideId,
-        howIsSectionOrganized,
-        whyWasSectionOrganized,
-        majorIssue,
-        majorIssueSolved,
-        majorSolution,
-        clarifyingQuestions,
+        // howIsSectionOrganized,
+        // whyWasSectionOrganized,
+        // majorIssue,
+        // majorIssueSolved,
+        // majorSolution,
+        // clarifyingQuestions,
+
+        problems,
+        biggestProblem,
+        reasonForBiggestProblem,
+        importantPeople,
+        howArePeopleInvolvedInProblems,
+        sectionConsequences,
       },
     },
     { assignmentData }
@@ -51,12 +64,14 @@ export const UpdateReadingGuide = mutationField('updateReadingGuide', {
         },
         {
           $set: {
-            'readingGuideFinal.howIsSectionOrganized': howIsSectionOrganized,
-            'readingGuideFinal.whyWasSectionOrganized': whyWasSectionOrganized,
-            'readingGuideFinal.majorIssue': majorIssue,
-            'readingGuideFinal.majorIssueSolved': majorIssueSolved,
-            'readingGuideFinal.majorSolution': majorSolution,
-            'readingGuideFinal.clarifyingQuestions': clarifyingQuestions,
+            'readingGuideFinal.problems': problems,
+            'readingGuideFinal.biggestProblem': biggestProblem,
+            'readingGuideFinal.reasonForBiggestProblem':
+              reasonForBiggestProblem,
+            'readingGuideFinal.importantPeople': importantPeople,
+            'readingGuideFinal.howArePeopleInvolvedInProblems':
+              howArePeopleInvolvedInProblems,
+            'readingGuideFinal.sectionConsequences': sectionConsequences,
           },
         }
       )

@@ -865,13 +865,13 @@ export interface NexusGenInputs {
     whySolutionSolved: string; // String!
   }
   UpdateReadingGuideInput: { // input type
-    clarifyingQuestions: string[]; // [String!]!
-    howIsSectionOrganized?: NexusGenEnums['InformationStructureEnum'][] | null; // [InformationStructureEnum!]
-    majorIssue: string; // String!
-    majorIssueSolved: boolean; // Boolean!
-    majorSolution: string; // String!
+    biggestProblem: string; // String!
+    howArePeopleInvolvedInProblems: string; // String!
+    importantPeople: string[]; // [String!]!
+    problems: string[]; // [String!]!
     readingGuideId: string; // ID!
-    whyWasSectionOrganized: string; // String!
+    reasonForBiggestProblem: string; // String!
+    sectionConsequences: string; // String!
   }
   UpdateResponsibilityPointsInput: { // input type
     markingPeriod?: NexusGenEnums['MarkingPeriodEnum'] | null; // MarkingPeriodEnum
@@ -1603,14 +1603,14 @@ export interface NexusGenRootTypes {
     score: NexusGenRootTypes['Score']; // Score!
   }
   ReadingGuideFinalContainer: { // root type
-    clarifyingQuestions: string[]; // [String!]!
-    howIsSectionOrganized?: NexusGenEnums['InformationStructureEnum'][] | null; // [InformationStructureEnum!]
-    majorIssue: string; // String!
-    majorIssueSolved: boolean; // Boolean!
-    majorSolution: string; // String!
+    biggestProblem: string; // String!
+    howArePeopleInvolvedInProblems: string; // String!
+    importantPeople: string[]; // [String!]!
+    problems: string[]; // [String!]!
+    reasonForBiggestProblem: string; // String!
+    sectionConsequences: string; // String!
     submitted: boolean; // Boolean!
     submitTime?: string | null; // String
-    whyWasSectionOrganized?: string | null; // String
   }
   Readings: { // root type
     readingPages: string; // String!
@@ -3026,14 +3026,14 @@ export interface NexusGenFieldTypes {
     score: NexusGenRootTypes['Score']; // Score!
   }
   ReadingGuideFinalContainer: { // field return type
-    clarifyingQuestions: string[]; // [String!]!
-    howIsSectionOrganized: NexusGenEnums['InformationStructureEnum'][] | null; // [InformationStructureEnum!]
-    majorIssue: string; // String!
-    majorIssueSolved: boolean; // Boolean!
-    majorSolution: string; // String!
+    biggestProblem: string; // String!
+    howArePeopleInvolvedInProblems: string; // String!
+    importantPeople: string[]; // [String!]!
+    problems: string[]; // [String!]!
+    reasonForBiggestProblem: string; // String!
+    sectionConsequences: string; // String!
     submitted: boolean; // Boolean!
     submitTime: string | null; // String
-    whyWasSectionOrganized: string | null; // String
   }
   Readings: { // field return type
     readingPages: string; // String!

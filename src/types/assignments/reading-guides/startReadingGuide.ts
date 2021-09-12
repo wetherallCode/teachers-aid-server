@@ -26,11 +26,10 @@ export const StartReadingGuide = mutationField('startReadingGuide', {
     { input: { readingGuideId, paperBased } },
     { assignmentData }
   ) {
-    const readingGuideValidation: NexusGenRootTypes['ReadingGuide'] = await assignmentData.findOne(
-      {
+    const readingGuideValidation: NexusGenRootTypes['ReadingGuide'] =
+      await assignmentData.findOne({
         _id: new ObjectId(readingGuideId),
-      }
-    )
+      })
     // if (readingGuideValidation) {
     //   if (!readingGuideValidation.readingGuideFinal) {
     //     if (paperBased) {
@@ -72,12 +71,18 @@ export const StartReadingGuide = mutationField('startReadingGuide', {
             {
               $set: {
                 readingGuideFinal: {
-                  howIsSectionOrganized: [],
-                  whyWasSectionOrganized: '',
-                  majorIssue: '',
-                  majorIssueSolved: true,
-                  majorSolution: '',
-                  clarifyingQuestions: [],
+                  // howIsSectionOrganized: [],
+                  // whyWasSectionOrganized: '',
+                  // majorIssue: '',
+                  // majorIssueSolved: true,
+                  // majorSolution: '',
+                  // clarifyingQuestions: [],
+                  problems: [] as string[],
+                  biggestProblem: '',
+                  reasonForBiggestProblem: '',
+                  importantPeople: [] as string[],
+                  howArePeopleInvolvedInProblems: '',
+                  sectionConsequences: '',
                   submitted: false,
                   submitTime: '',
                 },

@@ -16,15 +16,21 @@ export const ReadingGuide = objectType({
 export const ReadingGuideFinalContainer = objectType({
   name: 'ReadingGuideFinalContainer',
   definition(t) {
-    t.list.field('howIsSectionOrganized', {
-      type: InformationStructureEnum,
-      nullable: true,
-    })
-    t.string('whyWasSectionOrganized', { nullable: true })
-    t.string('majorIssue')
-    t.boolean('majorIssueSolved')
-    t.string('majorSolution')
-    t.list.string('clarifyingQuestions')
+    // t.list.field('howIsSectionOrganized', {
+    //   type: InformationStructureEnum,
+    //   nullable: true,
+    // })
+    // t.string('whyWasSectionOrganized', { nullable: true })
+    // t.string('majorIssue')
+    // t.boolean('majorIssueSolved')
+    // t.string('majorSolution')
+    // t.list.string('clarifyingQuestions')
+    t.list.string('problems')
+    t.string('biggestProblem')
+    t.string('reasonForBiggestProblem')
+    t.list.string('importantPeople')
+    t.string('howArePeopleInvolvedInProblems')
+    t.string('sectionConsequences')
     t.boolean('submitted')
     t.string('submitTime', { nullable: true })
   },

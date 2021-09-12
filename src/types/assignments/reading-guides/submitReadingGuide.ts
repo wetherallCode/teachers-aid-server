@@ -38,21 +38,18 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
     },
     { assignmentData, studentData, generalData }
   ) {
-    const readingGuideValidation: NexusGenRootTypes['ReadingGuide'] = await assignmentData.findOne(
-      {
+    const readingGuideValidation: NexusGenRootTypes['ReadingGuide'] =
+      await assignmentData.findOne({
         _id: new ObjectId(readingGuideId),
-      }
-    )
-    const studentResponsibilityPoints: NexusGenRootTypes['ResponsibilityPoints'] = await studentData.findOne(
-      {
+      })
+    const studentResponsibilityPoints: NexusGenRootTypes['ResponsibilityPoints'] =
+      await studentData.findOne({
         'student._id': new ObjectId(readingGuideValidation.hasOwner._id!),
         markingPeriod: readingGuideValidation.markingPeriod,
         responsibilityPoints: { $exists: true },
-      }
-    )
-    const currentMarkingPeriod: NexusGenRootTypes['MarkingPeriod'] = await generalData.findOne(
-      { currentMarkingPeriod: { $exists: true } }
-    )
+      })
+    const currentMarkingPeriod: NexusGenRootTypes['MarkingPeriod'] =
+      await generalData.findOne({ currentMarkingPeriod: { $exists: true } })
 
     if (readingGuideValidation) {
       if (paperBased) {
@@ -108,17 +105,17 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
     }
 
     const {
-      majorIssue,
-      majorSolution,
-      clarifyingQuestions,
+      // majorIssue,
+      // majorSolution,
+      // clarifyingQuestions,
     } = readingGuideValidation.readingGuideFinal!
 
-    const clarifyingQuestionComplete = clarifyingQuestions.length! !== 0
-    const majorSolutionComplete = majorSolution !== ''
-    const majorIssueComplete = majorIssue !== ''
+    // const clarifyingQuestionComplete = clarifyingQuestions.length! !== 0
+    // const majorSolutionComplete = majorSolution !== ''
+    // const majorIssueComplete = majorIssue !== ''
 
-    const complete =
-      clarifyingQuestionComplete && majorSolutionComplete && majorIssueComplete
+    const complete = true
+    // clarifyingQuestionComplete && majorSolutionComplete && majorIssueComplete
 
     if (readingGuideValidation) {
       assignmentData.updateOne(
@@ -130,12 +127,12 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
             completed: complete,
             graded: true,
             assigned: false,
-            'score.earnedPoints':
-              complete && handleLateness() === false
-                ? readingGuideValidation.score.maxPoints
-                : complete && handleLateness() === true
-                ? readingGuideValidation.score.maxPoints % 2
-                : 2,
+            'score.earnedPoints': readingGuideValidation.score.maxPoints,
+            // complete && handleLateness() === false
+            //   ? readingGuideValidation.score.maxPoints
+            //   : complete && handleLateness() === true
+            //   ? readingGuideValidation.score.maxPoints / 2
+            //   : 2,
             late: handleLateness(),
             'readingGuideFinal.submitted': true,
             'readingGuideFinal.submitTime': submitTime,
@@ -152,11 +149,14 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
           {
             $inc: {
               responsibilityPoints:
-                complete && handleLateness() === false
-                  ? readingGuideValidation.score.maxPoints + 2
-                  : complete && handleLateness() === true
-                  ? (readingGuideValidation.score.maxPoints % 2) + 2
-                  : 3,
+                // complete && handleLateness() === false
+                //   ? readingGuideValidation.score.maxPoints + 2
+                //   : complete && handleLateness() === true
+                //   ? (readingGuideValidation.score.maxPoints / 2) + 2
+                //   : 3,
+                handleLateness() === true
+                  ? readingGuideValidation.score.maxPoints / 2
+                  : readingGuideValidation.score.maxPoints,
             },
           }
         )

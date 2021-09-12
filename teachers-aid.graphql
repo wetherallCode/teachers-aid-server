@@ -1788,14 +1788,14 @@ type ReadingGuide implements Assignment {
 }
 
 type ReadingGuideFinalContainer {
-  clarifyingQuestions: [String!]!
-  howIsSectionOrganized: [InformationStructureEnum!]
-  majorIssue: String!
-  majorIssueSolved: Boolean!
-  majorSolution: String!
+  biggestProblem: String!
+  howArePeopleInvolvedInProblems: String!
+  importantPeople: [String!]!
+  problems: [String!]!
+  reasonForBiggestProblem: String!
+  sectionConsequences: String!
   submitted: Boolean!
   submitTime: String
-  whyWasSectionOrganized: String
 }
 
 type Readings {
@@ -2613,13 +2613,13 @@ type UpdateProtocolPayload {
 }
 
 input UpdateReadingGuideInput {
-  clarifyingQuestions: [String!]!
-  howIsSectionOrganized: [InformationStructureEnum!]
-  majorIssue: String!
-  majorIssueSolved: Boolean!
-  majorSolution: String!
+  biggestProblem: String!
+  howArePeopleInvolvedInProblems: String!
+  importantPeople: [String!]!
+  problems: [String!]!
   readingGuideId: ID!
-  whyWasSectionOrganized: String!
+  reasonForBiggestProblem: String!
+  sectionConsequences: String!
 }
 
 type UpdateReadingGuidePayload {
