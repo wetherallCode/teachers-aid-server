@@ -155,8 +155,10 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
                 //   ? (readingGuideValidation.score.maxPoints / 2) + 2
                 //   : 3,
                 handleLateness() === true
-                  ? readingGuideValidation.score.maxPoints / 2
-                  : readingGuideValidation.score.maxPoints,
+                  ? readingGuideValidation.score.maxPoints / 2 +
+                    readingGuideValidation.score.maxPoints
+                  : readingGuideValidation.score.maxPoints +
+                    readingGuideValidation.score.maxPoints,
             },
           }
         )
