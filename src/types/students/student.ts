@@ -4,6 +4,7 @@ import { Course, WritingMetrics, StudentQuestion } from '..'
 import { ObjectId } from 'mongodb'
 import { NexusGenRootTypes } from '../../teachers-aid-typegen'
 import { ResponsibilityPoints } from './responsibilityPoints/responsibilityPoints'
+import { StudentBehavior } from '.'
 
 export const Student = objectType({
   name: 'Student',
@@ -38,12 +39,13 @@ export const Student = objectType({
     t.list.field('hasAssignments', {
       type: 'Assignment',
       async resolve(parent, __, { assignmentData }) {
-        const assignments: NexusGenRootTypes['Assignment'][] = await assignmentData
-          .find({
-            'hasOwner._id': new ObjectId(parent._id!),
-            articleTitle: { $exists: false },
-          })
-          .toArray()
+        const assignments: NexusGenRootTypes['Assignment'][] =
+          await assignmentData
+            .find({
+              'hasOwner._id': new ObjectId(parent._id!),
+              articleTitle: { $exists: false },
+            })
+            .toArray()
 
         return assignments
       },
@@ -63,48 +65,52 @@ export const Student = objectType({
     t.list.field('hasAbsences', {
       type: 'StudentAbsence',
       async resolve(parent, __, { studentData }) {
-        const absences: NexusGenRootTypes['StudentAbsence'][] = await studentData
-          .find({
-            'student._id': new ObjectId(parent._id!),
-            dayAbsent: { $exists: true },
-          })
-          .toArray()
+        const absences: NexusGenRootTypes['StudentAbsence'][] =
+          await studentData
+            .find({
+              'student._id': new ObjectId(parent._id!),
+              dayAbsent: { $exists: true },
+            })
+            .toArray()
         return absences
       },
     })
     t.list.field('hasExcusedLatenesses', {
       type: 'ExcusedLateness',
       async resolve(parent, __, { studentData }) {
-        const excusedLatenesses: NexusGenRootTypes['ExcusedLateness'][] = await studentData
-          .find({
-            'student._id': new ObjectId(parent._id!),
-            dayLateExcused: { $exists: true },
-          })
-          .toArray()
+        const excusedLatenesses: NexusGenRootTypes['ExcusedLateness'][] =
+          await studentData
+            .find({
+              'student._id': new ObjectId(parent._id!),
+              dayLateExcused: { $exists: true },
+            })
+            .toArray()
         return excusedLatenesses
       },
     })
     t.list.field('hasUnExcusedLatenesses', {
       type: 'UnexcusedLateness',
       async resolve(parent, __, { studentData }) {
-        const unexcusedLatenesses: NexusGenRootTypes['UnexcusedLateness'][] = await studentData
-          .find({
-            'student._id': new ObjectId(parent._id!),
-            dayLate: { $exists: true },
-          })
-          .toArray()
+        const unexcusedLatenesses: NexusGenRootTypes['UnexcusedLateness'][] =
+          await studentData
+            .find({
+              'student._id': new ObjectId(parent._id!),
+              dayLate: { $exists: true },
+            })
+            .toArray()
         return unexcusedLatenesses
       },
     })
     t.list.field('hasResponsibilityPoints', {
       type: ResponsibilityPoints,
       async resolve(parent, __, { studentData }) {
-        const responsibilityPoints: NexusGenRootTypes['ResponsibilityPoints'][] = await studentData
-          .find({
-            'student._id': new ObjectId(parent._id!),
-            responsibilityPoints: { $exists: true },
-          })
-          .toArray()
+        const responsibilityPoints: NexusGenRootTypes['ResponsibilityPoints'][] =
+          await studentData
+            .find({
+              'student._id': new ObjectId(parent._id!),
+              responsibilityPoints: { $exists: true },
+            })
+            .toArray()
         return responsibilityPoints
       },
     })
@@ -116,6 +122,18 @@ export const Student = objectType({
           howProblemSolutionMetrics: { $exists: true },
         })
         return writingMetrics
+      },
+    })
+    t.list.field('hasBehaviors', {
+      type: StudentBehavior,
+      async resolve(parent, __, { studentData }) {
+        const studentBehaviors = await studentData
+          .find({
+            'student._id': new ObjectId(parent._id!),
+            behavior: { $exists: true },
+          })
+          .toArray()
+        return studentBehaviors
       },
     })
   },
