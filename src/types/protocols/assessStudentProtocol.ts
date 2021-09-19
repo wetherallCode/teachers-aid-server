@@ -91,6 +91,28 @@ export const AssessStudentProtocol = mutationField('assessStudentProtocol', {
 
         protocols.push(protocol)
       } else {
+        const protocolToCheck: NexusGenRootTypes['Protocol'] =
+          await protocolData.findOne({
+            'student._id': new ObjectId(_id),
+            task,
+            assignedDate,
+            protocolActivityType,
+          })
+
+        const protocolScore =
+          assessment === 'WORKED_WELL'
+            ? 2
+            : assessment === 'WORKED_VERY_WELL'
+            ? 3
+            : assessment === 'REFUSED_TO_WORK'
+            ? 0
+            : 1
+
+        const scoringAlgorithm =
+          protocolToCheck.assessment === assessment
+            ? 0
+            : -protocolToCheck.lastScore + protocolScore
+
         await protocolData.updateOne(
           {
             'student._id': new ObjectId(_id),
@@ -99,7 +121,7 @@ export const AssessStudentProtocol = mutationField('assessStudentProtocol', {
             protocolActivityType,
           },
           {
-            $set: { assessment },
+            $set: { assessment, lastScore: protocolScore },
           }
         )
         await studentData.updateOne(
@@ -110,7 +132,7 @@ export const AssessStudentProtocol = mutationField('assessStudentProtocol', {
           },
           {
             $inc: {
-              responsibilityPoints: assessment === 'WORKED_WELL' ? 1 : 2,
+              responsibilityPoints: scoringAlgorithm,
             },
           }
         )

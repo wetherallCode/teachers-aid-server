@@ -24,6 +24,7 @@ export const Protocol = objectType({
     t.string('startTime')
     t.string('endTime', { nullable: true })
     t.string('response', { nullable: true })
+    t.int('lastScore')
   },
 })
 

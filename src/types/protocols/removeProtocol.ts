@@ -1,6 +1,8 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { Protocol } from '.'
 import { ObjectId } from 'mongodb'
+import { MarkingPeriodEnum } from '..'
+import { NexusGenRootTypes } from '../../teachers-aid-typegen'
 
 export const RemoveProtocolInput = inputObjectType({
   name: 'RemoveProtocolInput',
@@ -9,6 +11,7 @@ export const RemoveProtocolInput = inputObjectType({
     t.date('assignedDate', { required: true })
     t.string('task', { required: true })
     t.id('lessonId', { required: true })
+    t.field('markingPeriod', { type: MarkingPeriodEnum, required: true })
   },
 })
 
@@ -24,17 +27,18 @@ export const RemoveProtocol = mutationField('removeProtocol', {
   args: { input: arg({ type: RemoveProtocolInput, required: true }) },
   async resolve(
     _,
-    { input: { studentIds, assignedDate, task, lessonId } },
-    { protocolData, lessonData }
+    { input: { studentIds, assignedDate, task, lessonId, markingPeriod } },
+    { protocolData, lessonData, studentData }
   ) {
     let deleteCount = 0
 
     for (const studentId of studentIds) {
-      const protocolCheck = await protocolData.findOne({
-        'student._id': new ObjectId(studentId),
-        assignedDate,
-        task,
-      })
+      const protocolCheck: NexusGenRootTypes['Protocol'] =
+        await protocolData.findOne({
+          'student._id': new ObjectId(studentId),
+          assignedDate,
+          task,
+        })
 
       if (protocolCheck) {
         const { deletedCount } = await protocolData.deleteOne({
@@ -46,6 +50,14 @@ export const RemoveProtocol = mutationField('removeProtocol', {
         if (deletedCount === 1) {
           deleteCount = deleteCount + 1
         }
+        await studentData.updateOne(
+          {
+            'student._id': new ObjectId(studentId),
+            markingPeriod,
+            responsibilityPoints: { $exists: true },
+          },
+          { $inc: { responsibilityPoints: -protocolCheck.lastScore } }
+        )
       }
     }
     if (deleteCount === studentIds.length) {

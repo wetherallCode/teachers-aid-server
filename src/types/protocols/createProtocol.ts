@@ -51,12 +51,14 @@ export const CreateProtocol = mutationField('createProtocol', {
         markingPeriod,
       },
     },
-    { protocolData, userData }
+    { protocolData, userData, studentData }
   ) {
     const protocols: NexusGenRootTypes['Protocol'][] = []
     const startTime = new Date().toISOString()
     for (const studentId of studentIds) {
-      const student = await userData.findOne({ _id: new ObjectId(studentId) })
+      const student: NexusGenRootTypes['Student'] = await userData.findOne({
+        _id: new ObjectId(studentId),
+      })
       const protocolCheck: NexusGenRootTypes['Protocol'] =
         await protocolData.findOne({
           'student._id': new ObjectId(studentId),
@@ -75,6 +77,7 @@ export const CreateProtocol = mutationField('createProtocol', {
           startTime: new Date().toLocaleTimeString(),
           student,
           task,
+          lastScore: 2,
           assessment: 'WORKED_WELL',
           discussionLevel:
             protocolActivityType === 'SMALL_GROUP' ? 'DISCUSSED' : null,
@@ -82,6 +85,15 @@ export const CreateProtocol = mutationField('createProtocol', {
         const { insertedId } = await protocolData.insertOne(protocol)
         protocol._id = insertedId
         protocols.push(protocol)
+
+        await studentData.updateOne(
+          {
+            'student._id': new ObjectId(student._id!),
+            markingPeriod,
+            responsibilityPoints: { $exists: true },
+          },
+          { $inc: { responsibilityPoints: 2 } }
+        )
       }
     }
     const endTime = new Date().toISOString()
