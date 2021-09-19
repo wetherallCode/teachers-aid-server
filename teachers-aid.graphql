@@ -245,8 +245,11 @@ enum BasicQuestionEnum {
   WHY
 }
 
-type Behavior {
-  _id: ID
+enum BehaviorEnum {
+  ANSWERED_QUESTION
+  DID_NOT_ANSWER_QUESTION
+  DISRESPECTFUL
+  DISRUPTIVE
 }
 
 input BuildRubricEntryInput {
@@ -569,6 +572,15 @@ type CreateSignInSheetsPayload {
   schoolDay: SchoolDay!
 }
 
+input CreateStudentBehaviorInput {
+  studentBehaviorType: BehaviorEnum!
+  studentId: ID!
+}
+
+type CreateStudentBehaviorPayload {
+  studentBehavior: StudentBehavior!
+}
+
 input CreateStudentQuestionInput {
   courseId: ID!
   question: String!
@@ -858,6 +870,14 @@ input FindAssignmentByStudentIdInput {
 
 type FindAssignmentByStudentIdPayload {
   articleReviews: [ArticleReview!]!
+  assignments: [Assignment!]!
+}
+
+input FindAssignmentsByCourseIdInput {
+  courseId: ID!
+}
+
+type FindAssignmentsByCourseIdPayload {
   assignments: [Assignment!]!
 }
 
@@ -1447,6 +1467,7 @@ type Mutation {
   createSchoolDay(input: CreateSchoolDayInput!): CreateSchoolDayPayload!
   createSchoolDayTracker: CreateSchoolDayTrackerPayload!
   createSignInSheets(input: CreateSignInSheetsInput!): CreateSignInSheetsPayload!
+  createStudentBehavior(input: CreateStudentBehaviorInput!): CreateStudentBehaviorPayload!
   createStudentQuestion(input: CreateStudentQuestionInput!): CreateStudentQuestionPayload!
   createStudentQuestionsContainer(input: CreateStudentQuestionsContainerInput!): CreateStudentQuestionsContainerPayload!
   createTemporaryTasks(input: CreateTemporaryTasksInput!): CreateTemporaryTasksPayload!
@@ -1479,6 +1500,7 @@ type Mutation {
   removeLateness(input: RemoveLatenessInput!): RemoveLatenessPayload!
   removeProtocol(input: RemoveProtocolInput!): RemoveProtocolPayload!
   removeRubricEntry(input: RemoveRubricEntryInput!): RemoveRubricEntryPayload!
+  removeStudentBehavior(input: RemoveStudentBehaviorInput!): RemoveStudentBehaviorPayload!
   removeStudentsFromCourse(input: RemoveStudentsFromCourseInput!): RemoveStudentsFromCoursePayload!
   removeTextSection(input: RemoveTextSectionInput!): RemoveTextSectionPayload!
   resetPassword(input: ResetPasswordInput!): ResetPasswordPayload!
@@ -1596,6 +1618,7 @@ type Protocol {
   discussionLevel: DiscussionTypesEnum
   endTime: String
   isActive: Boolean!
+  lastScore: Int!
   markingPeriod: MarkingPeriodEnum!
   partners: [Student!]
   protocolActivityType: ProtocolActivityTypes!
@@ -1630,6 +1653,7 @@ type Query {
   findArticleReviewsByStudent(input: FindArticleReviewsByStudentInput!): FindArticleReviewsByStudentPayload!
   findAssignmentById(input: FindAssignmentByIdInput!): FindAssignmentByIdPayload!
   findAssignmentByStudentId(input: FindAssignmentByStudentIdInput!): FindAssignmentByStudentIdPayload!
+  findAssignmentsByCourseId(input: FindAssignmentsByCourseIdInput!): FindAssignmentsByCourseIdPayload!
   findAssignmentsToGrade(input: FindAssignmentsToGradeInput!): FindAssignmentsToGradePayload!
   findChaptersByTextId(input: FindChaptersByTextIdInput!): FindChaptersByTextIdPayload!
   findChaptersInText(input: FindChaptersInTextInput!): FindChaptersInTextPayload!
@@ -1875,6 +1899,7 @@ type RemoveLatenessPayload {
 input RemoveProtocolInput {
   assignedDate: Date!
   lessonId: ID!
+  markingPeriod: MarkingPeriodEnum!
   studentIds: [ID!]!
   task: String!
 }
@@ -1896,6 +1921,14 @@ input RemoveSchoolDayInput {
 }
 
 type RemoveSchoolDayPayload {
+  removed: Boolean!
+}
+
+input RemoveStudentBehaviorInput {
+  studentBehaviorId: ID!
+}
+
+type RemoveStudentBehaviorPayload {
   removed: Boolean!
 }
 
@@ -2099,6 +2132,7 @@ type Student implements User {
   firstName: String!
   hasAbsences: [StudentAbsence!]!
   hasAssignments: [Assignment!]!
+  hasBehaviors: [StudentBehavior!]!
   hasContactInformation: StudentInformation!
   hasExcusedLatenesses: [ExcusedLateness!]!
   hasProtocols: [Protocol!]!
@@ -2118,6 +2152,13 @@ type StudentAbsence {
   _id: ID
   dayAbsent: Date!
   markingPeriod: MarkingPeriodEnum!
+  student: Student!
+}
+
+type StudentBehavior {
+  _id: ID
+  behavior: BehaviorEnum!
+  date: String!
   student: Student!
 }
 
