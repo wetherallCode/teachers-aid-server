@@ -8,6 +8,7 @@ export const StudentBehavior = objectType({
     t.field('student', { type: Student })
     t.string('date')
     t.field('behavior', { type: BehaviorEnum })
+    t.float('responsibilityPoints')
   },
 })
 

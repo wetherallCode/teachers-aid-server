@@ -573,6 +573,8 @@ type CreateSignInSheetsPayload {
 }
 
 input CreateStudentBehaviorInput {
+  markingPeriod: MarkingPeriodEnum!
+  responsibilityPoints: Float!
   studentBehaviorType: BehaviorEnum!
   studentId: ID!
 }
@@ -1925,6 +1927,7 @@ type RemoveSchoolDayPayload {
 }
 
 input RemoveStudentBehaviorInput {
+  markingPeriod: MarkingPeriodEnum!
   studentBehaviorId: ID!
 }
 
@@ -2159,6 +2162,7 @@ type StudentBehavior {
   _id: ID
   behavior: BehaviorEnum!
   date: String!
+  responsibilityPoints: Float!
   student: Student!
 }
 

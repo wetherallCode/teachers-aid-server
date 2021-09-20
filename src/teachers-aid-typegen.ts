@@ -255,6 +255,8 @@ export interface NexusGenInputs {
     todaysDate: string; // String!
   }
   CreateStudentBehaviorInput: { // input type
+    markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
+    responsibilityPoints: number; // Float!
     studentBehaviorType: NexusGenEnums['BehaviorEnum']; // BehaviorEnum!
     studentId: string; // ID!
   }
@@ -600,6 +602,7 @@ export interface NexusGenInputs {
     schoolDayId: string; // ID!
   }
   RemoveStudentBehaviorInput: { // input type
+    markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
     studentBehaviorId: string; // ID!
   }
   RemoveStudentsFromCourseInput: { // input type
@@ -1760,6 +1763,7 @@ export interface NexusGenRootTypes {
     _id?: string | null; // ID
     behavior: NexusGenEnums['BehaviorEnum']; // BehaviorEnum!
     date: string; // String!
+    responsibilityPoints: number; // Float!
     student: NexusGenRootTypes['Student']; // Student!
   }
   StudentInformation: { // root type
@@ -3212,6 +3216,7 @@ export interface NexusGenFieldTypes {
     _id: string | null; // ID
     behavior: NexusGenEnums['BehaviorEnum']; // BehaviorEnum!
     date: string; // String!
+    responsibilityPoints: number; // Float!
     student: NexusGenRootTypes['Student']; // Student!
   }
   StudentInformation: { // field return type
