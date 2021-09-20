@@ -53,7 +53,7 @@ export const WritingLevelEnum = enumType({
 export const OverallWritingMetric = objectType({
   name: 'OverallWritingMetric',
   definition(t) {
-    t.int('levelPoints')
+    t.float('levelPoints')
     t.field('overallWritingLevel', { type: WritingLevelEnum })
   },
 })
