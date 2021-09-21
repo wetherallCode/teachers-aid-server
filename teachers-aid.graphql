@@ -1520,7 +1520,6 @@ type Mutation {
   submitArticleReview(input: SubmitArticleReviewInput!): SubmitArticleReviewPayload!
   submitEssayFinalDraft(input: SubmitEssayFinalDraftInput!): SubmitEssayFinalDraftPayload!
   submitReadingGuide(input: SubmitReadingGuideInput!): SubmitReadingGuidePayload!
-  swtichOutUserInfo(input: SwtichOutUserInfoInput!): SwtichOutUserInfoPayload!
   unAssignEssays(input: UnAssignEssaysInput!): UnAssignEssaysPayload!
   updateAcademicOrganizer(input: UpdateAcademicOrganizerInput!): UpdateAcademicOrganizerPayload!
   updateAdvancedOrganizer(input: UpdateAdvancedOrganizerInput!): UpdateAdvancedOrganizerPayload!
@@ -2274,15 +2273,6 @@ input SubmittedFinalDraftsInput {
   gradingDraft: JSON!
   rubricEntries: [RubricEntryInput!]!
   score: Float!
-}
-
-input SwtichOutUserInfoInput {
-  newUserName: ID!
-  oldUserName: String!
-}
-
-type SwtichOutUserInfoPayload {
-  switched: Boolean!
 }
 
 type Teacher implements User {
