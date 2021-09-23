@@ -36,12 +36,13 @@ export const CreateUnexcusedLateness = mutationField(
         _id: new ObjectId(studentId),
       })
 
-      const studentLatenesses: NexusGenRootTypes['UnexcusedLateness'][] = await studentData
-        .find({
-          'student._id': new ObjectId(student._id!),
-          dayLate: { $exists: true },
-        })
-        .toArray()
+      const studentLatenesses: NexusGenRootTypes['UnexcusedLateness'][] =
+        await studentData
+          .find({
+            'student._id': new ObjectId(student._id!),
+            dayLate: { $exists: true },
+          })
+          .toArray()
 
       const latenessSearch = studentLatenesses.some(
         (lateness) => lateness.dayLate === dayLate
@@ -54,7 +55,18 @@ export const CreateUnexcusedLateness = mutationField(
         }
         const { insertedId } = await studentData.insertOne(unexcusedLateness)
         unexcusedLateness._id = insertedId
-
+        studentData.updateOne(
+          {
+            'student._id': studentId,
+            markingPeriod,
+            responsibilityPoints: { $exists: true },
+          },
+          {
+            $inc: {
+              responsibilityPoints: -5,
+            },
+          }
+        )
         return { unexcusedLateness }
       } else
         throw new Error(
