@@ -109,6 +109,7 @@ export const Student = objectType({
             .find({
               'student._id': new ObjectId(parent._id!),
               responsibilityPoints: { $exists: true },
+              behavior: { $exists: false },
             })
             .toArray()
         return responsibilityPoints
