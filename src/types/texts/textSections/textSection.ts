@@ -25,7 +25,20 @@ export const TextSection = objectType({
 
         return essayQuestions
       },
-    })
+    }),
+      t.list.field('hasQuizQuestions', {
+        type: 'QuizQuestion',
+        async resolve(parent, __, { questionData }) {
+          const quizQuestions = await questionData
+            .find({
+              questionUsageType: 'QUIZ',
+              associatedTextSectionsIds: parent._id?.toString(),
+            })
+            .toArray()
+
+          return quizQuestions
+        },
+      })
   },
 })
 

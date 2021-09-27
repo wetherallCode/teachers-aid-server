@@ -5,9 +5,7 @@ import {
   enumType,
 } from '@nexus/schema'
 import { Student, Teacher, Lesson } from '..'
-import { type } from 'os'
 import { MarkingPeriodEnum } from '../general'
-import { resolve } from 'path'
 import { NexusGenRootTypes } from '../../teachers-aid-typegen'
 import { ObjectId } from 'mongodb'
 
@@ -43,10 +41,10 @@ export const Assignment = interfaceType({
       if (assignment.hasOwnProperty('topic')) {
         return 'Essay'
       }
-      // if (assignment.hasOwnProperty('issue')) {
-      //   return 'ArticleReview'
-      // }
-      return 'ReadingGuide'
+      if (assignment.hasOwnProperty('graded')) {
+        return 'ReadingGuide'
+      }
+      return 'Quiz'
     })
   },
 })

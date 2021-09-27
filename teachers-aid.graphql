@@ -523,6 +523,21 @@ type CreateQuizQuestionPayload {
   quizQuestion: QuizQuestion!
 }
 
+input CreateQuizzesByCourseInput {
+  assignedDate: String!
+  associatedLessonId: ID!
+  courseIds: [ID!]!
+  dueDate: String!
+  dueTime: String!
+  hasAssigner: ID!
+  markingPeriod: MarkingPeriodEnum!
+  readings: ReadingsInput!
+}
+
+type CreateQuizzesByCoursePayload {
+  quizzes: [Quiz!]!
+}
+
 input CreateReadingGuideInput {
   assignedCourseIds: [ID!]!
   assignedDate: String!
@@ -1464,6 +1479,7 @@ type Mutation {
   createParentContact(input: CreateParentContactInput!): CreateParentContactPayload!
   createProtocol(input: CreateProtocolInput!): CreateProtocolPayload!
   createQuizQuestion(input: CreateQuizQuestionInput!): CreateQuizQuestionPayload!
+  createQuizzesByCourse(input: CreateQuizzesByCourseInput!): CreateQuizzesByCoursePayload!
   createReadingGuide(input: CreateReadingGuideInput!): CreateReadingGuidePayload!
   createResponsibilityPoints(input: CreateResponsibilityPointsInput!): CreateResponsibilityPointsPayload!
   createSchoolDay(input: CreateSchoolDayInput!): CreateSchoolDayPayload!
@@ -1767,6 +1783,29 @@ enum QuestionUsageTypeEnum {
 enum QuestionWordEnum {
   HOW
   WHY
+}
+
+type Quiz implements Assignment {
+  _id: ID
+  assigned: Boolean!
+  assignedDate: String!
+  associatedLessonId: ID
+  dueDate: String!
+  dueTime: String!
+  exempt: Boolean!
+  finishedQuiz: Boolean!
+  gradeType: GradeTypeEnum!
+  hasAssigner: Teacher!
+  hasOwner: Student!
+  isActive: Boolean!
+  late: Boolean!
+  lessonInfo: Lesson!
+  markingPeriod: MarkingPeriodEnum!
+  missing: Boolean!
+  paperBased: Boolean!
+  quizzableSections: [String!]!
+  readings: Readings!
+  score: Score!
 }
 
 type QuizQuestion implements Question {
@@ -2299,27 +2338,6 @@ type TemporaryTask {
   taskNumber: Int!
 }
 
-type Test implements Assignment {
-  _id: ID
-  assigned: Boolean!
-  assignedDate: String!
-  associatedLessonId: ID
-  dueDate: String!
-  dueTime: String!
-  exempt: Boolean!
-  gradeType: GradeTypeEnum!
-  hasAssigner: Teacher!
-  hasOwner: Student!
-  late: Boolean!
-  lessonInfo: Lesson!
-  markingPeriod: MarkingPeriodEnum!
-  missing: Boolean!
-  paperBased: Boolean!
-  readings: Readings!
-  score: Score!
-  testName: String!
-}
-
 type Text {
   _id: ID
   hasChapters: [Chapter!]!
@@ -2343,6 +2361,7 @@ type TextSection {
   hasEssayQuestions: [EssayQuestion!]!
   hasProtocols: [TextSectionProtocols!]
   hasQuestions: [TextSectionQuestions!]
+  hasQuizQuestions: [QuizQuestion!]!
   hasVocab: [TextSectionVocab!]
   header: String!
   pageNumbers: PageNumbers!
