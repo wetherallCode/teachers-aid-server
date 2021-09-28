@@ -37,6 +37,7 @@ export const FindResponsibilityPointsByStudentId = queryField(
         .find({
           'student._id': new ObjectId(studentId),
           responsibilityPoints: { $exists: true },
+          behavior: { $exists: false },
         })
         .toArray()
       if (responsibilityPoints) {
