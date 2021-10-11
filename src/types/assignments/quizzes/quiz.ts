@@ -7,5 +7,6 @@ export const Quiz = objectType({
     t.list.string('quizzableSections')
     t.boolean('finishedQuiz')
     t.boolean('isActive')
+    t.float('responsibilityPoints')
   },
 })

@@ -95,6 +95,7 @@ export const CreateQuizzesByCourse = mutationField('createQuizzesByCourse', {
           quizzableSections: quizzedSections,
           finishedQuiz: false,
           isActive: false,
+          responsibilityPoints: 0,
         }
         const { insertedId } = await assignmentData.insertOne(quiz)
         quiz._id = insertedId
