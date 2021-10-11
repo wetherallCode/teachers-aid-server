@@ -250,6 +250,7 @@ enum BehaviorEnum {
   DID_NOT_ANSWER_QUESTION
   DISRESPECTFUL
   DISRUPTIVE
+  UNPREPARED
 }
 
 input BuildRubricEntryInput {
@@ -1107,6 +1108,14 @@ type FindParentContactsByTeacherIdPayload {
   parentContacts: [ParentContact!]!
 }
 
+input FindQuizQuestionsByQuizzableSectionsInput {
+  quizzableSectionIds: [String!]!
+}
+
+type FindQuizQuestionsByQuizzableSectionsPayload {
+  quizQuestions: [QuizQuestion!]!
+}
+
 input FindQuizQuestionsByTextSectionIdInput {
   associatedTextSectionId: ID!
 }
@@ -1698,6 +1707,7 @@ type Query {
   findLessonsByUnit(input: FindLessonsByUnitInput!): FindLessonsByUnitPayload!
   findLessonStatus(input: FindLessonStatusInput!): FindLessonStatusPayload!
   findParentContactsByTeacherId(input: FindParentContactsByTeacherIdInput!): FindParentContactsByTeacherIdPayload!
+  findQuizQuestionsByQuizzableSections(input: FindQuizQuestionsByQuizzableSectionsInput!): FindQuizQuestionsByQuizzableSectionsPayload!
   findQuizQuestionsByTextSectionId(input: FindQuizQuestionsByTextSectionIdInput!): FindQuizQuestionsByTextSectionIdPayload!
   findReadingGuideById(input: FindReadingGuideByIdInput!): FindReadingGuideByIdPayload!
   findReadingGuidesByAssociatedLessonAndCourseId(input: FindReadingGuidesByAssociatedLessonAndCourseIdInput!): FindReadingGuidesByAssociatedLessonAndCourseIdPayload!
@@ -1805,6 +1815,7 @@ type Quiz implements Assignment {
   paperBased: Boolean!
   quizzableSections: [String!]!
   readings: Readings!
+  responsibilityPoints: Float!
   score: Score!
 }
 
