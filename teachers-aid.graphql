@@ -219,6 +219,15 @@ interface Assignment {
   score: Score!
 }
 
+input AssignQuizzesByStudentIdsAndDateInput {
+  assignedDate: String
+  studentIds: [ID!]!
+}
+
+type AssignQuizzesByStudentIdsAndDatePayload {
+  quizzes: [Quiz!]!
+}
+
 input AssignReadingGuidesInput {
   assignedDate: Date!
   associatedLessonId: ID!
@@ -526,7 +535,7 @@ type CreateQuizQuestionPayload {
 
 input CreateQuizzesByCourseInput {
   assignedDate: String!
-  associatedLessonId: ID!
+  assignedSectionIds: [ID!]!
   courseIds: [ID!]!
   dueDate: String!
   dueTime: String!
@@ -1124,6 +1133,15 @@ type FindQuizQuestionsByTextSectionIdPayload {
   quizQuestions: [QuizQuestion!]!
 }
 
+input FindQuizzesForCourseByAssignedDateInput {
+  assignedDate: String!
+  courseId: ID!
+}
+
+type FindQuizzesForCourseByAssignedDatePayload {
+  quizzes: [Quiz!]!
+}
+
 input FindReadingGuideByIdInput {
   readingGuideId: ID!
 }
@@ -1469,6 +1487,7 @@ type Mutation {
   assessIndividualProtocols(input: AssessIndividualProtocolsInput!): AssessIndividualProtocolsPayload!
   assessStudentProtocol(input: AssessStudentProtocolInput!): AssessStudentProtocolPayload!
   assignEssays(input: AssignEssaysInput!): AssignEssaysPayload!
+  assignQuizzesByStudentIdsAndDate(input: AssignQuizzesByStudentIdsAndDateInput!): AssignQuizzesByStudentIdsAndDatePayload!
   assignReadingGuides(input: AssignReadingGuidesInput!): AssignReadingGuidesPayload!
   assignSeats(input: AssignSeatsInput!): AssignSeatsPayload!
   buildRubricEntry(input: BuildRubricEntryInput!): BuildRubricEntryPayload!
@@ -1709,6 +1728,7 @@ type Query {
   findParentContactsByTeacherId(input: FindParentContactsByTeacherIdInput!): FindParentContactsByTeacherIdPayload!
   findQuizQuestionsByQuizzableSections(input: FindQuizQuestionsByQuizzableSectionsInput!): FindQuizQuestionsByQuizzableSectionsPayload!
   findQuizQuestionsByTextSectionId(input: FindQuizQuestionsByTextSectionIdInput!): FindQuizQuestionsByTextSectionIdPayload!
+  findQuizzesForCourseByAssignedDate(input: FindQuizzesForCourseByAssignedDateInput!): FindQuizzesForCourseByAssignedDatePayload!
   findReadingGuideById(input: FindReadingGuideByIdInput!): FindReadingGuideByIdPayload!
   findReadingGuidesByAssociatedLessonAndCourseId(input: FindReadingGuidesByAssociatedLessonAndCourseIdInput!): FindReadingGuidesByAssociatedLessonAndCourseIdPayload!
   findReadingGuidesByCourseIdAndAssignedDate(input: FindReadingGuidesByCourseIdAndAssignedDateInput!): FindReadingGuidesByCourseIdAndAssignedDatePayload!

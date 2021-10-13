@@ -11,7 +11,8 @@ export const CreateQuizzesByCourseInput = inputObjectType({
     t.list.id('courseIds', { required: true })
     t.id('hasAssigner', { required: true })
     t.field('markingPeriod', { type: MarkingPeriodEnum, required: true })
-    t.id('associatedLessonId', { required: true })
+    // t.id('associatedLessonId')
+    t.list.id('assignedSectionIds', { required: true })
     t.string('dueTime', { required: true })
     t.string('assignedDate', { required: true })
     t.string('dueDate', { required: true })
@@ -40,19 +41,21 @@ export const CreateQuizzesByCourse = mutationField('createQuizzesByCourse', {
         hasAssigner,
         markingPeriod,
         readings,
-        associatedLessonId,
+        assignedSectionIds,
+        // associatedLessonId,
       },
     },
-    { assignmentData, userData, lessonData, questionData }
+    { assignmentData, userData, questionData }
   ) {
     const teacher: NexusGenRootTypes['Teacher'] = await userData.findOne({
       _id: new ObjectId(hasAssigner),
     })
 
-    const lessonInfo: NexusGenRootTypes['Lesson'] = lessonData.findOne({
-      _id: new ObjectId(associatedLessonId!),
-    })
-    const quizzableSections = lessonInfo.assignedSectionIdList
+    // const lessonInfo: NexusGenRootTypes['Lesson'] = lessonData.findOne({
+    //   _id: new ObjectId(associatedLessonId!),
+    // })
+    // const quizzableSections = lessonInfo.assignedSectionIdList
+    const quizzableSections = assignedSectionIds
 
     const quizzedSections = []
 
@@ -91,7 +94,7 @@ export const CreateQuizzesByCourse = mutationField('createQuizzesByCourse', {
             maxPoints: quizzedSections.length,
             earnedPoints: 0,
           },
-          associatedLessonId,
+          // associatedLessonId,
           quizzableSections: quizzedSections,
           finishedQuiz: false,
           isActive: false,
