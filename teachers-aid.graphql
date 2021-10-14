@@ -2179,6 +2179,10 @@ type SetOrganizerPayload {
   essay: Essay!
 }
 
+type SGO {
+  _id: ID!
+}
+
 input StartProtocolInput {
   isActive: Boolean!
   lessonId: ID!
