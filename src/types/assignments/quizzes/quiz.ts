@@ -4,7 +4,7 @@ export const Quiz = objectType({
   name: 'Quiz',
   definition(t) {
     t.implements('Assignment')
-    t.list.string('quizzableSections')
+    t.list.id('quizzableSections')
     t.boolean('finishedQuiz')
     t.boolean('isActive')
     t.float('responsibilityPoints')

@@ -1,5 +1,6 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { ObjectId } from 'mongodb'
+import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
 
 import { Quiz } from '.'
 
@@ -33,10 +34,10 @@ export const AssignQuizzesByStudentIdsAndDate = mutationField(
       { input: { studentIds, assignedDate } },
       { assignmentData }
     ) {
-      const quizzes = []
+      const quizzes: NexusGenRootTypes['Quiz'][] = []
+
       for (const studentId of studentIds) {
-        console.log(studentId)
-        await assignmentData.updateOne(
+        const quizToUpdate = await assignmentData.updateOne(
           {
             quizzableSections: { $exists: true },
             'hasOwner._id': new ObjectId(studentId),
@@ -45,10 +46,11 @@ export const AssignQuizzesByStudentIdsAndDate = mutationField(
           {
             $set: {
               assigned: true,
-              isActive: true,
+              // isActive: true,
             },
           }
         )
+
         const quiz = await assignmentData.find({
           quizzableSections: { $exists: true },
           'hasOwner._id': new ObjectId(studentId),

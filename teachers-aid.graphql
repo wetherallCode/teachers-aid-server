@@ -31,6 +31,15 @@ input AcademicSentenceStructureInput {
   verb: String!
 }
 
+input ActivateQuizInput {
+  activate: Boolean!
+  quizId: ID!
+}
+
+type ActivateQuizPayload {
+  activated: Boolean!
+}
+
 type AddAssociatedCourseIdPayload {
   courseInfo: [CourseInfo!]!
 }
@@ -1117,6 +1126,14 @@ type FindParentContactsByTeacherIdPayload {
   parentContacts: [ParentContact!]!
 }
 
+input FindQuizByIdInput {
+  quizId: ID!
+}
+
+type FindQuizByIdPayload {
+  quiz: Quiz!
+}
+
 input FindQuizQuestionsByQuizzableSectionsInput {
   quizzableSectionIds: [String!]!
 }
@@ -1131,6 +1148,15 @@ input FindQuizQuestionsByTextSectionIdInput {
 
 type FindQuizQuestionsByTextSectionIdPayload {
   quizQuestions: [QuizQuestion!]!
+}
+
+input FindQuizzesByStudentIdInput {
+  markingPeriod: MarkingPeriodEnum!
+  studentId: ID!
+}
+
+type FindQuizzesByStudentIdPayload {
+  quizzes: [Quiz!]!
 }
 
 input FindQuizzesForCourseByAssignedDateInput {
@@ -1333,6 +1359,16 @@ type FinishProtocolPayload {
   protocols: [Protocol!]!
 }
 
+input FinishQuizInput {
+  earnedPoints: Float!
+  quizId: ID!
+  responsibilityPoints: Float!
+}
+
+type FinishQuizPayload {
+  quiz: Quiz!
+}
+
 input GradeArticleReviewInput {
   articleReviewId: ID!
   earnedPoints: Int!
@@ -1476,6 +1512,7 @@ type MarkTemporaryTaskAbsentPayload {
 }
 
 type Mutation {
+  activateQuiz(input: ActivateQuizInput!): ActivateQuizPayload!
   addAssociatedCourseId: AddAssociatedCourseIdPayload!
   addCourseToTeacher(input: AddCourseToTeacherInput!): AddCourseToTeacherPayload!
   addDeskToAssignedSeats(input: AddDeskToAssignedSeatsInput!): AddDeskToAssignedSeatsPayload!
@@ -1531,6 +1568,7 @@ type Mutation {
   deleteTemporaryTasks(input: DeleteTemporaryTasksInput!): DeleteTemporaryTasksPayload!
   exemptArticleReview(input: ExemptArticleReviewInput!): ExemptArticleReviewPayload!
   finishProtocol(input: FinishProtocolInput!): FinishProtocolPayload!
+  finishQuiz(input: FinishQuizInput!): FinishQuizPayload!
   gradeArticleReview(input: GradeArticleReviewInput!): GradeArticleReviewPayload!
   gradeTemporaryTask(input: GradeTemporaryTaskInput!): GradeTemporaryTaskPayload!
   initializeStudents(input: InitializeStudentsInput!): InitializeStudentsPayload!
@@ -1564,6 +1602,7 @@ type Mutation {
   submitArticleReview(input: SubmitArticleReviewInput!): SubmitArticleReviewPayload!
   submitEssayFinalDraft(input: SubmitEssayFinalDraftInput!): SubmitEssayFinalDraftPayload!
   submitReadingGuide(input: SubmitReadingGuideInput!): SubmitReadingGuidePayload!
+  switchToNewCourse(input: SwitchToNewCourseInput!): SwitchToNewCoursePayload!
   unAssignEssays(input: UnAssignEssaysInput!): UnAssignEssaysPayload!
   updateAcademicOrganizer(input: UpdateAcademicOrganizerInput!): UpdateAcademicOrganizerPayload!
   updateAdvancedOrganizer(input: UpdateAdvancedOrganizerInput!): UpdateAdvancedOrganizerPayload!
@@ -1726,8 +1765,10 @@ type Query {
   findLessonsByUnit(input: FindLessonsByUnitInput!): FindLessonsByUnitPayload!
   findLessonStatus(input: FindLessonStatusInput!): FindLessonStatusPayload!
   findParentContactsByTeacherId(input: FindParentContactsByTeacherIdInput!): FindParentContactsByTeacherIdPayload!
+  findQuizById(input: FindQuizByIdInput!): FindQuizByIdPayload!
   findQuizQuestionsByQuizzableSections(input: FindQuizQuestionsByQuizzableSectionsInput!): FindQuizQuestionsByQuizzableSectionsPayload!
   findQuizQuestionsByTextSectionId(input: FindQuizQuestionsByTextSectionIdInput!): FindQuizQuestionsByTextSectionIdPayload!
+  findQuizzesByStudentId(input: FindQuizzesByStudentIdInput!): FindQuizzesByStudentIdPayload!
   findQuizzesForCourseByAssignedDate(input: FindQuizzesForCourseByAssignedDateInput!): FindQuizzesForCourseByAssignedDatePayload!
   findReadingGuideById(input: FindReadingGuideByIdInput!): FindReadingGuideByIdPayload!
   findReadingGuidesByAssociatedLessonAndCourseId(input: FindReadingGuidesByAssociatedLessonAndCourseIdInput!): FindReadingGuidesByAssociatedLessonAndCourseIdPayload!
@@ -1833,7 +1874,7 @@ type Quiz implements Assignment {
   markingPeriod: MarkingPeriodEnum!
   missing: Boolean!
   paperBased: Boolean!
-  quizzableSections: [String!]!
+  quizzableSections: [ID!]!
   readings: Readings!
   responsibilityPoints: Float!
   score: Score!
@@ -2347,6 +2388,15 @@ input SubmittedFinalDraftsInput {
   gradingDraft: JSON!
   rubricEntries: [RubricEntryInput!]!
   score: Float!
+}
+
+input SwitchToNewCourseInput {
+  newCourseId: ID!
+  studentId: ID!
+}
+
+type SwitchToNewCoursePayload {
+  switched: Boolean!
 }
 
 type Teacher implements User {

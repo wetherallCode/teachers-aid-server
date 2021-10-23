@@ -33,7 +33,7 @@ export const FindQuizQuestionsByQuizzableSections = queryField(
           .toArray()
         quizQuestions.push(...quizQuestionsBlock)
       }
-      console.log(quizQuestions)
+
       return { quizQuestions }
     },
   }

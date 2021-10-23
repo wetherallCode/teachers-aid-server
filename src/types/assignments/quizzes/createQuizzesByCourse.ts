@@ -66,7 +66,7 @@ export const CreateQuizzesByCourse = mutationField('createQuizzesByCourse', {
         associatedTextSectionId: section,
       })
       if (sectionToQuiz) {
-        quizzedSections.push(sectionToQuiz)
+        quizzedSections.push(section)
       }
       // {questionUsageType: "QUIZ", associatedTextSectionId: "5f6b963e2f7ed60025fd6105"}
     }
