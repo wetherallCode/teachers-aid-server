@@ -98,8 +98,7 @@ export const ReturnGradedEssay = mutationField('returnGradedEssay', {
         }
       )
 
-      if (levelPoints > 50) {
-        console.log('this should upgrade student')
+      if (levelPoints > 60) {
         await studentData.updateOne(
           {
             'student._id': new ObjectId(student._id!),
