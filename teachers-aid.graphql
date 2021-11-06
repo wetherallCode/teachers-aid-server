@@ -229,6 +229,7 @@ interface Assignment {
 }
 
 input AssignQuizzesByStudentIdsAndDateInput {
+  assign: Boolean!
   assignedDate: String
   studentIds: [ID!]!
 }
@@ -1597,6 +1598,7 @@ type Mutation {
   setCurrentMarkingPeriod(input: SetCurrentMarkingPeriodInput!): SetCurrentMarkingPeriodPayload!
   setOrganizer(input: SetOrganizerInput!): SetOrganizerPayload!
   startProtocol(input: StartProtocolInput!): StartProtocolPayload!
+  startQuiz(input: StartQuizInput!): StartQuizPayload!
   startReadingGuide(input: StartReadingGuideInput!): StartReadingGuidePayload!
   studentSignIn(input: StudentSignInInput!): StudentSignInPayload!
   submitArticleReview(input: SubmitArticleReviewInput!): SubmitArticleReviewPayload!
@@ -1604,6 +1606,7 @@ type Mutation {
   submitReadingGuide(input: SubmitReadingGuideInput!): SubmitReadingGuidePayload!
   switchToNewCourse(input: SwitchToNewCourseInput!): SwitchToNewCoursePayload!
   unAssignEssays(input: UnAssignEssaysInput!): UnAssignEssaysPayload!
+  unAssignQuizByQuizId(input: UnAssignQuizByQuizIdInput!): UnAssignQuizByQuizIdPayload!
   updateAcademicOrganizer(input: UpdateAcademicOrganizerInput!): UpdateAcademicOrganizerPayload!
   updateAdvancedOrganizer(input: UpdateAdvancedOrganizerInput!): UpdateAdvancedOrganizerPayload!
   updateArticleReview(input: UpdateArticleReviewInput!): UpdateArticleReviewPayload!
@@ -1878,6 +1881,7 @@ type Quiz implements Assignment {
   readings: Readings!
   responsibilityPoints: Float!
   score: Score!
+  startedQuiz: Boolean!
 }
 
 type QuizQuestion implements Question {
@@ -2234,6 +2238,14 @@ type StartProtocolPayload {
   lesson: Lesson!
 }
 
+input StartQuizInput {
+  quizId: ID!
+}
+
+type StartQuizPayload {
+  started: Boolean!
+}
+
 input StartReadingGuideInput {
   paperBased: Boolean!
   readingGuideId: ID!
@@ -2530,6 +2542,14 @@ input UnAssignEssaysInput {
 
 type UnAssignEssaysPayload {
   essays: [Essay!]!
+}
+
+input UnAssignQuizByQuizIdInput {
+  quizId: ID!
+}
+
+type UnAssignQuizByQuizIdPayload {
+  unAssigned: Boolean!
 }
 
 type UnexcusedLateness {

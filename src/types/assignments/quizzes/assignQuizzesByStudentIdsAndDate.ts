@@ -9,6 +9,7 @@ export const AssignQuizzesByStudentIdsAndDateInput = inputObjectType({
   definition(t) {
     t.list.id('studentIds', { required: true })
     t.string('assignedDate'), { required: true }
+    t.boolean('assign', { required: true })
   },
 })
 
@@ -31,7 +32,7 @@ export const AssignQuizzesByStudentIdsAndDate = mutationField(
     },
     async resolve(
       _,
-      { input: { studentIds, assignedDate } },
+      { input: { studentIds, assignedDate, assign } },
       { assignmentData }
     ) {
       const quizzes: NexusGenRootTypes['Quiz'][] = []
@@ -45,8 +46,7 @@ export const AssignQuizzesByStudentIdsAndDate = mutationField(
           },
           {
             $set: {
-              assigned: true,
-              // isActive: true,
+              assigned: assign,
             },
           }
         )

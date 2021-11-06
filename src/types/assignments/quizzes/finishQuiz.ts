@@ -32,7 +32,7 @@ export const FinishQuiz = mutationField('finishQuiz', {
         _id: new ObjectId(quizId),
       })
 
-    if (quizValidation) {
+    if (quizValidation && !quizValidation.finishedQuiz) {
       const studentId = quizValidation.hasOwner._id!
       const markingPeriod = quizValidation.markingPeriod
       await assignmentData.updateOne(
@@ -41,6 +41,7 @@ export const FinishQuiz = mutationField('finishQuiz', {
           $set: {
             finishedQuiz: true,
             isActive: false,
+            assigned: false,
             'score.earnedPoints': earnedPoints,
             responsibilityPoints: responsibilityPoints,
           },

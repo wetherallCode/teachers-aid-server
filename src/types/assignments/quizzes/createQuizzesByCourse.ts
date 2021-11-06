@@ -97,6 +97,7 @@ export const CreateQuizzesByCourse = mutationField('createQuizzesByCourse', {
           // associatedLessonId,
           quizzableSections: quizzedSections,
           finishedQuiz: false,
+          startedQuiz: false,
           isActive: false,
           responsibilityPoints: 0,
         }
