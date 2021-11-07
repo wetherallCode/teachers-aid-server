@@ -1370,6 +1370,14 @@ type FinishQuizPayload {
   quiz: Quiz!
 }
 
+input ForceFinishQuizInput {
+  quizId: ID!
+}
+
+type ForceFinishQuizPayload {
+  finished: Boolean!
+}
+
 input GradeArticleReviewInput {
   articleReviewId: ID!
   earnedPoints: Int!
@@ -1570,6 +1578,7 @@ type Mutation {
   exemptArticleReview(input: ExemptArticleReviewInput!): ExemptArticleReviewPayload!
   finishProtocol(input: FinishProtocolInput!): FinishProtocolPayload!
   finishQuiz(input: FinishQuizInput!): FinishQuizPayload!
+  forceFinishQuiz(input: ForceFinishQuizInput!): ForceFinishQuizPayload!
   gradeArticleReview(input: GradeArticleReviewInput!): GradeArticleReviewPayload!
   gradeTemporaryTask(input: GradeTemporaryTaskInput!): GradeTemporaryTaskPayload!
   initializeStudents(input: InitializeStudentsInput!): InitializeStudentsPayload!
@@ -1868,6 +1877,7 @@ type Quiz implements Assignment {
   dueTime: String!
   exempt: Boolean!
   finishedQuiz: Boolean!
+  forcedFinish: Boolean!
   gradeType: GradeTypeEnum!
   hasAssigner: Teacher!
   hasOwner: Student!
