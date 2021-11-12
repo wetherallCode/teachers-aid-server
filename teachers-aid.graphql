@@ -62,6 +62,10 @@ type AddDeskToAssignedSeatsPayload {
   courseInfo: CourseInfo!
 }
 
+type AddIEPInfoPayload {
+  added: Boolean!
+}
+
 input AddNewChapterInput {
   chapterNumber: Int!
   chapterTitle: String!
@@ -136,12 +140,14 @@ type AnswerList {
   answer: String!
   correct: Boolean!
   partiallyCorrect: Boolean!
+  removable: Boolean!
 }
 
 input AnswerListInput {
   answer: String!
   correct: Boolean!
   partiallyCorrect: Boolean!
+  removable: Boolean!
 }
 
 union AnswerTypes = HowCauseEffectAnswerType | ProblemSolutionAnswerType | WhyCauseEffectAnswerType
@@ -1525,6 +1531,7 @@ type Mutation {
   addAssociatedCourseId: AddAssociatedCourseIdPayload!
   addCourseToTeacher(input: AddCourseToTeacherInput!): AddCourseToTeacherPayload!
   addDeskToAssignedSeats(input: AddDeskToAssignedSeatsInput!): AddDeskToAssignedSeatsPayload!
+  addIEPInfo: AddIEPInfoPayload!
   addNewChapter(input: AddNewChapterInput!): AddNewChapterPayload!
   addNewText(input: AddNewTextInput!): AddNewTextPayload!
   addStudentsToCourse(input: AddStudentsToCourseInput!): AddStudentsToCoursePayload!
@@ -2275,6 +2282,7 @@ type Student implements User {
   hasBehaviors: [StudentBehavior!]!
   hasContactInformation: StudentInformation!
   hasExcusedLatenesses: [ExcusedLateness!]!
+  hasIEP: Boolean
   hasProtocols: [Protocol!]!
   hasResponsibilityPoints: [ResponsibilityPoints!]!
   hasUnExcusedLatenesses: [UnexcusedLateness!]!

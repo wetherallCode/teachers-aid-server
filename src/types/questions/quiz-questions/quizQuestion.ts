@@ -39,5 +39,6 @@ export const AnswerList = objectType({
     t.string('answer')
     t.boolean('correct')
     t.boolean('partiallyCorrect')
+    t.boolean('removable')
   },
 })
