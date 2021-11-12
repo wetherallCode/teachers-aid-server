@@ -43,6 +43,7 @@ export const AnswerListInput = inputObjectType({
     t.string('answer', { required: true })
     t.boolean('correct', { required: true })
     t.boolean('partiallyCorrect', { required: true })
+    t.boolean('removable', { required: true })
   },
 })
 

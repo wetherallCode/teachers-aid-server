@@ -10,6 +10,7 @@ export const User = interfaceType({
     t.string('lastName')
     t.string('email', { nullable: true })
     t.string('password')
+
     t.resolveType((user) => {
       if (user.hasOwnProperty('title')) {
         return 'Teacher'

@@ -1,6 +1,5 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { ObjectId } from 'mongodb'
-import { updateLanguageServiceSourceFile } from 'typescript'
 import { NexusGenRootTypes } from '../../teachers-aid-typegen'
 
 export const SwitchToNewCourseInput = inputObjectType({
