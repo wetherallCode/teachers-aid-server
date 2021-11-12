@@ -11,6 +11,7 @@ export const Student = objectType({
   definition(t) {
     t.implements(User)
     t.string('schoolId', { nullable: true })
+    t.boolean('hasIEP', { nullable: true })
     t.boolean('virtual')
     t.field('cohort', { type: StudentCohortEnum })
     // t.list.field('asksQuestions', {
