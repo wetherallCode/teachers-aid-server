@@ -22,7 +22,7 @@ export const AddIEPInfo = mutationField('addIEPInfo', {
       .find({ schoolId: { $exists: true } })
       .toArray()
 
-    const modifiedCount = await userData.updateMany(
+    const { modifiedCount } = await userData.updateMany(
       {
         schoolId: { $exists: true },
       },
