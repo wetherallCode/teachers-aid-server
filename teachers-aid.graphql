@@ -1952,6 +1952,7 @@ type ReadingGuide implements Assignment {
   paperBased: Boolean!
   readingGuideFinal: ReadingGuideFinalContainer
   readings: Readings!
+  reviewed: Boolean!
   score: Score!
 }
 

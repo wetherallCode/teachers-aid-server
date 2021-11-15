@@ -1733,6 +1733,7 @@ export interface NexusGenRootTypes {
     paperBased: boolean; // Boolean!
     readingGuideFinal?: NexusGenRootTypes['ReadingGuideFinalContainer'] | null; // ReadingGuideFinalContainer
     readings: NexusGenRootTypes['Readings']; // Readings!
+    reviewed: boolean; // Boolean!
     score: NexusGenRootTypes['Score']; // Score!
   }
   ReadingGuideFinalContainer: { // root type
@@ -3257,6 +3258,7 @@ export interface NexusGenFieldTypes {
     paperBased: boolean; // Boolean!
     readingGuideFinal: NexusGenRootTypes['ReadingGuideFinalContainer'] | null; // ReadingGuideFinalContainer
     readings: NexusGenRootTypes['Readings']; // Readings!
+    reviewed: boolean; // Boolean!
     score: NexusGenRootTypes['Score']; // Score!
   }
   ReadingGuideFinalContainer: { // field return type

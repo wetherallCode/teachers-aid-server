@@ -6,6 +6,7 @@ export const ReadingGuide = objectType({
     t.implements('Assignment')
     t.boolean('completed')
     t.boolean('graded')
+    t.boolean('reviewed')
     t.field('readingGuideFinal', {
       type: ReadingGuideFinalContainer,
       nullable: true,
