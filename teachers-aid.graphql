@@ -290,6 +290,10 @@ type BuildRubricEntryPayload {
   rubricEntry: RubricEntry!
 }
 
+type ChangeAllQuizzesToSecondMarkingPeriodPayload {
+  changed: Boolean!
+}
+
 input ChangePasswordInput {
   newPassword: String!
   oldPassword: String!
@@ -1553,6 +1557,7 @@ type Mutation {
   assignReadingGuides(input: AssignReadingGuidesInput!): AssignReadingGuidesPayload!
   assignSeats(input: AssignSeatsInput!): AssignSeatsPayload!
   buildRubricEntry(input: BuildRubricEntryInput!): BuildRubricEntryPayload!
+  changeAllQuizzesToSecondMarkingPeriod: ChangeAllQuizzesToSecondMarkingPeriodPayload!
   changePassword(input: ChangePasswordInput!): ChangePasswordPayload!
   changeVocabWord(input: ChangeVocabWordInput!): UpdateVocabPayload!
   controlCoolDown(input: ControlCoolDownInput!): ControlCoolDownPayload!
