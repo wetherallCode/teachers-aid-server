@@ -32,9 +32,9 @@ export const ReviewReadingGuides = mutationField('reviewReadingGuides', {
         effort === 'GOOD_EFFORT'
           ? points * 1
           : effort === 'SOME_EFFORT'
-          ? points * 0.5
+          ? points * 0.75
           : effort === 'LITTLE_EFFORT'
-          ? points * 0.25
+          ? points * 0.5
           : 0
 
       await assignmentData.updateOne(
