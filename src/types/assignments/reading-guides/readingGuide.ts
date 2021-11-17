@@ -41,3 +41,8 @@ export const InformationStructureEnum = enumType({
   name: 'InformationStructureEnum',
   members: ['PROBLEM_SOLUTION', 'CAUSE_EFFECT', 'COMPARE_CONTRAST', 'SEQUENCE'],
 })
+
+export const ReadingGuideReviewOptionsEnum = enumType({
+  name: 'ReadingGuideReviewOptionsEnum',
+  members: ['GOOD_EFFORT', 'SOME_EFFORT', 'LITTLE_EFFORT', 'NO_EFFORT'],
+})
