@@ -62,6 +62,10 @@ type AddDeskToAssignedSeatsPayload {
   courseInfo: CourseInfo!
 }
 
+type AddForcedFinishedToAllQuizzesPayload {
+  added: Boolean!
+}
+
 type AddIEPInfoPayload {
   added: Boolean!
 }
@@ -1544,6 +1548,7 @@ type Mutation {
   addAssociatedCourseId: AddAssociatedCourseIdPayload!
   addCourseToTeacher(input: AddCourseToTeacherInput!): AddCourseToTeacherPayload!
   addDeskToAssignedSeats(input: AddDeskToAssignedSeatsInput!): AddDeskToAssignedSeatsPayload!
+  addForcedFinishedToAllQuizzes: AddForcedFinishedToAllQuizzesPayload!
   addIEPInfo: AddIEPInfoPayload!
   addNewChapter(input: AddNewChapterInput!): AddNewChapterPayload!
   addNewText(input: AddNewTextInput!): AddNewTextPayload!
@@ -1625,6 +1630,7 @@ type Mutation {
   returnArticleReview(input: ReturnArticleReviewInput!): ReturnArticleReviewPayload!
   returnGradedEssay(input: ReturnGradedEssayInput!): ReturnGradedEssayPayload!
   returnReadingGuide(input: ReturnReadingGuideInput!): ReturnReadingGuidePayload!
+  reviewReadingGuides(input: ReviewReadingGuidesInput!): ReviewReadingGuidesPayload!
   setAnswerType(input: SetAnswerTypeInput!): SetAnswerTypePayload!
   setCurrentMarkingPeriod(input: SetCurrentMarkingPeriodInput!): SetCurrentMarkingPeriodPayload!
   setOrganizer(input: SetOrganizerInput!): SetOrganizerPayload!
@@ -1972,6 +1978,13 @@ type ReadingGuideFinalContainer {
   submitTime: String
 }
 
+enum ReadingGuideReviewOptionsEnum {
+  GOOD_EFFORT
+  LITTLE_EFFORT
+  NO_EFFORT
+  SOME_EFFORT
+}
+
 type Readings {
   readingPages: String!
   readingSections: String!
@@ -2178,6 +2191,15 @@ input ReturnReadingGuideInput {
 
 type ReturnReadingGuidePayload {
   readingGuide: ReadingGuide!
+}
+
+input ReviewReadingGuidesInput {
+  effort: ReadingGuideReviewOptionsEnum!
+  readingGuideId: ID!
+}
+
+type ReviewReadingGuidesPayload {
+  reviewed: Boolean!
 }
 
 type RubricEntry {
