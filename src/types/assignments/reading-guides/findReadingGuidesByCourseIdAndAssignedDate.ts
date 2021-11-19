@@ -33,14 +33,16 @@ export const FindReadingGuidesByCourseIdAndAssignedDate = queryField(
       { input: { courseId, assignedDate } },
       { assignmentData }
     ) {
-      const readingGuides: NexusGenRootTypes['ReadingGuide'][] = await assignmentData
-        .find({
-          'hasOwner.inCourses._id': new ObjectId(courseId),
-          assignedDate,
-          workingDraft: { $exists: false },
-          articleTitle: { $exists: false },
-        })
-        .toArray()
+      const readingGuides: NexusGenRootTypes['ReadingGuide'][] =
+        await assignmentData
+          .find({
+            'hasOwner.inCourses._id': new ObjectId(courseId),
+            assignedDate,
+            workingDraft: { $exists: false },
+            articleTitle: { $exists: false },
+            quizzableSections: { $exists: false },
+          })
+          .toArray()
 
       return { readingGuides }
     },
