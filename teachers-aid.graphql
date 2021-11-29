@@ -797,6 +797,10 @@ enum DynamicLessonEnums {
   WARM_UP
 }
 
+type EmergencyModificationPayload {
+  modified: Boolean!
+}
+
 type Essay implements Assignment {
   _id: ID
   assigned: Boolean!
@@ -1606,6 +1610,7 @@ type Mutation {
   deleteAllTemporaryTasks: DeleteAllTemporaryTasksPayload!
   deleteReviews(input: DeleteReviewsInput!): DeleteReviewsPayload!
   deleteTemporaryTasks(input: DeleteTemporaryTasksInput!): DeleteTemporaryTasksPayload!
+  emergencyModification: EmergencyModificationPayload!
   exemptArticleReview(input: ExemptArticleReviewInput!): ExemptArticleReviewPayload!
   finishProtocol(input: FinishProtocolInput!): FinishProtocolPayload!
   finishQuiz(input: FinishQuizInput!): FinishQuizPayload!
