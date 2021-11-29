@@ -108,6 +108,7 @@ export const CreateReadingGuide = mutationField('createReadingGuide', {
         completed: false,
         graded: false,
         reviewed: false,
+        effort: 'GOOD_EFFORT',
         dueDate,
         dueTime: dueTimeForAssignment,
         readings,

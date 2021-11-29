@@ -7,6 +7,7 @@ export const ReadingGuide = objectType({
     t.boolean('completed')
     t.boolean('graded')
     t.boolean('reviewed')
+    t.field('effort', { type: ReadingGuideReviewOptionsEnum })
     t.field('readingGuideFinal', {
       type: ReadingGuideFinalContainer,
       nullable: true,

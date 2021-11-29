@@ -1,6 +1,7 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { ObjectId } from 'mongodb'
 import { ReadingGuideReviewOptionsEnum } from '.'
+import { MarkingPeriodEnum } from '../..'
 import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
 
 export const ReviewReadingGuidesInput = inputObjectType({
@@ -8,6 +9,10 @@ export const ReviewReadingGuidesInput = inputObjectType({
   definition(t) {
     t.id('readingGuideId', { required: true })
     t.field('effort', { type: ReadingGuideReviewOptionsEnum, required: true })
+    // t.field('lastEffort', {
+    //   type: ReadingGuideReviewOptionsEnum,
+    //   required: true,
+    // })
   },
 })
 
@@ -26,6 +31,7 @@ export const ReviewReadingGuides = mutationField('reviewReadingGuides', {
       await assignmentData.findOne({
         _id: new ObjectId(readingGuideId),
       })
+
     if (readingGuideValidation) {
       const points = readingGuideValidation.score.maxPoints
       const effortPoints =
@@ -37,13 +43,20 @@ export const ReviewReadingGuides = mutationField('reviewReadingGuides', {
           ? points * 0.5
           : 0
 
-      await assignmentData.updateOne(
+      const lastEffort = readingGuideValidation.effort
+
+      const { modifiedCount } = await assignmentData.updateOne(
         { _id: new ObjectId(readingGuideId) },
         {
-          $set: { 'score.earnedPoints': effortPoints, reviewed: true },
+          $set: {
+            'score.earnedPoints': effortPoints,
+            'effort': effort,
+            reviewed: true,
+          },
         }
       )
-      return { reviewed: true }
+
+      return { reviewed: modifiedCount === 1 ? true : false }
     } else throw new Error('Reading Guide Does Not Exist!')
   },
 })

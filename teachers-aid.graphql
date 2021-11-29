@@ -62,6 +62,10 @@ type AddDeskToAssignedSeatsPayload {
   courseInfo: CourseInfo!
 }
 
+type AddFieldsToReadingGuidePayload {
+  added: Boolean!
+}
+
 type AddForcedFinishedToAllQuizzesPayload {
   added: Boolean!
 }
@@ -1548,6 +1552,7 @@ type Mutation {
   addAssociatedCourseId: AddAssociatedCourseIdPayload!
   addCourseToTeacher(input: AddCourseToTeacherInput!): AddCourseToTeacherPayload!
   addDeskToAssignedSeats(input: AddDeskToAssignedSeatsInput!): AddDeskToAssignedSeatsPayload!
+  addFieldsToReadingGuide: AddFieldsToReadingGuidePayload!
   addForcedFinishedToAllQuizzes: AddForcedFinishedToAllQuizzesPayload!
   addIEPInfo: AddIEPInfoPayload!
   addNewChapter(input: AddNewChapterInput!): AddNewChapterPayload!
@@ -1951,6 +1956,7 @@ type ReadingGuide implements Assignment {
   completed: Boolean!
   dueDate: String!
   dueTime: String!
+  effort: ReadingGuideReviewOptionsEnum!
   exempt: Boolean!
   graded: Boolean!
   gradeType: GradeTypeEnum!
