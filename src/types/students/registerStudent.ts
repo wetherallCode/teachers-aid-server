@@ -15,6 +15,7 @@ export const RegisterStudentInput = inputObjectType({
     t.boolean('virtual', { required: true })
     t.string('firstName', { required: true })
     t.string('lastName', { required: true })
+    t.boolean('hasIEP')
   },
 })
 
@@ -43,6 +44,7 @@ export const RegisterStudent = mutationField('registerStudent', {
         virtual,
         schoolId,
         cohort,
+        hasIEP,
       },
     },
     { userData }
@@ -62,6 +64,7 @@ export const RegisterStudent = mutationField('registerStudent', {
           lastName,
           virtual,
           cohort,
+          hasIEP,
           inCourses: [],
         }
         const { insertedId } = await userData.insertOne(newStudent)
