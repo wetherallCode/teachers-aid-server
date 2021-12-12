@@ -1,4 +1,4 @@
-import { objectType } from '@nexus/schema'
+import { enumType, objectType } from '@nexus/schema'
 import { SchoolDayType } from './schoolDayType'
 import { StudentCohortEnum, Student } from '../students'
 import { Course } from '..'
@@ -11,6 +11,7 @@ export const SchoolDay = objectType({
     t.string('todaysDate')
     t.field('currentSchoolDayType', { type: SchoolDayType })
     t.int('schoolDayCount')
+    t.field('schoolDayLength', { type: SchoolDayLengthEnum })
     t.field('cohortWeek', { type: StudentCohortEnum })
     t.list.field('signInSheets', {
       type: StudentSignInSheet,
@@ -28,6 +29,11 @@ export const SchoolDay = objectType({
     //   },
     // })
   },
+})
+
+export const SchoolDayLengthEnum = enumType({
+  name: 'SchoolDayLengthEnum',
+  members: ['FULL', 'HALF', 'ONE_HOUR_DELAY'],
 })
 
 export const StudentSignInSheet = objectType({

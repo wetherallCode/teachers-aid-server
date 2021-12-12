@@ -1,5 +1,5 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
-import { SchoolDay, SchoolDayType } from '.'
+import { SchoolDay, SchoolDayLengthEnum, SchoolDayType } from '.'
 import { StudentCohortEnum } from '..'
 import { NexusGenRootTypes } from '../../teachers-aid-typegen'
 
@@ -9,6 +9,7 @@ export const CreateSchoolDayInput = inputObjectType({
     t.field('currentSchoolDayType', { type: SchoolDayType, required: true })
     t.int('schoolDayCount', { required: true })
     t.field('cohortWeek', { type: StudentCohortEnum, required: true })
+    t.field('schoolDayLength', { type: SchoolDayLengthEnum, required: true })
   },
 })
 
@@ -24,13 +25,21 @@ export const CreateSchoolDay = mutationField('createSchoolDay', {
   args: { input: arg({ type: CreateSchoolDayInput, required: true }) },
   async resolve(
     _,
-    { input: { currentSchoolDayType, schoolDayCount, cohortWeek } },
+    {
+      input: {
+        currentSchoolDayType,
+        schoolDayCount,
+        cohortWeek,
+        schoolDayLength,
+      },
+    },
     { schoolDayData }
   ) {
     const newSchoolDay: NexusGenRootTypes['SchoolDay'] = {
       cohortWeek,
       currentSchoolDayType,
       schoolDayCount,
+      schoolDayLength,
       todaysDate: new Date().toLocaleDateString(),
       signInSheets: [],
     }
