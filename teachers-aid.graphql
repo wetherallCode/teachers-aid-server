@@ -606,6 +606,7 @@ input CreateSchoolDayInput {
   cohortWeek: StudentCohortEnum!
   currentSchoolDayType: SchoolDayType!
   schoolDayCount: Int!
+  schoolDayLength: SchoolDayLengthEnum!
 }
 
 type CreateSchoolDayPayload {
@@ -1641,6 +1642,7 @@ type Mutation {
   returnGradedEssay(input: ReturnGradedEssayInput!): ReturnGradedEssayPayload!
   returnReadingGuide(input: ReturnReadingGuideInput!): ReturnReadingGuidePayload!
   reviewReadingGuides(input: ReviewReadingGuidesInput!): ReviewReadingGuidesPayload!
+  schoolDayModifier: SchoolDayModifierPayload!
   setAnswerType(input: SetAnswerTypeInput!): SetAnswerTypePayload!
   setCurrentMarkingPeriod(input: SetCurrentMarkingPeriodInput!): SetCurrentMarkingPeriodPayload!
   setOrganizer(input: SetOrganizerInput!): SetOrganizerPayload!
@@ -2010,6 +2012,7 @@ input RegisterStudentInput {
   cohort: StudentCohortEnum!
   email: String
   firstName: String!
+  hasIEP: Boolean
   lastName: String!
   middleName: String
   password: String!
@@ -2242,8 +2245,19 @@ type SchoolDay {
   cohortWeek: StudentCohortEnum!
   currentSchoolDayType: SchoolDayType!
   schoolDayCount: Int!
+  schoolDayLength: SchoolDayLengthEnum!
   signInSheets: [StudentSignInSheet!]
   todaysDate: String!
+}
+
+enum SchoolDayLengthEnum {
+  FULL
+  HALF
+  ONE_HOUR_DELAY
+}
+
+type SchoolDayModifierPayload {
+  modified: Boolean!
 }
 
 type SchoolDayTracker {
