@@ -1660,6 +1660,7 @@ type Mutation {
   submitEssayFinalDraft(input: SubmitEssayFinalDraftInput!): SubmitEssayFinalDraftPayload!
   submitReadingGuide(input: SubmitReadingGuideInput!): SubmitReadingGuidePayload!
   switchToNewCourse(input: SwitchToNewCourseInput!): SwitchToNewCoursePayload!
+  toggleClassAssignmentsAllowed(input: ToggleClassAssignmentsAllowedInput!): ToggleClassAssignmentsAllowedPayload!
   unAssignEssays(input: UnAssignEssaysInput!): UnAssignEssaysPayload!
   unAssignQuizByQuizId(input: UnAssignQuizByQuizIdInput!): UnAssignQuizByQuizIdPayload!
   updateAcademicOrganizer(input: UpdateAcademicOrganizerInput!): UpdateAcademicOrganizerPayload!
@@ -2602,6 +2603,14 @@ enum TitleEnum {
   MR
   MRS
   MS
+}
+
+input ToggleClassAssignmentsAllowedInput {
+  courseId: ID!
+}
+
+type ToggleClassAssignmentsAllowedPayload {
+  toggled: Boolean!
 }
 
 type Topic {
