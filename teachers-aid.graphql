@@ -378,6 +378,7 @@ type Course {
 type CourseInfo {
   _id: ID
   assignedSeats: [StudentSeat!]!
+  assignmentsInClassNotAllowed: Boolean!
   associatedCourseId: ID
   cohortBasedSeating: Boolean!
   course: Course!
@@ -1552,6 +1553,10 @@ type MarkTemporaryTaskAbsentPayload {
   temporaryTask: TemporaryTask!
 }
 
+type ModifyCourseInfoPayload {
+  modified: Boolean!
+}
+
 type Mutation {
   activateQuiz(input: ActivateQuizInput!): ActivateQuizPayload!
   addAssociatedCourseId: AddAssociatedCourseIdPayload!
@@ -1624,6 +1629,7 @@ type Mutation {
   markAllProtocolsInactive: MarkAllProtocolsInactivePayload!
   markExempt(input: MarkExemptInput!): MarkExemptPayload!
   markTemporaryTaskAbsent(input: MarkTemporaryTaskAbsentInput!): MarkTemporaryTaskAbsentPayload!
+  modifyCourseInfo: ModifyCourseInfoPayload!
   registerStudent(input: RegisterStudentInput!): RegisterStudentPayload!
   registerTeacher(input: RegisterTeacherInput!): RegisterTeacherPayload!
   removeAbsence(input: RemoveAbsenceInput!): RemoveAbsencePayload!
