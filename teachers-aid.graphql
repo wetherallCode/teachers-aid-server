@@ -1201,6 +1201,15 @@ type FindReadingGuideByIdPayload {
   readingGuide: ReadingGuide!
 }
 
+input FindReadingGuideByUserIdAndReadingSectionInput {
+  readingSections: String!
+  studentId: ID!
+}
+
+type FindReadingGuideByUserIdAndReadingSectionPayload {
+  readingGuide: ReadingGuide
+}
+
 input FindReadingGuidesByAssociatedLessonAndCourseIdInput {
   courseId: ID!
   lessonId: ID!
@@ -1830,6 +1839,7 @@ type Query {
   findQuizzesByStudentId(input: FindQuizzesByStudentIdInput!): FindQuizzesByStudentIdPayload!
   findQuizzesForCourseByAssignedDate(input: FindQuizzesForCourseByAssignedDateInput!): FindQuizzesForCourseByAssignedDatePayload!
   findReadingGuideById(input: FindReadingGuideByIdInput!): FindReadingGuideByIdPayload!
+  findReadingGuideByUserIdAndReadingSection(input: FindReadingGuideByUserIdAndReadingSectionInput!): FindReadingGuideByUserIdAndReadingSectionPayload!
   findReadingGuidesByAssociatedLessonAndCourseId(input: FindReadingGuidesByAssociatedLessonAndCourseIdInput!): FindReadingGuidesByAssociatedLessonAndCourseIdPayload!
   findReadingGuidesByCourseIdAndAssignedDate(input: FindReadingGuidesByCourseIdAndAssignedDateInput!): FindReadingGuidesByCourseIdAndAssignedDatePayload!
   findReadingGuidesToCompleteByStudentId(input: FindReadingGuidesToCompleteByStudentIdInput!): FindReadingGuidesToCompleteByStudentIdPayload!
