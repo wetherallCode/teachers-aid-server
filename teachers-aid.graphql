@@ -1228,6 +1228,22 @@ type FindReadingGuidesByCourseIdAndAssignedDatePayload {
   readingGuides: [ReadingGuide!]!
 }
 
+input FindReadingGuidesByMarkingPeriodInput {
+  markingPeriod: MarkingPeriodEnum!
+}
+
+type FindReadingGuidesByMarkingPeriodPayload {
+  readingGuides: [ReadingGuide!]!
+}
+
+input FindReadingGuidesByReadingSectionInput {
+  readingSections: String!
+}
+
+type FindReadingGuidesByReadingSectionPayload {
+  readingGuides: [ReadingGuide!]!
+}
+
 input FindReadingGuidesToCompleteByStudentIdInput {
   studentId: ID!
 }
@@ -1842,6 +1858,8 @@ type Query {
   findReadingGuideByUserIdAndReadingSection(input: FindReadingGuideByUserIdAndReadingSectionInput!): FindReadingGuideByUserIdAndReadingSectionPayload!
   findReadingGuidesByAssociatedLessonAndCourseId(input: FindReadingGuidesByAssociatedLessonAndCourseIdInput!): FindReadingGuidesByAssociatedLessonAndCourseIdPayload!
   findReadingGuidesByCourseIdAndAssignedDate(input: FindReadingGuidesByCourseIdAndAssignedDateInput!): FindReadingGuidesByCourseIdAndAssignedDatePayload!
+  findReadingGuidesByMarkingPeriod(input: FindReadingGuidesByMarkingPeriodInput!): FindReadingGuidesByMarkingPeriodPayload!
+  findReadingGuidesByReadingSection(input: FindReadingGuidesByReadingSectionInput!): FindReadingGuidesByReadingSectionPayload!
   findReadingGuidesToCompleteByStudentId(input: FindReadingGuidesToCompleteByStudentIdInput!): FindReadingGuidesToCompleteByStudentIdPayload!
   findResponsibilityPointsByCourse(input: FindResponsibilityPointsByCourseInput!): FindResponsibilityPointsByCoursePayload!
   findResponsibilityPointsByStudentId(input: FindResponsibilityPointsByStudentIdInput!): FindResponsibilityPointsByStudentIdPayload!
