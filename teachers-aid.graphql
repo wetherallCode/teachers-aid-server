@@ -302,6 +302,16 @@ type ChangeAllQuizzesToSecondMarkingPeriodPayload {
   changed: Boolean!
 }
 
+input ChangeEssayDueDateAndAssignedDateByReadingSectionInput {
+  newAssignedDate: String
+  newDueDate: String
+  readingSections: String!
+}
+
+type ChangeEssayDueDateAndAssignedDateByReadingSectionPayload {
+  updated: Boolean!
+}
+
 input ChangePasswordInput {
   newPassword: String!
   oldPassword: String!
@@ -310,6 +320,16 @@ input ChangePasswordInput {
 
 type ChangePasswordPayload {
   user: User!
+}
+
+input ChangeQuizDueDateAndAssignedDateByReadingSectionInput {
+  newAssignedDate: String
+  newDueDate: String
+  readingSections: String!
+}
+
+type ChangeQuizDueDateAndAssignedDateByReadingSectionPayload {
+  updated: Boolean!
 }
 
 input ChangeVocabWordInput {
@@ -1060,6 +1080,14 @@ type FindEssaysByAssociatedLessonIdPayload {
   essays: [Essay!]!
 }
 
+input FindEssaysByStudentIdInput {
+  studentId: ID!
+}
+
+type FindEssaysByStudentIdPayload {
+  essays: [Essay!]!
+}
+
 input FindEssaysByUserNameAndMarkingPeriodInput {
   markingPeriod: MarkingPeriodEnum!
   userName: String!
@@ -1582,6 +1610,15 @@ type ModifyCourseInfoPayload {
   modified: Boolean!
 }
 
+input ModifyLessonDateByOriginalDateInput {
+  newAssignedDate: String
+  originalDate: String
+}
+
+type ModifyLessonDateByOriginalDatePayload {
+  updated: Boolean!
+}
+
 type Mutation {
   activateQuiz(input: ActivateQuizInput!): ActivateQuizPayload!
   addAssociatedCourseId: AddAssociatedCourseIdPayload!
@@ -1603,7 +1640,9 @@ type Mutation {
   assignSeats(input: AssignSeatsInput!): AssignSeatsPayload!
   buildRubricEntry(input: BuildRubricEntryInput!): BuildRubricEntryPayload!
   changeAllQuizzesToSecondMarkingPeriod: ChangeAllQuizzesToSecondMarkingPeriodPayload!
+  changeEssayDueDateAndAssignedDateByReadingSection(input: ChangeEssayDueDateAndAssignedDateByReadingSectionInput!): ChangeEssayDueDateAndAssignedDateByReadingSectionPayload!
   changePassword(input: ChangePasswordInput!): ChangePasswordPayload!
+  changeQuizDueDateAndAssignedDateByReadingSection(input: ChangeQuizDueDateAndAssignedDateByReadingSectionInput!): ChangeQuizDueDateAndAssignedDateByReadingSectionPayload!
   changeVocabWord(input: ChangeVocabWordInput!): UpdateVocabPayload!
   controlCoolDown(input: ControlCoolDownInput!): ControlCoolDownPayload!
   controlWarmUp(input: ControlWarmUpInput!): ControlWarmUpPayload!
@@ -1655,6 +1694,7 @@ type Mutation {
   markExempt(input: MarkExemptInput!): MarkExemptPayload!
   markTemporaryTaskAbsent(input: MarkTemporaryTaskAbsentInput!): MarkTemporaryTaskAbsentPayload!
   modifyCourseInfo: ModifyCourseInfoPayload!
+  modifyLessonDateByOriginalDate(input: ModifyLessonDateByOriginalDateInput!): ModifyLessonDateByOriginalDatePayload!
   registerStudent(input: RegisterStudentInput!): RegisterStudentPayload!
   registerTeacher(input: RegisterTeacherInput!): RegisterTeacherPayload!
   removeAbsence(input: RemoveAbsenceInput!): RemoveAbsencePayload!
@@ -1838,6 +1878,7 @@ type Query {
   findEssayQuestionById(input: FindEssayQuestionByIdInput!): FindEssayQuestionByIdPayload!
   findEssaysByAssociatedLessonId(input: FindEssaysByAssociatedLessonIdInput!): FindEssaysByAssociatedLessonIdPayload!
   findEssaysByAssociatedLessonIdAndCourseId(input: FindEssaysByAssociatedLessonIdAndCourseIdInput!): FindEssaysByAssociatedLessonIdAndCourseIdPayload!
+  findEssaysByStudentId(input: FindEssaysByStudentIdInput!): FindEssaysByStudentIdPayload!
   findEssaysByUserNameAndMarkingPeriod(input: FindEssaysByUserNameAndMarkingPeriodInput!): FindEssaysByUserNameAndMarkingPeriodPayload!
   findEssaysToCompleteByStudentId(input: FindEssaysToCompleteByStudentIdInput!): FindEssaysToCompleteByStudentIdPayload!
   findEssaysToGradeById(input: FindEssaysToGradeByIdInput!): FindEssaysToGradeByIdPayload!
