@@ -1088,6 +1088,14 @@ type FindEssaysByStudentIdPayload {
   essays: [Essay!]!
 }
 
+input FindEssaysByTopicInput {
+  question: String!
+}
+
+type FindEssaysByTopicPayload {
+  essays: [Essay!]!
+}
+
 input FindEssaysByUserNameAndMarkingPeriodInput {
   markingPeriod: MarkingPeriodEnum!
   userName: String!
@@ -1879,6 +1887,7 @@ type Query {
   findEssaysByAssociatedLessonId(input: FindEssaysByAssociatedLessonIdInput!): FindEssaysByAssociatedLessonIdPayload!
   findEssaysByAssociatedLessonIdAndCourseId(input: FindEssaysByAssociatedLessonIdAndCourseIdInput!): FindEssaysByAssociatedLessonIdAndCourseIdPayload!
   findEssaysByStudentId(input: FindEssaysByStudentIdInput!): FindEssaysByStudentIdPayload!
+  findEssaysByTopic(input: FindEssaysByTopicInput!): FindEssaysByTopicPayload!
   findEssaysByUserNameAndMarkingPeriod(input: FindEssaysByUserNameAndMarkingPeriodInput!): FindEssaysByUserNameAndMarkingPeriodPayload!
   findEssaysToCompleteByStudentId(input: FindEssaysToCompleteByStudentIdInput!): FindEssaysToCompleteByStudentIdPayload!
   findEssaysToGradeById(input: FindEssaysToGradeByIdInput!): FindEssaysToGradeByIdPayload!
