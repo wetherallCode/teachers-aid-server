@@ -33,7 +33,7 @@ export const SchoolDay = objectType({
 
 export const SchoolDayLengthEnum = enumType({
   name: 'SchoolDayLengthEnum',
-  members: ['FULL', 'HALF', 'ONE_HOUR_DELAY'],
+  members: ['FULL', 'HALF', 'ONE_HOUR_DELAY', 'NINETY_MINUTE_DELAY'],
 })
 
 export const StudentSignInSheet = objectType({
