@@ -21,6 +21,7 @@ export const UpdateUserActive = mutationField('updateUserActive', {
   args: { input: arg({ type: UpdateUserActiveInput, required: true }) },
   async resolve(_, { input: { userId, isActive } }, { userData }) {
     const user = await userData.findOne({ _id: new ObjectId(userId) })
+    console.log(user)
     if (user) {
       const { modifiedCount } = await userData.updateOne(
         { _id: new ObjectId(userId) },
