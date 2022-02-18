@@ -46,6 +46,7 @@ export const RegisterTeacher = mutationField('registerTeacher', {
         firstName,
         lastName,
         title,
+        isActive: false,
         teachesCourses: [],
       }
       const { insertedId } = await userData.insertOne(newTeacher)

@@ -1765,6 +1765,7 @@ type Mutation {
   updateSchoolDay(input: UpdateSchoolDayInput!): UpdateSchoolDayPayload!
   updateTemporaryTasks(input: UpdateTemporaryTasksInput!): UpdateTemporaryTasksPayload!
   updateTextSection(input: UpdateTextSectionInput!): UpdateTextSectionPayload!
+  updateUserActive(input: UpdateUserActiveInput!): UpdateUserActivePayload!
   updateWhyCauseEffect(input: UpdateWhyCauseEffectInput!): UpdateWhyCauseEffectPayload!
   updateWorkingDraft(input: UpdateWorkingDraftInput!): UpdateWorkingDraftPayload!
 }
@@ -2338,6 +2339,7 @@ type SchoolDay {
 enum SchoolDayLengthEnum {
   FULL
   HALF
+  NINETY_MINUTE_DELAY
   ONE_HOUR_DELAY
 }
 
@@ -2436,6 +2438,7 @@ type Student implements User {
   hasUnExcusedLatenesses: [UnexcusedLateness!]!
   hasWritingMetrics: WritingMetrics!
   inCourses: [Course!]!
+  isActive: Boolean!
   lastName: String!
   middleName: String
   password: String!
@@ -2582,6 +2585,7 @@ type Teacher implements User {
   email: String
   firstName: String!
   hasParentContacts: [ParentContact!]!
+  isActive: Boolean!
   lastName: String!
   middleName: String
   password: String!
@@ -3030,6 +3034,15 @@ type UpdateTextSectionPayload {
   textSection: TextSection!
 }
 
+input UpdateUserActiveInput {
+  isActive: Boolean!
+  userId: ID!
+}
+
+type UpdateUserActivePayload {
+  updated: Boolean!
+}
+
 type UpdateVocabPayload {
   textSection: TextSection!
 }
@@ -3057,6 +3070,7 @@ interface User {
   _id: ID
   email: String
   firstName: String!
+  isActive: Boolean!
   lastName: String!
   middleName: String
   password: String!

@@ -65,6 +65,7 @@ export const RegisterStudent = mutationField('registerStudent', {
           virtual,
           cohort,
           hasIEP,
+          isActive: false,
           inCourses: [],
         }
         const { insertedId } = await userData.insertOne(newStudent)
