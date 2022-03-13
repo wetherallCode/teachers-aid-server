@@ -17,7 +17,10 @@ export const BehaviorEnum = enumType({
   members: [
     'ANSWERED_QUESTION',
     'DID_NOT_ANSWER_QUESTION',
+    'ON_TASK',
+    'OFF_TASK',
     'UNPREPARED',
+    'EXCESSIVE_TALKING',
     'DISRUPTIVE',
     'DISRESPECTFUL',
   ],
