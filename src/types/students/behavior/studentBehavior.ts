@@ -23,5 +23,6 @@ export const BehaviorEnum = enumType({
     'EXCESSIVE_TALKING',
     'DISRUPTIVE',
     'DISRESPECTFUL',
+    'INNAPROPRIATE_LANGUAGE',
   ],
 })
