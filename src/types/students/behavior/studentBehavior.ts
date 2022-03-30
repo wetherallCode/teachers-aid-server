@@ -19,6 +19,7 @@ export const BehaviorEnum = enumType({
     'DID_NOT_ANSWER_QUESTION',
     'ON_TASK',
     'OFF_TASK',
+    'COMPLETED_ASSIGNMENT',
     'UNPREPARED',
     'EXCESSIVE_TALKING',
     'DISRUPTIVE',
