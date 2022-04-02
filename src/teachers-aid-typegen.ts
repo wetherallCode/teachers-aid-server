@@ -779,6 +779,7 @@ export interface NexusGenInputs {
     _id: string; // ID!
     late: boolean; // Boolean!
     paperBased: boolean; // Boolean!
+    responsibilityPoints?: number | null; // Int
     submittedFinalDraft: NexusGenInputs['SubmittedFinalDraftsInput']; // SubmittedFinalDraftsInput!
     submitTime: string; // String!
   }

@@ -2537,6 +2537,7 @@ input SubmitEssayFinalDraftInput {
   _id: ID!
   late: Boolean!
   paperBased: Boolean!
+  responsibilityPoints: Int
   submittedFinalDraft: SubmittedFinalDraftsInput!
   submitTime: String!
 }
