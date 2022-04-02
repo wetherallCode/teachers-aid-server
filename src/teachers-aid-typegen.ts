@@ -85,6 +85,7 @@ export interface NexusGenInputs {
     assessment?: NexusGenEnums['ProtocolAssessmentEnum'] | null; // ProtocolAssessmentEnum
     markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
     protocolId: string; // ID!
+    responsibilityPoints: number; // Float!
   }
   AssessStudentProtocolInput: { // input type
     assessment?: NexusGenEnums['ProtocolAssessmentEnum'] | null; // ProtocolAssessmentEnum

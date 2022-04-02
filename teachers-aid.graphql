@@ -190,6 +190,7 @@ input AssessIndividualProtocolsInput {
   assessment: ProtocolAssessmentEnum
   markingPeriod: MarkingPeriodEnum!
   protocolId: ID!
+  responsibilityPoints: Float!
 }
 
 type AssessIndividualProtocolsPayload {
