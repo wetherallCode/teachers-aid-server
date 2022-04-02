@@ -779,7 +779,7 @@ export interface NexusGenInputs {
     _id: string; // ID!
     late: boolean; // Boolean!
     paperBased: boolean; // Boolean!
-    responsibilityPoints?: number | null; // Int
+    responsibilityPoints?: number | null; // Float
     submittedFinalDraft: NexusGenInputs['SubmittedFinalDraftsInput']; // SubmittedFinalDraftsInput!
     submitTime: string; // String!
   }
@@ -788,6 +788,7 @@ export interface NexusGenInputs {
     late: boolean; // Boolean!
     paperBased: boolean; // Boolean!
     readingGuideId: string; // ID!
+    responsibilityPoints?: number | null; // Float
     submitTime: string; // String!
   }
   SubmittedFinalDraftsInput: { // input type

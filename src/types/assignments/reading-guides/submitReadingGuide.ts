@@ -12,6 +12,7 @@ export const SubmitReadingGuideInput = inputObjectType({
     t.string('submitTime', { required: true })
     t.boolean('paperBased', { required: true })
     t.boolean('completeReadingGuide')
+    t.float('responsibilityPoints')
   },
 })
 
@@ -34,6 +35,7 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
         submitTime,
         paperBased,
         completeReadingGuide,
+        responsibilityPoints,
       },
     },
     { assignmentData, studentData, generalData }
@@ -78,10 +80,10 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
               $inc: {
                 responsibilityPoints:
                   completeReadingGuide && late === false
-                    ? 12
+                    ? responsibilityPoints
                     : completeReadingGuide && late
-                    ? 7
-                    : 4,
+                    ? responsibilityPoints! / 2
+                    : responsibilityPoints! / 4,
               },
             }
           )

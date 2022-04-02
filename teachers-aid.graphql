@@ -2537,7 +2537,7 @@ input SubmitEssayFinalDraftInput {
   _id: ID!
   late: Boolean!
   paperBased: Boolean!
-  responsibilityPoints: Int
+  responsibilityPoints: Float
   submittedFinalDraft: SubmittedFinalDraftsInput!
   submitTime: String!
 }
@@ -2551,6 +2551,7 @@ input SubmitReadingGuideInput {
   late: Boolean!
   paperBased: Boolean!
   readingGuideId: ID!
+  responsibilityPoints: Float
   submitTime: String!
 }
 
