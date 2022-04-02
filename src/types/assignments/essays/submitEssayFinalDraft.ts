@@ -14,6 +14,7 @@ export const SubmitEssayFinalDraftInput = inputObjectType({
     t.boolean('late', { required: true })
     t.string('submitTime', { required: true })
     t.boolean('paperBased', { required: true })
+    t.int('responsibilityPoints')
   },
 })
 
@@ -29,7 +30,16 @@ export const SubmitEssayFinalDraft = mutationField('submitEssayFinalDraft', {
   args: { input: arg({ type: SubmitEssayFinalDraftInput, required: true }) },
   async resolve(
     _,
-    { input: { _id, submittedFinalDraft, late, paperBased, submitTime } },
+    {
+      input: {
+        _id,
+        submittedFinalDraft,
+        late,
+        paperBased,
+        submitTime,
+        responsibilityPoints,
+      },
+    },
     { assignmentData, studentData, generalData }
   ) {
     const essayCheck: NexusGenRootTypes['Essay'] = await assignmentData.findOne(
@@ -85,7 +95,11 @@ export const SubmitEssayFinalDraft = mutationField('submitEssayFinalDraft', {
             responsibilityPoints: { $exists: true },
           },
           {
-            $inc: { responsibilityPoints: handleLateness() ? 4 : 7 },
+            $inc: {
+              responsibilityPoints: handleLateness()
+                ? responsibilityPoints! / 2
+                : responsibilityPoints,
+            },
           }
         )
 
@@ -127,7 +141,11 @@ export const SubmitEssayFinalDraft = mutationField('submitEssayFinalDraft', {
           responsibilityPoints: { $exists: true },
         },
         {
-          $inc: { responsibilityPoints: handleLateness() ? 4 : 7 },
+          $inc: {
+            responsibilityPoints: handleLateness()
+              ? responsibilityPoints! / 2
+              : responsibilityPoints,
+          },
         }
       )
 
