@@ -354,6 +354,14 @@ type Chapter {
   hasSections: [TextSection!]!
 }
 
+input CheckQuizQuestionsForTextSectionsInput {
+  textSectionIds: [String!]!
+}
+
+type CheckQuizQuestionsForTextSectionsPayload {
+  textSectionIds: [String!]!
+}
+
 type ComprehensionMetrics implements ProgressMetrics {
   _id: ID
   comprehensionLevel: Int!
@@ -1867,6 +1875,7 @@ enum ProtocolAssessmentEnum {
 }
 
 type Query {
+  checkQuizQuestionsForTextSections(input: CheckQuizQuestionsForTextSectionsInput!): CheckQuizQuestionsForTextSectionsPayload!
   findActiveProtocolByStudent(input: FindActiveProtocolByStudentInput!): FindActiveProtocolByStudentPayload!
   findActiveProtocolsByCourse(input: FindActiveProtocolsByCourseInput!): FindActiveProtocolsByCoursePayload!
   findAllCourseTitles: FindAllCourseTitlesPayload!
