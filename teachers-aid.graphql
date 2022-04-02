@@ -204,6 +204,7 @@ input AssessStudentProtocolInput {
   markingPeriod: MarkingPeriodEnum!
   partnerIds: [ID!]
   protocolActivityType: ProtocolActivityTypes!
+  responsibilityPoints: Float!
   studentId: ID!
   task: String!
 }

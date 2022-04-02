@@ -94,6 +94,7 @@ export interface NexusGenInputs {
     markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
     partnerIds?: string[] | null; // [ID!]
     protocolActivityType: NexusGenEnums['ProtocolActivityTypes']; // ProtocolActivityTypes!
+    responsibilityPoints: number; // Float!
     studentId: string; // ID!
     task: string; // String!
   }

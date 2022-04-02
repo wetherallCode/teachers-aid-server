@@ -20,6 +20,7 @@ export const AssessStudentProtocolInput = inputObjectType({
     t.id('studentId', { required: true })
     t.field('discussionLevel', { type: DiscussionTypesEnum })
     t.field('assessment', { type: ProtocolAssessmentEnum })
+    t.float('responsibilityPoints', { required: true })
   },
 })
 
@@ -45,6 +46,7 @@ export const AssessStudentProtocol = mutationField('assessStudentProtocol', {
         discussionLevel,
         assessment,
         studentId,
+        responsibilityPoints,
       },
     },
     { protocolData, userData, studentData }
@@ -101,12 +103,12 @@ export const AssessStudentProtocol = mutationField('assessStudentProtocol', {
 
         const protocolScore =
           assessment === 'WORKED_WELL'
-            ? 2
+            ? responsibilityPoints * 0.67
             : assessment === 'WORKED_VERY_WELL'
-            ? 3
+            ? responsibilityPoints
             : assessment === 'REFUSED_TO_WORK'
             ? 0
-            : 1
+            : responsibilityPoints * 0.33
 
         const scoringAlgorithm =
           protocolToCheck.assessment === assessment
