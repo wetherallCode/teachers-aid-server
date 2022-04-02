@@ -10,6 +10,7 @@ export const AssessIndividualProtocolsInput = inputObjectType({
     t.id('protocolId', { required: true })
     t.field('markingPeriod', { required: true, type: MarkingPeriodEnum })
     t.field('assessment', { type: ProtocolAssessmentEnum, nullable: true })
+    t.float('responsibilityPoints', { required: true })
   },
 })
 
@@ -29,7 +30,9 @@ export const AssessIndividualProtocols = mutationField(
     },
     async resolve(
       _,
-      { input: { protocolId, markingPeriod, assessment } },
+      {
+        input: { protocolId, markingPeriod, assessment, responsibilityPoints },
+      },
       { protocolData, studentData }
     ) {
       const protocol: NexusGenRootTypes['Protocol'] =
@@ -57,7 +60,7 @@ export const AssessIndividualProtocols = mutationField(
               markingPeriod,
               responsibilityPoints: { $exists: true },
             },
-            { $inc: { responsibilityPoints: 2 } }
+            { $inc: { responsibilityPoints } }
           )
         }
 
@@ -68,7 +71,7 @@ export const AssessIndividualProtocols = mutationField(
               markingPeriod,
               responsibilityPoints: { $exists: true },
             },
-            { $inc: { responsibilityPoints: -2 } }
+            { $inc: { responsibilityPoints: -responsibilityPoints } }
           )
         }
         return { protocol }
