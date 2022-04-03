@@ -35,6 +35,7 @@ export const CreateEssayQuestion = mutationField('createEssayQuestion', {
       associatedTextSectionsIds,
       questionParts: questionPartsInput,
       questionUsageType: 'ESSAY',
+      sgoQuestion: false,
     }
     const { insertedId } = await questionData.insertOne(essayQuestion)
     essayQuestion._id = insertedId

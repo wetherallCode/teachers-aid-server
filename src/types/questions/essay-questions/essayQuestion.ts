@@ -10,5 +10,6 @@ export const EssayQuestion = objectType({
     t.field('questionParts', { type: QuestionPartsContainer })
     t.field('questionUsageType', { type: QuestionUsageTypeEnum })
     t.list.id('associatedTextSectionsIds')
+    t.boolean('sgoQuestion')
   },
 })
