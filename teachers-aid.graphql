@@ -868,6 +868,7 @@ type EssayQuestion implements Question {
   associatedTextSectionsIds: [ID!]!
   questionParts: QuestionPartsContainer!
   questionUsageType: QuestionUsageTypeEnum!
+  sgoQuestion: Boolean!
 }
 
 type EssentialQuestion implements Question {
@@ -1630,6 +1631,10 @@ type MarkTemporaryTaskAbsentPayload {
   temporaryTask: TemporaryTask!
 }
 
+type ModifiyEssayQuestionsPayload {
+  modified: Boolean!
+}
+
 type ModifyCourseInfoPayload {
   modified: Boolean!
 }
@@ -1717,6 +1722,7 @@ type Mutation {
   markAllProtocolsInactive: MarkAllProtocolsInactivePayload!
   markExempt(input: MarkExemptInput!): MarkExemptPayload!
   markTemporaryTaskAbsent(input: MarkTemporaryTaskAbsentInput!): MarkTemporaryTaskAbsentPayload!
+  modifiyEssayQuestions: ModifiyEssayQuestionsPayload!
   modifyCourseInfo: ModifyCourseInfoPayload!
   modifyLessonDateByOriginalDate(input: ModifyLessonDateByOriginalDateInput!): ModifyLessonDateByOriginalDatePayload!
   registerStudent(input: RegisterStudentInput!): RegisterStudentPayload!
