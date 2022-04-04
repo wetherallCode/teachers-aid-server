@@ -14,7 +14,7 @@ export const SubmitEssayFinalDraftInput = inputObjectType({
     t.boolean('late', { required: true })
     t.string('submitTime', { required: true })
     t.boolean('paperBased', { required: true })
-    t.float('responsibilityPoints')
+    t.float('responsibilityPoints', { required: true })
   },
 })
 

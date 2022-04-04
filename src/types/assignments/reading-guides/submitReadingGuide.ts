@@ -12,7 +12,7 @@ export const SubmitReadingGuideInput = inputObjectType({
     t.string('submitTime', { required: true })
     t.boolean('paperBased', { required: true })
     t.boolean('completeReadingGuide')
-    t.float('responsibilityPoints')
+    t.float('responsibilityPoints', { required: true })
   },
 })
 
