@@ -27,8 +27,8 @@ export const FindBehaviorsByStudentIdAndDate = queryField(
         required: true,
       }),
     },
-    async resolve(_, { input: { studentId, date } }, { studentInfo }) {
-      const behaviors = await studentInfo
+    async resolve(_, { input: { studentId, date } }, { studentData }) {
+      const behaviors = await studentData
         .find({
           'student._id': new ObjectId(studentId),
           date,

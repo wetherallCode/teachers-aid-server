@@ -29,12 +29,25 @@ export const RemoveStudentBehavior = mutationField('removeStudentBehavior', {
     const behaviorCheck: NexusGenRootTypes['StudentBehavior'] =
       await studentData.findOne({ _id: new ObjectId(studentBehaviorId) })
 
+    const responsiblityPointRestore = (responsibilityPoints: number) => {
+      if (responsibilityPoints < 0) {
+        return responsibilityPoints * -1
+      }
+      if (responsibilityPoints > 0) {
+        return -responsibilityPoints
+      } else return 0
+    }
+    const responsibility = responsiblityPointRestore(
+      behaviorCheck.responsibilityPoints
+    )
+
     if (behaviorCheck) {
       const { deletedCount } = await studentData.deleteOne({
         _id: new ObjectId(studentBehaviorId),
       })
+
       if (deletedCount === 1) {
-        await studentData.updateOne(
+        const { modifiedCount } = await studentData.updateOne(
           {
             'student._id': new ObjectId(behaviorCheck.student._id!),
             markingPeriod: markingPeriod,
@@ -42,10 +55,11 @@ export const RemoveStudentBehavior = mutationField('removeStudentBehavior', {
           },
           {
             $inc: {
-              responsibilityPoints: -behaviorCheck.responsibilityPoints,
+              responsibilityPoints: responsibility,
             },
           }
         )
+
         return { removed: true }
       }
       throw new Error('Something went wrong')
