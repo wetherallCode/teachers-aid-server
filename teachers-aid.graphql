@@ -987,6 +987,15 @@ type FindAssignmentsToGradePayload {
   assignments: [Assignment!]!
 }
 
+input FindBehaviorsByStudentIdAndDateInput {
+  date: String!
+  studentId: ID!
+}
+
+type FindBehaviorsByStudentIdAndDatePayload {
+  behaviors: [StudentBehavior!]!
+}
+
 input FindChaptersByTextIdInput {
   textId: ID!
 }
@@ -1896,6 +1905,7 @@ type Query {
   findAssignmentByStudentId(input: FindAssignmentByStudentIdInput!): FindAssignmentByStudentIdPayload!
   findAssignmentsByCourseId(input: FindAssignmentsByCourseIdInput!): FindAssignmentsByCourseIdPayload!
   findAssignmentsToGrade(input: FindAssignmentsToGradeInput!): FindAssignmentsToGradePayload!
+  findBehaviorsByStudentIdAndDate(input: FindBehaviorsByStudentIdAndDateInput!): FindBehaviorsByStudentIdAndDatePayload!
   findChaptersByTextId(input: FindChaptersByTextIdInput!): FindChaptersByTextIdPayload!
   findChaptersInText(input: FindChaptersInTextInput!): FindChaptersInTextPayload!
   findChapterTitle(input: FindChapterTitleInput!): FindChapterTitlePayload!

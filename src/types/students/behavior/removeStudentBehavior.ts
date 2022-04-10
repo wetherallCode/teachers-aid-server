@@ -26,8 +26,6 @@ export const RemoveStudentBehavior = mutationField('removeStudentBehavior', {
     { input: { studentBehaviorId, markingPeriod } },
     { studentData }
   ) {
-    studentBehaviorId
-    studentData
     const behaviorCheck: NexusGenRootTypes['StudentBehavior'] =
       await studentData.findOne({ _id: new ObjectId(studentBehaviorId) })
 
