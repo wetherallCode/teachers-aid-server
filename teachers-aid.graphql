@@ -1089,6 +1089,14 @@ type FindEssayQuestionByIdPayload {
   essayQuestion: EssayQuestion!
 }
 
+input FindEssayQuestionsForLessonInput {
+  sectionIds: [ID!]!
+}
+
+type FindEssayQuestionsForLessonPayload {
+  essayQuestions: [EssayQuestion!]!
+}
+
 input FindEssaysByAssociatedLessonIdAndCourseIdInput {
   courseId: ID!
   lessonId: ID!
@@ -1631,6 +1639,14 @@ enum MarkingPeriodEnum {
   THIRD
 }
 
+input MarkLessonForSGOInput {
+  sectionIds: [ID!]!
+}
+
+type MarkLessonForSGOPayload {
+  marked: Boolean!
+}
+
 input MarkTemporaryTaskAbsentInput {
   studentPresent: Boolean
   taskId: ID!
@@ -1730,6 +1746,7 @@ type Mutation {
   logout: Boolean!
   markAllProtocolsInactive: MarkAllProtocolsInactivePayload!
   markExempt(input: MarkExemptInput!): MarkExemptPayload!
+  markLessonForSGO(input: MarkLessonForSGOInput!): MarkLessonForSGOPayload!
   markTemporaryTaskAbsent(input: MarkTemporaryTaskAbsentInput!): MarkTemporaryTaskAbsentPayload!
   modifiyEssayQuestions: ModifiyEssayQuestionsPayload!
   modifyCourseInfo: ModifyCourseInfoPayload!
@@ -1918,6 +1935,7 @@ type Query {
   findEssayById(input: FindEssayByIdInput!): FindEssayByIdPayload!
   findEssayByStudentIdAndLessonId(input: FindEssayByStudentIdAndLessonIdInput!): FindEssayByStudentIdAndLessonIdPayload!
   findEssayQuestionById(input: FindEssayQuestionByIdInput!): FindEssayQuestionByIdPayload!
+  findEssayQuestionsForLesson(input: FindEssayQuestionsForLessonInput!): FindEssayQuestionsForLessonPayload!
   findEssaysByAssociatedLessonId(input: FindEssaysByAssociatedLessonIdInput!): FindEssaysByAssociatedLessonIdPayload!
   findEssaysByAssociatedLessonIdAndCourseId(input: FindEssaysByAssociatedLessonIdAndCourseIdInput!): FindEssaysByAssociatedLessonIdAndCourseIdPayload!
   findEssaysByStudentId(input: FindEssaysByStudentIdInput!): FindEssaysByStudentIdPayload!
