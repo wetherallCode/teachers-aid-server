@@ -1362,6 +1362,14 @@ type FindSchoolDayPayload {
   schoolDayTracker: SchoolDayTracker!
 }
 
+input FindSGOEssaysByStudentIdInput {
+  studentId: ID!
+}
+
+type FindSGOEssaysByStudentIdPayload {
+  essays: [Essay!]!
+}
+
 input FindStudentByIdInput {
   studentId: ID!
 }
@@ -1969,6 +1977,7 @@ type Query {
   findRubricEntriesByCategory(input: FindRubricEntriesByCategoryInput!): FindRubricEntriesByCategoryPayload!
   findSchoolDayByDate(input: FindSchoolDayByDateInput!): FindSchoolDayByDatePayload!
   findSchoolDayTracker: FindSchoolDayPayload!
+  findSGOEssaysByStudentId(input: FindSGOEssaysByStudentIdInput!): FindSGOEssaysByStudentIdPayload!
   findStudentById(input: FindStudentByIdInput!): FindStudentByIdPayload!
   findStudentQuestions(input: FindStudentQuestionsInput!): FindStudentQuestionsPayload!
   findStudentsByCourse(input: FindStudentsByCourseInput!): FindStudentsByCoursePayload!
