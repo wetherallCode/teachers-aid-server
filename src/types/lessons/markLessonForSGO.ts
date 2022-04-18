@@ -24,15 +24,21 @@ export const MarkLessonForSGO = mutationField('markLessonForSGO', {
   type: MarkLessonForSGOPayload,
   args: { input: arg({ type: MarkLessonForSGOInput, required: true }) },
   async resolve(_, { input: { sectionIds } }, { questionData }) {
-    // for (const id of sectionIds) {
-    const question = await questionData
+    const questions = await questionData
       .find({
         questionUsageType: 'ESSAY',
         associatedTextSectionsIds: { $in: sectionIds },
       })
       .toArray()
-    console.log(question.map((q: any) => q.questionParts.originalQuestion))
-    // }
-    return { marked: true }
+
+    const { modifiedCount } = await questionData.updateMany(
+      {
+        questionUsageType: 'ESSAY',
+        associatedTextSectionsIds: { $in: sectionIds },
+      },
+      { $set: { sgoQuestion: true } }
+    )
+
+    return { marked: questions.length === modifiedCount ? true : false }
   },
 })
