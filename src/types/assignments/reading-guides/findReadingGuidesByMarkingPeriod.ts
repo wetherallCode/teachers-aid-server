@@ -27,15 +27,18 @@ export const FindReadingGuidesByMarkingPeriod = queryField(
       }),
     },
     async resolve(_, { input: { markingPeriod } }, { assignmentData }) {
-      const readingGuides: NexusGenRootTypes['ReadingGuide'][] =
-        await assignmentData
-          .find({
-            markingPeriod,
-            workingDraft: { $exists: false },
-            quizzableSections: { $exists: false },
-          })
-          .toArray()
+      // console.log(new Date().toISOString().substring(17, 23))
+      const readingGuides = await assignmentData
+        .find({
+          markingPeriod,
+          workingDraft: { $exists: false },
+          quizzableSections: { $exists: false },
+          reviewed: false,
+          completed: true,
+        })
+        .toArray()
 
+      // console.log(new Date().toISOString().substring(17, 23))
       return { readingGuides }
     },
   }
