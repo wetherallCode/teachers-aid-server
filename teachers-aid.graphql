@@ -768,6 +768,14 @@ type DeleteAllTemporaryTasksPayload {
   removed: Boolean!
 }
 
+input DeleteQuizzesByDateInput {
+  assignedDate: String
+}
+
+type DeleteQuizzesByDatePayload {
+  deleted: Boolean!
+}
+
 input DeleteReviewsInput {
   assignedDate: String!
 }
@@ -1672,6 +1680,16 @@ type ModifyCourseInfoPayload {
   modified: Boolean!
 }
 
+input ModifyEssayDueDateAndAssignedDateInput {
+  newAssignedDate: String
+  newDueDate: String
+  originalAssignedDate: String
+}
+
+type ModifyEssayDueDateAndAssignedDatePayload {
+  updated: Boolean!
+}
+
 input ModifyLessonDateByOriginalDateInput {
   newAssignedDate: String
   originalDate: String
@@ -1740,6 +1758,7 @@ type Mutation {
   deleteAllSchoolDays: DeleteAllSchoolDaysPayload!
   deleteAllStudentData: DeleteAllStudentDataPayload!
   deleteAllTemporaryTasks: DeleteAllTemporaryTasksPayload!
+  deleteQuizzesByDate(input: DeleteQuizzesByDateInput!): DeleteQuizzesByDatePayload!
   deleteReviews(input: DeleteReviewsInput!): DeleteReviewsPayload!
   deleteTemporaryTasks(input: DeleteTemporaryTasksInput!): DeleteTemporaryTasksPayload!
   emergencyModification: EmergencyModificationPayload!
@@ -1758,6 +1777,7 @@ type Mutation {
   markTemporaryTaskAbsent(input: MarkTemporaryTaskAbsentInput!): MarkTemporaryTaskAbsentPayload!
   modifiyEssayQuestions: ModifiyEssayQuestionsPayload!
   modifyCourseInfo: ModifyCourseInfoPayload!
+  modifyEssayDueDateAndAssignedDate(input: ModifyEssayDueDateAndAssignedDateInput!): ModifyEssayDueDateAndAssignedDatePayload!
   modifyLessonDateByOriginalDate(input: ModifyLessonDateByOriginalDateInput!): ModifyLessonDateByOriginalDatePayload!
   registerStudent(input: RegisterStudentInput!): RegisterStudentPayload!
   registerTeacher(input: RegisterTeacherInput!): RegisterTeacherPayload!
