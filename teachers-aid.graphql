@@ -928,6 +928,10 @@ type FindAllCourseTitlesPayload {
   courses: [Course!]!
 }
 
+type FindAllQuestionsPayload {
+  questions: EssayQuestion!
+}
+
 type FindAllStudentsPayload {
   students: [Student!]!
 }
@@ -1941,6 +1945,7 @@ type Query {
   findActiveProtocolByStudent(input: FindActiveProtocolByStudentInput!): FindActiveProtocolByStudentPayload!
   findActiveProtocolsByCourse(input: FindActiveProtocolsByCourseInput!): FindActiveProtocolsByCoursePayload!
   findAllCourseTitles: FindAllCourseTitlesPayload!
+  findAllQuestions: FindAllQuestionsPayload!
   findAllStudents: FindAllStudentsPayload!
   findAllUsers: FindAllUsersPayload!
   findArticleReviewById(input: FindArticleReviewByIdInput!): FindArticleReviewByIdPayload!
