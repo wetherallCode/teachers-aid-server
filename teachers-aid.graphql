@@ -929,7 +929,7 @@ type FindAllCourseTitlesPayload {
 }
 
 type FindAllQuestionsPayload {
-  questions: EssayQuestion!
+  questions: [String!]!
 }
 
 type FindAllStudentsPayload {

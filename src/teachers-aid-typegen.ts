@@ -1458,7 +1458,7 @@ export interface NexusGenRootTypes {
     courses: NexusGenRootTypes['Course'][]; // [Course!]!
   }
   FindAllQuestionsPayload: { // root type
-    questions: NexusGenRootTypes['EssayQuestion']; // EssayQuestion!
+    questions: string[]; // [String!]!
   }
   FindAllStudentsPayload: { // root type
     students: NexusGenRootTypes['Student'][]; // [Student!]!
@@ -2891,7 +2891,7 @@ export interface NexusGenFieldTypes {
     courses: NexusGenRootTypes['Course'][]; // [Course!]!
   }
   FindAllQuestionsPayload: { // field return type
-    questions: NexusGenRootTypes['EssayQuestion']; // EssayQuestion!
+    questions: string[]; // [String!]!
   }
   FindAllStudentsPayload: { // field return type
     students: NexusGenRootTypes['Student'][]; // [Student!]!
