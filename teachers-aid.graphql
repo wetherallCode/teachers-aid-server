@@ -280,6 +280,13 @@ enum BasicQuestionEnum {
   WHY
 }
 
+enum BehaviorCategoryEnum {
+  INDEPENDANT_WORK
+  NEGATIVE_BEHAVIOR
+  POSITIVE_BEHAVIOR
+  QUESTION_AND_ANSWER
+}
+
 enum BehaviorEnum {
   ANSWERED_QUESTION
   COMPLETED_ASSIGNMENT
@@ -292,6 +299,20 @@ enum BehaviorEnum {
   ON_TASK
   REFUSED_TO_WORK
   UNPREPARED
+}
+
+enum BehaviorQualityEnum {
+  NEGATIVE
+  NEUTRAL
+  POSITIVE
+}
+
+type BehaviorType {
+  _id: ID
+  behaviorCategory: BehaviorCategoryEnum!
+  behaviorName: String!
+  behaviorQuality: BehaviorQualityEnum!
+  points: Int!
 }
 
 input BuildRubricEntryInput {
@@ -469,6 +490,17 @@ input CreateArticleReviewsInput {
 
 type CreateArticleReviewsPayload {
   articleReviews: [ArticleReview!]!
+}
+
+input CreateBehaviorTypeInput {
+  behaviorCategory: BehaviorCategoryEnum!
+  behaviorName: String!
+  behaviorQuality: BehaviorQualityEnum!
+  points: Int!
+}
+
+type CreateBehaviorTypePayload {
+  behaviorType: BehaviorType!
 }
 
 input CreateCourseInfoInput {
@@ -768,6 +800,14 @@ type DeleteAllTemporaryTasksPayload {
   removed: Boolean!
 }
 
+input DeleteBehaviorTypeInput {
+  behaviorTypeId: ID!
+}
+
+type DeleteBehaviorTypePayload {
+  deleted: Boolean!
+}
+
 input DeleteQuizzesByDateInput {
   assignedDate: String
 }
@@ -841,6 +881,18 @@ enum DynamicLessonEnums {
   PROTOCOLS
   VOCAB
   WARM_UP
+}
+
+input EditBehaviorTypesInput {
+  behaviorCategory: BehaviorCategoryEnum!
+  behaviorName: String!
+  behaviorQuality: BehaviorQualityEnum!
+  behaviorTypeId: ID!
+  points: Int!
+}
+
+type EditBehaviorTypesPayload {
+  updated: Boolean!
 }
 
 type EmergencyModificationPayload {
@@ -922,6 +974,10 @@ input FindActiveProtocolsByCourseInput {
 
 type FindActiveProtocolsByCoursePayload {
   protocols: [Protocol!]!
+}
+
+type FindAllBehaviorTypesPayload {
+  behaviorTypes: [BehaviorType!]!
 }
 
 type FindAllCourseTitlesPayload {
@@ -1732,6 +1788,7 @@ type Mutation {
   controlWarmUp(input: ControlWarmUpInput!): ControlWarmUpPayload!
   createAbsence(input: CreateAbsenceInput!): CreateAbsencePayload!
   createArticleReviews(input: CreateArticleReviewsInput!): CreateArticleReviewsPayload!
+  createBehaviorType(input: CreateBehaviorTypeInput!): CreateBehaviorTypePayload!
   createCourse(input: CreateCourseInput!): CreateCoursePayload!
   createCourseInfo(input: CreateCourseInfoInput!): CreateCourseInfoPayload!
   createEssay(input: CreateEssayInput!): CreateEssayPayload!
@@ -1762,9 +1819,11 @@ type Mutation {
   deleteAllSchoolDays: DeleteAllSchoolDaysPayload!
   deleteAllStudentData: DeleteAllStudentDataPayload!
   deleteAllTemporaryTasks: DeleteAllTemporaryTasksPayload!
+  deleteBehaviorType(input: DeleteBehaviorTypeInput!): DeleteBehaviorTypePayload!
   deleteQuizzesByDate(input: DeleteQuizzesByDateInput!): DeleteQuizzesByDatePayload!
   deleteReviews(input: DeleteReviewsInput!): DeleteReviewsPayload!
   deleteTemporaryTasks(input: DeleteTemporaryTasksInput!): DeleteTemporaryTasksPayload!
+  editBehaviorTypes(input: EditBehaviorTypesInput!): EditBehaviorTypesPayload!
   emergencyModification: EmergencyModificationPayload!
   exemptArticleReview(input: ExemptArticleReviewInput!): ExemptArticleReviewPayload!
   finishProtocol(input: FinishProtocolInput!): FinishProtocolPayload!
@@ -1944,6 +2003,7 @@ type Query {
   checkQuizQuestionsForTextSections(input: CheckQuizQuestionsForTextSectionsInput!): CheckQuizQuestionsForTextSectionsPayload!
   findActiveProtocolByStudent(input: FindActiveProtocolByStudentInput!): FindActiveProtocolByStudentPayload!
   findActiveProtocolsByCourse(input: FindActiveProtocolsByCourseInput!): FindActiveProtocolsByCoursePayload!
+  findAllBehaviorTypes: FindAllBehaviorTypesPayload!
   findAllCourseTitles: FindAllCourseTitlesPayload!
   findAllQuestions: FindAllQuestionsPayload!
   findAllStudents: FindAllStudentsPayload!

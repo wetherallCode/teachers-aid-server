@@ -1,0 +1,5 @@
+export * from './behaviorType'
+export * from './createBehaviorType'
+export * from './findAllBehaviorTypes'
+export * from './editBehaviorTypes'
+export * from './deleteBehaviorType'
