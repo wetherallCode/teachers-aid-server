@@ -3297,6 +3297,7 @@ export interface NexusGenFieldTypes {
     controlWarmUp: NexusGenRootTypes['ControlWarmUpPayload']; // ControlWarmUpPayload!
     createAbsence: NexusGenRootTypes['CreateAbsencePayload']; // CreateAbsencePayload!
     createArticleReviews: NexusGenRootTypes['CreateArticleReviewsPayload']; // CreateArticleReviewsPayload!
+    createBatchStudentBehavior: NexusGenRootTypes['CreateBatchStudentBehaviorPayload']; // CreateBatchStudentBehaviorPayload!
     createBehaviorType: NexusGenRootTypes['CreateBehaviorTypePayload']; // CreateBehaviorTypePayload!
     createCourse: NexusGenRootTypes['CreateCoursePayload']; // CreateCoursePayload!
     createCourseInfo: NexusGenRootTypes['CreateCourseInfoPayload']; // CreateCourseInfoPayload!
@@ -4125,6 +4126,9 @@ export interface NexusGenArgTypes {
     }
     createArticleReviews: { // args
       input: NexusGenInputs['CreateArticleReviewsInput']; // CreateArticleReviewsInput!
+    }
+    createBatchStudentBehavior: { // args
+      input: NexusGenInputs['CreateBatchStudentBehaviorInput']; // CreateBatchStudentBehaviorInput!
     }
     createBehaviorType: { // args
       input: NexusGenInputs['CreateBehaviorTypeInput']; // CreateBehaviorTypeInput!

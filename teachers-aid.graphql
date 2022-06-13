@@ -1799,6 +1799,7 @@ type Mutation {
   controlWarmUp(input: ControlWarmUpInput!): ControlWarmUpPayload!
   createAbsence(input: CreateAbsenceInput!): CreateAbsencePayload!
   createArticleReviews(input: CreateArticleReviewsInput!): CreateArticleReviewsPayload!
+  createBatchStudentBehavior(input: CreateBatchStudentBehaviorInput!): CreateBatchStudentBehaviorPayload!
   createBehaviorType(input: CreateBehaviorTypeInput!): CreateBehaviorTypePayload!
   createCourse(input: CreateCourseInput!): CreateCoursePayload!
   createCourseInfo(input: CreateCourseInfoInput!): CreateCourseInfoPayload!
