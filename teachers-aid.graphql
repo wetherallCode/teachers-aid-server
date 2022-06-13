@@ -492,6 +492,17 @@ type CreateArticleReviewsPayload {
   articleReviews: [ArticleReview!]!
 }
 
+input CreateBatchStudentBehaviorInput {
+  markingPeriod: MarkingPeriodEnum!
+  responsibilityPoints: Float!
+  studentBehaviorType: BehaviorEnum!
+  studentIds: [ID!]!
+}
+
+type CreateBatchStudentBehaviorPayload {
+  StudentBehaviors: [StudentBehavior!]!
+}
+
 input CreateBehaviorTypeInput {
   behaviorCategory: BehaviorCategoryEnum!
   behaviorName: String!
