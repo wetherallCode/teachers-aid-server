@@ -9,17 +9,17 @@ import { BehaviorType } from './behaviorType'
 // })
 
 export const FindAllBehaviorTypesPayload = objectType({
-  name: 'FindAllBehaviorTypesPayload',
-  definition(t) {
-    t.list.field('behaviorTypes', { type: BehaviorType })
-  },
+	name: 'FindAllBehaviorTypesPayload',
+	definition(t) {
+		t.list.field('behaviorTypes', { type: BehaviorType })
+	},
 })
 
 export const FindAllBehaviorTypes = queryField('findAllBehaviorTypes', {
-  type: FindAllBehaviorTypesPayload,
-  // args: { input: arg({ type: FindAllBehaviorTypesInput, required: true }) },
-  async resolve(_, __, { behaviorData }) {
-    const behaviorTypes = await behaviorData.find().toArray()
-    return { behaviorTypes }
-  },
+	type: FindAllBehaviorTypesPayload,
+	// args: { input: arg({ type: FindAllBehaviorTypesInput, required: true }) },
+	async resolve(_, __, { behaviorData }) {
+		const behaviorTypes = await behaviorData.find().toArray()
+		return { behaviorTypes }
+	},
 })

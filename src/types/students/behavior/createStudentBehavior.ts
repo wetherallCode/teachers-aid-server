@@ -8,7 +8,7 @@ export const CreateStudentBehaviorInput = inputObjectType({
 	name: 'CreateStudentBehaviorInput',
 	definition(t) {
 		t.id('studentId', { required: true })
-		t.field('studentBehaviorType', { type: BehaviorEnum, required: true })
+		t.string('behaviorTypeId', { required: true })
 		t.field('markingPeriod', { type: MarkingPeriodEnum, required: true })
 		t.float('responsibilityPoints', { required: true })
 	},
@@ -26,16 +26,18 @@ export const CreateStudentBehavior = mutationField('createStudentBehavior', {
 	args: { input: arg({ type: CreateStudentBehaviorInput, required: true }) },
 	async resolve(
 		_,
-		{ input: { studentId, studentBehaviorType, markingPeriod, responsibilityPoints } },
-		{ studentData, userData }
+		{ input: { studentId, behaviorTypeId, markingPeriod, responsibilityPoints } },
+		{ studentData, userData, behaviorData }
 	) {
 		const studentCheck: NexusGenRootTypes['Student'] = await userData.findOne({
 			_id: new ObjectId(studentId),
 		})
 
 		if (studentCheck) {
+			const behavior = await behaviorData.findOne({ _id: behaviorTypeId })
+
 			const studentBehavior: NexusGenRootTypes['StudentBehavior'] = {
-				behavior: studentBehaviorType,
+				behavior,
 				date: new Date().toLocaleDateString(),
 				student: studentCheck,
 				responsibilityPoints,

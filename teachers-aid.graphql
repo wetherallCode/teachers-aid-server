@@ -493,14 +493,14 @@ type CreateArticleReviewsPayload {
 }
 
 input CreateBatchStudentBehaviorInput {
+  behaviorTypeId: String!
   markingPeriod: MarkingPeriodEnum!
   responsibilityPoints: Float!
-  studentBehaviorType: BehaviorEnum!
   studentIds: [ID!]!
 }
 
 type CreateBatchStudentBehaviorPayload {
-  StudentBehaviors: [StudentBehavior!]!
+  studentBehaviors: [StudentBehavior!]!
 }
 
 input CreateBehaviorTypeInput {
@@ -707,9 +707,9 @@ type CreateSignInSheetsPayload {
 }
 
 input CreateStudentBehaviorInput {
+  behaviorTypeId: String!
   markingPeriod: MarkingPeriodEnum!
   responsibilityPoints: Float!
-  studentBehaviorType: BehaviorEnum!
   studentId: ID!
 }
 
@@ -2613,7 +2613,7 @@ type StudentAbsence {
 
 type StudentBehavior {
   _id: ID
-  behavior: BehaviorEnum!
+  behavior: BehaviorType!
   date: String!
   responsibilityPoints: Float!
   student: Student!

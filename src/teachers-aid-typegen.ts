@@ -178,9 +178,9 @@ export interface NexusGenInputs {
     markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
   }
   CreateBatchStudentBehaviorInput: { // input type
+    behaviorTypeId: string; // String!
     markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
     responsibilityPoints: number; // Float!
-    studentBehaviorType: NexusGenEnums['BehaviorEnum']; // BehaviorEnum!
     studentIds: string[]; // [ID!]!
   }
   CreateBehaviorTypeInput: { // input type
@@ -303,9 +303,9 @@ export interface NexusGenInputs {
     todaysDate: string; // String!
   }
   CreateStudentBehaviorInput: { // input type
+    behaviorTypeId: string; // String!
     markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
     responsibilityPoints: number; // Float!
-    studentBehaviorType: NexusGenEnums['BehaviorEnum']; // BehaviorEnum!
     studentId: string; // ID!
   }
   CreateStudentQuestionInput: { // input type
@@ -1315,7 +1315,7 @@ export interface NexusGenRootTypes {
     articleReviews: NexusGenRootTypes['ArticleReview'][]; // [ArticleReview!]!
   }
   CreateBatchStudentBehaviorPayload: { // root type
-    StudentBehaviors: NexusGenRootTypes['StudentBehavior'][]; // [StudentBehavior!]!
+    studentBehaviors: NexusGenRootTypes['StudentBehavior'][]; // [StudentBehavior!]!
   }
   CreateBehaviorTypePayload: { // root type
     behaviorType: NexusGenRootTypes['BehaviorType']; // BehaviorType!
@@ -2079,7 +2079,7 @@ export interface NexusGenRootTypes {
   }
   StudentBehavior: { // root type
     _id?: string | null; // ID
-    behavior: NexusGenEnums['BehaviorEnum']; // BehaviorEnum!
+    behavior: NexusGenRootTypes['BehaviorType']; // BehaviorType!
     date: string; // String!
     responsibilityPoints: number; // Float!
     student: NexusGenRootTypes['Student']; // Student!
@@ -2775,7 +2775,7 @@ export interface NexusGenFieldTypes {
     articleReviews: NexusGenRootTypes['ArticleReview'][]; // [ArticleReview!]!
   }
   CreateBatchStudentBehaviorPayload: { // field return type
-    StudentBehaviors: NexusGenRootTypes['StudentBehavior'][]; // [StudentBehavior!]!
+    studentBehaviors: NexusGenRootTypes['StudentBehavior'][]; // [StudentBehavior!]!
   }
   CreateBehaviorTypePayload: { // field return type
     behaviorType: NexusGenRootTypes['BehaviorType']; // BehaviorType!
@@ -3776,7 +3776,7 @@ export interface NexusGenFieldTypes {
   }
   StudentBehavior: { // field return type
     _id: string | null; // ID
-    behavior: NexusGenEnums['BehaviorEnum']; // BehaviorEnum!
+    behavior: NexusGenRootTypes['BehaviorType']; // BehaviorType!
     date: string; // String!
     responsibilityPoints: number; // Float!
     student: NexusGenRootTypes['Student']; // Student!
