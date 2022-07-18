@@ -12,6 +12,7 @@ export const CreateBehaviorTypeInput = inputObjectType({
     t.string('behaviorName', { required: true })
     t.field('behaviorQuality', { type: BehaviorQualityEnum, required: true })
     t.field('behaviorCategory', { type: BehaviorCategoryEnum, required: true })
+    t.boolean('forTeachersAid', { required: true })
     t.int('points', { required: true })
   },
 })
@@ -28,7 +29,15 @@ export const CreateBehaviorType = mutationField('createBehaviorType', {
   args: { input: arg({ type: CreateBehaviorTypeInput, required: true }) },
   async resolve(
     _,
-    { input: { behaviorName, behaviorCategory, behaviorQuality, points } },
+    {
+      input: {
+        behaviorName,
+        behaviorCategory,
+        behaviorQuality,
+        points,
+        forTeachersAid,
+      },
+    },
     { behaviorData }
   ) {
     const behaviorType: NexusGenRootTypes['BehaviorType'] = {
@@ -36,6 +45,7 @@ export const CreateBehaviorType = mutationField('createBehaviorType', {
       behaviorQuality,
       behaviorCategory,
       points,
+      forTeachersAid,
     }
     const { insertedId } = await behaviorData.insertOne(behaviorType)
 

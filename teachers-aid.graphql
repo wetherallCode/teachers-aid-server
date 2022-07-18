@@ -281,7 +281,7 @@ enum BasicQuestionEnum {
 }
 
 enum BehaviorCategoryEnum {
-  INDEPENDANT_WORK
+  INDEPENDENT_WORK
   NEGATIVE_BEHAVIOR
   POSITIVE_BEHAVIOR
   QUESTION_AND_ANSWER
@@ -312,6 +312,7 @@ type BehaviorType {
   behaviorCategory: BehaviorCategoryEnum!
   behaviorName: String!
   behaviorQuality: BehaviorQualityEnum!
+  forTeachersAid: Boolean!
   points: Int!
 }
 
@@ -507,6 +508,7 @@ input CreateBehaviorTypeInput {
   behaviorCategory: BehaviorCategoryEnum!
   behaviorName: String!
   behaviorQuality: BehaviorQualityEnum!
+  forTeachersAid: Boolean!
   points: Int!
 }
 
@@ -899,6 +901,7 @@ input EditBehaviorTypesInput {
   behaviorName: String!
   behaviorQuality: BehaviorQualityEnum!
   behaviorTypeId: ID!
+  forTeachersAid: Boolean!
   points: Int!
 }
 
@@ -1761,6 +1764,10 @@ type ModifyEssayDueDateAndAssignedDatePayload {
   updated: Boolean!
 }
 
+type ModifyExistingStudentBehaviorsPayload {
+  modified: Boolean!
+}
+
 input ModifyLessonDateByOriginalDateInput {
   newAssignedDate: String
   originalDate: String
@@ -1853,6 +1860,7 @@ type Mutation {
   modifiyEssayQuestions: ModifiyEssayQuestionsPayload!
   modifyCourseInfo: ModifyCourseInfoPayload!
   modifyEssayDueDateAndAssignedDate(input: ModifyEssayDueDateAndAssignedDateInput!): ModifyEssayDueDateAndAssignedDatePayload!
+  modifyExistingStudentBehaviors: ModifyExistingStudentBehaviorsPayload!
   modifyLessonDateByOriginalDate(input: ModifyLessonDateByOriginalDateInput!): ModifyLessonDateByOriginalDatePayload!
   registerStudent(input: RegisterStudentInput!): RegisterStudentPayload!
   registerTeacher(input: RegisterTeacherInput!): RegisterTeacherPayload!

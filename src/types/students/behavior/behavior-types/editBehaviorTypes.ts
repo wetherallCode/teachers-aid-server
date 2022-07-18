@@ -13,6 +13,7 @@ export const EditBehaviorTypesInput = inputObjectType({
     t.string('behaviorName', { required: true })
     t.field('behaviorQuality', { type: BehaviorQualityEnum, required: true })
     t.field('behaviorCategory', { type: BehaviorCategoryEnum, required: true })
+    t.boolean('forTeachersAid', { required: true })
     t.int('points', { required: true })
   },
 })
@@ -36,6 +37,7 @@ export const EditBehaviorTypes = mutationField('editBehaviorTypes', {
         behaviorCategory,
         behaviorQuality,
         points,
+        forTeachersAid,
       },
     },
     { behaviorData }
@@ -47,7 +49,13 @@ export const EditBehaviorTypes = mutationField('editBehaviorTypes', {
       const { modifiedCount } = await behaviorData.updateOne(
         { _id: new ObjectId(behaviorTypeId) },
         {
-          $set: { behaviorName, behaviorQuality, behaviorCategory, points },
+          $set: {
+            behaviorName,
+            behaviorQuality,
+            behaviorCategory,
+            points,
+            forTeachersAid,
+          },
         }
       )
       return { updated: modifiedCount === 1 ? true : false }

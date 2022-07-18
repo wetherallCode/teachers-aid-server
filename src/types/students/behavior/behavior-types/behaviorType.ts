@@ -7,6 +7,7 @@ export const BehaviorType = objectType({
     t.string('behaviorName')
     t.field('behaviorQuality', { type: BehaviorQualityEnum })
     t.field('behaviorCategory', { type: BehaviorCategoryEnum })
+    t.boolean('forTeachersAid')
     t.int('points')
   },
 })
@@ -19,7 +20,7 @@ export const BehaviorQualityEnum = enumType({
 export const BehaviorCategoryEnum = enumType({
   name: 'BehaviorCategoryEnum',
   members: [
-    'INDEPENDANT_WORK',
+    'INDEPENDENT_WORK',
     'QUESTION_AND_ANSWER',
     'POSITIVE_BEHAVIOR',
     'NEGATIVE_BEHAVIOR',
