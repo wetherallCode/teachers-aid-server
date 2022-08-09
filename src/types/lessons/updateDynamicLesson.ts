@@ -3,6 +3,7 @@ import { Lesson } from '.'
 import { ObjectId } from 'mongodb'
 import { DynamicLessonEnums } from './dynamicLesson'
 import { timeAFunction } from '../../utilities'
+import { NexusGenRootTypes } from '../../teachers-aid-typegen'
 
 export const UpdateDynamicLessonInput = inputObjectType({
   name: 'UpdateDynamicLessonInput',
@@ -28,10 +29,16 @@ export const UpdateDynamicLesson = mutationField('UpdateDynamicLesson', {
     { lessonData }
   ) {
     const startTime = new Date().toISOString()
-    const lessonCheck = await lessonData.findOne({
+    const lessonCheck: NexusGenRootTypes['Lesson'] = await lessonData.findOne({
       _id: new ObjectId(lessonId),
     })
     if (lessonCheck) {
+      if (!lessonCheck.lessonStarted) {
+        await lessonData.updateOne(
+          { _id: new ObjectId(lessonId) },
+          { $set: { lessonStarted: true } }
+        )
+      }
       await lessonData.updateOne(
         {
           _id: new ObjectId(lessonId),

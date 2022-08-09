@@ -1,13 +1,13 @@
 import { objectType } from '@nexus/schema'
-import { MarkingPeriodEnum } from '../general'
-import { Student } from '.'
+import { Student } from '../..'
+import { MarkingPeriodEnum } from '../../general'
 
-export const StudentAbsence = objectType({
-  name: 'StudentAbsence',
+export const ExcusedLateness = objectType({
+  name: 'ExcusedLateness',
   definition(t) {
     t.id('_id', { nullable: true })
     t.field('student', { type: Student })
-    t.date('dayAbsent')
+    t.date('dayLateExcused')
     t.field('markingPeriod', { type: MarkingPeriodEnum })
   },
 })

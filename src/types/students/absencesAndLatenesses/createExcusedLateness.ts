@@ -1,7 +1,7 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
-import { MarkingPeriodEnum } from '../general'
-import { UnexcusedLateness } from '.'
-import { NexusGenRootTypes } from '../../teachers-aid-typegen'
+import { MarkingPeriodEnum } from '../../general'
+import { UnexcusedLateness } from '..'
+import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
 import { ObjectId } from 'mongodb'
 import { ExcusedLateness } from './excusedLateness'
 
@@ -35,17 +35,17 @@ export const CreateExcusedLateness = mutationField('createExcusedLateness', {
       _id: new ObjectId(studentId),
     })
 
-    const studentLatenesses: NexusGenRootTypes['ExcusedLateness'][] = await studentData
-      .find({
+    const studentLatenessCheck: NexusGenRootTypes['ExcusedLateness'] =
+      await studentData.findOne({
         'student._id': new ObjectId(student._id!),
-        dayLateExcused: { $exists: true },
+        dayLateExcused,
       })
-      .toArray()
 
-    const latenessSearch = studentLatenesses.some(
-      (lateness) => lateness.dayLateExcused === dayLateExcused
-    )
-    if (!latenessSearch) {
+    // const latenessSearch = studentLatenesses.some(
+    //   (lateness) => lateness.dayLateExcused === dayLateExcused
+    // )
+
+    if (!studentLatenessCheck) {
       const excusedLateness: NexusGenRootTypes['ExcusedLateness'] = {
         student,
         dayLateExcused,
@@ -54,10 +54,38 @@ export const CreateExcusedLateness = mutationField('createExcusedLateness', {
       const { insertedId } = await studentData.insertOne(excusedLateness)
       excusedLateness._id = insertedId
 
+      // const readyForClassCheck = await studentData.findOne({
+      //   'student._id': new ObjectId(studentId),
+      //   date: dayLateExcused,
+      //   'behavior._id': new ObjectId('62a33f0c2c8c161570b3c258'),
+      // })
+      // if (readyForClassCheck) {
+      //   await studentData.deleteOne({
+      //     'student._id': new ObjectId(studentId),
+      //     date: dayLateExcused,
+      //     'behavior._id': new ObjectId('62a33f0c2c8c161570b3c258'),
+      //   })
+
+      //   await studentData.updateOne(
+      //     {
+      //       'student._id': new ObjectId(studentId),
+      //       markingPeriod,
+      //       responsibilityPoints: { $exists: true },
+      //     },
+      //     {
+      //       $inc: {
+      //         responsibilityPoints: -2,
+      //       },
+      //     }
+      //   )
+      // }
+
       return { excusedLateness }
     } else
       throw new Error(
-        student.userName + ' already has absence assigned for ' + dayLateExcused
+        student.userName +
+          ' already has an excused lateness assigned for ' +
+          dayLateExcused
       )
   },
 })

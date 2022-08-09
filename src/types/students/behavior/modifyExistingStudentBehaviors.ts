@@ -21,9 +21,11 @@ export const ModifyExistingStudentBehaviors = mutationField(
     // args: {
     //   input: arg({ type: ModifyExistingStudentBehaviorsInput, required: true }),
     // },
-    async resolve(_, __, { behaviorData }) {
-      behaviorData
-      // behaviorData.updateMany({}, { $set: { forTeachersAid: true } })
+    async resolve(_, __, { studentData }) {
+      const { deletedCount } = await studentData.deleteMany({
+        behavior: { $exists: true },
+      })
+      console.log(deletedCount)
       return { modified: true }
     },
   }

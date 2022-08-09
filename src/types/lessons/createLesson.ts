@@ -109,6 +109,7 @@ export const CreateLesson = mutationField('createLesson', {
         objectives: null,
         dynamicLesson: 'OFF',
         lessonType,
+        lessonStarted: false,
       }
 
       const { insertedId } = await lessonData.insertOne(lesson)

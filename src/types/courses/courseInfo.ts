@@ -14,7 +14,7 @@ export const CourseInfo = objectType({
     t.string('halfDayStartsAt')
     t.string('halfDayEndsAt')
     t.boolean('cohortBasedSeating')
-    t.boolean('assignmentsInClassNotAllowed')
+    t.boolean('assignmentsInClassAllowed')
     t.field('hasTeacher', { type: Teacher })
     t.field('courseType', { type: CourseTypeEnum })
     t.field('schoolDayType', { type: SchoolDayType })

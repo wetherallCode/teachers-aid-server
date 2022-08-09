@@ -425,7 +425,7 @@ type ControlWarmUpPayload {
 
 type Course {
   _id: ID
-  hasCourseInfo: CourseInfo
+  hasCourseInfo: CourseInfo!
   hasLessons: [Lesson!]!
   hasSignInSheets: [StudentSignInSheet!]!
   hasStudents: [Student!]!
@@ -436,7 +436,7 @@ type Course {
 type CourseInfo {
   _id: ID
   assignedSeats: [StudentSeat!]!
-  assignmentsInClassNotAllowed: Boolean!
+  assignmentsInClassAllowed: Boolean!
   associatedCourseId: ID
   cohortBasedSeating: Boolean!
   course: Course!
@@ -710,6 +710,7 @@ type CreateSignInSheetsPayload {
 
 input CreateStudentBehaviorInput {
   behaviorTypeId: String!
+  date: String!
   markingPeriod: MarkingPeriodEnum!
   responsibilityPoints: Float!
   studentId: ID!
@@ -717,6 +718,17 @@ input CreateStudentBehaviorInput {
 
 type CreateStudentBehaviorPayload {
   studentBehavior: StudentBehavior!
+}
+
+input CreateStudentOutOfClassInput {
+  date: String!
+  markingPeriod: MarkingPeriodEnum!
+  outOfClassDestination: OutOfClassDestinationEnum!
+  studentId: String!
+}
+
+type CreateStudentOutOfClassPayload {
+  studentOutOfClass: StudentOutOfClass!
 }
 
 input CreateStudentQuestionInput {
@@ -834,6 +846,14 @@ input DeleteReviewsInput {
 }
 
 type DeleteReviewsPayload {
+  removed: Boolean!
+}
+
+input DeleteStudentOutOfClassInput {
+  outOfClassId: ID!
+}
+
+type DeleteStudentOutOfClassPayload {
   removed: Boolean!
 }
 
@@ -996,6 +1016,16 @@ type FindAllBehaviorTypesPayload {
 
 type FindAllCourseTitlesPayload {
   courses: [Course!]!
+}
+
+input FindAllMarkingPeriodGradesInput {
+  markingPeriod: MarkingPeriodEnum!
+  studentId: String!
+}
+
+type FindAllMarkingPeriodGradesPayload {
+  assignments: [Assignment!]!
+  responsibilityPoints: ResponsibilityPoints!
 }
 
 type FindAllQuestionsPayload {
@@ -1460,6 +1490,24 @@ type FindStudentByIdPayload {
   student: Student!
 }
 
+input FindStudentOutOfClassByPeriodNameAndDateInput {
+  courseId: ID!
+  date: String!
+}
+
+type FindStudentOutOfClassByPeriodNameAndDatePayload {
+  studentsOutOfClass: [StudentOutOfClass!]!
+}
+
+input FindStudentOutOfClassInput {
+  date: String!
+  studentId: ID!
+}
+
+type FindStudentOutOfClassPayload {
+  studentOutOfClass: [StudentOutOfClass!]!
+}
+
 input FindStudentQuestionsInput {
   courseId: ID!
   date: String!
@@ -1673,6 +1721,7 @@ type Lesson {
   inUnit: Unit!
   lessonName: String!
   lessonNotes: [String!]
+  lessonStarted: Boolean!
   lessonType: LessonTypeEnum!
   objectives: String
   pageNumbers: PageNumbers!
@@ -1768,6 +1817,10 @@ type ModifyExistingStudentBehaviorsPayload {
   modified: Boolean!
 }
 
+type ModifyLessonAttributesPayload {
+  modified: Boolean!
+}
+
 input ModifyLessonDateByOriginalDateInput {
   newAssignedDate: String
   originalDate: String
@@ -1775,6 +1828,20 @@ input ModifyLessonDateByOriginalDateInput {
 
 type ModifyLessonDateByOriginalDatePayload {
   updated: Boolean!
+}
+
+input ModifyStudentOutOfClassInput {
+  date: String
+  departTime: String
+  hasReturned: Boolean
+  markingPeriod: MarkingPeriodEnum
+  outOfClassDestination: OutOfClassDestinationEnum
+  outOfClassId: ID
+  returnTime: String
+}
+
+type ModifyStudentOutOfClassPayload {
+  modified: Boolean!
 }
 
 type Mutation {
@@ -1825,6 +1892,7 @@ type Mutation {
   createSchoolDayTracker: CreateSchoolDayTrackerPayload!
   createSignInSheets(input: CreateSignInSheetsInput!): CreateSignInSheetsPayload!
   createStudentBehavior(input: CreateStudentBehaviorInput!): CreateStudentBehaviorPayload!
+  createStudentOutOfClass(input: CreateStudentOutOfClassInput!): CreateStudentOutOfClassPayload!
   createStudentQuestion(input: CreateStudentQuestionInput!): CreateStudentQuestionPayload!
   createStudentQuestionsContainer(input: CreateStudentQuestionsContainerInput!): CreateStudentQuestionsContainerPayload!
   createTemporaryTasks(input: CreateTemporaryTasksInput!): CreateTemporaryTasksPayload!
@@ -1841,6 +1909,7 @@ type Mutation {
   deleteBehaviorType(input: DeleteBehaviorTypeInput!): DeleteBehaviorTypePayload!
   deleteQuizzesByDate(input: DeleteQuizzesByDateInput!): DeleteQuizzesByDatePayload!
   deleteReviews(input: DeleteReviewsInput!): DeleteReviewsPayload!
+  deleteStudentOutOfClass(input: DeleteStudentOutOfClassInput!): DeleteStudentOutOfClassPayload!
   deleteTemporaryTasks(input: DeleteTemporaryTasksInput!): DeleteTemporaryTasksPayload!
   editBehaviorTypes(input: EditBehaviorTypesInput!): EditBehaviorTypesPayload!
   emergencyModification: EmergencyModificationPayload!
@@ -1861,6 +1930,7 @@ type Mutation {
   modifyCourseInfo: ModifyCourseInfoPayload!
   modifyEssayDueDateAndAssignedDate(input: ModifyEssayDueDateAndAssignedDateInput!): ModifyEssayDueDateAndAssignedDatePayload!
   modifyExistingStudentBehaviors: ModifyExistingStudentBehaviorsPayload!
+  modifyLessonAttributes: ModifyLessonAttributesPayload!
   modifyLessonDateByOriginalDate(input: ModifyLessonDateByOriginalDateInput!): ModifyLessonDateByOriginalDatePayload!
   registerStudent(input: RegisterStudentInput!): RegisterStudentPayload!
   registerTeacher(input: RegisterTeacherInput!): RegisterTeacherPayload!
@@ -1887,6 +1957,7 @@ type Mutation {
   startProtocol(input: StartProtocolInput!): StartProtocolPayload!
   startQuiz(input: StartQuizInput!): StartQuizPayload!
   startReadingGuide(input: StartReadingGuideInput!): StartReadingGuidePayload!
+  studentReturnedToClass(input: StudentReturnedToClassInput!): StudentReturnedToClassPayload!
   studentSignIn(input: StudentSignInInput!): StudentSignInPayload!
   submitArticleReview(input: SubmitArticleReviewInput!): SubmitArticleReviewPayload!
   submitEssayFinalDraft(input: SubmitEssayFinalDraftInput!): SubmitEssayFinalDraftPayload!
@@ -1941,6 +2012,16 @@ enum NounTypeEnum {
 }
 
 union Organizers = AcademicOrganizer | AdvancedOrganizer | DevelopingOrganizer
+
+enum OutOfClassDestinationEnum {
+  BAND
+  BATHROOM
+  CHOIR
+  GUIDANCE
+  NURSE
+  OFFICE
+  OTHER_CLASS
+}
 
 type OverallWritingMetric {
   levelPoints: Float!
@@ -2025,6 +2106,7 @@ type Query {
   findActiveProtocolsByCourse(input: FindActiveProtocolsByCourseInput!): FindActiveProtocolsByCoursePayload!
   findAllBehaviorTypes: FindAllBehaviorTypesPayload!
   findAllCourseTitles: FindAllCourseTitlesPayload!
+  findAllMarkingPeriodGrades(input: FindAllMarkingPeriodGradesInput!): FindAllMarkingPeriodGradesPayload!
   findAllQuestions: FindAllQuestionsPayload!
   findAllStudents: FindAllStudentsPayload!
   findAllUsers: FindAllUsersPayload!
@@ -2084,6 +2166,8 @@ type Query {
   findSchoolDayTracker: FindSchoolDayPayload!
   findSGOEssaysByStudentId(input: FindSGOEssaysByStudentIdInput!): FindSGOEssaysByStudentIdPayload!
   findStudentById(input: FindStudentByIdInput!): FindStudentByIdPayload!
+  findStudentOutOfClass(input: FindStudentOutOfClassInput!): FindStudentOutOfClassPayload!
+  findStudentOutOfClassByPeriodNameAndDate(input: FindStudentOutOfClassByPeriodNameAndDateInput!): FindStudentOutOfClassByPeriodNameAndDatePayload!
   findStudentQuestions(input: FindStudentQuestionsInput!): FindStudentQuestionsPayload!
   findStudentsByCourse(input: FindStudentsByCourseInput!): FindStudentsByCoursePayload!
   findStudentsById(input: FindStudentsByIdInput!): FindStudentsByIdPayload!
@@ -2098,6 +2182,7 @@ type Query {
   findUserData(input: FindUserDataInput!): FindUserDataPayload!
   findWritingMetrics(input: FindWritingMetricsInput!): FindWritingMetricsPayload!
   me: User
+  modifyStudentOutOfClass(input: ModifyStudentOutOfClassInput!): ModifyStudentOutOfClassPayload!
   passwordCheck(input: PasswordCheckInput!): PasswordCheckPayload!
   removeSchoolDay(input: RemoveSchoolDayInput!): RemoveSchoolDayPayload!
   removeSubmittedEssayFinalDraft(input: RemoveSubmittedEssayFinalDraftInput!): RemoveSubmittedEssayFinalDraftPayload!
@@ -2600,6 +2685,7 @@ type Student implements User {
   hasIEP: Boolean
   hasProtocols: [Protocol!]!
   hasResponsibilityPoints: [ResponsibilityPoints!]!
+  hasStatus: [StudentOutOfClass!]!
   hasUnExcusedLatenesses: [UnexcusedLateness!]!
   hasWritingMetrics: WritingMetrics!
   inCourses: [Course!]!
@@ -2623,6 +2709,7 @@ type StudentBehavior {
   _id: ID
   behavior: BehaviorType!
   date: String!
+  markingPeriod: MarkingPeriodEnum!
   responsibilityPoints: Float!
   student: Student!
 }
@@ -2638,6 +2725,17 @@ type StudentInformation {
   student: Student!
 }
 
+type StudentOutOfClass {
+  _id: ID
+  date: String!
+  departTime: String!
+  hasReturned: Boolean!
+  markingPeriod: MarkingPeriodEnum!
+  outOfClassDestination: OutOfClassDestinationEnum!
+  returnTime: String!
+  student: Student!
+}
+
 type StudentQuestion {
   question: String!
   student: Student!
@@ -2650,6 +2748,14 @@ type StudentQuestions {
   course: ID!
   date: String!
   questions: [StudentQuestion!]!
+}
+
+input StudentReturnedToClassInput {
+  outOfClassId: ID!
+}
+
+type StudentReturnedToClassPayload {
+  returned: Boolean!
 }
 
 type StudentSeat {

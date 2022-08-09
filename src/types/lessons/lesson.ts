@@ -33,6 +33,7 @@ export const Lesson = objectType({
     t.field('dynamicLesson', { type: DynamicLessonEnums })
     t.list.string('lessonNotes', { nullable: true })
     t.field('lessonType', { type: LessonTypeEnum })
+    t.boolean('lessonStarted')
   },
 })
 

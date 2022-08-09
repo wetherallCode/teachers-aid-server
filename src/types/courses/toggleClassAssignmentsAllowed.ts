@@ -38,8 +38,8 @@ export const ToggleClassAssignmentsAllowed = mutationField(
           },
           {
             $set: {
-              assignmentsInClassNotAllowed:
-                !courseInfoValidation.assignmentsInClassNotAllowed,
+              assignmentsInClassAllowed:
+                !courseInfoValidation.assignmentsInClassAllowed,
             },
           }
         )

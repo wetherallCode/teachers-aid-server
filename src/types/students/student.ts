@@ -4,7 +4,7 @@ import { Course, WritingMetrics, StudentQuestion } from '..'
 import { ObjectId } from 'mongodb'
 import { NexusGenRootTypes } from '../../teachers-aid-typegen'
 import { ResponsibilityPoints } from './responsibilityPoints/responsibilityPoints'
-import { StudentBehavior } from '.'
+import { StudentBehavior, StudentOutOfClass } from '.'
 
 export const Student = objectType({
   name: 'Student',
@@ -136,6 +136,20 @@ export const Student = objectType({
           })
           .toArray()
         return studentBehaviors
+      },
+    })
+    t.list.field('hasStatus', {
+      type: StudentOutOfClass,
+      async resolve(parent, __, { studentData }) {
+        const studentOutOfClass = await studentData
+          .find({
+            'student._id': new ObjectId(parent._id!),
+            outOfClassDestination: { $exists: true },
+            date: new Date().toLocaleDateString(),
+          })
+          .toArray()
+
+        return studentOutOfClass
       },
     })
   },

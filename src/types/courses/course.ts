@@ -19,7 +19,7 @@ export const Course = objectType({
         })
         return info
       },
-      nullable: true,
+      // nullable: true,
     })
     t.field('hasTeacher', {
       type: Teacher,

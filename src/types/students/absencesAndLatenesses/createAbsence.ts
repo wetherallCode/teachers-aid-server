@@ -1,8 +1,8 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { StudentAbsence } from './studentAbsence'
-import { MarkingPeriodEnum } from '../general'
+import { MarkingPeriodEnum } from '../../general'
 import { ObjectId } from 'mongodb'
-import { NexusGenRootTypes } from '../../teachers-aid-typegen'
+import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
 
 export const CreateAbsenceInput = inputObjectType({
   name: 'CreateAbsenceInput',
@@ -31,19 +31,13 @@ export const CreateAbsence = mutationField('createAbsence', {
     const student: NexusGenRootTypes['Student'] = await userData.findOne({
       _id: new ObjectId(studentId),
     })
-    const studentAbsences: NexusGenRootTypes['StudentAbsence'][] =
-      await studentData
-        .find({
-          'student._id': new ObjectId(student._id!),
-          dayAbsent: { $exists: true },
-        })
-        .toArray()
 
-    const absenceSearch = studentAbsences.some(
-      (absence) => absence.dayAbsent === dayAbsent
-    )
+    const absenceCheck = await studentData.findOne({
+      'student._id': new ObjectId(student._id!),
+      dayAbsent,
+    })
 
-    if (!absenceSearch) {
+    if (!absenceCheck) {
       const studentAbsence: NexusGenRootTypes['StudentAbsence'] = {
         student,
         dayAbsent,
@@ -52,6 +46,33 @@ export const CreateAbsence = mutationField('createAbsence', {
 
       const { insertedId } = await studentData.insertOne(studentAbsence)
       studentAbsence._id = insertedId
+
+      const readyForClassCheck = await studentData.findOne({
+        'student._id': new ObjectId(studentId),
+        date: dayAbsent,
+        'behavior._id': new ObjectId('62a33f0c2c8c161570b3c258'),
+      })
+
+      if (readyForClassCheck) {
+        await studentData.deleteOne({
+          'student._id': new ObjectId(studentId),
+          date: dayAbsent,
+          'behavior._id': new ObjectId('62a33f0c2c8c161570b3c258'),
+        })
+
+        await studentData.updateOne(
+          {
+            'student._id': new ObjectId(studentId),
+            markingPeriod,
+            responsibilityPoints: { $exists: true },
+          },
+          {
+            $inc: {
+              responsibilityPoints: -2,
+            },
+          }
+        )
+      }
 
       return { studentAbsence }
     } else
