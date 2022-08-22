@@ -52,9 +52,9 @@ const startServer = async () => {
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 7,
         // maxAge: 1000 * 60 * 90,
-        httpOnly: true,
-        sameSite: 'none',
-        secure: true,
+        // httpOnly: true,
+        // sameSite: 'none',
+        // secure: true,
       },
       store: store,
       saveUninitialized: false,
@@ -90,6 +90,7 @@ const startServer = async () => {
       let schoolDayData = db.collection('schoolDayData')
       let temporaryTaskData = db.collection('temporaryTaskData')
       let questionData = db.collection('questionData')
+      let behaviorData = db.collection('behaviorData')
 
       return {
         req,
@@ -108,6 +109,7 @@ const startServer = async () => {
         schoolDayData,
         temporaryTaskData,
         questionData,
+        behaviorData,
         db,
       }
     },

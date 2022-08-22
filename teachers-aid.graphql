@@ -236,7 +236,7 @@ interface Assignment {
   hasAssigner: Teacher!
   hasOwner: Student!
   late: Boolean!
-  lessonInfo: Lesson!
+  lessonInfo: Lesson
   markingPeriod: MarkingPeriodEnum!
   missing: Boolean!
   paperBased: Boolean!
@@ -378,6 +378,14 @@ type Chapter {
   hasSections: [TextSection!]!
 }
 
+input CheckAssignmentsAllowedInClassInput {
+  courseId: ID!
+}
+
+type CheckAssignmentsAllowedInClassPayload {
+  allowed: Boolean!
+}
+
 input CheckQuizQuestionsForTextSectionsInput {
   textSectionIds: [String!]!
 }
@@ -436,7 +444,7 @@ type Course {
 type CourseInfo {
   _id: ID
   assignedSeats: [StudentSeat!]!
-  assignmentsInClassAllowed: Boolean!
+  assignmentsAllowedInClass: Boolean!
   associatedCourseId: ID
   cohortBasedSeating: Boolean!
   course: Course!
@@ -946,7 +954,7 @@ type Essay implements Assignment {
   hasAssigner: Teacher!
   hasOwner: Student!
   late: Boolean!
-  lessonInfo: Lesson!
+  lessonInfo: Lesson
   leveledUp: Boolean!
   markingPeriod: MarkingPeriodEnum!
   missing: Boolean!
@@ -1963,6 +1971,7 @@ type Mutation {
   submitEssayFinalDraft(input: SubmitEssayFinalDraftInput!): SubmitEssayFinalDraftPayload!
   submitReadingGuide(input: SubmitReadingGuideInput!): SubmitReadingGuidePayload!
   switchToNewCourse(input: SwitchToNewCourseInput!): SwitchToNewCoursePayload!
+  toggleAssignmentsAllowedInClass(input: ToggleAssignmentsAllowedInClassInput!): ToggleAssignmentsAllowedInClassPayload!
   toggleClassAssignmentsAllowed(input: ToggleClassAssignmentsAllowedInput!): ToggleClassAssignmentsAllowedPayload!
   unAssignEssays(input: UnAssignEssaysInput!): UnAssignEssaysPayload!
   unAssignQuizByQuizId(input: UnAssignQuizByQuizIdInput!): UnAssignQuizByQuizIdPayload!
@@ -2101,6 +2110,7 @@ enum ProtocolAssessmentEnum {
 }
 
 type Query {
+  checkAssignmentsAllowedInClass(input: CheckAssignmentsAllowedInClassInput!): CheckAssignmentsAllowedInClassPayload!
   checkQuizQuestionsForTextSections(input: CheckQuizQuestionsForTextSectionsInput!): CheckQuizQuestionsForTextSectionsPayload!
   findActiveProtocolByStudent(input: FindActiveProtocolByStudentInput!): FindActiveProtocolByStudentPayload!
   findActiveProtocolsByCourse(input: FindActiveProtocolsByCourseInput!): FindActiveProtocolsByCoursePayload!
@@ -2193,6 +2203,11 @@ interface Question {
   questionUsageType: QuestionUsageTypeEnum!
 }
 
+type QuestionAndAnswerContainer {
+  answer: String!
+  question: String!
+}
+
 type QuestionPartsContainer {
   completePredicate: String!
   completeSubject: String!
@@ -2259,7 +2274,7 @@ type Quiz implements Assignment {
   hasOwner: Student!
   isActive: Boolean!
   late: Boolean!
-  lessonInfo: Lesson!
+  lessonInfo: Lesson
   markingPeriod: MarkingPeriodEnum!
   missing: Boolean!
   paperBased: Boolean!
@@ -2306,7 +2321,7 @@ type ReadingGuide implements Assignment {
   hasAssigner: Teacher!
   hasOwner: Student!
   late: Boolean!
-  lessonInfo: Lesson!
+  lessonInfo: Lesson
   markingPeriod: MarkingPeriodEnum!
   missing: Boolean!
   paperBased: Boolean!
@@ -2645,6 +2660,31 @@ type SGO {
   _id: ID!
 }
 
+type SpecialAssignment implements Assignment {
+  _id: ID
+  assigned: Boolean!
+  assignedDate: String!
+  associatedLessonId: ID
+  completed: Boolean!
+  dueDate: String!
+  dueTime: String!
+  effort: ReadingGuideReviewOptionsEnum!
+  exempt: Boolean!
+  gradeType: GradeTypeEnum!
+  hasAssigner: Teacher!
+  hasOwner: Student!
+  late: Boolean!
+  lessonInfo: Lesson
+  markingPeriod: MarkingPeriodEnum!
+  missing: Boolean!
+  paperBased: Boolean!
+  questionAndAnswerList: [QuestionAndAnswerContainer!]!
+  readings: Readings!
+  reviewed: Boolean!
+  score: Score!
+  specialAssignmentGraded: Boolean!
+}
+
 input StartProtocolInput {
   isActive: Boolean!
   lessonId: ID!
@@ -2958,6 +2998,14 @@ enum TitleEnum {
   MR
   MRS
   MS
+}
+
+input ToggleAssignmentsAllowedInClassInput {
+  courseId: ID!
+}
+
+type ToggleAssignmentsAllowedInClassPayload {
+  toggled: Boolean!
 }
 
 input ToggleClassAssignmentsAllowedInput {

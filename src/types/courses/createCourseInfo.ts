@@ -88,7 +88,7 @@ export const CreateCourseInfo = mutationField('createCourseInfo', {
         halfDayEndsAt,
         courseType,
         schoolDayType,
-        assignmentsInClassAllowed: true,
+        assignmentsAllowedInClass: true,
         associatedCourseId: course._id,
         cohortBasedSeating,
         assignedSeats:

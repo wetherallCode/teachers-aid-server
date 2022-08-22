@@ -39,7 +39,7 @@ export const ToggleClassAssignmentsAllowed = mutationField(
           {
             $set: {
               assignmentsInClassAllowed:
-                !courseInfoValidation.assignmentsInClassAllowed,
+                !courseInfoValidation.assignmentsAllowedInClass,
             },
           }
         )

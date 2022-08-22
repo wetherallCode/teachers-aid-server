@@ -19,6 +19,7 @@ export const Assignment = interfaceType({
     t.field('markingPeriod', { type: MarkingPeriodEnum })
     t.id('associatedLessonId', { nullable: true })
     t.field('lessonInfo', {
+      nullable: true,
       type: Lesson,
       async resolve(parent, __, { lessonData }) {
         const lessonInfo: NexusGenRootTypes['Lesson'] = lessonData.findOne({
@@ -43,6 +44,9 @@ export const Assignment = interfaceType({
       }
       if (assignment.hasOwnProperty('graded')) {
         return 'ReadingGuide'
+      }
+      if (assignment.hasOwnProperty('specialAssignmentGraded')) {
+        return 'SpecialAssignment'
       }
       return 'Quiz'
     })
