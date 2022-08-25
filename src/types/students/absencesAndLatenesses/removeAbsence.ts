@@ -34,7 +34,6 @@ export const RemoveAbsence = mutationField('removeAbsence', {
         assignedCourses: absence.student.inCourses[0],
       })
 
-    console.log(lessonStartedCheck)
     const readyForClassCheck = await studentData.findOne({
       'student._id': new ObjectId(absence.student._id!),
       date: absence.dayAbsent,

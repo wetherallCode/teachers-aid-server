@@ -83,7 +83,7 @@ export const Readings = objectType({
 
 export const TimeOfDayEnum = enumType({
   name: 'TimeOfDay',
-  members: ['BEFORE_SCHOOL', 'BEFORE_CLASS', 'AFTER_CLASS', 'AFTER_SCHOOL'],
+  members: ['BEFORE_SCHOOL', 'BEFORE_CLASS', 'END_OF_CLASS', 'AFTER_SCHOOL'],
 })
 
 export const GradeTypeEnum = enumType({

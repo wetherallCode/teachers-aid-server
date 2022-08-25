@@ -90,7 +90,7 @@ export const CreateReadingGuide = mutationField('createReadingGuide', {
         if (time === 'BEFORE_CLASS') {
           return assignedCourseInfo.startsAt
         }
-        if (time === 'AFTER_CLASS') {
+        if (time === 'END_OF_CLASS') {
           return assignedCourseInfo.endsAt
         }
         if (time === 'AFTER_SCHOOL') {

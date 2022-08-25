@@ -13,7 +13,7 @@ export const ModifyCourseInfo = mutationField('modifyCourseInfo', {
   async resolve(_, __, { courseData }) {
     await courseData.updateMany(
       { startsAt: { $exists: true } },
-      { $set: { assignmentsInClassNotAllowed: true } }
+      { $set: { isHidden: false } }
     )
     return { modified: true }
   },

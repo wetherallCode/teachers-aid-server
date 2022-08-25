@@ -19,5 +19,6 @@ export const CourseInfo = objectType({
     t.field('courseType', { type: CourseTypeEnum })
     t.field('schoolDayType', { type: SchoolDayType })
     t.list.field('assignedSeats', { type: StudentSeat })
+    t.boolean('isHidden')
   },
 })

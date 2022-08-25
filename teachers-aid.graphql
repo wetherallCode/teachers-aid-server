@@ -453,6 +453,7 @@ type CourseInfo {
   halfDayEndsAt: String!
   halfDayStartsAt: String!
   hasTeacher: Teacher!
+  isHidden: Boolean!
   schoolDayType: SchoolDayType!
   startsAt: String!
 }
@@ -625,6 +626,16 @@ input CreateParentContactInput {
 
 type CreateParentContactPayload {
   parentContact: ParentContact!
+}
+
+input CreateProfessionalDevelopmentInput {
+  date: String!
+  developmentHours: Float!
+  name: String!
+}
+
+type CreateProfessionalDevelopmentPayload {
+  professionalDevelopment: ProfessionalDevelopment!
 }
 
 input CreateProtocolInput {
@@ -1470,6 +1481,15 @@ type FindRubricEntriesPayload {
   rubricEntries: [RubricEntry!]!
 }
 
+input FindSchoolDayAndLessonInput {
+  courseId: ID!
+  todaysDate: String!
+}
+
+type FindSchoolDayAndLessonPayload {
+  lessonToday: Boolean!
+}
+
 input FindSchoolDayByDateInput {
   date: Date!
 }
@@ -1488,6 +1508,14 @@ input FindSGOEssaysByStudentIdInput {
 
 type FindSGOEssaysByStudentIdPayload {
   essays: [Essay!]!
+}
+
+input FindStudentByIdForTeachersAidInput {
+  studentId: ID!
+}
+
+type FindStudentByIdForTeachersAidPayload {
+  student: StudentForTeachersAid!
 }
 
 input FindStudentByIdInput {
@@ -1891,6 +1919,7 @@ type Mutation {
   createExcusedLateness(input: CreateExcusedLatenessInput!): CreateExcusedLatenessPayload!
   createLesson(input: CreateLessonInput!): CreateLessonPayload!
   createParentContact(input: CreateParentContactInput!): CreateParentContactPayload!
+  createProfessionalDevelopment(input: CreateProfessionalDevelopmentInput!): CreateProfessionalDevelopmentPayload!
   createProtocol(input: CreateProtocolInput!): CreateProtocolPayload!
   createQuizQuestion(input: CreateQuizQuestionInput!): CreateQuizQuestionPayload!
   createQuizzesByCourse(input: CreateQuizzesByCourseInput!): CreateQuizzesByCoursePayload!
@@ -2071,6 +2100,13 @@ type ProblemSolutionAnswerType {
   whySolutionSolved: String!
 }
 
+type ProfessionalDevelopment {
+  _id: ID
+  date: String!
+  developmentHours: Float!
+  name: String!
+}
+
 interface ProgressMetrics {
   _id: ID
   student: Student!
@@ -2172,10 +2208,12 @@ type Query {
   findResponsibilityPointsByStudentId(input: FindResponsibilityPointsByStudentIdInput!): FindResponsibilityPointsByStudentIdPayload!
   findRubricEntries: FindRubricEntriesPayload!
   findRubricEntriesByCategory(input: FindRubricEntriesByCategoryInput!): FindRubricEntriesByCategoryPayload!
+  findSchoolDayAndLesson(input: FindSchoolDayAndLessonInput!): FindSchoolDayAndLessonPayload!
   findSchoolDayByDate(input: FindSchoolDayByDateInput!): FindSchoolDayByDatePayload!
   findSchoolDayTracker: FindSchoolDayPayload!
   findSGOEssaysByStudentId(input: FindSGOEssaysByStudentIdInput!): FindSGOEssaysByStudentIdPayload!
   findStudentById(input: FindStudentByIdInput!): FindStudentByIdPayload!
+  findStudentByIdForTeachersAid(input: FindStudentByIdForTeachersAidInput!): FindStudentByIdForTeachersAidPayload!
   findStudentOutOfClass(input: FindStudentOutOfClassInput!): FindStudentOutOfClassPayload!
   findStudentOutOfClassByPeriodNameAndDate(input: FindStudentOutOfClassByPeriodNameAndDateInput!): FindStudentOutOfClassByPeriodNameAndDatePayload!
   findStudentQuestions(input: FindStudentQuestionsInput!): FindStudentQuestionsPayload!
@@ -2206,6 +2244,11 @@ interface Question {
 type QuestionAndAnswerContainer {
   answer: String!
   question: String!
+}
+
+input QuestionAndAnswerListInput {
+  answer: String
+  question: String
 }
 
 type QuestionPartsContainer {
@@ -2759,6 +2802,29 @@ enum StudentCohortEnum {
   WHITE
 }
 
+type StudentForTeachersAid implements User {
+  _id: ID
+  cohort: StudentCohortEnum!
+  email: String
+  firstName: String!
+  hasAbsences: [StudentAbsence!]!
+  hasBehaviors: [StudentBehavior!]!
+  hasExcusedLatenesses: [ExcusedLateness!]!
+  hasIEP: Boolean
+  hasProtocols: [Protocol!]!
+  hasResponsibilityPoints: ResponsibilityPoints!
+  hasStatus: [StudentOutOfClass!]!
+  hasUnExcusedLatenesses: [UnexcusedLateness!]!
+  inCourses: [Course!]!
+  isActive: Boolean!
+  lastName: String!
+  middleName: String
+  password: String!
+  schoolId: String
+  userName: String!
+  virtual: Boolean!
+}
+
 type StudentInformation {
   _id: ID
   contactInfo: [ContactInfo!]!
@@ -2987,10 +3053,10 @@ input TextSectionVocabInput {
 scalar Time
 
 enum TimeOfDay {
-  AFTER_CLASS
   AFTER_SCHOOL
   BEFORE_CLASS
   BEFORE_SCHOOL
+  END_OF_CLASS
 }
 
 enum TitleEnum {

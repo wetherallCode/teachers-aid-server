@@ -1,4 +1,4 @@
-import { objectType, enumType } from '@nexus/schema'
+import { objectType, enumType, inputObjectType } from '@nexus/schema'
 import { ReadingGuideReviewOptionsEnum } from '../reading-guides'
 
 export const SpecialAssignment = objectType({
@@ -15,6 +15,13 @@ export const SpecialAssignment = objectType({
 
 export const QuestionAndAnswerContainer = objectType({
   name: 'QuestionAndAnswerContainer',
+  definition(t) {
+    t.string('question')
+    t.string('answer')
+  },
+})
+export const QuestionAndAnswerListInput = inputObjectType({
+  name: 'QuestionAndAnswerListInput',
   definition(t) {
     t.string('question')
     t.string('answer')

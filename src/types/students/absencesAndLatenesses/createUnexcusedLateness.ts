@@ -55,6 +55,7 @@ export const CreateUnexcusedLateness = mutationField(
         }
         const { insertedId } = await studentData.insertOne(unexcusedLateness)
         unexcusedLateness._id = insertedId
+
         studentData.updateOne(
           {
             'student._id': studentId,
@@ -67,6 +68,31 @@ export const CreateUnexcusedLateness = mutationField(
             },
           }
         )
+        const readyForClassCheck = await studentData.findOne({
+          'student._id': new ObjectId(studentId),
+          date: dayLate,
+          'behavior._id': new ObjectId('62a33f0c2c8c161570b3c258'),
+        })
+
+        if (readyForClassCheck) {
+          await studentData.deleteOne({
+            'student._id': new ObjectId(studentId),
+            date: dayLate,
+            'behavior._id': new ObjectId('62a33f0c2c8c161570b3c258'),
+          })
+          await studentData.updateOne(
+            {
+              'student._id': new ObjectId(studentId),
+              markingPeriod,
+              responsibilityPoints: { $exists: true },
+            },
+            {
+              $inc: {
+                responsibilityPoints: -2,
+              },
+            }
+          )
+        }
         return { unexcusedLateness }
       } else
         throw new Error(
