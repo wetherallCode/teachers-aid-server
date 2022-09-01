@@ -9,7 +9,7 @@ export const CreateExcusedLatenessInput = inputObjectType({
   name: 'CreateExcusedLatenessInput',
   definition(t) {
     t.id('studentId', { required: true })
-    t.date('dayLateExcused', { required: true })
+    t.string('dayLate', { required: true })
     t.field('markingPeriod', { type: MarkingPeriodEnum, required: true })
   },
 })
@@ -28,7 +28,7 @@ export const CreateExcusedLateness = mutationField('createExcusedLateness', {
   },
   async resolve(
     _,
-    { input: { studentId, dayLateExcused, markingPeriod } },
+    { input: { studentId, dayLate, markingPeriod } },
     { userData, studentData }
   ) {
     const student: NexusGenRootTypes['Student'] = await userData.findOne({
@@ -38,8 +38,9 @@ export const CreateExcusedLateness = mutationField('createExcusedLateness', {
     const studentLatenessCheck: NexusGenRootTypes['ExcusedLateness'] =
       await studentData.findOne({
         'student._id': new ObjectId(student._id!),
-        dayLateExcused,
+        dayLate,
       })
+    console.log('creating Excused Lateness')
 
     // const latenessSearch = studentLatenesses.some(
     //   (lateness) => lateness.dayLateExcused === dayLateExcused
@@ -48,21 +49,22 @@ export const CreateExcusedLateness = mutationField('createExcusedLateness', {
     if (!studentLatenessCheck) {
       const excusedLateness: NexusGenRootTypes['ExcusedLateness'] = {
         student,
-        dayLateExcused,
+        dayLate,
         markingPeriod,
+        latenessType: 'EXCUSED',
       }
       const { insertedId } = await studentData.insertOne(excusedLateness)
       excusedLateness._id = insertedId
 
-      // const readyForClassCheck = await studentData.findOne({
-      //   'student._id': new ObjectId(studentId),
-      //   date: dayLateExcused,
-      //   'behavior._id': new ObjectId('62a33f0c2c8c161570b3c258'),
-      // })
+      const readyForClassCheck = await studentData.findOne({
+        'student._id': new ObjectId(studentId),
+        date: dayLate,
+        'behavior._id': new ObjectId('62a33f0c2c8c161570b3c258'),
+      })
       // if (readyForClassCheck) {
       //   await studentData.deleteOne({
       //     'student._id': new ObjectId(studentId),
-      //     date: dayLateExcused,
+      //     date: dayLate,
       //     'behavior._id': new ObjectId('62a33f0c2c8c161570b3c258'),
       //   })
 
@@ -85,7 +87,7 @@ export const CreateExcusedLateness = mutationField('createExcusedLateness', {
       throw new Error(
         student.userName +
           ' already has an excused lateness assigned for ' +
-          dayLateExcused
+          dayLate
       )
   },
 })

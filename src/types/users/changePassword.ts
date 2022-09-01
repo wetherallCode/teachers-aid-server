@@ -38,7 +38,7 @@ export const ChangePassword = mutationField('changePassword', {
     if (!valid) {
       throw new Error('Wrong Password')
     } else {
-      userData.updateOne(
+      const { modifiedCount } = userData.updateOne(
         { userName },
         {
           $set: {
@@ -46,6 +46,7 @@ export const ChangePassword = mutationField('changePassword', {
           },
         }
       )
+      console.log(modifiedCount)
     }
     const user = await userData.findOne({ userName })
     return { user }

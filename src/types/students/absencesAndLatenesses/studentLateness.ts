@@ -1,10 +1,9 @@
-import { objectType } from '@nexus/schema'
-import { Student } from '../..'
+import { objectType, enumType } from '@nexus/schema'
 import { MarkingPeriodEnum } from '../../general'
-import { LatenessTypeEnum } from './studentLateness'
+import { Student } from '../student'
 
-export const ExcusedLateness = objectType({
-  name: 'ExcusedLateness',
+export const StudentLateness = objectType({
+  name: 'StudentLateness',
   definition(t) {
     t.id('_id', { nullable: true })
     t.field('student', { type: Student })
@@ -12,4 +11,9 @@ export const ExcusedLateness = objectType({
     t.field('markingPeriod', { type: MarkingPeriodEnum })
     t.field('latenessType', { type: LatenessTypeEnum })
   },
+})
+
+export const LatenessTypeEnum = enumType({
+  name: 'LatenessTypeEnum',
+  members: ['EXCUSED', 'UNEXCUSED'],
 })

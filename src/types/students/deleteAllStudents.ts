@@ -9,14 +9,14 @@ export const DeleteAllStudentsPayload = objectType({
 
 export const DeleteAllStudents = mutationField('deleteAllStudents', {
   type: DeleteAllStudentsPayload,
-  async resolve(_, __, { userData }) {
-    const { deletedCount } = await userData.deleteMany({
+  async resolve(_, __, { userData, studentData }) {
+    await userData.deleteMany({
       inCourses: { $exists: true },
     })
-    console.log(deletedCount)
-    // if (deletedCount === 1) {
-    //   return { removed: true }
-    // }
+    await studentData.deleteMany({
+      student: { $exists: true },
+    })
+
     return { removed: true }
   },
 })

@@ -1,6 +1,6 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { ObjectId } from 'mongodb'
-import { SchoolDay, SchoolDayType } from '.'
+import { SchoolDay, SchoolDayLengthEnum, SchoolDayType } from '.'
 import { StudentCohortEnum } from '..'
 
 export const UpdateSchoolDayInput = inputObjectType({
@@ -14,6 +14,7 @@ export const UpdateSchoolDayInput = inputObjectType({
     })
     t.int('updatedSchoolDayCount', { required: true })
     t.field('updatedCohortWeek', { type: StudentCohortEnum, required: true })
+    t.field('schoolDayLength', { type: SchoolDayLengthEnum, required: true })
   },
 })
 
@@ -36,6 +37,7 @@ export const UpdateSchoolDay = mutationField('updateSchoolDay', {
         updatedCurrentSchoolDayType,
         updatedSchoolDayCount,
         updatedCohortWeek,
+        schoolDayLength,
       },
     },
     { schoolDayData }
@@ -52,6 +54,7 @@ export const UpdateSchoolDay = mutationField('updateSchoolDay', {
             currentSchoolDayType: updatedCurrentSchoolDayType,
             schoolDayCount: updatedSchoolDayCount,
             cohortWeek: updatedCohortWeek,
+            schoolDayLength,
           },
         }
       )

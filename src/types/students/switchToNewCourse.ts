@@ -1,6 +1,7 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { ObjectId } from 'mongodb'
 import { NexusGenRootTypes } from '../../teachers-aid-typegen'
+import { Student } from './student'
 
 export const SwitchToNewCourseInput = inputObjectType({
   name: 'SwitchToNewCourseInput',
@@ -13,7 +14,7 @@ export const SwitchToNewCourseInput = inputObjectType({
 export const SwitchToNewCoursePayload = objectType({
   name: 'SwitchToNewCoursePayload',
   definition(t) {
-    t.boolean('switched')
+    t.field('student', { type: Student })
   },
 })
 
@@ -49,6 +50,7 @@ export const SwitchToNewCourse = mutationField('switchToNewCourse', {
       { _id: new ObjectId(studentId) },
       { $set: { 'inCourses.0': newCourse } }
     )
-    return { switched: true }
+    const student = await userData.findOne({ _id: new ObjectId(studentId) })
+    return { student }
   },
 })

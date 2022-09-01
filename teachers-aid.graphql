@@ -585,13 +585,24 @@ type CreateEssentialQuestionPayload {
 }
 
 input CreateExcusedLatenessInput {
-  dayLateExcused: Date!
+  dayLate: String!
   markingPeriod: MarkingPeriodEnum!
   studentId: ID!
 }
 
 type CreateExcusedLatenessPayload {
   excusedLateness: ExcusedLateness!
+}
+
+input CreateLatenessInput {
+  dayLate: String!
+  latenessType: LatenessTypeEnum!
+  markingPeriod: MarkingPeriodEnum!
+  studentId: ID!
+}
+
+type CreateLatenessPayload {
+  studentLateness: StudentLateness!
 }
 
 input CreateLessonInput {
@@ -795,7 +806,7 @@ type CreateTextSectionPayload {
 }
 
 input CreateUnexcusedLatenessInput {
-  dayLate: Date!
+  dayLate: String!
   markingPeriod: MarkingPeriodEnum!
   studentId: ID!
 }
@@ -837,6 +848,10 @@ type DeleteAllSchoolDaysPayload {
 }
 
 type DeleteAllStudentDataPayload {
+  removed: Boolean!
+}
+
+type DeleteAllStudentsPayload {
   removed: Boolean!
 }
 
@@ -993,7 +1008,8 @@ type EssentialQuestion implements Question {
 
 type ExcusedLateness {
   _id: ID
-  dayLateExcused: Date!
+  dayLate: String!
+  latenessType: LatenessTypeEnum!
   markingPeriod: MarkingPeriodEnum!
   student: Student!
 }
@@ -1742,6 +1758,11 @@ The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://
 """
 scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
 
+enum LatenessTypeEnum {
+  EXCUSED
+  UNEXCUSED
+}
+
 type Lesson {
   _id: ID
   afterActivity: TextSectionProtocols!
@@ -1917,6 +1938,7 @@ type Mutation {
   createEssayQuestion(input: CreateEssayQuestionInput!): CreateEssayQuestionPayload!
   createEssentialQuestion(input: CreateEssentialQuestionInput!): CreateEssentialQuestionPayload!
   createExcusedLateness(input: CreateExcusedLatenessInput!): CreateExcusedLatenessPayload!
+  createLateness(input: CreateLatenessInput!): CreateLatenessPayload!
   createLesson(input: CreateLessonInput!): CreateLessonPayload!
   createParentContact(input: CreateParentContactInput!): CreateParentContactPayload!
   createProfessionalDevelopment(input: CreateProfessionalDevelopmentInput!): CreateProfessionalDevelopmentPayload!
@@ -1942,6 +1964,7 @@ type Mutation {
   deleteAllProtocols: DeleteAllProtocolsPayload!
   deleteAllSchoolDays: DeleteAllSchoolDaysPayload!
   deleteAllStudentData: DeleteAllStudentDataPayload!
+  deleteAllStudents: DeleteAllStudentsPayload!
   deleteAllTemporaryTasks: DeleteAllTemporaryTasksPayload!
   deleteBehaviorType(input: DeleteBehaviorTypeInput!): DeleteBehaviorTypePayload!
   deleteQuizzesByDate(input: DeleteQuizzesByDateInput!): DeleteQuizzesByDatePayload!
@@ -2766,6 +2789,7 @@ type Student implements User {
   hasContactInformation: StudentInformation!
   hasExcusedLatenesses: [ExcusedLateness!]!
   hasIEP: Boolean
+  hasLatnesses: [StudentLateness!]!
   hasProtocols: [Protocol!]!
   hasResponsibilityPoints: [ResponsibilityPoints!]!
   hasStatus: [StudentOutOfClass!]!
@@ -2811,6 +2835,7 @@ type StudentForTeachersAid implements User {
   hasBehaviors: [StudentBehavior!]!
   hasExcusedLatenesses: [ExcusedLateness!]!
   hasIEP: Boolean
+  hasLatnesses: [StudentLateness!]!
   hasProtocols: [Protocol!]!
   hasResponsibilityPoints: ResponsibilityPoints!
   hasStatus: [StudentOutOfClass!]!
@@ -2828,6 +2853,14 @@ type StudentForTeachersAid implements User {
 type StudentInformation {
   _id: ID
   contactInfo: [ContactInfo!]!
+  student: Student!
+}
+
+type StudentLateness {
+  _id: ID
+  dayLate: String!
+  latenessType: LatenessTypeEnum!
+  markingPeriod: MarkingPeriodEnum!
   student: Student!
 }
 
@@ -2956,7 +2989,7 @@ input SwitchToNewCourseInput {
 }
 
 type SwitchToNewCoursePayload {
-  switched: Boolean!
+  student: Student!
 }
 
 type Teacher implements User {
@@ -3119,7 +3152,8 @@ type UnAssignQuizByQuizIdPayload {
 
 type UnexcusedLateness {
   _id: ID
-  dayLate: Date!
+  dayLate: String!
+  latenessType: LatenessTypeEnum!
   markingPeriod: MarkingPeriodEnum!
   student: Student!
 }
@@ -3385,6 +3419,7 @@ type UpdateRubricEntryPayload {
 
 input UpdateSchoolDayInput {
   schoolDayId: ID!
+  schoolDayLength: SchoolDayLengthEnum!
   updatedCohortWeek: StudentCohortEnum!
   updatedCurrentSchoolDayType: SchoolDayType!
   updatedDate: Date!

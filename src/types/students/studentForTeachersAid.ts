@@ -68,6 +68,19 @@ export const StudentForTeachersAid = objectType({
         return absences
       },
     })
+    t.list.field('hasLatnesses', {
+      type: 'StudentLateness',
+      async resolve(parent, __, { studentData }) {
+        const lateness: NexusGenRootTypes['StudentLateness'][] =
+          await studentData
+            .find({
+              'student._id': new ObjectId(parent._id!),
+              dayLate: { $exists: true },
+            })
+            .toArray()
+        return lateness
+      },
+    })
     t.list.field('hasExcusedLatenesses', {
       type: 'ExcusedLateness',
       async resolve(parent, __, { studentData }) {

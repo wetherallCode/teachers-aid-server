@@ -8,7 +8,7 @@ export const CreateUnexcusedLatenessInput = inputObjectType({
   name: 'CreateUnexcusedLatenessInput',
   definition(t) {
     t.id('studentId', { required: true })
-    t.date('dayLate', { required: true })
+    t.string('dayLate', { required: true })
     t.field('markingPeriod', { type: MarkingPeriodEnum, required: true })
   },
 })
@@ -52,6 +52,7 @@ export const CreateUnexcusedLateness = mutationField(
           student,
           dayLate,
           markingPeriod,
+          latenessType: 'UNEXCUSED',
         }
         const { insertedId } = await studentData.insertOne(unexcusedLateness)
         unexcusedLateness._id = insertedId
