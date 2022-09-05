@@ -30,6 +30,8 @@ export const CreateCourseInfoInput = inputObjectType({
     t.string('endsAt', { required: true })
     t.string('halfDayStartsAt', { required: true })
     t.string('halfDayEndsAt', { required: true })
+    t.string('hourDelayStartsAt', { required: true })
+    t.string('hourDelayEndsAt', { required: true })
     // t.id('teacherId')
     t.boolean('cohortBasedSeating', { required: true })
     t.field('courseType', { type: CourseTypeEnum, required: true })
@@ -61,6 +63,8 @@ export const CreateCourseInfo = mutationField('createCourseInfo', {
         endsAt,
         halfDayStartsAt,
         halfDayEndsAt,
+        hourDelayEndsAt,
+        hourDelayStartsAt,
         schoolDayType,
         cohortBasedSeating,
         courseType,
@@ -86,6 +90,8 @@ export const CreateCourseInfo = mutationField('createCourseInfo', {
         hasTeacher: coursesTeacher,
         halfDayStartsAt,
         halfDayEndsAt,
+        hourDelayEndsAt,
+        hourDelayStartsAt,
         courseType,
         schoolDayType,
         assignmentsAllowedInClass: true,

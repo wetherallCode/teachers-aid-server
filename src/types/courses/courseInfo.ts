@@ -13,6 +13,8 @@ export const CourseInfo = objectType({
     t.string('endsAt')
     t.string('halfDayStartsAt')
     t.string('halfDayEndsAt')
+    t.string('hourDelayStartsAt')
+    t.string('hourDelayEndsAt')
     t.boolean('cohortBasedSeating')
     t.boolean('assignmentsAllowedInClass')
     t.field('hasTeacher', { type: Teacher })

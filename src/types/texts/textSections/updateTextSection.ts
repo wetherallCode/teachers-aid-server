@@ -15,6 +15,7 @@ export const UpdateTextSectionInput = inputObjectType({
     t.string('fromChapterId', { required: true })
     t.field('pageNumbers', { type: PageNumbersInput, required: true })
     t.string('header', { required: true })
+    t.int('orderNumber', { required: false })
     t.list.field('hasProtocols', {
       type: TextSectionProtocolsInput,
       required: true,
@@ -48,6 +49,7 @@ export const UpdateTextSection = mutationField('updateTextSection', {
         hasProtocols,
         hasQuestions,
         hasVocab,
+        orderNumber,
       },
     },
     { textData }
@@ -64,6 +66,7 @@ export const UpdateTextSection = mutationField('updateTextSection', {
           hasProtocols: hasProtocols,
           hasQuestions: hasQuestions,
           hasVocab: hasVocab,
+          orderNumber,
         },
       }
     )

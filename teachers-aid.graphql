@@ -453,6 +453,8 @@ type CourseInfo {
   halfDayEndsAt: String!
   halfDayStartsAt: String!
   hasTeacher: Teacher!
+  hourDelayEndsAt: String!
+  hourDelayStartsAt: String!
   isHidden: Boolean!
   schoolDayType: SchoolDayType!
   startsAt: String!
@@ -533,6 +535,8 @@ input CreateCourseInfoInput {
   endsAt: String!
   halfDayEndsAt: String!
   halfDayStartsAt: String!
+  hourDelayEndsAt: String!
+  hourDelayStartsAt: String!
   schoolDayType: SchoolDayType!
   startsAt: String!
 }
@@ -832,6 +836,10 @@ scalar Date
 scalar DateTime
 
 type DeleteAllAssignmentsPayload {
+  removed: Boolean!
+}
+
+type DeleteAllLessonsPayload {
   removed: Boolean!
 }
 
@@ -1901,6 +1909,10 @@ type ModifyStudentOutOfClassPayload {
   modified: Boolean!
 }
 
+type ModifyTextSectionsPayload {
+  modified: Boolean!
+}
+
 type Mutation {
   activateQuiz(input: ActivateQuizInput!): ActivateQuizPayload!
   addAssociatedCourseId: AddAssociatedCourseIdPayload!
@@ -1960,6 +1972,7 @@ type Mutation {
   createUnit(input: CreateUnitInput!): CreateUnitPayload!
   createWritingMetrics: CreateWritingMetricsPayload!
   deleteAllAssignments: DeleteAllAssignmentsPayload!
+  deleteAllLessons: DeleteAllLessonsPayload!
   deleteAllParentContacts: DeleteAllParentContactsPayload!
   deleteAllProtocols: DeleteAllProtocolsPayload!
   deleteAllSchoolDays: DeleteAllSchoolDaysPayload!
@@ -1992,6 +2005,7 @@ type Mutation {
   modifyExistingStudentBehaviors: ModifyExistingStudentBehaviorsPayload!
   modifyLessonAttributes: ModifyLessonAttributesPayload!
   modifyLessonDateByOriginalDate(input: ModifyLessonDateByOriginalDateInput!): ModifyLessonDateByOriginalDatePayload!
+  modifyTextSections: ModifyTextSectionsPayload!
   registerStudent(input: RegisterStudentInput!): RegisterStudentPayload!
   registerTeacher(input: RegisterTeacherInput!): RegisterTeacherPayload!
   removeAbsence(input: RemoveAbsenceInput!): RemoveAbsencePayload!
@@ -2318,6 +2332,7 @@ enum QuestionUsageTypeEnum {
   ESSAY
   ESSENTIAL_QUESTION
   QUIZ
+  WARM_UP
 }
 
 enum QuestionWordEnum {
@@ -3043,6 +3058,7 @@ type TextSection {
   hasQuizQuestions: [QuizQuestion!]!
   hasVocab: [TextSectionVocab!]
   header: String!
+  orderNumber: Int
   pageNumbers: PageNumbers!
 }
 
@@ -3449,6 +3465,7 @@ input UpdateTextSectionInput {
   hasQuestions: [TextSectionQuestionsInput!]!
   hasVocab: [TextSectionVocabInput!]!
   header: String!
+  orderNumber: Int
   pageNumbers: PageNumbersInput!
 }
 
@@ -3504,6 +3521,13 @@ enum VerbTypeEnum {
   BEING
   FEELING
   HAVING
+}
+
+type WarmUpQuestion implements Question {
+  _id: ID
+  associatedTextSectionsIds: [ID!]!
+  questionUsageType: QuestionUsageTypeEnum!
+  warmUpQuestion: String!
 }
 
 type WhyCauseEffectAnswerType {

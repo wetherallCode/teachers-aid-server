@@ -19,5 +19,5 @@ export const Question = interfaceType({
 
 export const QuestionUsageTypeEnum = enumType({
   name: 'QuestionUsageTypeEnum',
-  members: ['ESSAY', 'ESSENTIAL_QUESTION', 'QUIZ'],
+  members: ['ESSAY', 'ESSENTIAL_QUESTION', 'QUIZ', 'WARM_UP'],
 })
