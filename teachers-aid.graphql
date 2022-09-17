@@ -1864,6 +1864,16 @@ type ModifiyEssayQuestionsPayload {
   modified: Boolean!
 }
 
+input ModifyAssignmentsInput {
+  dateAssigned: String!
+  newAssignedDate: String!
+  newDueDate: String!
+}
+
+type ModifyAssignmentsPayload {
+  modified: Boolean!
+}
+
 type ModifyCourseInfoPayload {
   modified: Boolean!
 }
@@ -2000,6 +2010,7 @@ type Mutation {
   markLessonForSGO(input: MarkLessonForSGOInput!): MarkLessonForSGOPayload!
   markTemporaryTaskAbsent(input: MarkTemporaryTaskAbsentInput!): MarkTemporaryTaskAbsentPayload!
   modifiyEssayQuestions: ModifiyEssayQuestionsPayload!
+  modifyAssignments(input: ModifyAssignmentsInput!): ModifyAssignmentsPayload!
   modifyCourseInfo: ModifyCourseInfoPayload!
   modifyEssayDueDateAndAssignedDate(input: ModifyEssayDueDateAndAssignedDateInput!): ModifyEssayDueDateAndAssignedDatePayload!
   modifyExistingStudentBehaviors: ModifyExistingStudentBehaviorsPayload!
@@ -2028,6 +2039,7 @@ type Mutation {
   setAnswerType(input: SetAnswerTypeInput!): SetAnswerTypePayload!
   setCurrentMarkingPeriod(input: SetCurrentMarkingPeriodInput!): SetCurrentMarkingPeriodPayload!
   setOrganizer(input: SetOrganizerInput!): SetOrganizerPayload!
+  setRestatement(input: SetRestatementInput!): SetRestatementPayload!
   startProtocol(input: StartProtocolInput!): StartProtocolPayload!
   startQuiz(input: StartQuizInput!): StartQuizPayload!
   startReadingGuide(input: StartReadingGuideInput!): StartReadingGuidePayload!
@@ -2735,6 +2747,15 @@ input SetOrganizerInput {
 
 type SetOrganizerPayload {
   essay: Essay!
+}
+
+input SetRestatementInput {
+  essayId: ID!
+  restatement: String!
+}
+
+type SetRestatementPayload {
+  set: Boolean!
 }
 
 type SGO {
