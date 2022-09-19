@@ -1,4 +1,5 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
+import { ObjectId } from 'mongodb'
 
 export const SetRestatementInput = inputObjectType({
   name: 'SetRestatementInput',
@@ -19,10 +20,10 @@ export const SetRestatement = mutationField('setRestatement', {
   type: SetRestatementPayload,
   args: { input: arg({ type: SetRestatementInput, required: true }) },
   async resolve(_, { input: { essayId, restatement } }, { assignmentData }) {
-    const essay = await assignmentData.findOne({ _id: essayId })
+    const essay = await assignmentData.findOne({ _id: new ObjectId(essayId) })
     if (essay) {
       const { modifiedCount } = assignmentData.updateOne(
-        { _id: essayId },
+        { _id: new ObjectId(essayId) },
         { $set: { 'workingDraft.organizer.restatement': restatement } }
       )
       return { set: modifiedCount === 1 ? true : false }
