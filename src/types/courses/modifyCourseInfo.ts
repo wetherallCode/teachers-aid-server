@@ -17,7 +17,7 @@ export const ModifyCourseInfo = mutationField('modifyCourseInfo', {
     })
     await courseData.updateMany(
       { 'course._id': { $exists: true } }
-      // { $set: { hourDelayStartsAt: '', hourDelayEndsAt: '' } }
+      // { $set: { checkReadingGuides: true } }
       // {
       //   $set: {
       //     assignedSeats: [

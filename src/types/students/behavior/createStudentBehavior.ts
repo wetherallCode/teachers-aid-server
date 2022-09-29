@@ -58,6 +58,9 @@ export const CreateStudentBehavior = mutationField('createStudentBehavior', {
         const { insertedId } = await studentData.insertOne(studentBehavior)
         studentBehavior._id = insertedId
 
+        if (false) {
+        }
+
         if (
           //if student is unprepared
           new ObjectId(behavior._id!).toHexString() ===

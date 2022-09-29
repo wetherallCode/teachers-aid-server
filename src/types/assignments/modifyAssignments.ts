@@ -1,15 +1,15 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 
-export const ModifyAssignmentsInput = inputObjectType({
-  name: 'ModifyAssignmentsInput',
-  definition(t) {
-    t.string('dateAssigned', { required: true })
-    // t.string('oldAssignedDate', { required: true })
-    t.string('newAssignedDate', { required: true })
-    // t.string('oldDueDate', { required: true })
-    t.string('newDueDate', { required: true })
-  },
-})
+// export const ModifyAssignmentsInput = inputObjectType({
+//   name: 'ModifyAssignmentsInput',
+//   definition(t) {
+//     t.string('dateAssigned', { required: true })
+//     // t.string('oldAssignedDate', { required: true })
+//     t.string('newAssignedDate', { required: true })
+//     // t.string('oldDueDate', { required: true })
+//     t.string('newDueDate', { required: true })
+//   },
+// })
 
 export const ModifyAssignmentsPayload = objectType({
   name: 'ModifyAssignmentsPayload',
@@ -20,18 +20,20 @@ export const ModifyAssignmentsPayload = objectType({
 
 export const ModifyAssignments = mutationField('modifyAssignments', {
   type: ModifyAssignmentsPayload,
-  args: { input: arg({ type: ModifyAssignmentsInput, required: true }) },
+  // args: { input: arg({ type: ModifyAssignmentsInput, required: true }) },
   async resolve(
     _,
-    { input: { dateAssigned, newAssignedDate, newDueDate } },
+    __,
+    // { input: { dateAssigned, newAssignedDate, newDueDate } },
     { assignmentData }
   ) {
-    const { modifiedCount } = assignmentData.updateMany(
-      {
-        assignedDate: dateAssigned,
-        workingDraft: { $exists: true },
-      },
-      { $set: { assignedDate: newAssignedDate, dueDate: newDueDate } }
+    const { modifiedCount } = assignmentData.deleteMany(
+      { quizzableSections: { $exists: true }, assignedDate: '9/19/2022' }
+      // {
+      //   assignedDate: dateAssigned,
+      //   workingDraft: { $exists: true },
+      // },
+      // { $set: { assignedDate: newAssignedDate, dueDate: newDueDate } }
     )
 
     return { modified: true }

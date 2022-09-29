@@ -40,16 +40,18 @@ export const CreateResponsibilityPoints = mutationField(
           'student._id': new ObjectId(_id),
           responsibilityPoints: { $exists: true },
           markingPeriod: markingPeriod,
+          behavior: { $exists: false },
         })
-
+        console.log(responsibilityPointsCheck)
         if (student) {
           if (!responsibilityPointsCheck) {
-            const responsibilityPoints: NexusGenRootTypes['ResponsibilityPoints'] = {
-              markingPeriod,
-              responsibilityPoints: 100,
-              student,
-              inCourse: course,
-            }
+            const responsibilityPoints: NexusGenRootTypes['ResponsibilityPoints'] =
+              {
+                markingPeriod,
+                responsibilityPoints: 100,
+                student,
+                inCourse: course,
+              }
             const { insertedId } = await studentData.insertOne(
               responsibilityPoints
             )
@@ -59,7 +61,7 @@ export const CreateResponsibilityPoints = mutationField(
             throw new Error(
               'Student Responsibility Points have already been created for this marking period'
             )
-        } else throw new Error('studentId unreckognized')
+        } else throw new Error('studentId unrecognized')
       }
 
       return { responsibilityPoints: studentList }
