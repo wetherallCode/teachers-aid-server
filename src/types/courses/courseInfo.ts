@@ -22,5 +22,6 @@ export const CourseInfo = objectType({
     t.field('schoolDayType', { type: SchoolDayType })
     t.list.field('assignedSeats', { type: StudentSeat })
     t.boolean('isHidden')
+    t.boolean('checkReadingGuides')
   },
 })

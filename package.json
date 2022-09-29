@@ -7,7 +7,7 @@
   "scripts": {
     "tsc-start": "tsc && node dist/main.js",
     "start": "nodemon --exec ts-node src/index.ts",
-    "apollo-push": "rover graph publish coffee-trac-server@current --schema ./teachers-aid.graphql",
+    "apollo-push": "rover graph publish teachers-aid-server@current --schema ./teachers-aid.graphql",
     "heroku-push": "git push heroku master"
   },
   "dependencies": {

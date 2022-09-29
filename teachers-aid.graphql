@@ -446,6 +446,7 @@ type CourseInfo {
   assignedSeats: [StudentSeat!]!
   assignmentsAllowedInClass: Boolean!
   associatedCourseId: ID
+  checkReadingGuides: Boolean!
   cohortBasedSeating: Boolean!
   course: Course!
   courseType: CourseTypeEnum!
@@ -651,6 +652,14 @@ input CreateProfessionalDevelopmentInput {
 
 type CreateProfessionalDevelopmentPayload {
   professionalDevelopment: ProfessionalDevelopment!
+}
+
+input CreateProgressMetricsInput {
+  studentId: ID!
+}
+
+type CreateProgressMetricsPayload {
+  writingMetric: WritingMetrics!
 }
 
 input CreateProtocolInput {
@@ -1864,12 +1873,6 @@ type ModifiyEssayQuestionsPayload {
   modified: Boolean!
 }
 
-input ModifyAssignmentsInput {
-  dateAssigned: String!
-  newAssignedDate: String!
-  newDueDate: String!
-}
-
 type ModifyAssignmentsPayload {
   modified: Boolean!
 }
@@ -1964,6 +1967,7 @@ type Mutation {
   createLesson(input: CreateLessonInput!): CreateLessonPayload!
   createParentContact(input: CreateParentContactInput!): CreateParentContactPayload!
   createProfessionalDevelopment(input: CreateProfessionalDevelopmentInput!): CreateProfessionalDevelopmentPayload!
+  createProgressMetrics(input: CreateProgressMetricsInput!): CreateProgressMetricsPayload!
   createProtocol(input: CreateProtocolInput!): CreateProtocolPayload!
   createQuizQuestion(input: CreateQuizQuestionInput!): CreateQuizQuestionPayload!
   createQuizzesByCourse(input: CreateQuizzesByCourseInput!): CreateQuizzesByCoursePayload!
@@ -2010,7 +2014,7 @@ type Mutation {
   markLessonForSGO(input: MarkLessonForSGOInput!): MarkLessonForSGOPayload!
   markTemporaryTaskAbsent(input: MarkTemporaryTaskAbsentInput!): MarkTemporaryTaskAbsentPayload!
   modifiyEssayQuestions: ModifiyEssayQuestionsPayload!
-  modifyAssignments(input: ModifyAssignmentsInput!): ModifyAssignmentsPayload!
+  modifyAssignments: ModifyAssignmentsPayload!
   modifyCourseInfo: ModifyCourseInfoPayload!
   modifyEssayDueDateAndAssignedDate(input: ModifyEssayDueDateAndAssignedDateInput!): ModifyEssayDueDateAndAssignedDatePayload!
   modifyExistingStudentBehaviors: ModifyExistingStudentBehaviorsPayload!

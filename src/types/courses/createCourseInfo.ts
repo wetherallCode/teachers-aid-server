@@ -98,6 +98,7 @@ export const CreateCourseInfo = mutationField('createCourseInfo', {
         associatedCourseId: course._id,
         cohortBasedSeating,
         isHidden: false,
+        checkReadingGuides: true,
         assignedSeats:
           courseMaxSize === 'TWELVE' && cohortBasedSeating
             ? twelveCohortAssignedSeats
