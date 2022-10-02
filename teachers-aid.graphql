@@ -2055,6 +2055,7 @@ type Mutation {
   switchToNewCourse(input: SwitchToNewCourseInput!): SwitchToNewCoursePayload!
   toggleAssignmentsAllowedInClass(input: ToggleAssignmentsAllowedInClassInput!): ToggleAssignmentsAllowedInClassPayload!
   toggleClassAssignmentsAllowed(input: ToggleClassAssignmentsAllowedInput!): ToggleClassAssignmentsAllowedPayload!
+  toggleReadingGuideCheck(input: ToggleReadingGuideCheckInput!): ToggleReadingGuideCheckPayload!
   unAssignEssays(input: UnAssignEssaysInput!): UnAssignEssaysPayload!
   unAssignQuizByQuizId(input: UnAssignQuizByQuizIdInput!): UnAssignQuizByQuizIdPayload!
   updateAcademicOrganizer(input: UpdateAcademicOrganizerInput!): UpdateAcademicOrganizerPayload!
@@ -3153,6 +3154,14 @@ input ToggleClassAssignmentsAllowedInput {
 }
 
 type ToggleClassAssignmentsAllowedPayload {
+  toggled: Boolean!
+}
+
+input ToggleReadingGuideCheckInput {
+  courseId: ID!
+}
+
+type ToggleReadingGuideCheckPayload {
   toggled: Boolean!
 }
 
