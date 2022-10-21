@@ -1908,6 +1908,15 @@ type ModifyLessonDateByOriginalDatePayload {
   updated: Boolean!
 }
 
+input ModifyLessonUnitInput {
+  assignedDate: String!
+  newUnitId: ID!
+}
+
+type ModifyLessonUnitPayload {
+  modified: Boolean!
+}
+
 input ModifyStudentOutOfClassInput {
   date: String
   departTime: String
@@ -2020,6 +2029,7 @@ type Mutation {
   modifyExistingStudentBehaviors: ModifyExistingStudentBehaviorsPayload!
   modifyLessonAttributes: ModifyLessonAttributesPayload!
   modifyLessonDateByOriginalDate(input: ModifyLessonDateByOriginalDateInput!): ModifyLessonDateByOriginalDatePayload!
+  modifyLessonUnit(input: ModifyLessonUnitInput!): ModifyLessonUnitPayload!
   modifyTextSections: ModifyTextSectionsPayload!
   registerStudent(input: RegisterStudentInput!): RegisterStudentPayload!
   registerTeacher(input: RegisterTeacherInput!): RegisterTeacherPayload!
