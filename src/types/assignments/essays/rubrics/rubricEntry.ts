@@ -30,5 +30,5 @@ export const RubricEntryInput = inputObjectType({
 
 export const RubricSectionEnum = enumType({
   name: 'RubricSectionEnum',
-  members: ['OVERALL', 'GENERAL', 'TOPIC', 'ANSWER', 'CONCLUSION'],
+  members: ['TOPIC', 'ANSWER', 'CONCLUSION', 'OVERALL', 'PROOFREADING'],
 })
