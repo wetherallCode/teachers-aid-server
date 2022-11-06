@@ -1696,6 +1696,10 @@ type FinishQuizPayload {
   quiz: Quiz!
 }
 
+type FixEssayByEssayIdPayload {
+  fixed: Boolean!
+}
+
 input ForceFinishQuizInput {
   quizId: ID!
 }
@@ -2012,6 +2016,7 @@ type Mutation {
   exemptArticleReview(input: ExemptArticleReviewInput!): ExemptArticleReviewPayload!
   finishProtocol(input: FinishProtocolInput!): FinishProtocolPayload!
   finishQuiz(input: FinishQuizInput!): FinishQuizPayload!
+  fixEssayByEssayId: FixEssayByEssayIdPayload!
   forceFinishQuiz(input: ForceFinishQuizInput!): ForceFinishQuizPayload!
   gradeArticleReview(input: GradeArticleReviewInput!): GradeArticleReviewPayload!
   gradeTemporaryTask(input: GradeTemporaryTaskInput!): GradeTemporaryTaskPayload!
@@ -2694,8 +2699,8 @@ input RubricEntryInput {
 enum RubricSectionEnum {
   ANSWER
   CONCLUSION
-  GENERAL
   OVERALL
+  PROOFREADING
   TOPIC
 }
 
