@@ -42,7 +42,7 @@ export const CreateResponsibilityPoints = mutationField(
           markingPeriod: markingPeriod,
           behavior: { $exists: false },
         })
-        console.log(responsibilityPointsCheck)
+
         if (student) {
           if (!responsibilityPointsCheck) {
             const responsibilityPoints: NexusGenRootTypes['ResponsibilityPoints'] =

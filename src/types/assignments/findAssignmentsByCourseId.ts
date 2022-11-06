@@ -27,7 +27,7 @@ export const FindAssignmentsByCourseId = queryField(
       const assignments = await assignmentData
         .find({ 'hasOwner.inCourses._id': new ObjectID(courseId) })
         .toArray()
-      console.log(assignments.length)
+
       return { assignments }
     },
   }
