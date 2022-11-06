@@ -43,7 +43,6 @@ export const FindEssentialQuestionsByAssociatedTextSectionIds = queryField(
           let container: NexusGenRootTypes['EssentialQuestion'][] = []
 
           if (container.some((q) => q._id !== question._id)) {
-            console.log('true')
           } else {
             container.push(question)
             essentialQuestions.push(question)

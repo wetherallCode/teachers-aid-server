@@ -38,7 +38,7 @@ export const FindReadingGuideByUserIdAndReadingSection = queryField(
         quizzableSections: { $exists: false },
         workingDraft: { $exists: false },
       })
-      console.log(readingGuide)
+
       return { readingGuide }
     },
   }

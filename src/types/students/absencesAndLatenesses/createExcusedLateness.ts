@@ -40,7 +40,6 @@ export const CreateExcusedLateness = mutationField('createExcusedLateness', {
         'student._id': new ObjectId(student._id!),
         dayLate,
       })
-    console.log('creating Excused Lateness')
 
     // const latenessSearch = studentLatenesses.some(
     //   (lateness) => lateness.dayLateExcused === dayLateExcused

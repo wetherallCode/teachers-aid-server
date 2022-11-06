@@ -11,7 +11,7 @@ export const DeleteAllProtocols = mutationField('deleteAllProtocols', {
   type: DeleteAllProtocolsPayload,
   async resolve(_, __, { protocolData }) {
     const { deletedCount } = await protocolData.deleteMany()
-    console.log(deletedCount)
+
     // if (deletedCount === 1) {
     //   return { removed: true }
     // }

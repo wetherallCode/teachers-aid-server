@@ -55,7 +55,7 @@ export const ModifyCourseInfo = mutationField('modifyCourseInfo', {
       //   },
       // }
     )
-    // console.log(course)
+
     return { modified: true }
   },
 })

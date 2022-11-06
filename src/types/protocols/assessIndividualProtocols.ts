@@ -52,7 +52,6 @@ export const AssessIndividualProtocols = mutationField(
           }
         )
 
-        // console.log(protocol.assessment === null && assessment !== null)
         if (protocol.assessment === null && assessment !== null) {
           studentData.updateOne(
             {

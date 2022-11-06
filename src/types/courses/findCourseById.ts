@@ -24,7 +24,7 @@ export const FindCourseById = queryField('findCourseById', {
     const course: NexusGenRootTypes['Course'] = await courseData.findOne({
       _id: new ObjectId(courseId),
     })
-    // console.log(course.name)
+
     return { course }
   },
 })

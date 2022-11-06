@@ -46,7 +46,7 @@ export const ChangeEssayDueDateAndAssignedDateByReadingSection = mutationField(
         },
         { $set: { assignedDate: newAssignedDate, dueDate: newDueDate } }
       )
-      console.log(essays.length, modifiedCount)
+
       return { updated: essays.length === modifiedCount ? true : false }
     },
   }

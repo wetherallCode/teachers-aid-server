@@ -74,7 +74,7 @@ export const CreateLateness = mutationField('createLateness', {
           },
         }
       )
-      console.log(modifiedCount)
+
       const readyForClassCheck = await studentData.findOne({
         'student._id': new ObjectId(studentId),
         date: dayLate,

@@ -29,7 +29,6 @@ export const SetOrganizer = mutationField('setOrganizer', {
       })
     if (!organizerCheck.workingDraft.organizer) {
       if (writingLevel === 'DEVELOPING') {
-        console.log('developing')
         const developingOrganizer: NexusGenRootTypes['DevelopingOrganizer'] = {
           developingSentenceStructure: {
             subject: '',
@@ -51,7 +50,6 @@ export const SetOrganizer = mutationField('setOrganizer', {
         const essay: NexusGenRootTypes['Essay'] = await assignmentData.findOne({
           _id: new ObjectId(essayId),
         })
-        console.log(essay.workingDraft.organizer)
         return { essay }
       }
       if (writingLevel === 'ACADEMIC') {

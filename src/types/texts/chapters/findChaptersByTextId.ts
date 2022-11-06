@@ -32,7 +32,7 @@ export const FindChaptersByTextId = queryField('findChaptersByTextId', {
           'fromText._id': new ObjectId(textId),
         })
         .toArray()
-      // console.log(chapters.map((chapter) => ))
+
       return { chapters }
     } else throw new Error('Text not found.')
   },
