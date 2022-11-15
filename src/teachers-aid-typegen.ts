@@ -254,6 +254,7 @@ export interface NexusGenInputs {
     lessonName: string; // String!
     lessonType: NexusGenEnums['LessonTypeEnum']; // LessonTypeEnum!
     pageNumbers: NexusGenInputs['PageNumbersInput']; // PageNumbersInput!
+    protocolCount?: number | null; // Int
     questionList: NexusGenInputs['TextSectionQuestionsInput'][]; // [TextSectionQuestionsInput!]!
     vocabList: NexusGenInputs['TextSectionVocabInput'][]; // [TextSectionVocabInput!]!
   }
@@ -938,6 +939,7 @@ export interface NexusGenInputs {
     academicOutcomeTypes: NexusGenEnums['AcademicOutcomeTypes']; // AcademicOutcomeTypes!
     activityType: NexusGenEnums['ProtocolActivityTypes']; // ProtocolActivityTypes!
     completed: boolean; // Boolean!
+    directions?: string | null; // String
     isActive: boolean; // Boolean!
     task: string; // String!
   }
@@ -1903,6 +1905,7 @@ export interface NexusGenRootTypes {
     lessonType: NexusGenEnums['LessonTypeEnum']; // LessonTypeEnum!
     objectives?: string | null; // String
     pageNumbers: NexusGenRootTypes['PageNumbers']; // PageNumbers!
+    protocolCount?: number | null; // Int
     questionList: NexusGenRootTypes['TextSectionQuestions'][]; // [TextSectionQuestions!]!
     vocabList: NexusGenRootTypes['TextSectionVocab'][]; // [TextSectionVocab!]!
   }
@@ -2401,6 +2404,7 @@ export interface NexusGenRootTypes {
     academicOutcomeTypes: NexusGenEnums['AcademicOutcomeTypes']; // AcademicOutcomeTypes!
     activityType: NexusGenEnums['ProtocolActivityTypes']; // ProtocolActivityTypes!
     completed: boolean; // Boolean!
+    directions?: string | null; // String
     isActive: boolean; // Boolean!
     task: string; // String!
   }
@@ -3538,6 +3542,7 @@ export interface NexusGenFieldTypes {
     lessonType: NexusGenEnums['LessonTypeEnum']; // LessonTypeEnum!
     objectives: string | null; // String
     pageNumbers: NexusGenRootTypes['PageNumbers']; // PageNumbers!
+    protocolCount: number | null; // Int
     questionList: NexusGenRootTypes['TextSectionQuestions'][]; // [TextSectionQuestions!]!
     vocabList: NexusGenRootTypes['TextSectionVocab'][]; // [TextSectionVocab!]!
   }
@@ -4311,6 +4316,7 @@ export interface NexusGenFieldTypes {
     academicOutcomeTypes: NexusGenEnums['AcademicOutcomeTypes']; // AcademicOutcomeTypes!
     activityType: NexusGenEnums['ProtocolActivityTypes']; // ProtocolActivityTypes!
     completed: boolean; // Boolean!
+    directions: string | null; // String
     isActive: boolean; // Boolean!
     task: string; // String!
   }

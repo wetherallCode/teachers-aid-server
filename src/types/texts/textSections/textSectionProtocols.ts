@@ -7,6 +7,7 @@ export const TextSectionProtocols = objectType({
     t.field('activityType', { type: ProtocolActivityTypes })
     t.field('academicOutcomeTypes', { type: AcademicOutcomeTypes })
     t.string('task')
+    t.string('directions', { nullable: true })
     t.boolean('completed')
     t.boolean('isActive')
   },
@@ -24,6 +25,7 @@ export const TextSectionProtocolsInput = inputObjectType({
       required: true,
     })
     t.string('task', { required: true })
+    t.string('directions', { required: false })
     t.boolean('isActive', { required: true })
     t.boolean('completed', { required: true })
   },

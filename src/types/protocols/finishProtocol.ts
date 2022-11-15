@@ -63,6 +63,7 @@ export const FinishProtocol = mutationField('finishProtocol', {
             'duringActivities.$.isActive': false,
             'duringActivities.$.completed': true,
           },
+          $inc: { protocolCount: +1 },
         }
       )
     }

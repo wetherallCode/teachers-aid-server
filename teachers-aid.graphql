@@ -624,6 +624,7 @@ input CreateLessonInput {
   lessonName: String!
   lessonType: LessonTypeEnum!
   pageNumbers: PageNumbersInput!
+  protocolCount: Int
   questionList: [TextSectionQuestionsInput!]!
   vocabList: [TextSectionVocabInput!]!
 }
@@ -1803,6 +1804,7 @@ type Lesson {
   lessonType: LessonTypeEnum!
   objectives: String
   pageNumbers: PageNumbers!
+  protocolCount: Int
   questionList: [TextSectionQuestions!]!
   vocabList: [TextSectionVocab!]!
 }
@@ -3108,6 +3110,7 @@ type TextSectionProtocols {
   academicOutcomeTypes: AcademicOutcomeTypes!
   activityType: ProtocolActivityTypes!
   completed: Boolean!
+  directions: String
   isActive: Boolean!
   task: String!
 }
@@ -3116,6 +3119,7 @@ input TextSectionProtocolsInput {
   academicOutcomeTypes: AcademicOutcomeTypes!
   activityType: ProtocolActivityTypes!
   completed: Boolean!
+  directions: String
   isActive: Boolean!
   task: String!
 }

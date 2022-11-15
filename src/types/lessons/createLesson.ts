@@ -36,6 +36,7 @@ export const CreateLessonInput = inputObjectType({
       type: TextSectionProtocolsInput,
       required: true,
     })
+    t.int('protocolCount', { required: false })
     t.field('afterActivity', {
       type: TextSectionProtocolsInput,
       required: true,

@@ -26,6 +26,7 @@ export const Lesson = objectType({
     t.list.field('vocabList', { type: TextSectionVocab })
     t.field('beforeActivity', { type: TextSectionProtocols })
     t.list.field('duringActivities', { type: TextSectionProtocols })
+    t.int('protocolCount', { nullable: true })
     t.field('afterActivity', { type: TextSectionProtocols })
     t.list.field('questionList', { type: TextSectionQuestions })
     t.string('essentialQuestion')
