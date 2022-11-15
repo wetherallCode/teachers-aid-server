@@ -36,7 +36,7 @@ export const CreateLessonInput = inputObjectType({
       type: TextSectionProtocolsInput,
       required: true,
     })
-    t.int('protocolCount', { required: false })
+    // t.int('protocolCount', { required: false })
     t.field('afterActivity', {
       type: TextSectionProtocolsInput,
       required: true,
@@ -111,6 +111,10 @@ export const CreateLesson = mutationField('createLesson', {
         dynamicLesson: 'OFF',
         lessonType,
         lessonStarted: false,
+      }
+
+      if (lessonType === 'REINFORCEMENT') {
+        lesson.protocolCount = 0
       }
 
       const { insertedId } = await lessonData.insertOne(lesson)

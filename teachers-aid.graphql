@@ -624,7 +624,6 @@ input CreateLessonInput {
   lessonName: String!
   lessonType: LessonTypeEnum!
   pageNumbers: PageNumbersInput!
-  protocolCount: Int
   questionList: [TextSectionQuestionsInput!]!
   vocabList: [TextSectionVocabInput!]!
 }
@@ -1914,6 +1913,14 @@ type ModifyLessonDateByOriginalDatePayload {
   updated: Boolean!
 }
 
+input ModifyLessonsByAssignedDayInput {
+  day: String!
+}
+
+type ModifyLessonsByAssignedDayPayload {
+  modified: Boolean!
+}
+
 input ModifyLessonUnitInput {
   assignedDate: String!
   newUnitId: ID!
@@ -2036,6 +2043,7 @@ type Mutation {
   modifyExistingStudentBehaviors: ModifyExistingStudentBehaviorsPayload!
   modifyLessonAttributes: ModifyLessonAttributesPayload!
   modifyLessonDateByOriginalDate(input: ModifyLessonDateByOriginalDateInput!): ModifyLessonDateByOriginalDatePayload!
+  modifyLessonsByAssignedDay(input: ModifyLessonsByAssignedDayInput!): ModifyLessonsByAssignedDayPayload!
   modifyLessonUnit(input: ModifyLessonUnitInput!): ModifyLessonUnitPayload!
   modifyTextSections: ModifyTextSectionsPayload!
   registerStudent(input: RegisterStudentInput!): RegisterStudentPayload!
