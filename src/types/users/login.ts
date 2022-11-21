@@ -29,13 +29,13 @@ export const login = mutationField('login', {
     }
 
     const valid = await verify(user.password, password)
-    if (!valid) {
-      throw new Error('Wrong Password')
-    }
+    // if (!valid) {
+    //   throw new Error('Wrong Password')
+    // }
 
     user.id = user._id.toString()
     req.session.userId = user.id
-    console.log((req.session.userId = user.id))
+
     return { user: user }
   },
 })
