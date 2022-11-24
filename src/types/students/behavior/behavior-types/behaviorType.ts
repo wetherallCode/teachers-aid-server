@@ -21,6 +21,7 @@ export const BehaviorCategoryEnum = enumType({
   name: 'BehaviorCategoryEnum',
   members: [
     'INDEPENDENT_WORK',
+    'PREPAREDNESS',
     'QUESTION_AND_ANSWER',
     'POSITIVE_BEHAVIOR',
     'NEGATIVE_BEHAVIOR',
