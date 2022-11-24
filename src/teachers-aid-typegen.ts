@@ -927,6 +927,7 @@ export interface NexusGenInputs {
   }
   SwitchToNewCourseInput: { // input type
     newCourseId: string; // ID!
+    oldCourseId: string; // ID!
     studentId: string; // ID!
   }
   TextChapterInput: { // input type
@@ -1172,7 +1173,7 @@ export interface NexusGenInputs {
 export interface NexusGenEnums {
   AcademicOutcomeTypes: "CAUSE_AND_EFFECT_RECOGNITION" | "LOGIC_BUILDING" | "SCHEMA_BUIDING" | "SOCRATIC_QUESTIONS"
   BasicQuestionEnum: "HOW" | "WHY"
-  BehaviorCategoryEnum: "INDEPENDENT_WORK" | "NEGATIVE_BEHAVIOR" | "POSITIVE_BEHAVIOR" | "QUESTION_AND_ANSWER"
+  BehaviorCategoryEnum: "INDEPENDENT_WORK" | "NEGATIVE_BEHAVIOR" | "POSITIVE_BEHAVIOR" | "PREPAREDNESS" | "QUESTION_AND_ANSWER"
   BehaviorEnum: "ANSWERED_QUESTION" | "COMPLETED_ASSIGNMENT" | "DID_NOT_ANSWER_QUESTION" | "DISRESPECTFUL" | "DISRUPTIVE" | "EXCESSIVE_TALKING" | "INNAPROPRIATE_LANGUAGE" | "OFF_TASK" | "ON_TASK" | "REFUSED_TO_WORK" | "UNPREPARED"
   BehaviorQualityEnum: "NEGATIVE" | "NEUTRAL" | "POSITIVE"
   ContactTypeEnum: "EMAIL" | "PHONE" | "VIDEO"

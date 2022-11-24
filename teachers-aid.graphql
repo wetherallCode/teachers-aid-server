@@ -284,6 +284,7 @@ enum BehaviorCategoryEnum {
   INDEPENDENT_WORK
   NEGATIVE_BEHAVIOR
   POSITIVE_BEHAVIOR
+  PREPAREDNESS
   QUESTION_AND_ANSWER
 }
 
@@ -3051,6 +3052,7 @@ input SubmittedFinalDraftsInput {
 
 input SwitchToNewCourseInput {
   newCourseId: ID!
+  oldCourseId: ID!
   studentId: ID!
 }
 
