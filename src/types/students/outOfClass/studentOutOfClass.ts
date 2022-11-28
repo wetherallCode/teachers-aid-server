@@ -20,11 +20,11 @@ export const OutOfClassDestinationEnum = enumType({
   name: 'OutOfClassDestinationEnum',
   members: [
     'BATHROOM',
-    'NURSE',
-    'OTHER_CLASS',
-    'OFFICE',
+    'LOCKER',
     'GUIDANCE',
-    'BAND',
-    'CHOIR',
+    'NURSE',
+    'OFFICE',
+    'OTHER_CLASS',
+    'BAND_CHOIR',
   ],
 })
