@@ -24,3 +24,9 @@ export const timeAFunction = (startTime: string, endTime: string) => {
         startTimeSeconds +
         (60 * endTimeMinutes - startTimeMinutes)
 }
+
+export function isNegative(num: number) {
+  console.log(Math.sign(num) === 1 ? true : false)
+  if (Math.sign(num) === 1) return false
+  else return true
+}
