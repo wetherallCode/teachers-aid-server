@@ -15,5 +15,5 @@ export const ParentContact = objectType({
 
 export const ContactTypeEnum = enumType({
   name: 'ContactTypeEnum',
-  members: ['PHONE', 'EMAIL', 'VIDEO'],
+  members: ['PHONE', 'EMAIL', 'CONFERENCE', 'VIDEO'],
 })
