@@ -409,6 +409,7 @@ type ContactInfo {
 }
 
 enum ContactTypeEnum {
+  CONFERENCE
   EMAIL
   PHONE
   VIDEO
@@ -1569,6 +1570,15 @@ type FindStudentOutOfClassByPeriodNameAndDatePayload {
   studentsOutOfClass: [StudentOutOfClass!]!
 }
 
+input FindStudentOutOfClassByStudentIdAndMarkingPeriodInput {
+  markingPeriod: MarkingPeriodEnum!
+  studentId: ID!
+}
+
+type FindStudentOutOfClassByStudentIdAndMarkingPeriodPayload {
+  studentOutOfClassListForMarkingPeriod: [StudentOutOfClass!]!
+}
+
 input FindStudentOutOfClassInput {
   date: String!
   studentId: ID!
@@ -2058,6 +2068,7 @@ type Mutation {
   removeStudentBehavior(input: RemoveStudentBehaviorInput!): RemoveStudentBehaviorPayload!
   removeStudentsFromCourse(input: RemoveStudentsFromCourseInput!): RemoveStudentsFromCoursePayload!
   removeTextSection(input: RemoveTextSectionInput!): RemoveTextSectionPayload!
+  resetAllEssayQuestionsSGOStatus: ResetAllEssayQuestionsSGOStatusPayload!
   resetPassword(input: ResetPasswordInput!): ResetPasswordPayload!
   respondToProtocol(input: RespondToProtocolInput!): RespondToProtocolPayload!
   resubmitEssayFinalDraft(input: ResubmitEssayFinalDraftInput!): ResubmitEssayFinalDraftPayload!
@@ -2132,10 +2143,10 @@ enum NounTypeEnum {
 union Organizers = AcademicOrganizer | AdvancedOrganizer | DevelopingOrganizer
 
 enum OutOfClassDestinationEnum {
-  BAND
+  BAND_CHOIR
   BATHROOM
-  CHOIR
   GUIDANCE
+  LOCKER
   NURSE
   OFFICE
   OTHER_CLASS
@@ -2296,6 +2307,7 @@ type Query {
   findStudentByIdForTeachersAid(input: FindStudentByIdForTeachersAidInput!): FindStudentByIdForTeachersAidPayload!
   findStudentOutOfClass(input: FindStudentOutOfClassInput!): FindStudentOutOfClassPayload!
   findStudentOutOfClassByPeriodNameAndDate(input: FindStudentOutOfClassByPeriodNameAndDateInput!): FindStudentOutOfClassByPeriodNameAndDatePayload!
+  findStudentOutOfClassByStudentIdAndMarkingPeriod(input: FindStudentOutOfClassByStudentIdAndMarkingPeriodInput!): FindStudentOutOfClassByStudentIdAndMarkingPeriodPayload!
   findStudentQuestions(input: FindStudentQuestionsInput!): FindStudentQuestionsPayload!
   findStudentsByCourse(input: FindStudentsByCourseInput!): FindStudentsByCoursePayload!
   findStudentsById(input: FindStudentsByIdInput!): FindStudentsByIdPayload!
@@ -2608,6 +2620,10 @@ input RemoveTextSectionInput {
 
 type RemoveTextSectionPayload {
   removed: Boolean!
+}
+
+type ResetAllEssayQuestionsSGOStatusPayload {
+  reset: Boolean!
 }
 
 input ResetPasswordInput {
