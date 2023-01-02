@@ -91,6 +91,7 @@ export const CreateProtocol = mutationField('createProtocol', {
             'student._id': new ObjectId(student._id!),
             markingPeriod,
             responsibilityPoints: { $exists: true },
+            behavior: { $exists: false },
           },
           { $inc: { responsibilityPoints: 2 } }
         )

@@ -29,13 +29,14 @@ export const DeleteTemporaryTasks = mutationField('deleteTemporaryTasks', {
     const mp = await generalData.findOne({
       currentMarkingPeriod: { $exists: true },
     })
-    const taskCheck: NexusGenRootTypes['TemporaryTask'][] = await temporaryTaskData
-      .find({
-        dateIssued,
-        'student.inCourses._id': new ObjectId(courseId),
-        taskNumber,
-      })
-      .toArray()
+    const taskCheck: NexusGenRootTypes['TemporaryTask'][] =
+      await temporaryTaskData
+        .find({
+          dateIssued,
+          'student.inCourses._id': new ObjectId(courseId),
+          taskNumber,
+        })
+        .toArray()
 
     let removed = false
     if (taskCheck.length > 0) {
@@ -46,6 +47,7 @@ export const DeleteTemporaryTasks = mutationField('deleteTemporaryTasks', {
               'student._id': new ObjectId(task.student._id!),
               markingPeriod: mp.currentMarkingPeriod,
               responsibilityPoints: { $exists: true },
+              behavior: { $exists: false },
             },
             {
               $inc: { responsibilityPoints: -2 },

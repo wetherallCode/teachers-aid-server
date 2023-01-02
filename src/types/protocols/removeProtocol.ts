@@ -55,6 +55,7 @@ export const RemoveProtocol = mutationField('removeProtocol', {
             'student._id': new ObjectId(studentId),
             markingPeriod,
             responsibilityPoints: { $exists: true },
+            behavior: { $exists: false },
           },
           { $inc: { responsibilityPoints: -protocolCheck.lastScore } }
         )

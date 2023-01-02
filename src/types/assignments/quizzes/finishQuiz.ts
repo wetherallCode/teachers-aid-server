@@ -52,6 +52,7 @@ export const FinishQuiz = mutationField('finishQuiz', {
           responsibilityPoints: { $exists: true },
           'student._id': new ObjectId(studentId),
           markingPeriod,
+          behavior: { $exists: false },
         },
         {
           $inc: { responsibilityPoints: responsibilityPoints },

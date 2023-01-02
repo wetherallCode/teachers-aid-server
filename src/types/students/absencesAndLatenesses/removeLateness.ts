@@ -51,6 +51,7 @@ export const RemoveLateness = mutationField('removeLateness', {
                 'student._id': new ObjectId(lateness.student._id!),
                 markingPeriod: lateness.markingPeriod,
                 responsibilityPoints: { $exists: true },
+                behavior: { $exists: false },
               },
               {
                 $inc: {
@@ -79,6 +80,7 @@ export const RemoveLateness = mutationField('removeLateness', {
               'student._id': new ObjectId(lateness.student._id!),
               markingPeriod: lateness.markingPeriod,
               responsibilityPoints: { $exists: true },
+              behavior: { $exists: false },
             },
             {
               $inc: {

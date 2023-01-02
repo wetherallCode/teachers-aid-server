@@ -52,6 +52,7 @@ export const RemoveStudentBehavior = mutationField('removeStudentBehavior', {
             'student._id': new ObjectId(behaviorCheck.student._id!),
             markingPeriod: markingPeriod,
             responsibilityPoints: { $exists: true },
+            behavior: { $exists: false },
           },
           {
             $inc: {

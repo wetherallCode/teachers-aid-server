@@ -46,6 +46,7 @@ export const UpdateResponsibilityPoints = mutationField(
         'student._id': new ObjectId(studentId),
         responsibilityPoints: { $exists: true },
         markingPeriod,
+        behavior: { $exists: false },
       })
       return { responsibilityPoints }
     },

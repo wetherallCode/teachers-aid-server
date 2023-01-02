@@ -58,6 +58,7 @@ export const GradeTemporaryTask = mutationField('gradeTemporaryTask', {
             'student._id': new ObjectId(studentId!),
             markingPeriod: mp.currentMarkingPeriod,
             responsibilityPoints: { $exists: true },
+            behavior: { $exists: false },
           },
           {
             $inc: { responsibilityPoints: -lastGrade },
@@ -72,6 +73,7 @@ export const GradeTemporaryTask = mutationField('gradeTemporaryTask', {
             'student._id': new ObjectId(studentId!),
             markingPeriod: mp.currentMarkingPeriod,
             responsibilityPoints: { $exists: true },
+            behavior: { $exists: false },
           },
           {
             $inc: { responsibilityPoints: responsibilityPoints },

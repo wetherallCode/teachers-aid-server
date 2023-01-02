@@ -93,6 +93,7 @@ export const SubmitEssayFinalDraft = mutationField('submitEssayFinalDraft', {
             'student._id': new ObjectId(essayCheck.hasOwner._id!),
             markingPeriod: essayCheck.markingPeriod,
             responsibilityPoints: { $exists: true },
+            behavior: { $exists: false },
           },
           {
             $inc: {
@@ -139,6 +140,7 @@ export const SubmitEssayFinalDraft = mutationField('submitEssayFinalDraft', {
           'student._id': new ObjectId(essayCheck.hasOwner._id!),
           markingPeriod: essayCheck.markingPeriod,
           responsibilityPoints: { $exists: true },
+          behavior: { $exists: false },
         },
         {
           $inc: {

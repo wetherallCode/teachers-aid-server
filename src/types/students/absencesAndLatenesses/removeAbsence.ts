@@ -65,6 +65,7 @@ export const RemoveAbsence = mutationField('removeAbsence', {
                 'student._id': new ObjectId(absence.student._id!),
                 markingPeriod: absence.markingPeriod,
                 responsibilityPoints: { $exists: true },
+                behavior: { $exists: false },
               },
               {
                 $inc: {

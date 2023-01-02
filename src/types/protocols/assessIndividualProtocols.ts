@@ -58,6 +58,7 @@ export const AssessIndividualProtocols = mutationField(
               'student._id': new ObjectId(protocol.student._id!),
               markingPeriod,
               responsibilityPoints: { $exists: true },
+              behavior: { $exists: false },
             },
             { $inc: { responsibilityPoints } }
           )
@@ -69,6 +70,7 @@ export const AssessIndividualProtocols = mutationField(
               'student._id': new ObjectId(protocol.student._id!),
               markingPeriod,
               responsibilityPoints: { $exists: true },
+              behavior: { $exists: false },
             },
             { $inc: { responsibilityPoints: -responsibilityPoints } }
           )

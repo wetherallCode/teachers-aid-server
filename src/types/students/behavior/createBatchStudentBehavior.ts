@@ -66,6 +66,7 @@ export const CreateBatchStudentBehavior = mutationField(
               'student._id': new ObjectId(studentId),
               markingPeriod: markingPeriod,
               responsibilityPoints: { $exists: true },
+              behavior: { $exists: false },
             },
             {
               $inc: {

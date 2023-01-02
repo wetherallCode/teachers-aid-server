@@ -62,6 +62,7 @@ export const CreateUnexcusedLateness = mutationField(
             'student._id': studentId,
             markingPeriod,
             responsibilityPoints: { $exists: true },
+            behavior: { $exists: false },
           },
           {
             $inc: {
@@ -86,6 +87,7 @@ export const CreateUnexcusedLateness = mutationField(
               'student._id': new ObjectId(studentId),
               markingPeriod,
               responsibilityPoints: { $exists: true },
+              behavior: { $exists: false },
             },
             {
               $inc: {
