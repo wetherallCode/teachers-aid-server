@@ -21,7 +21,7 @@ export const ModifyTextSections = mutationField('modifyTextSections', {
     textData
     // const { modifiedCount } = textData.updateMany(
     //   { header: { $exists: true } },
-    //   { $set: { orderNumber: null } }
+    //   { $set: { numberOfParagraphs: 0 } }
     // )
     return { modified: true }
   },

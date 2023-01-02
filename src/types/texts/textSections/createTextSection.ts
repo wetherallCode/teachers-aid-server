@@ -22,6 +22,8 @@ export const CreateTextSectionInput = inputObjectType({
       type: TextSectionProtocolsInput,
       required: true,
     })
+    t.int('orderNumber')
+    t.int('numberOfParagraphs', { required: true })
     t.list.field('hasVocab', { type: TextSectionVocabInput, required: true })
     t.list.field('hasQuestions', {
       type: TextSectionQuestionsInput,
@@ -50,6 +52,7 @@ export const CreateTextSection = mutationField('createTextSection', {
         hasProtocols,
         hasVocab,
         hasQuestions,
+        numberOfParagraphs,
       },
     },
     { textData }
@@ -62,6 +65,7 @@ export const CreateTextSection = mutationField('createTextSection', {
       hasProtocols,
       hasVocab,
       hasQuestions,
+      numberOfParagraphs,
     }
 
     const { insertedId } = await textData.insertOne(newTextSection)
