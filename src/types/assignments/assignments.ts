@@ -48,6 +48,9 @@ export const Assignment = interfaceType({
       if (assignment.hasOwnProperty('specialAssignmentGraded')) {
         return 'SpecialAssignment'
       }
+      if (assignment.hasOwnProperty('textAnalysisCompletion')) {
+        return 'TextAnalysis'
+      }
       return 'Quiz'
     })
   },
