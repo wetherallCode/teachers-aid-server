@@ -275,6 +275,17 @@ type AssignSeatsPayload {
   courseInfo: CourseInfo!
 }
 
+input AssignTextAnalysesInput {
+  assignedDate: Date!
+  associatedLessonId: ID!
+  dueDate: Date!
+  studentIds: [ID!]!
+}
+
+type AssignTextAnalysesPayload {
+  assigned: Boolean!
+}
+
 enum BasicQuestionEnum {
   HOW
   WHY
@@ -393,6 +404,15 @@ input CheckQuizQuestionsForTextSectionsInput {
 
 type CheckQuizQuestionsForTextSectionsPayload {
   textSectionIds: [String!]!
+}
+
+input CheckTextAnalysisInput {
+  textAnalysisCompletion: TextAnalysisCompletionEnum!
+  textAnalysisId: ID!
+}
+
+type CheckTextAnalysisPayload {
+  checked: Boolean!
 }
 
 type ComprehensionMetrics implements ProgressMetrics {
@@ -807,12 +827,29 @@ type CreateTemporaryTasksPayload {
   temporaryTasks: [TemporaryTask!]!
 }
 
+input CreateTextAnalysisInput {
+  assignedCourseIds: [ID!]!
+  assignedDate: String!
+  associatedLessonId: ID!
+  dueDate: String!
+  hasAssignerId: String!
+  markingPeriod: MarkingPeriodEnum!
+  maxPoints: Int!
+  readings: ReadingsInput!
+}
+
+type CreateTextAnalysisPayload {
+  textAnalyses: [TextAnalysis!]!
+}
+
 input CreateTextSectionInput {
   fromChapterId: String!
   hasProtocols: [TextSectionProtocolsInput!]!
   hasQuestions: [TextSectionQuestionsInput!]!
   hasVocab: [TextSectionVocabInput!]!
   header: String!
+  numberOfParagraphs: Int!
+  orderNumber: Int
   pageNumbers: PageNumbersInput!
 }
 
@@ -1630,6 +1667,24 @@ type FindTemporaryTasksPayload {
   temporaryTasks: [TemporaryTask!]!
 }
 
+input FindTextAnalysesByCourseIdAndDueDateInput {
+  courseId: ID!
+  dueDate: String!
+}
+
+type FindTextAnalysesByCourseIdAndDueDatePayload {
+  textAnalyses: [TextAnalysis!]!
+}
+
+input FindTextAnalysisByStudentIdAndDueDateInput {
+  dueDate: String!
+  studentId: ID!
+}
+
+type FindTextAnalysisByStudentIdAndDueDatePayload {
+  textAnalysis: TextAnalysis!
+}
+
 input FindTextByTitleInput {
   title: String
 }
@@ -1978,12 +2033,14 @@ type Mutation {
   assignQuizzesByStudentIdsAndDate(input: AssignQuizzesByStudentIdsAndDateInput!): AssignQuizzesByStudentIdsAndDatePayload!
   assignReadingGuides(input: AssignReadingGuidesInput!): AssignReadingGuidesPayload!
   assignSeats(input: AssignSeatsInput!): AssignSeatsPayload!
+  assignTextAnalyses(input: AssignTextAnalysesInput!): AssignTextAnalysesPayload!
   buildRubricEntry(input: BuildRubricEntryInput!): BuildRubricEntryPayload!
   changeAllQuizzesToSecondMarkingPeriod: ChangeAllQuizzesToSecondMarkingPeriodPayload!
   changeEssayDueDateAndAssignedDateByReadingSection(input: ChangeEssayDueDateAndAssignedDateByReadingSectionInput!): ChangeEssayDueDateAndAssignedDateByReadingSectionPayload!
   changePassword(input: ChangePasswordInput!): ChangePasswordPayload!
   changeQuizDueDateAndAssignedDateByReadingSection(input: ChangeQuizDueDateAndAssignedDateByReadingSectionInput!): ChangeQuizDueDateAndAssignedDateByReadingSectionPayload!
   changeVocabWord(input: ChangeVocabWordInput!): UpdateVocabPayload!
+  checkTextAnalysis(input: CheckTextAnalysisInput!): CheckTextAnalysisPayload!
   controlCoolDown(input: ControlCoolDownInput!): ControlCoolDownPayload!
   controlWarmUp(input: ControlWarmUpInput!): ControlWarmUpPayload!
   createAbsence(input: CreateAbsenceInput!): CreateAbsencePayload!
@@ -2014,6 +2071,7 @@ type Mutation {
   createStudentQuestion(input: CreateStudentQuestionInput!): CreateStudentQuestionPayload!
   createStudentQuestionsContainer(input: CreateStudentQuestionsContainerInput!): CreateStudentQuestionsContainerPayload!
   createTemporaryTasks(input: CreateTemporaryTasksInput!): CreateTemporaryTasksPayload!
+  createTextAnalysis(input: CreateTextAnalysisInput!): CreateTextAnalysisPayload!
   createTextSection(input: CreateTextSectionInput!): CreateTextSectionPayload!
   createUnexcusedLateness(input: CreateUnexcusedLatenessInput!): CreateUnexcusedLatenessPayload!
   createUnit(input: CreateUnitInput!): CreateUnitPayload!
@@ -2313,6 +2371,8 @@ type Query {
   findStudentsById(input: FindStudentsByIdInput!): FindStudentsByIdPayload!
   findTemporaryTasks(input: FindTemporaryTasksInput!): FindTemporaryTasksPayload!
   findTemporaryTasksByStudentId(input: FindTemporaryTasksByStudentIdInput!): FindTemporaryTasksByStudentIdPayload!
+  findTextAnalysesByCourseIdAndDueDate(input: FindTextAnalysesByCourseIdAndDueDateInput!): FindTextAnalysesByCourseIdAndDueDatePayload!
+  findTextAnalysisByStudentIdAndDueDate(input: FindTextAnalysisByStudentIdAndDueDateInput!): FindTextAnalysisByStudentIdAndDueDatePayload!
   findTextByTitle(input: FindTextByTitleInput!): FindTextByTitlePayload!
   findTexts: FindTextsPayload!
   findTextSectionById(input: FindTextSectionByIdInput!): FindTextSectionByIdPayload!
@@ -2915,6 +2975,7 @@ type StudentForTeachersAid implements User {
   email: String
   firstName: String!
   hasAbsences: [StudentAbsence!]!
+  hasAssignments: [Assignment!]!
   hasBehaviors: [StudentBehavior!]!
   hasExcusedLatenesses: [ExcusedLateness!]!
   hasIEP: Boolean
@@ -3108,6 +3169,36 @@ type Text {
   textTitle: String!
 }
 
+type TextAnalysis implements Assignment {
+  _id: ID
+  assigned: Boolean!
+  assignedDate: String!
+  associatedLessonId: ID
+  dueDate: String!
+  dueTime: String!
+  exempt: Boolean!
+  gradeType: GradeTypeEnum!
+  hasAssigner: Teacher!
+  hasOwner: Student!
+  late: Boolean!
+  lessonInfo: Lesson
+  mainIdeasCompletedInClass: Boolean!
+  markingPeriod: MarkingPeriodEnum!
+  missing: Boolean!
+  paperBased: Boolean!
+  readings: Readings!
+  score: Score!
+  textAnalysisCompletion: TextAnalysisCompletionEnum!
+}
+
+enum TextAnalysisCompletionEnum {
+  MAIN_IDEAS_AND_MARKUP
+  MAIN_IDEAS_ONLY
+  MARKUP_ONLY
+  NOT_COMPLETE
+  PARTIAL_COMPLETION
+}
+
 input TextChapterInput {
   chapterNumber: Int!
   chapterTitle: String!
@@ -3127,6 +3218,7 @@ type TextSection {
   hasQuizQuestions: [QuizQuestion!]!
   hasVocab: [TextSectionVocab!]
   header: String!
+  numberOfParagraphs: Int!
   orderNumber: Int
   pageNumbers: PageNumbers!
 }
@@ -3544,6 +3636,7 @@ input UpdateTextSectionInput {
   hasQuestions: [TextSectionQuestionsInput!]!
   hasVocab: [TextSectionVocabInput!]!
   header: String!
+  numberOfParagraphs: Int!
   orderNumber: Int
   pageNumbers: PageNumbersInput!
 }
