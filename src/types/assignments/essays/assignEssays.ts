@@ -31,13 +31,12 @@ export const AssignEssays = mutationField('assignEssays', {
     const essays: NexusGenRootTypes['Essay'][] = []
 
     for (const _id of studentIds) {
-      const essayValidation: NexusGenRootTypes['Essay'] = await assignmentData.findOne(
-        {
+      const essayValidation: NexusGenRootTypes['Essay'] =
+        await assignmentData.findOne({
           'hasOwner._id': new ObjectId(_id),
           associatedLessonId,
           workingDraft: { $exists: true },
-        }
-      )
+        })
 
       if (essayValidation) {
         await assignmentData.updateOne(
@@ -59,6 +58,7 @@ export const AssignEssays = mutationField('assignEssays', {
             'student._id': new ObjectId(_id),
             markingPeriod: essayValidation.markingPeriod,
             responsibilityPoints: { $exists: true },
+            behavior: { $exists: false },
           },
           {
             $inc: { responsibilityPoints: -2 },

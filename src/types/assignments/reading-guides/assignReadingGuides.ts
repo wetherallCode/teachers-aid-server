@@ -31,14 +31,13 @@ export const AssignReadingGuides = mutationField('assignReadingGuides', {
     const readingGuides: NexusGenRootTypes['ReadingGuide'][] = []
 
     for (const _id of studentIds) {
-      const readingGuideValidation: NexusGenRootTypes['ReadingGuide'] = await assignmentData.findOne(
-        {
+      const readingGuideValidation: NexusGenRootTypes['ReadingGuide'] =
+        await assignmentData.findOne({
           'hasOwner._id': new ObjectId(_id),
           associatedLessonId,
           articleTitle: { $exists: false },
           workingDraft: { $exists: false },
-        }
-      )
+        })
       if (readingGuideValidation) {
         await assignmentData.updateOne(
           {
@@ -59,6 +58,7 @@ export const AssignReadingGuides = mutationField('assignReadingGuides', {
             'student._id': new ObjectId(_id),
             markingPeriod: readingGuideValidation.markingPeriod,
             responsibilityPoints: { $exists: true },
+            behavior: { $exists: false },
           },
           {
             $inc: { responsibilityPoints: -2 },
@@ -66,13 +66,12 @@ export const AssignReadingGuides = mutationField('assignReadingGuides', {
         )
       }
 
-      const readingGuide: NexusGenRootTypes['ReadingGuide'] = await assignmentData.findOne(
-        {
+      const readingGuide: NexusGenRootTypes['ReadingGuide'] =
+        await assignmentData.findOne({
           'hasOwner._id': new ObjectId(_id),
           associatedLessonId,
           completed: { $exists: true },
-        }
-      )
+        })
       readingGuides.push(readingGuide)
     }
     return { readingGuides }
