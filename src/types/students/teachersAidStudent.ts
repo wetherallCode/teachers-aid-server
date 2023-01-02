@@ -1,13 +1,16 @@
-import { objectType, enumType } from '@nexus/schema'
-import { User } from '../users'
-import { Course, WritingMetrics, StudentQuestion } from '..'
+import { objectType } from '@nexus/schema'
 import { ObjectId } from 'mongodb'
-import { NexusGenRootTypes } from '../../teachers-aid-typegen'
-import { ResponsibilityPoints } from './responsibilityPoints/responsibilityPoints'
-import { StudentBehavior, StudentCohortEnum, StudentOutOfClass } from '.'
+import { NexusGenRootTypes } from 'teachers-aid-server/src/teachers-aid-typegen'
+import { Course } from '../courses'
+import { User } from '../users'
+import { StudentBehavior } from './behavior'
+import { StudentOutOfClass } from './outOfClass'
+import { WritingMetrics } from './progress-metrics'
+import { ResponsibilityPoints } from './responsibilityPoints'
+import { StudentCohortEnum } from './student'
 
-export const StudentForTeachersAid = objectType({
-  name: 'StudentForTeachersAid',
+export const TeachersAidStudent = objectType({
+  name: 'TeachersAidStudent',
   definition(t) {
     t.implements(User)
     t.string('schoolId', { nullable: true })
@@ -27,6 +30,16 @@ export const StudentForTeachersAid = objectType({
     //     return questions
     //   },
     // })
+    t.field('hasContactInformation', {
+      type: 'StudentInformation',
+      async resolve(parent, __, { studentData }) {
+        const studentInfo = await studentData.findOne({
+          'student._id': new ObjectId(parent._id!),
+          contactInfo: { $exists: true },
+        })
+        return studentInfo
+      },
+    })
     t.list.field('hasAssignments', {
       type: 'Assignment',
       async resolve(parent, __, { assignmentData }) {
@@ -45,13 +58,11 @@ export const StudentForTeachersAid = objectType({
     t.list.field('hasProtocols', {
       type: 'Protocol',
       async resolve(parent, __, { protocolData }) {
-        const protocols: NexusGenRootTypes['Protocol'][] = await protocolData
+        const protocols = await protocolData
           .find({
             'student._id': new ObjectId(parent._id!),
-            assignedDate: new Date().toLocaleDateString(),
           })
           .toArray()
-
         return protocols
       },
     })
@@ -63,7 +74,7 @@ export const StudentForTeachersAid = objectType({
           await studentData
             .find({
               'student._id': new ObjectId(parent._id!),
-              dayAbsent: new Date().toLocaleDateString(),
+              dayAbsent: { $exists: true },
             })
             .toArray()
         return absences
@@ -89,7 +100,7 @@ export const StudentForTeachersAid = objectType({
           await studentData
             .find({
               'student._id': new ObjectId(parent._id!),
-              dayLateExcused: new Date().toLocaleDateString(),
+              dayLateExcused: { $exists: true },
             })
             .toArray()
         return excusedLatenesses
@@ -102,27 +113,23 @@ export const StudentForTeachersAid = objectType({
           await studentData
             .find({
               'student._id': new ObjectId(parent._id!),
-              dayLate: new Date().toLocaleDateString(),
+              dayLate: { $exists: true },
             })
             .toArray()
         return unexcusedLatenesses
       },
     })
-    t.field('hasResponsibilityPoints', {
+    t.list.field('hasResponsibilityPoints', {
       type: ResponsibilityPoints,
-      async resolve(parent, __, { studentData, generalData }) {
-        const { currentMarkingPeriod } = await generalData.findOne({
-          currentMarkingPeriod: { $exists: true },
-        })
-
-        const responsibilityPoints: NexusGenRootTypes['ResponsibilityPoints'] =
-          await studentData.findOne({
-            'student._id': new ObjectId(parent._id!),
-            responsibilityPoints: { $exists: true },
-            behavior: { $exists: false },
-            markingPeriod: currentMarkingPeriod,
-          })
-
+      async resolve(parent, __, { studentData }) {
+        const responsibilityPoints: NexusGenRootTypes['ResponsibilityPoints'][] =
+          await studentData
+            .find({
+              'student._id': new ObjectId(parent._id!),
+              responsibilityPoints: { $exists: true },
+              behavior: { $exists: false },
+            })
+            .toArray()
         return responsibilityPoints
       },
     })
@@ -143,7 +150,6 @@ export const StudentForTeachersAid = objectType({
           .find({
             'student._id': new ObjectId(parent._id!),
             behavior: { $exists: true },
-            date: new Date().toLocaleDateString(),
           })
           .toArray()
         return studentBehaviors
