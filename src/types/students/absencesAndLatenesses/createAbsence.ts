@@ -60,19 +60,19 @@ export const CreateAbsence = mutationField('createAbsence', {
           'behavior._id': new ObjectId('62a33f0c2c8c161570b3c258'),
         })
 
-        await studentData.updateOne(
-          {
-            'student._id': new ObjectId(studentId),
-            markingPeriod,
-            responsibilityPoints: { $exists: true },
-            behavior: { $exists: false },
-          },
-          {
-            $inc: {
-              responsibilityPoints: -2,
-            },
-          }
-        )
+        // await studentData.updateOne(
+        //   {
+        //     'student._id': new ObjectId(studentId),
+        //     markingPeriod,
+        //     responsibilityPoints: { $exists: true },
+        //     behavior: { $exists: false },
+        //   },
+        //   {
+        //     $inc: {
+        //       responsibilityPoints: -2,
+        //     },
+        //   }
+        // )
       }
 
       return { studentAbsence }
