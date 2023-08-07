@@ -3,7 +3,7 @@ import { Essay } from '.'
 import { QuestionTypeEnum } from '../../texts/textSections'
 import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
 import { ObjectId } from 'mongodb'
-import { WritingLevelEnum } from '../../students'
+import { WritingLevelEnum } from '../../students/progress-metrics/progressTracker'
 
 export const UpdateEssaysByQuestionInput = inputObjectType({
   name: 'UpdateEssaysByQuestionInput',

@@ -2,7 +2,7 @@ import { inputObjectType, objectType, mutationField, arg } from '@nexus/schema'
 import { Essay } from '.'
 import { ObjectID, ObjectId } from 'mongodb'
 import { RubricEntryInput, RubricSectionEnum } from './rubrics'
-import { WritingLevelEnum } from '../..'
+
 import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
 
 export const ReturnGradedEssayInput = inputObjectType({
@@ -28,10 +28,6 @@ export const ReturnedRubricEntryInput = inputObjectType({
     t.int('score', { required: true })
     t.field('rubricSection', { type: RubricSectionEnum, required: true })
     t.string('howToImprove')
-    // t.field('rubricWritingLevels', {
-    //   type: WritingLevelEnum,
-    //   required: true,
-    // })
   },
 })
 
@@ -78,35 +74,37 @@ export const ReturnGradedEssay = mutationField('returnGradedEssay', {
 
     if (!essay.leveledUp) {
       // if (score >= 4) {
-      const studentToLevelUp: NexusGenRootTypes['WritingMetrics'] =
+      const studentToLevelUp: NexusGenRootTypes['ProgressTracker'] =
         await studentData.findOne({
           'student._id': new ObjectId(student._id!),
-          overallWritingMetric: { $exists: true },
+          writingProgressTracker: { $exists: true },
         })
 
-      const { levelPoints } = studentToLevelUp.overallWritingMetric
+      const { levelPoints } = studentToLevelUp.writingProgressTracker
 
       await studentData.updateOne(
         {
           'student._id': new ObjectId(student._id!),
-          overallWritingMetric: { $exists: true },
+          writingProgressTracker: { $exists: true },
         },
         {
           $set: {
-            'overallWritingMetric.levelPoints': levelPoints + score,
+            'writingProgressTracker.overallWritingMetric.levelPoints':
+              levelPoints + score,
           },
         }
       )
 
-      if (levelPoints > 60) {
+      if (levelPoints > 30) {
         await studentData.updateOne(
           {
             'student._id': new ObjectId(student._id!),
-            overallWritingMetric: { $exists: true },
+            writingProgressTracker: { $exists: true },
           },
           {
             $set: {
-              'overallWritingMetric.overallWritingLevel': 'ACADEMIC',
+              'writingProgressTracker.overallWritingMetric.overallWritingLevel':
+                'ACADEMIC',
             },
           }
         )

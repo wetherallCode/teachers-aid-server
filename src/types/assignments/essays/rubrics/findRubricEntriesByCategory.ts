@@ -1,5 +1,5 @@
 import { objectType, inputObjectType, arg, queryField } from '@nexus/schema'
-import { WritingLevelEnum } from '../../../students/progress-metrics/writingMetrics'
+import { WritingLevelEnum } from '../../../students/progress-metrics/progressTracker'
 import { RubricEntry } from '.'
 import { NexusGenRootTypes } from '../../../../teachers-aid-typegen'
 

@@ -86,33 +86,56 @@ export const InitializeStudents = mutationField('initializeStudents', {
           studentInformation._id = insertedId
         }
         // creates WritingMetrics for each student
-        const studentWritingMetric = await studentData.findOne({
+        // const studentWritingMetric = await studentData.findOne({
+        //   'student._id': new ObjectId(_id),
+        //   howCauseEffectMetrics: { $exists: true },
+        // })
+        // if (!studentWritingMetric) {
+        //   const writingMetric: NexusGenRootTypes['WritingMetrics'] = {
+        //     student,
+        //     inCourse: course,
+        //     overallWritingMetric: {
+        //       overallWritingLevel: 'DEVELOPING',
+        //       levelPoints: 0,
+        //     },
+        //     howCauseEffectMetrics: {
+        //       howCauseEffectLevel: 'DEVELOPING',
+        //       levelPoints: 0,
+        //     },
+        //     howProblemSolutionMetrics: {
+        //       howProblemSolutionLevel: 'DEVELOPING',
+        //       levelPoints: 0,
+        //     },
+        //     whyCauseEffectMetrics: {
+        //       whyCauseEffectLevel: 'DEVELOPING',
+        //       levelPoints: 0,
+        //     },
+        //   }
+
+        //   const { insertedId } = await studentData.insertOne(writingMetric)
+        //   writingMetric._id = insertedId
+        // }
+
+        const studentProgressTracker = await studentData.findOne({
           'student._id': new ObjectId(_id),
-          howCauseEffectMetrics: { $exists: true },
+          writingProgressTracker: { $exists: true },
         })
-        if (!studentWritingMetric) {
-          const writingMetric: NexusGenRootTypes['WritingMetrics'] = {
+        if (!studentProgressTracker) {
+          const progressTracker: NexusGenRootTypes['ProgressTracker'] = {
             student,
             inCourse: course,
-            overallWritingMetric: {
+            writingProgressTracker: {
+              levelPoints: 0,
               overallWritingLevel: 'DEVELOPING',
-              levelPoints: 0,
             },
-            howCauseEffectMetrics: {
-              howCauseEffectLevel: 'DEVELOPING',
+            readingGuideProgressTracker: {
               levelPoints: 0,
-            },
-            howProblemSolutionMetrics: {
-              howProblemSolutionLevel: 'DEVELOPING',
-              levelPoints: 0,
-            },
-            whyCauseEffectMetrics: {
-              whyCauseEffectLevel: 'DEVELOPING',
-              levelPoints: 0,
+              readingGuideLevel: 'Basic',
             },
           }
-          const { insertedId } = await studentData.insertOne(writingMetric)
-          writingMetric._id = insertedId
+
+          const { insertedId } = await studentData.insertOne(progressTracker)
+          progressTracker._id = insertedId
         }
       }
     }

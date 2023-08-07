@@ -1,6 +1,6 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { RubricEntry, RubricSectionEnum } from '.'
-import { WritingLevelEnum } from '../../../students/progress-metrics/writingMetrics'
+import { WritingLevelEnum } from '../../../students/progress-metrics/progressTracker'
 import { ObjectId } from 'mongodb'
 import { NexusGenRootTypes } from '../../../../teachers-aid-typegen'
 
@@ -44,11 +44,10 @@ export const UpdateRubricEntry = mutationField('updateRubricEntry', {
     },
     { rubricData }
   ) {
-    const entryCheck: NexusGenRootTypes['RubricEntry'] = await rubricData.findOne(
-      {
+    const entryCheck: NexusGenRootTypes['RubricEntry'] =
+      await rubricData.findOne({
         _id: new ObjectId(rubricEntryId),
-      }
-    )
+      })
 
     if (entryCheck) {
       await rubricData.updateOne(

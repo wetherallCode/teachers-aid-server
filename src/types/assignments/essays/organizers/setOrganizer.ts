@@ -1,8 +1,9 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { Essay } from '..'
-import { WritingLevelEnum } from '../../../students/progress-metrics/writingMetrics'
+
 import { ObjectId } from 'mongodb'
 import { NexusGenRootTypes } from '../../../../teachers-aid-typegen'
+import { WritingLevelEnum } from '../../../students/progress-metrics/progressTracker'
 
 export const SetOrganizerInput = inputObjectType({
   name: 'SetOrganizerInput',

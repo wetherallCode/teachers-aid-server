@@ -415,9 +415,19 @@ type CheckTextAnalysisPayload {
   checked: Boolean!
 }
 
+enum ComprehensionLevelEnum {
+  Academic
+  Advanced
+  Basic
+  Developing
+  Master
+}
+
 type ComprehensionMetrics implements ProgressMetrics {
   _id: ID
-  comprehensionLevel: Int!
+  comprehensionLevel: ComprehensionLevelEnum!
+  inCourse: Course!
+  levelPoints: Float!
   student: Student!
 }
 
@@ -929,6 +939,14 @@ input DeleteQuizzesByDateInput {
 
 type DeleteQuizzesByDatePayload {
   deleted: Boolean!
+}
+
+input DeleteReadingGuideByDateInput {
+  assignedDate: String!
+}
+
+type DeleteReadingGuideByDatePayload {
+  deletedCount: Int!
 }
 
 input DeleteReviewsInput {
@@ -2086,6 +2104,7 @@ type Mutation {
   deleteAllTemporaryTasks: DeleteAllTemporaryTasksPayload!
   deleteBehaviorType(input: DeleteBehaviorTypeInput!): DeleteBehaviorTypePayload!
   deleteQuizzesByDate(input: DeleteQuizzesByDateInput!): DeleteQuizzesByDatePayload!
+  deleteReadingGuideByDate(input: DeleteReadingGuideByDateInput!): DeleteReadingGuideByDatePayload!
   deleteReviews(input: DeleteReviewsInput!): DeleteReviewsPayload!
   deleteStudentOutOfClass(input: DeleteStudentOutOfClassInput!): DeleteStudentOutOfClassPayload!
   deleteTemporaryTasks(input: DeleteTemporaryTasksInput!): DeleteTemporaryTasksPayload!
@@ -2259,6 +2278,14 @@ type ProfessionalDevelopment {
 interface ProgressMetrics {
   _id: ID
   student: Student!
+}
+
+type ProgressTracker {
+  _id: ID
+  inCourse: Course!
+  readingGuideProgressTracker: ReadingGuideMetric!
+  student: Student!
+  writingProgressTracker: WritingMetric!
 }
 
 type Protocol {
@@ -2531,11 +2558,25 @@ type ReadingGuideFinalContainer {
   biggestProblem: String!
   howArePeopleInvolvedInProblems: String!
   importantPeople: [String!]!
+  overall: String!
   problems: [String!]!
   reasonForBiggestProblem: String!
   sectionConsequences: String!
   submitted: Boolean!
   submitTime: String
+}
+
+type ReadingGuideMetric {
+  levelPoints: Float!
+  readingGuideLevel: ReadingGuideMetricEnum!
+}
+
+enum ReadingGuideMetricEnum {
+  Academic
+  Advanced
+  Basic
+  Developing
+  Master
 }
 
 enum ReadingGuideReviewOptionsEnum {
@@ -3721,6 +3762,11 @@ enum WritingLevelEnum {
   ACADEMIC
   ADVANCED
   DEVELOPING
+}
+
+type WritingMetric {
+  levelPoints: Float!
+  overallWritingLevel: WritingLevelEnum!
 }
 
 type WritingMetrics implements ProgressMetrics {

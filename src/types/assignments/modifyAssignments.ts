@@ -27,13 +27,13 @@ export const ModifyAssignments = mutationField('modifyAssignments', {
     // { input: { dateAssigned, newAssignedDate, newDueDate } },
     { assignmentData }
   ) {
-    const { modifiedCount } = assignmentData.deleteMany(
-      { quizzableSections: { $exists: true }, assignedDate: '9/19/2022' }
+    const { modifiedCount } = assignmentData.updateMany(
+      { workingDraft: { $exists: true }, assignedDate: '11/22/2022' },
       // {
       //   assignedDate: dateAssigned,
       //   workingDraft: { $exists: true },
       // },
-      // { $set: { assignedDate: newAssignedDate, dueDate: newDueDate } }
+      { $set: { dueDate: '11/28/2022' } }
     )
 
     return { modified: true }

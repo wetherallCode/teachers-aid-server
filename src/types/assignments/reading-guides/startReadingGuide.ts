@@ -30,22 +30,6 @@ export const StartReadingGuide = mutationField('startReadingGuide', {
       await assignmentData.findOne({
         _id: new ObjectId(readingGuideId),
       })
-    // if (readingGuideValidation) {
-    //   if (!readingGuideValidation.readingGuideFinal) {
-    //     if (paperBased) {
-    //       assignmentData.updateOne(
-    //         {
-    //           _id: new ObjectId(readingGuideId),
-    //         },
-    //         {
-    //           $set: {
-    //             paperBased,
-    //           },
-    //         }
-    //       )
-    //     }
-    //   }
-    // }
 
     if (readingGuideValidation) {
       if (!readingGuideValidation.readingGuideFinal) {
@@ -71,12 +55,6 @@ export const StartReadingGuide = mutationField('startReadingGuide', {
             {
               $set: {
                 readingGuideFinal: {
-                  // howIsSectionOrganized: [],
-                  // whyWasSectionOrganized: '',
-                  // majorIssue: '',
-                  // majorIssueSolved: true,
-                  // majorSolution: '',
-                  // clarifyingQuestions: [],
                   problems: [] as string[],
                   biggestProblem: '',
                   reasonForBiggestProblem: '',

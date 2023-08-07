@@ -1,6 +1,7 @@
 import { objectType, enumType, unionType, interfaceType } from '@nexus/schema'
 import { Student } from '../student'
 import { Course } from '../../courses'
+import { WritingLevelEnum } from './progressTracker'
 
 // writingMetrics
 // topic statement
@@ -45,10 +46,10 @@ export const WritingMetrics = objectType({
   },
 })
 
-export const WritingLevelEnum = enumType({
-  name: 'WritingLevelEnum',
-  members: ['DEVELOPING', 'ACADEMIC', 'ADVANCED'],
-})
+// export const WritingLevelEnum = enumType({
+//   name: 'WritingLevelEnum',
+//   members: ['DEVELOPING', 'ACADEMIC', 'ADVANCED'],
+// })
 
 export const OverallWritingMetric = objectType({
   name: 'OverallWritingMetric',

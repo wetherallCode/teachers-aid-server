@@ -35,6 +35,8 @@ export const ReadingGuideFinalContainer = objectType({
     t.string('sectionConsequences')
     t.boolean('submitted')
     t.string('submitTime', { nullable: true })
+
+    t.string('overall')
   },
 })
 

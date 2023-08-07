@@ -1,9 +1,10 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { Essay, ReadingsInput, TopicInput } from '.'
-import { MarkingPeriodEnum, WritingLevelEnum, TimeOfDayEnum } from '../..'
+import { MarkingPeriodEnum, TimeOfDayEnum } from '../..'
 import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
 import { ObjectId } from 'mongodb'
 import { getRandomInt } from '../../../utilities'
+import { WritingLevelEnum } from '../../students/progress-metrics/progressTracker'
 
 export const CreateEssayInput = inputObjectType({
   name: 'CreateEssayInput',
@@ -127,16 +128,16 @@ export const CreateEssay = mutationField('createEssay', {
 
         const dueTimeForAssignment = assignedDueTime(dueTime)
 
-        const writingMetric: NexusGenRootTypes['WritingMetrics'] =
+        const writingMetric: NexusGenRootTypes['ProgressTracker'] =
           await studentData.findOne({
             'student._id': student._id,
-            overallWritingMetric: { $exists: true },
+            writingProgressTracker: { $exists: true },
           })
 
         const individualTopic: NexusGenRootTypes['Topic'][] = topicList.filter(
           (topic) =>
             topic.writingLevel ===
-            writingMetric.overallWritingMetric.overallWritingLevel
+            writingMetric.writingProgressTracker.overallWritingLevel
         )
 
         const newEssay: NexusGenRootTypes['Essay'] = {

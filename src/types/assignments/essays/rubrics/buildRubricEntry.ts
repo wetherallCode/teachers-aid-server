@@ -1,6 +1,6 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { RubricEntry, RubricSectionEnum } from './rubricEntry'
-import { WritingLevelEnum } from '../../../students/progress-metrics/writingMetrics'
+import { WritingLevelEnum } from '../../../students/progress-metrics/progressTracker'
 import { NexusGenRootTypes } from '../../../../teachers-aid-typegen'
 
 export const BuildRubricEntryInput = inputObjectType({

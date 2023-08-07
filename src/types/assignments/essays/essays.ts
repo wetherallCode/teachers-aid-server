@@ -1,8 +1,9 @@
 import { objectType, inputObjectType, enumType } from '@nexus/schema'
 import { QuestionTypeEnum } from '../..'
-import { WritingLevelEnum } from '../../students'
+
 import { Organizers } from './organizers'
 import { RubricEntry, RubricEntryInput } from './rubrics'
+import { WritingLevelEnum } from '../../students/progress-metrics/progressTracker'
 
 export const Essay = objectType({
   name: 'Essay',

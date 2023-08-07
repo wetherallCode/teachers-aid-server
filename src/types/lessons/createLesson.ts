@@ -85,6 +85,8 @@ export const CreateLesson = mutationField('createLesson', {
   ) {
     const unit = await lessonData.findOne({ _id: new ObjectId(inUnit) })
 
+
+    
     const lessons: NexusGenRootTypes['Lesson'][] = []
     for (const courseId of assignedCourses) {
       const course = await courseData.findOne({

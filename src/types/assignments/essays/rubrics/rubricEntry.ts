@@ -1,5 +1,5 @@
 import { objectType, enumType, inputObjectType } from '@nexus/schema'
-import { WritingLevelEnum } from '../../../students/progress-metrics/writingMetrics'
+import { WritingLevelEnum } from '../../../students/progress-metrics/progressTracker'
 
 export const RubricEntry = objectType({
   name: 'RubricEntry',

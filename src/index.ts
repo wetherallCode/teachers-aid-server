@@ -52,9 +52,9 @@ const startServer = async () => {
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 7,
         // maxAge: 1000 * 60 * 90,
-        httpOnly: true,
-        sameSite: 'none',
-        secure: true,
+        // httpOnly: true,
+        // sameSite: 'none',
+        // secure: true,
       },
       store: store,
       saveUninitialized: false,
@@ -119,7 +119,11 @@ const startServer = async () => {
     app,
     cors: {
       credentials: true,
-      origin: ['https://mrwetherall.org', 'http://localhost:3000'],
+      origin: [
+        'https://mrwetherall.org',
+        'http://localhost:3000',
+        'http://localhost:3001',
+      ],
     },
   })
   const PORT = process.env.PORT || 4000
