@@ -48,7 +48,6 @@ export const SwitchToNewCourse = mutationField('switchToNewCourse', {
           },
           { $set: { 'hasOwner.inCourses.$': newCourse } }
         )
-      console.log('assignmentCount, ' + assignmentCount)
       const { modifiedCount: protocolCount } = await protocolData.updateMany(
         {
           'student._id': new ObjectId(studentId),
@@ -56,7 +55,6 @@ export const SwitchToNewCourse = mutationField('switchToNewCourse', {
         },
         { $set: { 'student.inCourses.$': newCourse } }
       )
-      console.log('protocolCount, ' + protocolCount)
       const { modifiedCount: studentDataCount } = await studentData.updateMany(
         {
           'student._id': new ObjectId(studentId),
@@ -64,7 +62,6 @@ export const SwitchToNewCourse = mutationField('switchToNewCourse', {
         },
         { $set: { 'student.inCourses.$': newCourse } }
       )
-      console.log('studentDataCount, ' + studentDataCount)
 
       const { modifiedCount: studentDataMetricsCount } =
         await studentData.updateMany(
@@ -75,7 +72,6 @@ export const SwitchToNewCourse = mutationField('switchToNewCourse', {
           },
           { $set: { inCourse: newCourse } }
         )
-      console.log('studentDataMetricsCount, ' + studentDataMetricsCount)
 
       await userData.updateMany(
         { _id: new ObjectId(studentId) },

@@ -4,7 +4,12 @@ import { Course, WritingMetrics, StudentQuestion } from '..'
 import { ObjectId } from 'mongodb'
 import { NexusGenRootTypes } from '../../teachers-aid-typegen'
 import { ResponsibilityPoints } from './responsibilityPoints/responsibilityPoints'
-import { StudentBehavior, StudentOutOfClass } from '.'
+import {
+  ProgressMetrics,
+  ProgressTracker,
+  StudentBehavior,
+  StudentOutOfClass,
+} from '.'
 
 export const Student = objectType({
   name: 'Student',
@@ -137,6 +142,17 @@ export const Student = objectType({
           howProblemSolutionMetrics: { $exists: true },
         })
         return writingMetrics
+      },
+    })
+
+    t.field('hasProgressTracker', {
+      type: ProgressTracker,
+      async resolve(parent, __, { studentData }) {
+        const metrics = await studentData.findOne({
+          'student._id': new ObjectId(parent._id!),
+          writingProgressTracker: { $exists: true },
+        })
+        return metrics
       },
     })
     t.list.field('hasBehaviors', {

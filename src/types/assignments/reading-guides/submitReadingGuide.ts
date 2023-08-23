@@ -107,18 +107,7 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
       } else return false
     }
 
-    const {
-      // majorIssue,
-      // majorSolution,
-      // clarifyingQuestions,
-    } = readingGuideValidation.readingGuideFinal!
-
-    // const clarifyingQuestionComplete = clarifyingQuestions.length! !== 0
-    // const majorSolutionComplete = majorSolution !== ''
-    // const majorIssueComplete = majorIssue !== ''
-
     const complete = true
-    // clarifyingQuestionComplete && majorSolutionComplete && majorIssueComplete
 
     if (readingGuideValidation) {
       assignmentData.updateOne(
@@ -131,11 +120,6 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
             graded: true,
             assigned: false,
             'score.earnedPoints': readingGuideValidation.score.maxPoints,
-            // complete && handleLateness() === false
-            //   ? readingGuideValidation.score.maxPoints
-            //   : complete && handleLateness() === true
-            //   ? readingGuideValidation.score.maxPoints / 2
-            //   : 2,
             late: handleLateness(),
             'readingGuideFinal.submitted': true,
             'readingGuideFinal.submitTime': submitTime,
@@ -153,11 +137,6 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
           {
             $inc: {
               responsibilityPoints:
-                // complete && handleLateness() === false
-                //   ? readingGuideValidation.score.maxPoints + 2
-                //   : complete && handleLateness() === true
-                //   ? (readingGuideValidation.score.maxPoints / 2) + 2
-                //   : 3,
                 handleLateness() === true
                   ? readingGuideValidation.score.maxPoints / 2 +
                     readingGuideValidation.score.maxPoints

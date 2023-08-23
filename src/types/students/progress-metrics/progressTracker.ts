@@ -28,7 +28,7 @@ export const WritingMetric = objectType({
 
 export const ReadingGuideMetricEnum = enumType({
   name: 'ReadingGuideMetricEnum',
-  members: ['Basic', 'Developing', 'Academic', 'Advanced', 'Master'],
+  members: ['BASIC', 'DEVELOPING', 'ACADEMIC', 'ADVANCED', 'MASTER'],
 })
 
 export const ReadingGuideMetric = objectType({
@@ -38,3 +38,6 @@ export const ReadingGuideMetric = objectType({
     t.float('levelPoints')
   },
 })
+// {"hasOwner.firstName":"Fake", readingGuideFinal: {$exists: true}, markingPeriod:"FOURTH"}
+
+// {"student.firstName":"Fake"}

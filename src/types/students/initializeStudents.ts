@@ -130,7 +130,7 @@ export const InitializeStudents = mutationField('initializeStudents', {
             },
             readingGuideProgressTracker: {
               levelPoints: 0,
-              readingGuideLevel: 'Basic',
+              readingGuideLevel: 'BASIC',
             },
           }
 

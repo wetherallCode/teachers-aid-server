@@ -20,6 +20,7 @@ export const FindReadingGuideById = queryField('findReadingGuideById', {
   type: FindReadingGuideByIdPayload,
   args: { input: arg({ type: FindReadingGuideByIdInput, required: true }) },
   async resolve(_, { input: { readingGuideId } }, { assignmentData }) {
+    console.log(readingGuideId)
     const readingGuide = await assignmentData.findOne({
       _id: new ObjectId(readingGuideId),
     })

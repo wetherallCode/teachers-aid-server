@@ -73,7 +73,6 @@ export const ReturnGradedEssay = mutationField('returnGradedEssay', {
     }
 
     if (!essay.leveledUp) {
-      // if (score >= 4) {
       const studentToLevelUp: NexusGenRootTypes['ProgressTracker'] =
         await studentData.findOne({
           'student._id': new ObjectId(student._id!),
@@ -89,8 +88,7 @@ export const ReturnGradedEssay = mutationField('returnGradedEssay', {
         },
         {
           $set: {
-            'writingProgressTracker.overallWritingMetric.levelPoints':
-              levelPoints + score,
+            'writingProgressTracker.levelPoints': levelPoints + score,
           },
         }
       )
@@ -103,8 +101,7 @@ export const ReturnGradedEssay = mutationField('returnGradedEssay', {
           },
           {
             $set: {
-              'writingProgressTracker.overallWritingMetric.overallWritingLevel':
-                'ACADEMIC',
+              'writingProgressTracker.overallWritingLevel': 'ACADEMIC',
             },
           }
         )
@@ -116,7 +113,6 @@ export const ReturnGradedEssay = mutationField('returnGradedEssay', {
           $set: { leveledUp: true },
         }
       )
-      // }
     }
 
     await assignmentData.updateOne(

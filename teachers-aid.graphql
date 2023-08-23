@@ -694,6 +694,14 @@ type CreateProgressMetricsPayload {
   writingMetric: WritingMetrics!
 }
 
+input CreateProgressTrackerForStudentInput {
+  studentId: ID!
+}
+
+type CreateProgressTrackerForStudentPayload {
+  created: Boolean!
+}
+
 input CreateProtocolInput {
   academicOutcomeType: AcademicOutcomeTypes!
   markingPeriod: MarkingPeriodEnum!
@@ -2076,6 +2084,7 @@ type Mutation {
   createParentContact(input: CreateParentContactInput!): CreateParentContactPayload!
   createProfessionalDevelopment(input: CreateProfessionalDevelopmentInput!): CreateProfessionalDevelopmentPayload!
   createProgressMetrics(input: CreateProgressMetricsInput!): CreateProgressMetricsPayload!
+  createProgressTrackerForStudent(input: CreateProgressTrackerForStudentInput!): CreateProgressTrackerForStudentPayload!
   createProtocol(input: CreateProtocolInput!): CreateProtocolPayload!
   createQuizQuestion(input: CreateQuizQuestionInput!): CreateQuizQuestionPayload!
   createQuizzesByCourse(input: CreateQuizzesByCourseInput!): CreateQuizzesByCoursePayload!
@@ -2555,13 +2564,7 @@ type ReadingGuide implements Assignment {
 }
 
 type ReadingGuideFinalContainer {
-  biggestProblem: String!
-  howArePeopleInvolvedInProblems: String!
-  importantPeople: [String!]!
-  overall: String!
-  problems: [String!]!
-  reasonForBiggestProblem: String!
-  sectionConsequences: String!
+  readingGuideQuestions: [ReadingGuideQuestion!]
   submitted: Boolean!
   submitTime: String
 }
@@ -2572,11 +2575,21 @@ type ReadingGuideMetric {
 }
 
 enum ReadingGuideMetricEnum {
-  Academic
-  Advanced
-  Basic
-  Developing
-  Master
+  ACADEMIC
+  ADVANCED
+  BASIC
+  DEVELOPING
+  MASTER
+}
+
+type ReadingGuideQuestion {
+  answer: String!
+  questionType: String!
+}
+
+input ReadingGuideQuestionInput {
+  answer: String
+  questionType: String
 }
 
 enum ReadingGuideReviewOptionsEnum {
@@ -2974,6 +2987,7 @@ type Student implements User {
   hasExcusedLatenesses: [ExcusedLateness!]!
   hasIEP: Boolean
   hasLatnesses: [StudentLateness!]!
+  hasProgressTracker: ProgressTracker!
   hasProtocols: [Protocol!]!
   hasResponsibilityPoints: [ResponsibilityPoints!]!
   hasStatus: [StudentOutOfClass!]!
@@ -3609,13 +3623,9 @@ type UpdateProtocolPayload {
 }
 
 input UpdateReadingGuideInput {
-  biggestProblem: String!
-  howArePeopleInvolvedInProblems: String!
-  importantPeople: [String!]!
-  problems: [String!]!
+  answer: String
+  questionType: String
   readingGuideId: ID!
-  reasonForBiggestProblem: String!
-  sectionConsequences: String!
 }
 
 type UpdateReadingGuidePayload {
