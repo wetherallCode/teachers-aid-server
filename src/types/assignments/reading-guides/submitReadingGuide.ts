@@ -50,6 +50,7 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
         markingPeriod: readingGuideValidation.markingPeriod,
         responsibilityPoints: { $exists: true },
       })
+
     const currentMarkingPeriod: NexusGenRootTypes['MarkingPeriod'] =
       await generalData.findOne({ currentMarkingPeriod: { $exists: true } })
 
@@ -63,6 +64,7 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
             $set: {
               late,
               graded: true,
+              missing: false,
               completed: completeReadingGuide,
               'score.earnedPoints': completeReadingGuide ? 10 : 2,
             },
@@ -98,7 +100,7 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
       }
     }
 
-    function handleLateness() {
+    function isLate() {
       const submittedDateTime: string = submitTime
       const dueDateTime: string = `${readingGuideValidation.dueDate}, ${readingGuideValidation.dueTime}`
 
@@ -107,8 +109,6 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
       } else return false
     }
 
-    const complete = true
-
     if (readingGuideValidation) {
       assignmentData.updateOne(
         {
@@ -116,16 +116,20 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
         },
         {
           $set: {
-            completed: complete,
+            completed: true,
             graded: true,
             assigned: false,
             'score.earnedPoints': readingGuideValidation.score.maxPoints,
-            late: handleLateness(),
+            late: isLate(),
+            missing: false,
             'readingGuideFinal.submitted': true,
             'readingGuideFinal.submitTime': submitTime,
+            'readingGuideFinal.responsibilityPoints':
+              isLate() === true ? 0 : responsibilityPoints,
           },
         }
       )
+
       if (!readingGuideValidation.readingGuideFinal?.submitted) {
         studentData.updateOne(
           {
@@ -137,11 +141,7 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
           {
             $inc: {
               responsibilityPoints:
-                handleLateness() === true
-                  ? readingGuideValidation.score.maxPoints / 2 +
-                    readingGuideValidation.score.maxPoints
-                  : readingGuideValidation.score.maxPoints +
-                    readingGuideValidation.score.maxPoints,
+                isLate() === true ? 0 : responsibilityPoints,
             },
           }
         )

@@ -25,6 +25,8 @@ export const Protocol = objectType({
     t.string('endTime', { nullable: true })
     t.string('response', { nullable: true })
     t.int('lastScore')
+    t.string('lessonId')
+    t.field('activityTime', { type: ActivityTimeEnum })
   },
 })
 
@@ -43,9 +45,14 @@ export const ProtocolAssessmentEnum = enumType({
   name: 'ProtocolAssessmentEnum',
   members: [
     'REFUSED_TO_WORK',
-    'SLOW_TO_GET_STARTED',
+    'NO_EFFORT',
     'WORKED_POORLY',
     'WORKED_WELL',
     'WORKED_VERY_WELL',
   ],
+})
+
+export const ActivityTimeEnum = enumType({
+  name: 'ActivityTimeEnum',
+  members: ['BEFORE', 'DURING', 'AFTER'],
 })

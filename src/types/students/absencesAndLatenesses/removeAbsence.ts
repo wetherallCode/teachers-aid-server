@@ -2,6 +2,7 @@ import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
 import { StudentAbsence } from '..'
 import { ObjectId } from 'mongodb'
 import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
+import { preparedAndReadyInformation } from '../../../utilities'
 
 export const RemoveAbsenceInput = inputObjectType({
   name: 'RemoveAbsenceInput',
@@ -37,6 +38,7 @@ export const RemoveAbsence = mutationField('removeAbsence', {
     const readyForClassCheck = await studentData.findOne({
       'student._id': new ObjectId(absence.student._id!),
       date: absence.dayAbsent,
+      'behavior._id': new ObjectId(preparedAndReadyInformation.id),
     })
 
     if (absence) {
@@ -47,16 +49,18 @@ export const RemoveAbsence = mutationField('removeAbsence', {
         if (lessonStartedCheck) {
           if (lessonStartedCheck.lessonStarted && !readyForClassCheck) {
             const behavior = await behaviorData.findOne({
-              _id: new ObjectId('62a33f0c2c8c161570b3c258'),
+              _id: new ObjectId(preparedAndReadyInformation.id),
             })
 
             const studentBehavior: NexusGenRootTypes['StudentBehavior'] = {
               behavior: behavior,
               date: new Date().toLocaleDateString(),
               student: absence.student,
-              responsibilityPoints: 2,
+              responsibilityPoints:
+                preparedAndReadyInformation.responsiblityPoints,
               markingPeriod: absence.markingPeriod,
             }
+
             const { insertedId } = await studentData.insertOne(studentBehavior)
             studentBehavior._id = insertedId
 
@@ -69,7 +73,8 @@ export const RemoveAbsence = mutationField('removeAbsence', {
               },
               {
                 $inc: {
-                  responsibilityPoints: 2,
+                  responsibilityPoints:
+                    preparedAndReadyInformation.responsiblityPoints,
                 },
               }
             )

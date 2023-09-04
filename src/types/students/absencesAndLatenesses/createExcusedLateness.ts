@@ -29,7 +29,7 @@ export const CreateExcusedLateness = mutationField('createExcusedLateness', {
   async resolve(
     _,
     { input: { studentId, dayLate, markingPeriod } },
-    { userData, studentData }
+    { userData, studentData, protocolData }
   ) {
     const student: NexusGenRootTypes['Student'] = await userData.findOne({
       _id: new ObjectId(studentId),
@@ -80,6 +80,11 @@ export const CreateExcusedLateness = mutationField('createExcusedLateness', {
       //     }
       //   )
       // }
+      protocolData.deleteOne({
+        assignedDate: dayLate,
+        'student._id': new ObjectId(studentId),
+        activityTime: 'BEFORE',
+      })
 
       return { excusedLateness }
     } else

@@ -28,6 +28,7 @@ export const FindActiveProtocolsByCourse = queryField(
         .find({
           'student.inCourses._id': new ObjectId(courseId),
           isActive: true,
+          assignedDate: new Date().toLocaleDateString(),
         })
         .toArray()
       return { protocols }

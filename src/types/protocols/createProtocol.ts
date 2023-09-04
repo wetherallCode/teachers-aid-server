@@ -1,5 +1,5 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
-import { Protocol, DiscussionTypesEnum } from '.'
+import { Protocol, DiscussionTypesEnum, ActivityTimeEnum } from '.'
 import { NexusGenRootTypes } from '../../teachers-aid-typegen'
 import {
   AcademicOutcomeTypes,
@@ -27,6 +27,8 @@ export const CreateProtocolInput = inputObjectType({
     })
     t.string('task', { required: true })
     t.field('markingPeriod', { type: MarkingPeriodEnum, required: true })
+    t.string('lessonId', { required: true })
+    t.field('activityTime', { type: ActivityTimeEnum, required: true })
   },
 })
 
@@ -49,52 +51,47 @@ export const CreateProtocol = mutationField('createProtocol', {
         academicOutcomeType,
         task,
         markingPeriod,
+        lessonId,
+        activityTime,
       },
     },
-    { protocolData, userData, studentData }
+    { protocolData, userData }
   ) {
     const protocols: NexusGenRootTypes['Protocol'][] = []
     const startTime = new Date().toISOString()
+
     for (const studentId of studentIds) {
       const student: NexusGenRootTypes['Student'] = await userData.findOne({
         _id: new ObjectId(studentId),
       })
+
       const protocolCheck: NexusGenRootTypes['Protocol'] =
         await protocolData.findOne({
           'student._id': new ObjectId(studentId),
-
           task,
         })
-      // protocolCheck.protocolActivityType==='SMALL_GROUP'
+
       if (!protocolCheck) {
         const protocol: NexusGenRootTypes['Protocol'] = {
           academicOutcomeType,
           assignedDate: new Date().toLocaleDateString(),
           isActive: true,
           markingPeriod,
+          lessonId,
           protocolActivityType,
           completed: false,
           startTime: new Date().toLocaleTimeString(),
           student,
           task,
-          lastScore: 2,
-          assessment: 'WORKED_WELL',
+          activityTime,
+          lastScore: 0,
+          assessment: 'REFUSED_TO_WORK',
           discussionLevel:
             protocolActivityType === 'SMALL_GROUP' ? 'DISCUSSED' : null,
         }
         const { insertedId } = await protocolData.insertOne(protocol)
         protocol._id = insertedId
         protocols.push(protocol)
-
-        await studentData.updateOne(
-          {
-            'student._id': new ObjectId(student._id!),
-            markingPeriod,
-            responsibilityPoints: { $exists: true },
-            behavior: { $exists: false },
-          },
-          { $inc: { responsibilityPoints: 2 } }
-        )
       }
     }
     const endTime = new Date().toISOString()

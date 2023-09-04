@@ -27,6 +27,7 @@ export const FindActiveProtocolByStudent = queryField(
       const protocol = await protocolData.findOne({
         'student._id': new ObjectId(studentId),
         isActive: true,
+        assignedDate: new Date().toLocaleDateString(),
       })
       return { protocol }
     },

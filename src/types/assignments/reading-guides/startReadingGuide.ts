@@ -55,14 +55,9 @@ export const StartReadingGuide = mutationField('startReadingGuide', {
             {
               $set: {
                 readingGuideFinal: {
-                  // problems: [] as string[],
-                  // biggestProblem: '',
-                  // reasonForBiggestProblem: '',
-                  // importantPeople: [] as string[],
-                  // howArePeopleInvolvedInProblems: '',
-                  // sectionConsequences: '',
                   submitted: false,
                   submitTime: '',
+                  responsibilityPoints: 0,
                   readingGuideQuestions: [],
                 },
               },

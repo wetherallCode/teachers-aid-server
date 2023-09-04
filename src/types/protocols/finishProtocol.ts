@@ -16,7 +16,7 @@ export const FinishProtocolInput = inputObjectType({
 export const FinishProtocolPayload = objectType({
   name: 'FinishProtocolPayload',
   definition(t) {
-    t.list.field('protocols', { type: Protocol })
+    t.boolean('finished')
   },
 })
 
@@ -29,6 +29,7 @@ export const FinishProtocol = mutationField('finishProtocol', {
     { protocolData, lessonData }
   ) {
     const protocols: NexusGenRootTypes['Protocol'][] = []
+
     for (const studentId of studentIds) {
       await protocolData.updateOne(
         {
@@ -51,6 +52,7 @@ export const FinishProtocol = mutationField('finishProtocol', {
       })
       protocols.push(protocol)
     }
+    // protocols.forEach((p) => console.log(p._id))
     if (protocols.length === studentIds.length) {
       const { modifiedCount } = await lessonData.updateOne(
         {
@@ -67,6 +69,6 @@ export const FinishProtocol = mutationField('finishProtocol', {
         }
       )
     }
-    return { protocols }
+    return { finished: protocols.length === studentIds.length }
   },
 })

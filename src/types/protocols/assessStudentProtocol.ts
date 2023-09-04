@@ -55,7 +55,17 @@ export const AssessStudentProtocol = mutationField('assessStudentProtocol', {
 
     const groupIds =
       partnerIds!.length > 0 ? [...partnerIds!, studentId] : [studentId]
-
+    console.log(
+      task,
+      assignedDate,
+      markingPeriod,
+      protocolActivityType,
+      partnerIds,
+      discussionLevel,
+      assessment,
+      studentId,
+      responsibilityPoints
+    )
     for (const _id of groupIds!) {
       if (protocolActivityType !== 'INDIVIDUAL') {
         const partnerToExclude = groupIds!.findIndex((i: string) => i === _id)
@@ -103,12 +113,21 @@ export const AssessStudentProtocol = mutationField('assessStudentProtocol', {
 
         const protocolScore =
           assessment === 'WORKED_WELL'
-            ? responsibilityPoints * 0.67
-            : assessment === 'WORKED_VERY_WELL'
             ? responsibilityPoints
-            : assessment === 'REFUSED_TO_WORK'
-            ? 0
-            : responsibilityPoints * 0.33
+            : assessment === 'WORKED_VERY_WELL'
+            ? responsibilityPoints + responsibilityPoints * 0.1
+            : assessment === 'WORKED_POORLY'
+            ? responsibilityPoints * 0.33
+            : 0
+        //   assessment === 'WORKED_WELL'
+        //     ? responsibilityPoints * 0.67
+        //     : assessment === 'WORKED_VERY_WELL'
+        //     ? responsibilityPoints
+        //     : assessment === 'REFUSED_TO_WORK'
+        //     ? 0
+        //     : responsibilityPoints * 0.33
+
+        // const protocolScorint =
 
         const scoringAlgorithm =
           protocolToCheck.assessment === assessment

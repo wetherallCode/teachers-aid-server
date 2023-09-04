@@ -21,6 +21,7 @@ export const ReadingGuideFinalContainer = objectType({
   definition(t) {
     t.boolean('submitted')
     t.string('submitTime', { nullable: true })
+    t.float('responsibilityPoints')
     t.list.field('readingGuideQuestions', {
       type: ReadingGuideQuestion,
       nullable: true,

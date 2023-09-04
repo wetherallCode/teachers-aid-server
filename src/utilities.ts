@@ -1,6 +1,7 @@
 export function getRandomInt(max: number) {
   return Math.floor(Math.random() * Math.floor(max))
 }
+
 export const timeAFunction = (startTime: string, endTime: string) => {
   const startTimeMinutes = +startTime
     .split('')
@@ -29,4 +30,9 @@ export function isNegative(num: number) {
   console.log(Math.sign(num) === 1 ? true : false)
   if (Math.sign(num) === 1) return false
   else return true
+}
+
+export const preparedAndReadyInformation = {
+  id: '62a33f0c2c8c161570b3c258',
+  responsiblityPoints: 1,
 }

@@ -40,6 +40,12 @@ type ActivateQuizPayload {
   activated: Boolean!
 }
 
+enum ActivityTimeEnum {
+  AFTER
+  BEFORE
+  DURING
+}
+
 type AddAssociatedCourseIdPayload {
   courseInfo: [CourseInfo!]!
 }
@@ -446,21 +452,33 @@ enum ContactTypeEnum {
 }
 
 input ControlCoolDownInput {
+  academicOutcomeType: AcademicOutcomeTypes!
+  activityTime: ActivityTimeEnum!
   isActive: Boolean!
   lessonId: ID!
+  markingPeriod: MarkingPeriodEnum!
+  protocolActivityType: ProtocolActivityTypes!
+  studentIds: [ID!]!
+  task: String!
 }
 
 type ControlCoolDownPayload {
-  lesson: Lesson!
+  protocols: [Protocol!]!
 }
 
 input ControlWarmUpInput {
+  academicOutcomeType: AcademicOutcomeTypes!
+  activityTime: ActivityTimeEnum!
   isActive: Boolean!
   lessonId: ID!
+  markingPeriod: MarkingPeriodEnum!
+  protocolActivityType: ProtocolActivityTypes!
+  studentIds: [ID!]!
+  task: String!
 }
 
 type ControlWarmUpPayload {
-  lesson: Lesson!
+  protocols: [Protocol!]!
 }
 
 type Course {
@@ -704,6 +722,8 @@ type CreateProgressTrackerForStudentPayload {
 
 input CreateProtocolInput {
   academicOutcomeType: AcademicOutcomeTypes!
+  activityTime: ActivityTimeEnum!
+  lessonId: String!
   markingPeriod: MarkingPeriodEnum!
   protocolActivityType: ProtocolActivityTypes!
   studentIds: [ID!]!
@@ -1450,6 +1470,15 @@ type FindParentContactsByTeacherIdPayload {
   parentContacts: [ParentContact!]!
 }
 
+input FindProtocolResponsesInput {
+  courseId: String!
+  date: String!
+}
+
+type FindProtocolResponsesPayload {
+  protocols: [Protocol!]!
+}
+
 input FindQuizByIdInput {
   quizId: ID!
 }
@@ -1775,7 +1804,7 @@ input FinishProtocolInput {
 }
 
 type FinishProtocolPayload {
-  protocols: [Protocol!]!
+  finished: Boolean!
 }
 
 input FinishQuizInput {
@@ -2300,6 +2329,7 @@ type ProgressTracker {
 type Protocol {
   _id: ID
   academicOutcomeType: AcademicOutcomeTypes!
+  activityTime: ActivityTimeEnum!
   assessment: ProtocolAssessmentEnum
   assignedDate: String!
   completed: Boolean!
@@ -2307,6 +2337,7 @@ type Protocol {
   endTime: String
   isActive: Boolean!
   lastScore: Int!
+  lessonId: String!
   markingPeriod: MarkingPeriodEnum!
   partners: [Student!]
   protocolActivityType: ProtocolActivityTypes!
@@ -2323,8 +2354,8 @@ enum ProtocolActivityTypes {
 }
 
 enum ProtocolAssessmentEnum {
+  NO_EFFORT
   REFUSED_TO_WORK
-  SLOW_TO_GET_STARTED
   WORKED_POORLY
   WORKED_VERY_WELL
   WORKED_WELL
@@ -2377,6 +2408,7 @@ type Query {
   findLessonsByUnit(input: FindLessonsByUnitInput!): FindLessonsByUnitPayload!
   findLessonStatus(input: FindLessonStatusInput!): FindLessonStatusPayload!
   findParentContactsByTeacherId(input: FindParentContactsByTeacherIdInput!): FindParentContactsByTeacherIdPayload!
+  findProtocolsByDate(input: FindProtocolResponsesInput!): FindProtocolResponsesPayload!
   findQuizById(input: FindQuizByIdInput!): FindQuizByIdPayload!
   findQuizQuestionsByQuizzableSections(input: FindQuizQuestionsByQuizzableSectionsInput!): FindQuizQuestionsByQuizzableSectionsPayload!
   findQuizQuestionsByTextSectionId(input: FindQuizQuestionsByTextSectionIdInput!): FindQuizQuestionsByTextSectionIdPayload!
@@ -2565,6 +2597,7 @@ type ReadingGuide implements Assignment {
 
 type ReadingGuideFinalContainer {
   readingGuideQuestions: [ReadingGuideQuestion!]
+  responsibilityPoints: Float!
   submitted: Boolean!
   submitTime: String
 }

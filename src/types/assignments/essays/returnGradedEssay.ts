@@ -71,6 +71,32 @@ export const ReturnGradedEssay = mutationField('returnGradedEssay', {
         }
       )
     }
+    console.log(
+      rubricEntries.find((entry) => entry._id === '5f8ebe9a31fb5c0025be5100')
+    )
+
+    // .find(
+    //   (entry) =>
+    //     new ObjectId(entry._id!) === new ObjectId('5f8ebe9a31fb5c0025be5100')
+    // )
+    //if student plagiarized from another student then they automatically lose 10 rp
+    if (
+      rubricEntries.find((entry) => entry._id === '5f8ebe9a31fb5c0025be5100')
+    ) {
+      studentData.updateOne(
+        {
+          'student._id': new ObjectId(student._id!),
+          markingPeriod: essay.markingPeriod,
+          responsibilityPoints: { $exists: true },
+          behavior: { $exists: false },
+        },
+        {
+          $inc: {
+            responsibilityPoints: -10,
+          },
+        }
+      )
+    }
 
     if (!essay.leveledUp) {
       const studentToLevelUp: NexusGenRootTypes['ProgressTracker'] =

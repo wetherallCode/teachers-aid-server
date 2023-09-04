@@ -73,6 +73,7 @@ export const RemoveProtocol = mutationField('removeProtocol', {
             'duringActivities.$.isActive': false,
             'duringActivities.$.completed': false,
           },
+          $inc: { protocolCount: -1 },
         }
       )
     }
@@ -80,3 +81,4 @@ export const RemoveProtocol = mutationField('removeProtocol', {
     return { deleteCount }
   },
 })
+// Explain the difference between using power and abusing power.

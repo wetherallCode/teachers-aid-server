@@ -33,8 +33,7 @@ export const ReviewReadingGuides = mutationField('reviewReadingGuides', {
       })
 
     if (readingGuideValidation) {
-      const points = readingGuideValidation.score.maxPoints
-      const effortPoints =
+      const effortPoints = (points: number) =>
         effort === 'GOOD_EFFORT'
           ? points * 1
           : effort === 'SOME_EFFORT'
@@ -52,13 +51,13 @@ export const ReviewReadingGuides = mutationField('reviewReadingGuides', {
           { $inc: { 'readingGuideProgressTracker.levelPoints': 1 } }
         )
 
-      const studentToLevelUp: NexusGenRootTypes['ProgressTracker'] =
+      const student: NexusGenRootTypes['ProgressTracker'] =
         await studentData.findOne({
           'student._id': new ObjectId(readingGuideValidation.hasOwner._id!),
           readingGuideProgressTracker: { $exists: true },
         })
 
-      const { levelPoints } = studentToLevelUp.readingGuideProgressTracker
+      const { levelPoints } = student.readingGuideProgressTracker
 
       if (levelPoints >= 5 && levelPoints < 10) {
         await studentData.updateOne(
@@ -117,9 +116,32 @@ export const ReviewReadingGuides = mutationField('reviewReadingGuides', {
         { _id: new ObjectId(readingGuideId) },
         {
           $set: {
-            'score.earnedPoints': effortPoints,
+            'score.earnedPoints': effortPoints(
+              readingGuideValidation.score.maxPoints
+            ),
             'effort': effort,
             reviewed: true,
+            'readingGuideFinal.responsibilityPoints': effortPoints(
+              readingGuideValidation.readingGuideFinal?.responsibilityPoints!!
+            ),
+          },
+        }
+      )
+
+      studentData.updateOne(
+        {
+          'student._id': new ObjectId(readingGuideValidation.hasOwner._id!),
+          markingPeriod: readingGuideValidation.markingPeriod,
+          responsibilityPoints: { $exists: true },
+          behavior: { $exists: false },
+        },
+        {
+          $inc: {
+            responsibilityPoints:
+              -readingGuideValidation.readingGuideFinal?.responsibilityPoints! +
+              effortPoints(
+                readingGuideValidation.readingGuideFinal?.responsibilityPoints!
+              ),
           },
         }
       )
