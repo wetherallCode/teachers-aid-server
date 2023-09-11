@@ -141,7 +141,7 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
           {
             $inc: {
               responsibilityPoints:
-                isLate() === true ? 0 : responsibilityPoints,
+                isLate() === true ? 1 : responsibilityPoints,
             },
           }
         )
