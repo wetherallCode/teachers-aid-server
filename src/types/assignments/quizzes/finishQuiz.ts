@@ -44,6 +44,7 @@ export const FinishQuiz = mutationField('finishQuiz', {
             assigned: false,
             'score.earnedPoints': earnedPoints,
             responsibilityPoints: responsibilityPoints,
+            missing: false,
           },
         }
       )
