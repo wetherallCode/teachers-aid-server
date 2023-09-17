@@ -1363,6 +1363,15 @@ type FindEssaysByAssociatedLessonIdPayload {
   essays: [Essay!]!
 }
 
+input FindEssaysByCourseIdAndTitleInput {
+  courseId: ID!
+  essayTitle: String!
+}
+
+type FindEssaysByCourseIdAndTitlePayload {
+  essays: [Essay!]!
+}
+
 input FindEssaysByStudentIdInput {
   studentId: ID!
 }
@@ -2395,6 +2404,7 @@ type Query {
   findEssayQuestionsForLesson(input: FindEssayQuestionsForLessonInput!): FindEssayQuestionsForLessonPayload!
   findEssaysByAssociatedLessonId(input: FindEssaysByAssociatedLessonIdInput!): FindEssaysByAssociatedLessonIdPayload!
   findEssaysByAssociatedLessonIdAndCourseId(input: FindEssaysByAssociatedLessonIdAndCourseIdInput!): FindEssaysByAssociatedLessonIdAndCourseIdPayload!
+  findEssaysByCourseIdAndTitle(input: FindEssaysByCourseIdAndTitleInput!): FindEssaysByCourseIdAndTitlePayload!
   findEssaysByStudentId(input: FindEssaysByStudentIdInput!): FindEssaysByStudentIdPayload!
   findEssaysByTopic(input: FindEssaysByTopicInput!): FindEssaysByTopicPayload!
   findEssaysByUserNameAndMarkingPeriod(input: FindEssaysByUserNameAndMarkingPeriodInput!): FindEssaysByUserNameAndMarkingPeriodPayload!
