@@ -25,12 +25,19 @@ export const FindEssaysByCourseIdAndTitle = queryField(
       input: arg({ type: FindEssaysByCourseIdAndTitleInput, required: true }),
     },
     async resolve(_, { input: { courseId, essayTitle } }, { assignmentData }) {
-      const essays = assignmentData.find({
-        'hasOwner.inCourses._id': new ObjectId(courseId),
-        'readings.readingSections': essayTitle,
-        workingDraft: { $exists: true },
-      })
+      const essays = await assignmentData
+        .find({
+          'hasOwner.inCourses._id': new ObjectId(courseId),
+          'readings.readingSections': essayTitle,
+          workingDraft: { $exists: true },
+        })
+        .toArray()
+      console.log(
+        essayTitle === 'The Articles of Confederation - Popular Politics',
+        essayTitle
+      )
       return { essays }
     },
   }
 )
+// "hasOwner.inCourses._id": ObjectId('613269a4fea6ec23e4989c82'), "readings.readingSections":"The Articles of Confederation - Popular Politics", workingDraft: {$exists:true}
