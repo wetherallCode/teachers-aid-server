@@ -3081,6 +3081,7 @@ type StudentForTeachersAid implements User {
   hasProtocols: [Protocol!]!
   hasResponsibilityPoints: ResponsibilityPoints!
   hasStatus: [StudentOutOfClass!]!
+  hasStatuses: [StudentOutOfClass!]!
   hasUnExcusedLatenesses: [UnexcusedLateness!]!
   inCourses: [Course!]!
   isActive: Boolean!
