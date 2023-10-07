@@ -163,5 +163,18 @@ export const StudentForTeachersAid = objectType({
         return studentOutOfClass
       },
     })
+    t.list.field('hasStatuses', {
+      type: StudentOutOfClass,
+      async resolve(parent, __, { studentData }) {
+        const studentOutOfClass = await studentData
+          .find({
+            'student._id': new ObjectId(parent._id!),
+            outOfClassDestination: { $exists: true },
+          })
+          .toArray()
+
+        return studentOutOfClass
+      },
+    })
   },
 })
