@@ -42,6 +42,8 @@ export const ReviewReadingGuides = mutationField('reviewReadingGuides', {
           ? points * 0.5
           : effort === 'DID_NOT_ANSWER_QUESTIONS_CORRECTLY'
           ? points * 0.25
+          : effort === 'OFF_TOPIC'
+          ? points * 0.1
           : 0
 
       const { modifiedCount: progressTrackerModifiedCount } =
