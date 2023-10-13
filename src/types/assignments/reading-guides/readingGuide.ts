@@ -36,5 +36,13 @@ export const InformationStructureEnum = enumType({
 
 export const ReadingGuideReviewOptionsEnum = enumType({
   name: 'ReadingGuideReviewOptionsEnum',
-  members: ['GOOD_EFFORT', 'SOME_EFFORT', 'LITTLE_EFFORT', 'NO_EFFORT'],
+  members: [
+    'GOOD_EFFORT',
+    'SOME_EFFORT',
+    'LITTLE_EFFORT',
+    'OFF_TOPIC',
+    'USED_OUTSIDE_INFO',
+    'DID_NOT_ANSWER_QUESTIONS_CORRECTLY',
+    'NO_EFFORT',
+  ],
 })

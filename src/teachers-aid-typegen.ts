@@ -1261,7 +1261,7 @@ export interface NexusGenEnums {
   QuizQuestionDifficultyLevelEnum: "CHALLENGING" | "DIFFICULT" | "EASY"
   QuizQuestionTypeEnum: "MULTIPLE_CHOICE" | "TRUE_FALSE"
   ReadingGuideMetricEnum: "ACADEMIC" | "ADVANCED" | "BASIC" | "DEVELOPING" | "MASTER"
-  ReadingGuideReviewOptionsEnum: "GOOD_EFFORT" | "LITTLE_EFFORT" | "NO_EFFORT" | "SOME_EFFORT"
+  ReadingGuideReviewOptionsEnum: "DID_NOT_ANSWER_QUESTIONS_CORRECTLY" | "GOOD_EFFORT" | "LITTLE_EFFORT" | "NO_EFFORT" | "OFF_TOPIC" | "SOME_EFFORT" | "USED_OUTSIDE_INFO"
   RubricSectionEnum: "ANSWER" | "CONCLUSION" | "OVERALL" | "PROOFREADING" | "TOPIC"
   SchoolDayLengthEnum: "FULL" | "HALF" | "NINETY_MINUTE_DELAY" | "ONE_HOUR_DELAY"
   SchoolDayType: "A" | "AB" | "B"
