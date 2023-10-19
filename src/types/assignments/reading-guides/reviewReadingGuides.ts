@@ -63,7 +63,7 @@ export const ReviewReadingGuides = mutationField('reviewReadingGuides', {
 
       const { levelPoints } = student.readingGuideProgressTracker
 
-      if (levelPoints >= 5 && levelPoints < 10) {
+      if (levelPoints >= 5 && levelPoints < 15) {
         await studentData.updateOne(
           {
             'student._id': new ObjectId(readingGuideValidation.hasOwner._id!),
@@ -76,7 +76,7 @@ export const ReviewReadingGuides = mutationField('reviewReadingGuides', {
           }
         )
       }
-      if (levelPoints >= 10 && levelPoints < 25) {
+      if (levelPoints >= 15 && levelPoints < 30) {
         await studentData.updateOne(
           {
             'student._id': new ObjectId(readingGuideValidation.hasOwner._id!),
@@ -89,7 +89,7 @@ export const ReviewReadingGuides = mutationField('reviewReadingGuides', {
           }
         )
       }
-      if (levelPoints >= 25 && levelPoints < 50) {
+      if (levelPoints >= 30 && levelPoints < 50) {
         await studentData.updateOne(
           {
             'student._id': new ObjectId(readingGuideValidation.hasOwner._id!),
