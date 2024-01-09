@@ -1,4 +1,4 @@
-import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
+import { mutationField, objectType } from '@nexus/schema'
 
 // export const AddIEPInfoInput = inputObjectType({
 //     name: 'AddIEPInfoInput',
@@ -26,8 +26,8 @@ export const AddIEPInfo = mutationField('addIEPInfo', {
       {
         schoolId: { $exists: true },
       },
-      { $set: { hasIEP: false } }
+      { $set: { hasIEP: false } },
     )
-    return { added: students.length === modifiedCount ? true : false }
+    return { added: students.length === modifiedCount }
   },
 })
