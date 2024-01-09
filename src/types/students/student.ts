@@ -56,6 +56,23 @@ export const Student = objectType({
         return assignments
       },
     })
+
+    t.list.field('hasTodaysAssignments', {
+      type: 'Assignment',
+      async resolve(parent, __, { assignmentData }) {
+        const assignments: NexusGenRootTypes['Assignment'][] =
+          await assignmentData
+            .find({
+              'hasOwner._id': new ObjectId(parent._id!),
+              articleTitle: { $exists: false },
+              dueDate: new Date().toLocaleDateString(),
+            })
+            .toArray()
+
+        return assignments
+      },
+    })
+
     t.list.field('hasProtocols', {
       type: 'Protocol',
       async resolve(parent, __, { protocolData }) {
@@ -67,6 +84,19 @@ export const Student = objectType({
         return protocols
       },
     })
+    t.list.field('hasTodaysProtocols', {
+      type: 'Protocol',
+      async resolve(parent, __, { protocolData }) {
+        const protocols = await protocolData
+          .find({
+            'student._id': new ObjectId(parent._id!),
+            date: new Date().toLocaleDateString(),
+          })
+          .toArray()
+        return protocols
+      },
+    })
+
     t.list.field('inCourses', { type: Course })
     t.list.field('hasAbsences', {
       type: 'StudentAbsence',
@@ -156,6 +186,19 @@ export const Student = objectType({
       },
     })
     t.list.field('hasBehaviors', {
+      type: StudentBehavior,
+      async resolve(parent, __, { studentData }) {
+        const studentBehaviors = await studentData
+          .find({
+            'student._id': new ObjectId(parent._id!),
+            behavior: { $exists: true },
+          })
+          .toArray()
+        return studentBehaviors
+      },
+    })
+
+    t.list.field('hasTodaysBehaviors', {
       type: StudentBehavior,
       async resolve(parent, __, { studentData }) {
         const studentBehaviors = await studentData
