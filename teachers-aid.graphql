@@ -3037,6 +3037,9 @@ type Student implements User {
   hasProtocols: [Protocol!]!
   hasResponsibilityPoints: [ResponsibilityPoints!]!
   hasStatus: [StudentOutOfClass!]!
+  hasTodaysAssignments: [Assignment!]!
+  hasTodaysBehaviors: [StudentBehavior!]!
+  hasTodaysProtocols: [Protocol!]!
   hasUnExcusedLatenesses: [UnexcusedLateness!]!
   hasWritingMetrics: WritingMetrics!
   inCourses: [Course!]!

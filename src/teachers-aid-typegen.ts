@@ -4377,6 +4377,9 @@ export interface NexusGenFieldTypes {
     hasProtocols: NexusGenRootTypes['Protocol'][]; // [Protocol!]!
     hasResponsibilityPoints: NexusGenRootTypes['ResponsibilityPoints'][]; // [ResponsibilityPoints!]!
     hasStatus: NexusGenRootTypes['StudentOutOfClass'][]; // [StudentOutOfClass!]!
+    hasTodaysAssignments: NexusGenRootTypes['Assignment'][]; // [Assignment!]!
+    hasTodaysBehaviors: NexusGenRootTypes['StudentBehavior'][]; // [StudentBehavior!]!
+    hasTodaysProtocols: NexusGenRootTypes['Protocol'][]; // [Protocol!]!
     hasUnExcusedLatenesses: NexusGenRootTypes['UnexcusedLateness'][]; // [UnexcusedLateness!]!
     hasWritingMetrics: NexusGenRootTypes['WritingMetrics']; // WritingMetrics!
     inCourses: NexusGenRootTypes['Course'][]; // [Course!]!
