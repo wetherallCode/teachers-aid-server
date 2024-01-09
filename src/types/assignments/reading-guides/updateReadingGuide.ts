@@ -31,51 +31,15 @@ export const UpdateReadingGuide = mutationField('updateReadingGuide', {
   args: { input: arg({ type: UpdateReadingGuideInput, required: true }) },
   async resolve(
     _,
-    {
-      input: {
-        readingGuideId,
-        // howIsSectionOrganized,
-        // whyWasSectionOrganized,
-        // majorIssue,
-        // majorIssueSolved,
-        // majorSolution,
-        // clarifyingQuestions,
-
-        // problems,
-        // biggestProblem,
-        // reasonForBiggestProblem,
-        // importantPeople,
-        // howArePeopleInvolvedInProblems,
-        // sectionConsequences,
-        questionType,
-        answer,
-      },
-    },
+    { input: { readingGuideId, questionType, answer } },
     { assignmentData }
   ) {
     const readingGuideValidation: NexusGenRootTypes['ReadingGuide'] =
       await assignmentData.findOne({
         _id: new ObjectId(readingGuideId),
       })
-    console.log(questionType, answer)
+
     if (readingGuideValidation) {
-      // assignmentData.updateOne(
-      //   {
-      //     _id: new ObjectId(readingGuideId),
-      //   },
-      //   {
-      //     $set: {
-      //       'readingGuideFinal.problems': problems,
-      //       'readingGuideFinal.biggestProblem': biggestProblem,
-      //       'readingGuideFinal.reasonForBiggestProblem':
-      //         reasonForBiggestProblem,
-      //       'readingGuideFinal.importantPeople': importantPeople,
-      //       'readingGuideFinal.howArePeopleInvolvedInProblems':
-      //         howArePeopleInvolvedInProblems,
-      //       'readingGuideFinal.sectionConsequences': sectionConsequences,
-      //     },
-      //   }
-      // )
       if (
         !readingGuideValidation.readingGuideFinal?.readingGuideQuestions?.find(
           (question) => question.questionType === questionType
