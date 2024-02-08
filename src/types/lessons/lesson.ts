@@ -1,15 +1,12 @@
 import { enumType, objectType } from '@nexus/schema'
 import { Course } from '../courses'
 import { MarkingPeriodEnum } from '../general'
-import {
-  TextSectionProtocols,
-  TextSectionVocab,
-  TextSectionQuestions,
-  PageNumbers,
-} from '../texts/textSections'
+import { PageNumbers, TextSectionProtocols, TextSectionQuestions, TextSectionVocab } from '../texts/textSections'
 import { LessonTextSections } from './lessonTextSections'
 import { Unit } from '../units'
 import { DynamicLessonEnums } from './dynamicLesson'
+import { NexusGenRootTypes } from '../../teachers-aid-typegen'
+import { ObjectId } from 'mongodb'
 
 export const Lesson = objectType({
   name: 'Lesson',
@@ -23,6 +20,17 @@ export const Lesson = objectType({
     t.field('pageNumbers', { type: PageNumbers })
     t.field('assignedSections', { type: LessonTextSections })
     t.list.id('assignedSectionIdList')
+    t.int('hasNumberOfParagraphs', {
+      async resolve(parent, __, { textData }) {
+        let numberOfParagraphs = 0
+
+        for (const sectionId of parent.assignedSectionIdList) {
+          const section: NexusGenRootTypes['TextSection'] = await textData.findOne({ _id: new ObjectId(sectionId) })
+          numberOfParagraphs += section.numberOfParagraphs
+        }
+        return numberOfParagraphs
+      },
+    })
     t.list.field('vocabList', { type: TextSectionVocab })
     t.field('beforeActivity', { type: TextSectionProtocols })
     t.list.field('duringActivities', { type: TextSectionProtocols })

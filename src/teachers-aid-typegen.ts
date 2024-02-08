@@ -3729,6 +3729,7 @@ export interface NexusGenFieldTypes {
     duringActivities: NexusGenRootTypes['TextSectionProtocols'][]; // [TextSectionProtocols!]!
     dynamicLesson: NexusGenEnums['DynamicLessonEnums']; // DynamicLessonEnums!
     essentialQuestion: string; // String!
+    hasNumberOfParagraphs: number; // Int!
     inUnit: NexusGenRootTypes['Unit']; // Unit!
     lessonName: string; // String!
     lessonNotes: string[] | null; // [String!]

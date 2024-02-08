@@ -1926,6 +1926,7 @@ type Lesson {
   duringActivities: [TextSectionProtocols!]!
   dynamicLesson: DynamicLessonEnums!
   essentialQuestion: String!
+  hasNumberOfParagraphs: Int!
   inUnit: Unit!
   lessonName: String!
   lessonNotes: [String!]
