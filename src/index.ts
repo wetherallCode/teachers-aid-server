@@ -54,7 +54,7 @@ const startServer = async () => {
         maxAge: 1000 * 60 * 60 * 24 * 7,
         // maxAge: 1000 * 60 * 90,
         httpOnly: true,
-        sameSite: 'strict
+        sameSite: 'lax',
         secure: true,
       },
       store: store,
