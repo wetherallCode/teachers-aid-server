@@ -4,10 +4,11 @@ import { ApolloServer } from 'apollo-server-express'
 import * as express from 'express'
 import * as session from 'express-session'
 import { MongoClient } from 'mongodb'
-const MongoDBStore = require('connect-mongodb-session')(session)
-const path = require('path')
 import { makeSchema } from '@nexus/schema'
 import * as types from './types'
+
+const MongoDBStore = require('connect-mongodb-session')(session)
+const path = require('path')
 
 const startServer = async () => {
   const app = express()
@@ -18,7 +19,7 @@ const startServer = async () => {
       schema: path.join(__dirname, '../teachers-aid.graphql'),
       typegen: path.join(
         __dirname.replace(/\/dist$/, '/src'),
-        '../src/teachers-aid-typegen.ts'
+        '../src/teachers-aid-typegen.ts',
       ),
     },
     typegenAutoConfig: {
@@ -26,7 +27,7 @@ const startServer = async () => {
         {
           source: path.join(
             __dirname.replace(/\/dist$/, '/src'),
-            './typeDefs.ts'
+            './typeDefs.ts',
           ),
           alias: 't',
         },
@@ -40,7 +41,7 @@ const startServer = async () => {
     collection: 'mySessions',
   })
 
-  store.on('error', function (error: any) {
+  store.on('error', function(error: any) {
     console.log('error in store: ' + error)
   })
 
@@ -53,12 +54,12 @@ const startServer = async () => {
         maxAge: 1000 * 60 * 60 * 24 * 7,
         // maxAge: 1000 * 60 * 90,
         httpOnly: true,
-        sameSite: 'none',
+        sameSite: 'strict
         secure: true,
       },
       store: store,
       saveUninitialized: false,
-    }) as any
+    }) as any,
   )
   // console.log('working')
   const MONGO_DB = process.env.DB_HOST
@@ -129,7 +130,7 @@ const startServer = async () => {
   const PORT = process.env.PORT || 4000
 
   app.listen({ port: PORT }, () =>
-    console.log(`🚀 Server ready at${server.graphqlPath}`)
+    console.log(`🚀 Server ready at${server.graphqlPath}`),
   )
 }
 
