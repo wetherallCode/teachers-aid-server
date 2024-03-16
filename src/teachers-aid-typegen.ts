@@ -2523,7 +2523,6 @@ export interface NexusGenRootTypes {
     hasAssigner: NexusGenRootTypes['Teacher']; // Teacher!
     hasOwner: NexusGenRootTypes['Student']; // Student!
     late: boolean; // Boolean!
-    mainIdeasCompletedInClass: boolean; // Boolean!
     markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
     missing: boolean; // Boolean!
     paperBased: boolean; // Boolean!
@@ -4545,7 +4544,6 @@ export interface NexusGenFieldTypes {
     hasOwner: NexusGenRootTypes['Student']; // Student!
     late: boolean; // Boolean!
     lessonInfo: NexusGenRootTypes['Lesson'] | null; // Lesson
-    mainIdeasCompletedInClass: boolean; // Boolean!
     markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
     missing: boolean; // Boolean!
     paperBased: boolean; // Boolean!

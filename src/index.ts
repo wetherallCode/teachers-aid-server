@@ -56,7 +56,7 @@ const startServer = async () => {
         httpOnly: true,
         sameSite: 'none',
         secure: true,
-        // partitioned: true,
+        partitioned: true,
       },
 
       store: store,

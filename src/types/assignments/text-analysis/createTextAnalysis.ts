@@ -1,10 +1,9 @@
-import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
-import { ObjectId } from 'mongodb'
-import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
+import { arg, inputObjectType, mutationField, objectType } from '@nexus/schema'
 import { MarkingPeriodEnum } from '../../general'
-import { TimeOfDayEnum } from '../assignments'
 import { ReadingsInput } from '../essays'
 import { TextAnalysis } from './textAnalysis'
+import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
+import { ObjectId } from 'mongodb'
 
 export const CreateTextAnalysisInput = inputObjectType({
   name: 'CreateTextAnalysisInput',
@@ -16,7 +15,6 @@ export const CreateTextAnalysisInput = inputObjectType({
     t.int('maxPoints', { required: true })
     t.field('markingPeriod', { type: MarkingPeriodEnum, required: true })
     t.string('dueDate', { required: true })
-    // t.field('dueTime', { type: TimeOfDayEnum, required: true })
     t.string('assignedDate', { required: true })
   },
 })
@@ -42,11 +40,10 @@ export const CreateTextAnalysis = mutationField('createTextAnalysis', {
         maxPoints,
         markingPeriod,
         dueDate,
-        // dueTime,
         assignedDate,
       },
     },
-    { assignmentData, userData, courseData }
+    { assignmentData, userData, courseData },
   ) {
     const assigner: NexusGenRootTypes['Teacher'] = await userData.findOne({
       _id: new ObjectId(hasAssignerId),
@@ -69,9 +66,9 @@ export const CreateTextAnalysis = mutationField('createTextAnalysis', {
     const textAnalyses: NexusGenRootTypes['TextAnalysis'][] = []
 
     for (const student of studentList) {
-      const studentCoursesIds = student.inCourses.map((course) => course._id)
+      const studentCoursesIds = student.inCourses.map((course: NexusGenRootTypes['Course']) => course._id)
       const teacherCoursesIds = assigner.teachesCourses.map(
-        (course) => course._id
+        (course) => course._id,
       )
       const courseList: string[] = []
       const studentCourses: any = []
@@ -91,21 +88,20 @@ export const CreateTextAnalysis = mutationField('createTextAnalysis', {
         assigned: false,
         assignedDate,
         associatedLessonId,
-        mainIdeasCompletedInClass: false,
         textAnalysisCompletion: 'NOT_COMPLETE',
         dueDate,
-        dueTime: assignedCourseInfo.startsAt,
+        dueTime: assignedCourseInfo.endsAt,
         exempt: false,
         paperBased: true,
         missing: true,
         markingPeriod,
-        gradeType: 'SUPPORTIVE',
+        gradeType: 'SECONDARY',
         hasAssigner: assigner,
         hasOwner: await userData.findOne({
           _id: new ObjectId(student._id!),
         }),
         score: { earnedPoints: 0, maxPoints },
-        late: true,
+        late: false,
         readings,
       }
       const { insertedId } = await assignmentData.insertOne(newTextAnalysis)

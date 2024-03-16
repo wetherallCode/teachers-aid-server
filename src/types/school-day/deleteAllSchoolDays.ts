@@ -11,7 +11,9 @@ export const DeleteAllSchoolDays = mutationField('deleteAllSchoolDays', {
   type: DeleteAllSchoolDaysPayload,
 
   async resolve(_, __, { schoolDayData }) {
-    const { deletedCount } = await schoolDayData.deleteMany()
+    const { deletedCount } = await schoolDayData.deleteMany({
+      todaysDate: { $exists: true },
+    })
 
     // if (deletedCount === 1) {
     //   return { removed: true }

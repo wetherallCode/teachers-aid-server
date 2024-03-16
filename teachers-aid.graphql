@@ -3288,7 +3288,6 @@ type TextAnalysis implements Assignment {
   hasOwner: Student!
   late: Boolean!
   lessonInfo: Lesson
-  mainIdeasCompletedInClass: Boolean!
   markingPeriod: MarkingPeriodEnum!
   missing: Boolean!
   paperBased: Boolean!

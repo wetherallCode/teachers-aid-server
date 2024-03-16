@@ -26,6 +26,7 @@ export const FindCoursesById = queryField('findCoursesById', {
       const course = await courseData.findOne({ _id: new ObjectId(_id) })
       courses.push(course)
     }
+    console.log(courses)
     return { courses }
   },
 })

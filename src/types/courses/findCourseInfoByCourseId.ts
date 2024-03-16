@@ -25,6 +25,7 @@ export const FindCourseInfoByCourseId = queryField('findCourseInfoByCourseId', {
       'course._id': new ObjectId(courseId),
     })
     if (course) {
+      console.log(course)
       return { courseInfo: course }
     } else throw new Error('Course does not exist.')
   },
