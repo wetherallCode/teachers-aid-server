@@ -54,9 +54,11 @@ const startServer = async () => {
         maxAge: 1000 * 60 * 60 * 24 * 7,
         // maxAge: 1000 * 60 * 90,
         httpOnly: true,
-        sameSite: 'lax',
+        sameSite: 'none',
         secure: true,
+        partitioned: true,
       },
+
       store: store,
       saveUninitialized: false,
     }) as any,
