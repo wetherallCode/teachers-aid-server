@@ -3283,6 +3283,7 @@ type TextAnalysis implements Assignment {
   dueDate: String!
   dueTime: String!
   exempt: Boolean!
+  finishedEssential Question: Boolean!
   gradeType: GradeTypeEnum!
   hasAssigner: Teacher!
   hasOwner: Student!
@@ -3293,7 +3294,9 @@ type TextAnalysis implements Assignment {
   paperBased: Boolean!
   readings: Readings!
   score: Score!
+  startedPromptly: Boolean!
   textAnalysisCompletion: TextAnalysisCompletionEnum!
+  workedWellWithGroup: Boolean!
 }
 
 enum TextAnalysisCompletionEnum {

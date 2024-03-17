@@ -1,4 +1,4 @@
-import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
+import { arg, inputObjectType, mutationField, objectType } from '@nexus/schema'
 import { ObjectId } from 'mongodb'
 import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
 import { TextAnalysisCompletionEnum } from './textAnalysis'
@@ -17,7 +17,6 @@ export const CheckTextAnalysisInput = inputObjectType({
 export const CheckTextAnalysisPayload = objectType({
   name: 'CheckTextAnalysisPayload',
   definition(t) {
-    // t.field('', { type:  })
     t.boolean('checked')
   },
 })
@@ -28,7 +27,7 @@ export const CheckTextAnalysis = mutationField('checkTextAnalysis', {
   async resolve(
     _,
     { input: { textAnalysisId, textAnalysisCompletion } },
-    { assignmentData, studentData }
+    { assignmentData, studentData },
   ) {
     const textAnalysis: NexusGenRootTypes['TextAnalysis'] =
       await assignmentData.findOne({ _id: new ObjectId(textAnalysisId) })
@@ -38,12 +37,12 @@ export const CheckTextAnalysis = mutationField('checkTextAnalysis', {
         textAnalysisCompletion === 'MAIN_IDEAS_AND_MARKUP'
           ? textAnalysis.score.maxPoints
           : textAnalysisCompletion === 'MAIN_IDEAS_ONLY'
-          ? textAnalysis.score.maxPoints * 0.6
-          : textAnalysisCompletion === 'MARKUP_ONLY'
-          ? textAnalysis.score.maxPoints * 0.4
-          : textAnalysisCompletion === 'PARTIAL_COMPLETION'
-          ? textAnalysis.score.maxPoints * 0.2
-          : 0
+            ? textAnalysis.score.maxPoints * 0.6
+            : textAnalysisCompletion === 'MARKUP_ONLY'
+              ? textAnalysis.score.maxPoints * 0.4
+              : textAnalysisCompletion === 'PARTIAL_COMPLETION'
+                ? textAnalysis.score.maxPoints * 0.2
+                : 0
       // update Responsibility Points for assignments that haven't been graded before
       if (textAnalysis.missing) {
         await studentData.updateOne(
@@ -57,7 +56,7 @@ export const CheckTextAnalysis = mutationField('checkTextAnalysis', {
             $inc: {
               responsibilityPoints: textAnalysis.score.maxPoints + score,
             },
-          }
+          },
         )
       }
 
@@ -71,7 +70,7 @@ export const CheckTextAnalysis = mutationField('checkTextAnalysis', {
             late: false,
             'score.earnedPoints': score,
           },
-        }
+        },
       )
       return { checked: modifiedCount === 1 ? true : false }
     } else throw new Error('Text Analysis does not exist')

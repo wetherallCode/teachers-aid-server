@@ -5,7 +5,9 @@ export const TextAnalysis = objectType({
   definition(t) {
     t.implements('Assignment')
     t.field('textAnalysisCompletion', { type: TextAnalysisCompletionEnum })
-    // t.boolean('finishedEssential Question')
+    t.boolean('finishedEssentialQuestion')
+    t.boolean('workedWellWithGroup')
+    t.boolean('startedPromptly')
   },
 })
 
