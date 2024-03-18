@@ -1,4 +1,4 @@
-import { inputObjectType, objectType, mutationField, arg } from '@nexus/schema'
+import { arg, inputObjectType, mutationField, objectType } from '@nexus/schema'
 import { verify } from 'argon2'
 import { User } from '.'
 
@@ -29,9 +29,9 @@ export const login = mutationField('login', {
     }
 
     const valid = await verify(user.password, password)
-    // if (!valid) {
-    //   throw new Error('Wrong Password')
-    // }
+    if (!valid) {
+      throw new Error('Wrong Password')
+    }
 
     user.id = user._id.toString()
     req.session.userId = user.id
