@@ -1,4 +1,4 @@
-import { objectType, inputObjectType, enumType } from '@nexus/schema'
+import { enumType, inputObjectType, objectType } from '@nexus/schema'
 import { QuestionTypeEnum } from '../..'
 
 import { Organizers } from './organizers'
@@ -111,6 +111,7 @@ export const ReadingsInput = inputObjectType({
 export const WorkingDraft = objectType({
   name: 'WorkingDraft',
   definition(t) {
+    // @ts-ignore
     t.field('organizer', { type: Organizers, nullable: true })
     t.string('draft')
   },

@@ -130,7 +130,7 @@ const startServer = async () => {
     },
   })
   const PORT = process.env.PORT || 4000
-
+  console.log(PORT)
   app.listen({ port: PORT }, () =>
     console.log(`🚀 Server ready at${server.graphqlPath}`),
   )

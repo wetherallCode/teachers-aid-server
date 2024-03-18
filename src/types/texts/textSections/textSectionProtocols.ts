@@ -1,4 +1,4 @@
-import { objectType, inputObjectType, enumType } from '@nexus/schema'
+import { enumType, inputObjectType, objectType } from '@nexus/schema'
 
 export const TextSectionProtocols = objectType({
   name: 'TextSectionProtocols',
@@ -7,6 +7,7 @@ export const TextSectionProtocols = objectType({
     t.field('activityType', { type: ProtocolActivityTypes })
     t.field('academicOutcomeTypes', { type: AcademicOutcomeTypes })
     t.string('task')
+    // @ts-ignore
     t.string('directions', { nullable: true })
     t.boolean('completed')
     t.boolean('isActive')

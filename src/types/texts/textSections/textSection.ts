@@ -1,19 +1,23 @@
-import { objectType, enumType, inputObjectType } from '@nexus/schema'
+import { enumType, inputObjectType, objectType } from '@nexus/schema'
 import { Chapter } from '..'
 import { TextSectionProtocols } from '.'
-import { resolve } from 'path'
 
 export const TextSection = objectType({
   name: 'TextSection',
   definition(t) {
+    // @ts-ignore
     t.id('_id', { nullable: true })
     t.field('fromChapter', { type: Chapter })
     t.field('pageNumbers', { type: PageNumbers })
     t.string('header')
+    // @ts-ignore
     t.int('orderNumber', { nullable: true })
     t.int('numberOfParagraphs')
+    // @ts-ignore
     t.list.field('hasProtocols', { type: TextSectionProtocols, nullable: true })
+    // @ts-ignore
     t.list.field('hasVocab', { type: TextSectionVocab, nullable: true })
+    // @ts-ignore
     t.list.field('hasQuestions', { type: TextSectionQuestions, nullable: true })
     t.list.field('hasEssayQuestions', {
       type: 'EssayQuestion',

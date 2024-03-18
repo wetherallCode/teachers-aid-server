@@ -1,6 +1,6 @@
-import { objectType, inputObjectType, arg, queryField } from '@nexus/schema'
-import { ObjectId } from 'bson'
+import { arg, inputObjectType, objectType, queryField } from '@nexus/schema'
 import { ParentContact } from './parentContact'
+import { ObjectId } from 'mongodb'
 
 export const FindContactsByStudentIdInput = inputObjectType({
   name: 'FindContactsByStudentIdInput',

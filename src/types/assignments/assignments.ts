@@ -1,10 +1,5 @@
-import {
-  interfaceType,
-  objectType,
-  inputObjectType,
-  enumType,
-} from '@nexus/schema'
-import { Student, Teacher, Lesson } from '..'
+import { enumType, inputObjectType, interfaceType, objectType } from '@nexus/schema'
+import { Lesson, Student, Teacher } from '..'
 import { MarkingPeriodEnum } from '../general'
 import { NexusGenRootTypes } from '../../teachers-aid-typegen'
 import { ObjectId } from 'mongodb'
@@ -12,11 +7,13 @@ import { ObjectId } from 'mongodb'
 export const Assignment = interfaceType({
   name: 'Assignment',
   definition(t) {
+    // @ts-ignore
     t.id('_id', { nullable: true })
     t.field('hasOwner', { type: Student })
     t.field('hasAssigner', { type: Teacher })
     t.field('score', { type: Score })
     t.field('markingPeriod', { type: MarkingPeriodEnum })
+    // @ts-ignore
     t.id('associatedLessonId', { nullable: true })
     t.field('lessonInfo', {
       nullable: true,

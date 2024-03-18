@@ -1,6 +1,6 @@
-import { objectType, inputObjectType, arg, queryField } from '@nexus/schema'
-import { ObjectID } from 'bson'
+import { arg, inputObjectType, objectType, queryField } from '@nexus/schema'
 import { Assignment } from '.'
+import { ObjectID } from 'mongodb'
 
 export const FindAssignmentsByCourseIdInput = inputObjectType({
   name: 'FindAssignmentsByCourseIdInput',
@@ -30,5 +30,5 @@ export const FindAssignmentsByCourseId = queryField(
 
       return { assignments }
     },
-  }
+  },
 )
