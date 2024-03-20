@@ -51,7 +51,7 @@ const startServer = async () => {
       secret: process.env.SESSION_SECRET as string,
       resave: false,
       cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24,
         // maxAge: 1000 * 60 * 90,
         httpOnly: true,
         sameSite: 'none',
@@ -130,9 +130,8 @@ const startServer = async () => {
     },
   })
   const PORT = process.env.PORT || 4000
-  console.log(PORT)
   app.listen({ port: PORT }, () =>
-    console.log(`🚀 Server ready at${server.graphqlPath}`),
+    console.log(`🚀 Server ready at ${server.graphqlPath}`),
   )
 }
 
