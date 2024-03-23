@@ -14,10 +14,10 @@ export const TextAnalysis = objectType({
 export const TextAnalysisCompletionEnum = enumType({
   name: 'TextAnalysisCompletionEnum',
   members: [
-    'MAIN_IDEAS_AND_MARKUP',
+    'PARTIAL_COMPLETION',
+    'FULL_COMPLETION',
+    'NO_ATTEMPT',
     'MAIN_IDEAS_ONLY',
     'MARKUP_ONLY',
-    'PARTIAL_COMPLETION',
-    'NOT_COMPLETE',
   ],
 })

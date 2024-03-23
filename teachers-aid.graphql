@@ -413,8 +413,11 @@ type CheckQuizQuestionsForTextSectionsPayload {
 }
 
 input CheckTextAnalysisInput {
+  finishedEssentialQuestion: Boolean!
+  startedPromptly: Boolean!
   textAnalysisCompletion: TextAnalysisCompletionEnum!
   textAnalysisId: ID!
+  workedWellWithGroup: Boolean!
 }
 
 type CheckTextAnalysisPayload {
@@ -3300,10 +3303,10 @@ type TextAnalysis implements Assignment {
 }
 
 enum TextAnalysisCompletionEnum {
-  MAIN_IDEAS_AND_MARKUP
+  FULL_COMPLETION
   MAIN_IDEAS_ONLY
   MARKUP_ONLY
-  NOT_COMPLETE
+  NO_ATTEMPT
   PARTIAL_COMPLETION
 }
 

@@ -91,7 +91,7 @@ export const CreateTextAnalysis = mutationField('createTextAnalysis', {
         assigned: false,
         assignedDate,
         associatedLessonId,
-        textAnalysisCompletion: 'NOT_COMPLETE',
+        textAnalysisCompletion: 'PARTIAL_COMPLETION',
         dueDate,
         dueTime: assignedCourseInfo.endsAt,
         exempt: false,

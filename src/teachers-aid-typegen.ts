@@ -162,8 +162,11 @@ export interface NexusGenInputs {
     textSectionIds: string[]; // [String!]!
   }
   CheckTextAnalysisInput: { // input type
+    finishedEssentialQuestion: boolean; // Boolean!
+    startedPromptly: boolean; // Boolean!
     textAnalysisCompletion: NexusGenEnums['TextAnalysisCompletionEnum']; // TextAnalysisCompletionEnum!
     textAnalysisId: string; // ID!
+    workedWellWithGroup: boolean; // Boolean!
   }
   ControlCoolDownInput: { // input type
     academicOutcomeType: NexusGenEnums['AcademicOutcomeTypes']; // AcademicOutcomeTypes!
@@ -1266,7 +1269,7 @@ export interface NexusGenEnums {
   SchoolDayLengthEnum: "FULL" | "HALF" | "NINETY_MINUTE_DELAY" | "ONE_HOUR_DELAY"
   SchoolDayType: "A" | "AB" | "B"
   StudentCohortEnum: "RED" | "WHITE"
-  TextAnalysisCompletionEnum: "MAIN_IDEAS_AND_MARKUP" | "MAIN_IDEAS_ONLY" | "MARKUP_ONLY" | "NOT_COMPLETE" | "PARTIAL_COMPLETION"
+  TextAnalysisCompletionEnum: "FULL_COMPLETION" | "MAIN_IDEAS_ONLY" | "MARKUP_ONLY" | "NO_ATTEMPT" | "PARTIAL_COMPLETION"
   TimeOfDay: "AFTER_SCHOOL" | "BEFORE_CLASS" | "BEFORE_SCHOOL" | "END_OF_CLASS"
   TitleEnum: "MISS" | "MR" | "MRS" | "MS"
   VerbTypeEnum: "ACTION" | "BEING" | "FEELING" | "HAVING"
