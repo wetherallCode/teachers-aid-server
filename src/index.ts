@@ -53,7 +53,6 @@ const startServer = async () => {
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 365,
         path: '/',
-        // domain: 'https://mrwetherall.org',
         httpOnly: true,
         sameSite: 'none',
         secure: true,
@@ -64,14 +63,16 @@ const startServer = async () => {
       saveUninitialized: false,
     }) as any,
   )
-  // console.log('working')
+
+  app.use(express.static('build'))
+  app.use('*', express.static('build'))
+ 
   const MONGO_DB = process.env.DB_HOST
   const client = await MongoClient.connect(MONGO_DB as string, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   const db = client.db()
-
   const server = new ApolloServer({
     schema,
     introspection: true,
@@ -118,6 +119,7 @@ const startServer = async () => {
       }
     },
   })
+
 
   server.applyMiddleware({
     app,
