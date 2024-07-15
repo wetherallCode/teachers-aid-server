@@ -1,4 +1,5 @@
-import { enumType, objectType } from '@nexus/schema'
+import { objectType } from '@nexus/schema'
+import { TextAnalysisCompletionEnum } from './TextAnalysisCompletionEnum'
 
 export const TextAnalysis = objectType({
   name: 'TextAnalysis',
@@ -7,17 +8,7 @@ export const TextAnalysis = objectType({
     t.field('textAnalysisCompletion', { type: TextAnalysisCompletionEnum })
     t.boolean('finishedEssentialQuestion')
     t.boolean('workedWellWithGroup')
+    t.boolean('onTask')
     t.boolean('startedPromptly')
   },
-})
-
-export const TextAnalysisCompletionEnum = enumType({
-  name: 'TextAnalysisCompletionEnum',
-  members: [
-    'PARTIAL_COMPLETION',
-    'FULL_COMPLETION',
-    'NO_ATTEMPT',
-    'MAIN_IDEAS_ONLY',
-    'MARKUP_ONLY',
-  ],
 })

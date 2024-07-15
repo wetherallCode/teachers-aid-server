@@ -59,9 +59,7 @@ export const SubmitEssayFinalDraft = mutationField('submitEssayFinalDraft', {
       const submittedDateTime: string = submitTime
       const dueDateTime: string = `${essayCheck.dueDate}, ${essayCheck.dueTime}`
 
-      if (Date.parse(submittedDateTime) > Date.parse(dueDateTime)) {
-        return true
-      } else return false
+      return Date.parse(submittedDateTime) > Date.parse(dueDateTime);
     }
 
     if (paperBased === true) {

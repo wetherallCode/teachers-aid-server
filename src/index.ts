@@ -51,12 +51,13 @@ const startServer = async () => {
       secret: process.env.SESSION_SECRET as string,
       resave: false,
       cookie: {
-        maxAge: 1000 * 60 * 60 * 24,
-        // maxAge: 1000 * 60 * 90,
+        maxAge: 1000 * 60 * 60 * 24 * 365,
+        path: '/',
+        domain: 'mrwetherall.org',
         httpOnly: true,
         sameSite: 'none',
         secure: true,
-        // partitioned: true,
+        partitioned: true,
       },
 
       store: store,

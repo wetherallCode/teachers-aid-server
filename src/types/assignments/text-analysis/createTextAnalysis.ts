@@ -87,7 +87,8 @@ export const CreateTextAnalysis = mutationField('createTextAnalysis', {
       const newTextAnalysis: NexusGenRootTypes['TextAnalysis'] = {
         finishedEssentialQuestion: false,
         startedPromptly: false,
-        workedWellWithGroup: false,
+        workedWellWithGroup: true,
+        onTask: true,
         assigned: false,
         assignedDate,
         associatedLessonId,

@@ -163,6 +163,7 @@ export interface NexusGenInputs {
   }
   CheckTextAnalysisInput: { // input type
     finishedEssentialQuestion: boolean; // Boolean!
+    onTask: boolean; // Boolean!
     startedPromptly: boolean; // Boolean!
     textAnalysisCompletion: NexusGenEnums['TextAnalysisCompletionEnum']; // TextAnalysisCompletionEnum!
     textAnalysisId: string; // ID!
@@ -2529,6 +2530,7 @@ export interface NexusGenRootTypes {
     late: boolean; // Boolean!
     markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
     missing: boolean; // Boolean!
+    onTask: boolean; // Boolean!
     paperBased: boolean; // Boolean!
     readings: NexusGenRootTypes['Readings']; // Readings!
     score: NexusGenRootTypes['Score']; // Score!
@@ -4553,6 +4555,7 @@ export interface NexusGenFieldTypes {
     lessonInfo: NexusGenRootTypes['Lesson'] | null; // Lesson
     markingPeriod: NexusGenEnums['MarkingPeriodEnum']; // MarkingPeriodEnum!
     missing: boolean; // Boolean!
+    onTask: boolean; // Boolean!
     paperBased: boolean; // Boolean!
     readings: NexusGenRootTypes['Readings']; // Readings!
     score: NexusGenRootTypes['Score']; // Score!

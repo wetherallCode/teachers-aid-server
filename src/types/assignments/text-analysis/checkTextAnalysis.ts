@@ -1,5 +1,5 @@
 import { arg, inputObjectType, mutationField, objectType } from '@nexus/schema'
-import { TextAnalysisCompletionEnum } from './textAnalysis'
+import { TextAnalysisCompletionEnum } from './TextAnalysisCompletionEnum'
 import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
 import { ObjectId } from 'mongodb'
 
@@ -13,6 +13,7 @@ export const CheckTextAnalysisInput = inputObjectType({
     })
     t.boolean('finishedEssentialQuestion', { required: true })
     t.boolean('workedWellWithGroup', { required: true })
+    t.boolean('onTask', { required: true })
     t.boolean('startedPromptly', { required: true })
   },
 })
@@ -36,6 +37,7 @@ export const CheckTextAnalysis = mutationField('checkTextAnalysis', {
         finishedEssentialQuestion,
         workedWellWithGroup,
         startedPromptly,
+        onTask,
       },
     },
     { assignmentData, studentData },
@@ -49,8 +51,9 @@ export const CheckTextAnalysis = mutationField('checkTextAnalysis', {
       finishedEssentialQuestion ? groupWorkScore++ : groupWorkScore
       workedWellWithGroup ? groupWorkScore++ : groupWorkScore
       startedPromptly ? groupWorkScore++ : groupWorkScore
+      onTask ? groupWorkScore++ : groupWorkScore
 
-// TODO: Change Enum values
+      // TODO: Change Enum values
       let score =
         textAnalysisCompletion === 'FULL_COMPLETION'
           ? textAnalysis.score.maxPoints
@@ -62,7 +65,7 @@ export const CheckTextAnalysis = mutationField('checkTextAnalysis', {
                 ? textAnalysis.score.maxPoints * 0.2
                 : 0
       // TODO: figure out how to weight and score groupWorkScore and score with differing amounts of paragraphs
-     
+
       // update Responsibility Points for assignments that haven't been graded before
       if (textAnalysis.missing) {
         await studentData.updateOne(
@@ -75,6 +78,7 @@ export const CheckTextAnalysis = mutationField('checkTextAnalysis', {
           {
             $inc: {
               responsibilityPoints: textAnalysis.score.maxPoints + score,
+
             },
           },
         )

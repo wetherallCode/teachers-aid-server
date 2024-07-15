@@ -1,4 +1,5 @@
 export * from './textAnalysis'
+export * from './TextAnalysisCompletionEnum'
 export * from './createTextAnalysis'
 export * from './assignTextAnalyses'
 export * from './checkTextAnalysis'

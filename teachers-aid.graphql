@@ -414,6 +414,7 @@ type CheckQuizQuestionsForTextSectionsPayload {
 
 input CheckTextAnalysisInput {
   finishedEssentialQuestion: Boolean!
+  onTask: Boolean!
   startedPromptly: Boolean!
   textAnalysisCompletion: TextAnalysisCompletionEnum!
   textAnalysisId: ID!
@@ -3294,6 +3295,7 @@ type TextAnalysis implements Assignment {
   lessonInfo: Lesson
   markingPeriod: MarkingPeriodEnum!
   missing: Boolean!
+  onTask: Boolean!
   paperBased: Boolean!
   readings: Readings!
   score: Score!
