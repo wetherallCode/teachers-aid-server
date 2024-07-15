@@ -53,7 +53,7 @@ const startServer = async () => {
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 365,
         path: '/',
-        domain: 'mrwetherall.org',
+        // domain: 'https://mrwetherall.org',
         httpOnly: true,
         sameSite: 'none',
         secure: true,
