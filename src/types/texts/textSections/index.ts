@@ -1,5 +1,6 @@
 export * from './textSection'
 export * from './createTextSection'
+export * from './findParagraphCountByTextSectionId'
 export * from './findTextSectionById'
 export * from './findTextSectionsByChapter'
 export * from './changeVocabWord'
