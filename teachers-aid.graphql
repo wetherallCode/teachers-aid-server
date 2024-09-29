@@ -285,6 +285,7 @@ input AssignTextAnalysesInput {
   assignedDate: Date!
   associatedLessonId: ID!
   dueDate: Date!
+  readingSection: String!
   studentIds: [ID!]!
 }
 
@@ -813,6 +814,22 @@ input CreateSignInSheetsInput {
 
 type CreateSignInSheetsPayload {
   schoolDay: SchoolDay!
+}
+
+input CreateSpecialAssignmentInput {
+  assignedCourseIds: [ID!]!
+  assignedDate: String!
+  dueDate: String!
+  dueTime: TimeOfDay!
+  hasAssignerId: String!
+  markingPeriod: MarkingPeriodEnum!
+  maxPoints: Int!
+  questionAndAnswerList: QuestionAndAnswerListInput!
+  readings: ReadingsInput!
+}
+
+type CreateSpecialAssignmentPayload {
+  specialAssignments: [SpecialAssignment!]!
 }
 
 input CreateStudentBehaviorInput {
@@ -1473,6 +1490,14 @@ input FindLessonStatusInput {
 
 type FindLessonStatusPayload {
   lesson: Lesson!
+}
+
+input FindParagraphCountByTextSectionIdInput {
+  sectionIds: [String!]!
+}
+
+type FindParagraphCountByTextSectionIdPayload {
+  paragraphCount: Int!
 }
 
 input FindParentContactsByTeacherIdInput {
@@ -2136,6 +2161,7 @@ type Mutation {
   createSchoolDay(input: CreateSchoolDayInput!): CreateSchoolDayPayload!
   createSchoolDayTracker: CreateSchoolDayTrackerPayload!
   createSignInSheets(input: CreateSignInSheetsInput!): CreateSignInSheetsPayload!
+  createSpecialAssignment(input: CreateSpecialAssignmentInput!): CreateSpecialAssignmentPayload!
   createStudentBehavior(input: CreateStudentBehaviorInput!): CreateStudentBehaviorPayload!
   createStudentOutOfClass(input: CreateStudentOutOfClassInput!): CreateStudentOutOfClassPayload!
   createStudentQuestion(input: CreateStudentQuestionInput!): CreateStudentQuestionPayload!
@@ -2422,6 +2448,7 @@ type Query {
   findLessonsByAssignedDate(input: FindLessonsByAssignedDateInput!): FindLessonsByAssignedDatePayload!
   findLessonsByUnit(input: FindLessonsByUnitInput!): FindLessonsByUnitPayload!
   findLessonStatus(input: FindLessonStatusInput!): FindLessonStatusPayload!
+  findParagraphCountByTextSectionId(input: FindParagraphCountByTextSectionIdInput!): FindParagraphCountByTextSectionIdPayload!
   findParentContactsByTeacherId(input: FindParentContactsByTeacherIdInput!): FindParentContactsByTeacherIdPayload!
   findProtocolsByDate(input: FindProtocolResponsesInput!): FindProtocolResponsesPayload!
   findQuizById(input: FindQuizByIdInput!): FindQuizByIdPayload!

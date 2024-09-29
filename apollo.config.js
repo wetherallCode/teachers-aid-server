@@ -1,5 +1,5 @@
 module.exports = {
-  service: {
-    name: 'teachers-aid-server',
+  client: {
+    service: 'teachers-aid-server',
   },
 }
