@@ -8,10 +8,8 @@ export const Me = queryField('me', {
   async resolve(_, __, { req, userData }) {
     if (!req.session.userId) return null
 
-    const me = await userData.findOne({
+    return await userData.findOne({
       _id: new ObjectID(req.session.userId),
     })
-
-    return me
   },
 })

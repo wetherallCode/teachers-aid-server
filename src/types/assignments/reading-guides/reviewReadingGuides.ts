@@ -1,8 +1,7 @@
-import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
+import { arg, inputObjectType, mutationField, objectType } from '@nexus/schema'
 import { ObjectId } from 'mongodb'
 import { ReadingGuideReviewOptionsEnum } from '.'
 import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
-import { Student } from '../../students'
 
 export const ReviewReadingGuidesInput = inputObjectType({
   name: 'ReviewReadingGuidesInput',
@@ -25,7 +24,7 @@ export const ReviewReadingGuides = mutationField('reviewReadingGuides', {
   async resolve(
     _,
     { input: { readingGuideId, effort } },
-    { assignmentData, studentData }
+    { assignmentData, studentData },
   ) {
     const readingGuideValidation: NexusGenRootTypes['ReadingGuide'] =
       await assignmentData.findOne({
@@ -35,16 +34,16 @@ export const ReviewReadingGuides = mutationField('reviewReadingGuides', {
     if (readingGuideValidation) {
       const effortPoints = (points: number) =>
         effort === 'GOOD_EFFORT'
-          ? points * 1
+          ? points
           : effort === 'SOME_EFFORT'
-          ? points * 0.75
-          : effort === 'LITTLE_EFFORT'
-          ? points * 0.5
-          : effort === 'DID_NOT_ANSWER_QUESTIONS_CORRECTLY'
-          ? points * 0.25
-          : effort === 'OFF_TOPIC'
-          ? points * 0.1
-          : 0
+            ? points * 0.75
+            : effort === 'LITTLE_EFFORT'
+              ? points * 0.5
+              : effort === 'DID_NOT_ANSWER_QUESTIONS_CORRECTLY'
+                ? points * 0.25
+                : effort === 'OFF_TOPIC'
+                  ? points * 0.1
+                  : 0
 
       const { modifiedCount: progressTrackerModifiedCount } =
         await studentData.updateOne(
@@ -52,7 +51,7 @@ export const ReviewReadingGuides = mutationField('reviewReadingGuides', {
             'student._id': new ObjectId(readingGuideValidation.hasOwner._id!),
             readingGuideProgressTracker: { $exists: true },
           },
-          { $inc: { 'readingGuideProgressTracker.levelPoints': 1 } }
+          { $inc: { 'readingGuideProgressTracker.levelPoints': 1 } },
         )
 
       const student: NexusGenRootTypes['ProgressTracker'] =
@@ -63,7 +62,7 @@ export const ReviewReadingGuides = mutationField('reviewReadingGuides', {
 
       const { levelPoints } = student.readingGuideProgressTracker
 
-      if (levelPoints >= 5 && levelPoints < 15) {
+      if (levelPoints >= 10 && levelPoints < 25) {
         await studentData.updateOne(
           {
             'student._id': new ObjectId(readingGuideValidation.hasOwner._id!),
@@ -73,10 +72,10 @@ export const ReviewReadingGuides = mutationField('reviewReadingGuides', {
             $set: {
               'readingGuideProgressTracker.readingGuideLevel': 'DEVELOPING',
             },
-          }
+          },
         )
       }
-      if (levelPoints >= 15 && levelPoints < 30) {
+      if (levelPoints >= 25 && levelPoints < 40) {
         await studentData.updateOne(
           {
             'student._id': new ObjectId(readingGuideValidation.hasOwner._id!),
@@ -86,10 +85,10 @@ export const ReviewReadingGuides = mutationField('reviewReadingGuides', {
             $set: {
               'readingGuideProgressTracker.readingGuideLevel': 'ACADEMIC',
             },
-          }
+          },
         )
       }
-      if (levelPoints >= 30 && levelPoints < 50) {
+      if (levelPoints >= 40 && levelPoints < 60) {
         await studentData.updateOne(
           {
             'student._id': new ObjectId(readingGuideValidation.hasOwner._id!),
@@ -99,10 +98,10 @@ export const ReviewReadingGuides = mutationField('reviewReadingGuides', {
             $set: {
               'readingGuideProgressTracker.readingGuideLevel': 'ADVANCED',
             },
-          }
+          },
         )
       }
-      if (levelPoints >= 50) {
+      if (levelPoints >= 60) {
         await studentData.updateOne(
           {
             'student._id': new ObjectId(readingGuideValidation.hasOwner._id!),
@@ -112,7 +111,7 @@ export const ReviewReadingGuides = mutationField('reviewReadingGuides', {
             $set: {
               'readingGuideProgressTracker.readingGuideLevel': 'MASTER',
             },
-          }
+          },
         )
       }
 
@@ -121,15 +120,15 @@ export const ReviewReadingGuides = mutationField('reviewReadingGuides', {
         {
           $set: {
             'score.earnedPoints': effortPoints(
-              readingGuideValidation.score.maxPoints
+              readingGuideValidation.score.maxPoints,
             ),
             'effort': effort,
             reviewed: true,
             'readingGuideFinal.responsibilityPoints': effortPoints(
-              readingGuideValidation.readingGuideFinal?.responsibilityPoints!!
+              readingGuideValidation.readingGuideFinal?.responsibilityPoints!!,
             ),
           },
-        }
+        },
       )
 
       studentData.updateOne(
@@ -144,13 +143,13 @@ export const ReviewReadingGuides = mutationField('reviewReadingGuides', {
             responsibilityPoints:
               -readingGuideValidation.readingGuideFinal?.responsibilityPoints! +
               effortPoints(
-                readingGuideValidation.readingGuideFinal?.responsibilityPoints!
+                readingGuideValidation.readingGuideFinal?.responsibilityPoints!,
               ),
           },
-        }
+        },
       )
 
-      return { reviewed: modifiedCount === 1 ? true : false }
+      return { reviewed: modifiedCount === 1 }
     } else throw new Error('Reading Guide Does Not Exist!')
   },
 })

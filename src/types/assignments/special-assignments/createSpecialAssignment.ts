@@ -1,11 +1,7 @@
-import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
+import { arg, inputObjectType, mutationField, objectType } from '@nexus/schema'
 import { ObjectId } from 'mongodb'
 import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
-import {
-  QuestionAndAnswerListInput,
-  SpecialAssignment,
-  TimeOfDayEnum,
-} from '..'
+import { QuestionAndAnswerListInput, SpecialAssignment, TimeOfDayEnum } from '..'
 import { MarkingPeriodEnum } from '../../general'
 
 export const CreateSpecialAssignmentInput = inputObjectType({
@@ -54,7 +50,7 @@ export const CreateSpecialAssignment = mutationField(
           assignedDate,
         },
       },
-      { assignmentData, userData, courseData }
+      { assignmentData, userData, courseData },
     ) {
       assignmentData
 
@@ -94,6 +90,7 @@ export const CreateSpecialAssignment = mutationField(
           }
           return '8:00:00 AM'
         }
+
         const newSpecialAssignment: NexusGenRootTypes['SpecialAssignment'] = {
           assigned: false,
           assignedDate,
@@ -116,13 +113,13 @@ export const CreateSpecialAssignment = mutationField(
           score: { earnedPoints: 0, maxPoints },
         }
         const { insertedId } = await assignmentData.insertOne(
-          newSpecialAssignment
+          newSpecialAssignment,
         )
         newSpecialAssignment._id = insertedId
         newSpecialAssignments.push(newSpecialAssignment)
       }
 
-      return { SpecialAssignment: newSpecialAssignments }
+      return { specialAssignments: newSpecialAssignments }
     },
-  }
+  },
 )

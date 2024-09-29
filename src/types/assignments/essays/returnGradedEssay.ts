@@ -1,7 +1,7 @@
-import { inputObjectType, objectType, mutationField, arg } from '@nexus/schema'
+import { arg, inputObjectType, mutationField, objectType } from '@nexus/schema'
 import { Essay } from '.'
 import { ObjectID, ObjectId } from 'mongodb'
-import { RubricEntryInput, RubricSectionEnum } from './rubrics'
+import { RubricSectionEnum } from './rubrics'
 
 import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
 
@@ -53,7 +53,7 @@ export const ReturnGradedEssay = mutationField('returnGradedEssay', {
         draftNumber,
       },
     },
-    { assignmentData, studentData }
+    { assignmentData, studentData },
   ) {
     const essay: NexusGenRootTypes['Essay'] = await assignmentData.findOne({
       _id: new ObjectID(_id),
@@ -68,17 +68,18 @@ export const ReturnGradedEssay = mutationField('returnGradedEssay', {
           $set: {
             'score.earnedPoints': score,
           },
-        }
+        },
       )
     }
     console.log(
-      rubricEntries.find((entry) => entry._id === '5f8ebe9a31fb5c0025be5100')
+      rubricEntries.find((entry) => entry._id === '5f8ebe9a31fb5c0025be5100'),
     )
 
     // .find(
     //   (entry) =>
     //     new ObjectId(entry._id!) === new ObjectId('5f8ebe9a31fb5c0025be5100')
     // )
+
     //if student plagiarized from another student then they automatically lose 10 rp
     if (
       rubricEntries.find((entry) => entry._id === '5f8ebe9a31fb5c0025be5100')
@@ -94,7 +95,7 @@ export const ReturnGradedEssay = mutationField('returnGradedEssay', {
           $inc: {
             responsibilityPoints: -10,
           },
-        }
+        },
       )
     }
 
@@ -116,7 +117,7 @@ export const ReturnGradedEssay = mutationField('returnGradedEssay', {
           $set: {
             'writingProgressTracker.levelPoints': levelPoints + score,
           },
-        }
+        },
       )
 
       if (levelPoints > 30) {
@@ -129,7 +130,7 @@ export const ReturnGradedEssay = mutationField('returnGradedEssay', {
             $set: {
               'writingProgressTracker.overallWritingLevel': 'ACADEMIC',
             },
-          }
+          },
         )
       }
 
@@ -137,7 +138,7 @@ export const ReturnGradedEssay = mutationField('returnGradedEssay', {
         { _id: new ObjectId(_id) },
         {
           $set: { leveledUp: true },
-        }
+        },
       )
     }
 
@@ -148,7 +149,7 @@ export const ReturnGradedEssay = mutationField('returnGradedEssay', {
           'finalDraft.returned': true,
           'finalDraft.submitted': false,
         },
-      }
+      },
     )
     await assignmentData.updateOne(
       {
@@ -162,11 +163,11 @@ export const ReturnGradedEssay = mutationField('returnGradedEssay', {
           'finalDraft.submittedFinalDraft.$.draft': gradingDraft,
           'finalDraft.submittedFinalDraft.$.rubricEntries': rubricEntries,
           'finalDraft.submittedFinalDraft.$.additionalComments':
-            additionalComments,
+          additionalComments,
           'finalDraft.submittedFinalDraft.$.score': score,
           'finalDraft.submittedFinalDraft.$.graded': true,
         },
-      }
+      },
     )
 
     const returnedEssay = await assignmentData.findOne({

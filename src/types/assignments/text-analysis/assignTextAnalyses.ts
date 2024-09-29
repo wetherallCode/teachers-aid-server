@@ -1,4 +1,4 @@
-import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
+import { arg, inputObjectType, mutationField, objectType } from '@nexus/schema'
 import { ObjectId } from 'mongodb'
 import { NexusGenRootTypes } from '../../../teachers-aid-typegen'
 
@@ -9,6 +9,7 @@ export const AssignTextAnalysesInput = inputObjectType({
     t.id('associatedLessonId', { required: true })
     t.date('assignedDate', { required: true })
     t.date('dueDate', { required: true })
+    t.string('readingSection', { required: true })
   },
 })
 
@@ -25,22 +26,30 @@ export const AssignTextAnalyses = mutationField('assignTextAnalyses', {
   args: { input: arg({ type: AssignTextAnalysesInput, required: true }) },
   async resolve(
     _,
-    { input: { studentIds, associatedLessonId, assignedDate, dueDate } },
-    { assignmentData, studentData }
+    {
+      input: {
+        studentIds,
+        associatedLessonId,
+        readingSection,
+        assignedDate,
+        dueDate,
+      },
+    },
+    { assignmentData, studentData },
   ) {
     let modifiedTextAnalysesCount = 0
     for (const _id of studentIds) {
       const textAnalysisValidation: NexusGenRootTypes['TextAnalysis'] =
         await assignmentData.findOne({
           'hasOwner._id': new ObjectId(_id),
-          associatedLessonId,
+          'readings.readingSections': readingSection,
           textAnalysisCompletion: { $exists: true },
         })
       if (textAnalysisValidation) {
         const { modifiedCount } = await assignmentData.updateOne(
           {
             'hasOwner._id': new ObjectId(_id),
-            associatedLessonId,
+            'readings.readingSections': readingSection,
             textAnalysisCompletion: { $exists: true },
           },
           {
@@ -48,8 +57,9 @@ export const AssignTextAnalyses = mutationField('assignTextAnalyses', {
               dueDate,
               assignedDate,
               assigned: true,
+              associatedLessonId,
             },
-          }
+          },
         )
         modifiedCount && modifiedTextAnalysesCount + 1
         await studentData.updateOne(
@@ -63,12 +73,12 @@ export const AssignTextAnalyses = mutationField('assignTextAnalyses', {
             $inc: {
               responsibilityPoints: -textAnalysisValidation.score.maxPoints,
             },
-          }
+          },
         )
       }
     }
     return {
-      assigned: modifiedTextAnalysesCount === studentIds.length ? true : false,
+      assigned: modifiedTextAnalysesCount === studentIds.length,
     }
   },
 })
