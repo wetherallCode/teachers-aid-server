@@ -25,7 +25,7 @@ export const ModifyLessonDateByOriginalDate = mutationField(
     async resolve(
       _,
       { input: { originalDate, newAssignedDate } },
-      { lessonData }
+      { lessonData },
     ) {
       const lessons = await lessonData
         .find({ assignedDate: originalDate })
@@ -35,9 +35,9 @@ export const ModifyLessonDateByOriginalDate = mutationField(
         {
           assignedDate: originalDate,
         },
-        { $set: { assignedDate: newAssignedDate } }
+        { $set: { assignedDate: newAssignedDate } },
       )
       return { updated: lessons.length === modifiedCount ? true : false }
     },
-  }
+  },
 )
