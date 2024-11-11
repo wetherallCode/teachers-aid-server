@@ -29,10 +29,15 @@ export const FindTextAnalysesByCourseIdAndDueDate = queryField(
     },
     async resolve(_, { input: { courseId, dueDate } }, { assignmentData }) {
       const textAnalyses = await assignmentData
-        .find({ 'hasOwner.inCourses': new ObjectId(courseId), dueDate })
+        .find({
+          'hasOwner.inCourses._id': new ObjectId(courseId),
+          textAnalysisCompletion: { $exists: true },
+          dueDate,
+        })
         .toArray()
 
+      console.log(courseId, dueDate)
       return { textAnalyses }
     },
-  }
+  },
 )

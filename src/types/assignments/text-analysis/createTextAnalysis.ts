@@ -66,7 +66,9 @@ export const CreateTextAnalysis = mutationField('createTextAnalysis', {
     const textAnalyses: NexusGenRootTypes['TextAnalysis'][] = []
 
     for (const student of studentList) {
-      const studentCoursesIds = student.inCourses.map((course: NexusGenRootTypes['Course']) => course._id)
+      const studentCoursesIds = student.inCourses.map(
+        (course: NexusGenRootTypes['Course']) => course._id,
+      )
       const teacherCoursesIds = assigner.teachesCourses.map(
         (course) => course._id,
       )
@@ -86,7 +88,7 @@ export const CreateTextAnalysis = mutationField('createTextAnalysis', {
 
       const newTextAnalysis: NexusGenRootTypes['TextAnalysis'] = {
         finishedEssentialQuestion: false,
-        startedPromptly: false,
+        startedPromptly: true,
         workedWellWithGroup: true,
         onTask: true,
         assigned: false,
@@ -97,7 +99,7 @@ export const CreateTextAnalysis = mutationField('createTextAnalysis', {
         dueTime: assignedCourseInfo.endsAt,
         exempt: false,
         paperBased: true,
-        missing: true,
+        missing: false,
         markingPeriod,
         gradeType: 'SECONDARY',
         hasAssigner: assigner,

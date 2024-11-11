@@ -416,6 +416,7 @@ type CheckQuizQuestionsForTextSectionsPayload {
 input CheckTextAnalysisInput {
   finishedEssentialQuestion: Boolean!
   onTask: Boolean!
+  paragraphCount: Int!
   startedPromptly: Boolean!
   textAnalysisCompletion: TextAnalysisCompletionEnum!
   textAnalysisId: ID!
@@ -1143,6 +1144,14 @@ input ExemptArticleReviewInput {
 
 type ExemptArticleReviewPayload {
   articleReview: ArticleReview!
+}
+
+input ExemptTextAnalysisByIdInput {
+  textAnalysisId: ID!
+}
+
+type ExemptTextAnalysisByIdPayload {
+  updated: Boolean!
 }
 
 type FinalDraftContainer {
@@ -2189,6 +2198,7 @@ type Mutation {
   editBehaviorTypes(input: EditBehaviorTypesInput!): EditBehaviorTypesPayload!
   emergencyModification: EmergencyModificationPayload!
   exemptArticleReview(input: ExemptArticleReviewInput!): ExemptArticleReviewPayload!
+  exemptTextAnalysisById(input: ExemptTextAnalysisByIdInput!): ExemptTextAnalysisByIdPayload!
   finishProtocol(input: FinishProtocolInput!): FinishProtocolPayload!
   finishQuiz(input: FinishQuizInput!): FinishQuizPayload!
   fixEssayByEssayId: FixEssayByEssayIdPayload!

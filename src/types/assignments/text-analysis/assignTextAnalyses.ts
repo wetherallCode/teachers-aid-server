@@ -38,6 +38,7 @@ export const AssignTextAnalyses = mutationField('assignTextAnalyses', {
     { assignmentData, studentData },
   ) {
     let modifiedTextAnalysesCount = 0
+
     for (const _id of studentIds) {
       const textAnalysisValidation: NexusGenRootTypes['TextAnalysis'] =
         await assignmentData.findOne({
@@ -45,6 +46,7 @@ export const AssignTextAnalyses = mutationField('assignTextAnalyses', {
           'readings.readingSections': readingSection,
           textAnalysisCompletion: { $exists: true },
         })
+
       if (textAnalysisValidation) {
         const { modifiedCount } = await assignmentData.updateOne(
           {
@@ -71,7 +73,7 @@ export const AssignTextAnalyses = mutationField('assignTextAnalyses', {
           },
           {
             $inc: {
-              responsibilityPoints: -textAnalysisValidation.score.maxPoints,
+              // responsibilityPoints: -textAnalysisValidation.score.maxPoints,
             },
           },
         )

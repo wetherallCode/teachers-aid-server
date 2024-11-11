@@ -31,8 +31,9 @@ export const FindTextAnalysisByStudentIdAndDueDate = queryField(
       const textAnalysis = await assignmentData.findOne({
         'hasOwner._id': new ObjectId(studentId),
         dueDate,
+        textAnalysisCompletion: { $exists: true },
       })
       return { textAnalysis }
     },
-  }
+  },
 )

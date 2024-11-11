@@ -15,6 +15,7 @@ export const CheckTextAnalysisInput = inputObjectType({
     t.boolean('workedWellWithGroup', { required: true })
     t.boolean('onTask', { required: true })
     t.boolean('startedPromptly', { required: true })
+    t.int('paragraphCount', { required: true })
   },
 })
 
@@ -38,6 +39,7 @@ export const CheckTextAnalysis = mutationField('checkTextAnalysis', {
         workedWellWithGroup,
         startedPromptly,
         onTask,
+        paragraphCount,
       },
     },
     { assignmentData, studentData },
@@ -48,25 +50,34 @@ export const CheckTextAnalysis = mutationField('checkTextAnalysis', {
     if (textAnalysis) {
       let groupWorkScore = 0
 
-      finishedEssentialQuestion ? groupWorkScore++ : groupWorkScore
+      // finishedEssentialQuestion ? groupWorkScore++ : groupWorkScore
       workedWellWithGroup ? groupWorkScore++ : groupWorkScore
       startedPromptly ? groupWorkScore++ : groupWorkScore
       onTask ? groupWorkScore++ : groupWorkScore
 
+      finishedEssentialQuestion
+      const normalizedGroupWorkScore = 1
+      // console.log(groupWorkScore / 3 / textAnalysis.score.maxPoints)
       // TODO: Change Enum values
       let score =
         textAnalysisCompletion === 'FULL_COMPLETION'
-          ? textAnalysis.score.maxPoints
+          ? textAnalysis.score.maxPoints * normalizedGroupWorkScore
           : textAnalysisCompletion === 'PARTIAL_COMPLETION'
-            ? textAnalysis.score.maxPoints * 0.6
-            : textAnalysisCompletion === 'MAIN_IDEAS_ONLY'
-              ? textAnalysis.score.maxPoints * 0.4
-              : textAnalysisCompletion === 'MARKUP_ONLY'
-                ? textAnalysis.score.maxPoints * 0.2
-                : 0
+          ? textAnalysis.score.maxPoints * 0.9 * normalizedGroupWorkScore
+          : textAnalysisCompletion === 'MAIN_IDEAS_ONLY'
+          ? textAnalysis.score.maxPoints * 0.7 * normalizedGroupWorkScore
+          : textAnalysisCompletion === 'MARKUP_ONLY'
+          ? textAnalysis.score.maxPoints * 0.6 * normalizedGroupWorkScore
+          : 0
       // TODO: figure out how to weight and score groupWorkScore and score with differing amounts of paragraphs
-
+      // score = score * paragraphCount
       // update Responsibility Points for assignments that haven't been graded before
+      const pointsOff = score * 0.1
+
+      !workedWellWithGroup ? (score = score - pointsOff) : score
+      !startedPromptly ? (score = score - pointsOff) : score
+      !onTask ? (score = score - pointsOff) : score
+
       if (textAnalysis.missing) {
         await studentData.updateOne(
           {
@@ -77,8 +88,7 @@ export const CheckTextAnalysis = mutationField('checkTextAnalysis', {
           },
           {
             $inc: {
-              responsibilityPoints: textAnalysis.score.maxPoints + score,
-
+              responsibilityPoints: paragraphCount * 2,
             },
           },
         )
@@ -90,6 +100,9 @@ export const CheckTextAnalysis = mutationField('checkTextAnalysis', {
         {
           $set: {
             textAnalysisCompletion,
+            startedPromptly,
+            onTask,
+            workedWellWithGroup,
             missing: false,
             late: false,
             'score.earnedPoints': score,
