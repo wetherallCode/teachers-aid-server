@@ -31,7 +31,7 @@ export const FindReadingGuidesByCourseIdAndAssignedDate = queryField(
     async resolve(
       _,
       { input: { courseId, assignedDate } },
-      { assignmentData }
+      { assignmentData },
     ) {
       const readingGuides: NexusGenRootTypes['ReadingGuide'][] =
         await assignmentData
@@ -41,10 +41,11 @@ export const FindReadingGuidesByCourseIdAndAssignedDate = queryField(
             workingDraft: { $exists: false },
             articleTitle: { $exists: false },
             quizzableSections: { $exists: false },
+            textAnalysisCompletion: { $exists: false },
           })
           .toArray()
 
       return { readingGuides }
     },
-  }
+  },
 )
