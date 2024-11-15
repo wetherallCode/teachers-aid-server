@@ -33,11 +33,12 @@ export const FindReadingGuidesByReadingSection = queryField(
             'readings.readingSections': readingSections,
             workingDraft: { $exists: false },
             quizzableSections: { $exists: false },
+            textAnalysisCompletion: { $exists: false },
             completed: true,
           })
           .toArray()
 
       return { readingGuides }
     },
-  }
+  },
 )

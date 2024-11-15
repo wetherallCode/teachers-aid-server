@@ -26,10 +26,11 @@ export const AddFieldsToReadingGuide = mutationField(
         {
           workingDraft: { $exists: false },
           quizzableSections: { $exists: false },
+          textAnalysisCompletion: { $exists: false },
         },
-        { $set: { effort: 'GOOD_EFFORT' } }
+        { $set: { effort: 'GOOD_EFFORT' } },
       )
       return { added: true }
     },
-  }
+  },
 )

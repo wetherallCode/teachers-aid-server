@@ -30,16 +30,17 @@ export const FindReadingGuideByUserIdAndReadingSection = queryField(
     async resolve(
       _,
       { input: { studentId, readingSections } },
-      { assignmentData }
+      { assignmentData },
     ) {
       const readingGuide = await assignmentData.findOne({
         'hasOwner._id': new ObjectId(studentId),
         'readings.readingSections': readingSections,
         quizzableSections: { $exists: false },
+        textAnalysisCompletion: { $exists: false },
         workingDraft: { $exists: false },
       })
 
       return { readingGuide }
     },
-  }
+  },
 )

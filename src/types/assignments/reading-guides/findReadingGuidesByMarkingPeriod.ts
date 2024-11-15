@@ -33,6 +33,7 @@ export const FindReadingGuidesByMarkingPeriod = queryField(
           markingPeriod,
           workingDraft: { $exists: false },
           quizzableSections: { $exists: false },
+          textAnalysisCompletion: { $exists: false },
           reviewed: false,
           completed: true,
         })
@@ -41,5 +42,5 @@ export const FindReadingGuidesByMarkingPeriod = queryField(
       // console.log(new Date().toISOString().substring(17, 23))
       return { readingGuides }
     },
-  }
+  },
 )

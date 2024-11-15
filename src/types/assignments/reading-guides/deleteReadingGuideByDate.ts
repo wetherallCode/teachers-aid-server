@@ -26,10 +26,11 @@ export const DeleteReadingGuideByDate = mutationField(
         assignedDate,
         quizzableSections: { $exists: false },
         workingDraft: { $exists: false },
+        textAnalysisCompletion: { $exists: false },
       })
 
       console.log(deletedCount)
       return { deletedCount }
     },
-  }
+  },
 )

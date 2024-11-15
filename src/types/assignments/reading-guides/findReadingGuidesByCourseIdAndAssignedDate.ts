@@ -44,7 +44,7 @@ export const FindReadingGuidesByCourseIdAndAssignedDate = queryField(
             textAnalysisCompletion: { $exists: false },
           })
           .toArray()
-
+      console.log(readingGuides)
       return { readingGuides }
     },
   },
