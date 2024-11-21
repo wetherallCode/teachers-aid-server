@@ -64,10 +64,12 @@ export const CheckTextAnalysis = mutationField('checkTextAnalysis', {
           ? textAnalysis.score.maxPoints * normalizedGroupWorkScore
           : textAnalysisCompletion === 'PARTIAL_COMPLETION'
           ? textAnalysis.score.maxPoints * 0.9 * normalizedGroupWorkScore
-          : textAnalysisCompletion === 'MAIN_IDEAS_ONLY'
-          ? textAnalysis.score.maxPoints * 0.7 * normalizedGroupWorkScore
-          : textAnalysisCompletion === 'MARKUP_ONLY'
+          : textAnalysisCompletion === 'MINOR_COMPLETION'
           ? textAnalysis.score.maxPoints * 0.6 * normalizedGroupWorkScore
+          : textAnalysisCompletion === 'MAIN_IDEAS_ONLY'
+          ? textAnalysis.score.maxPoints * 0.6 * normalizedGroupWorkScore
+          : textAnalysisCompletion === 'MARKUP_ONLY'
+          ? textAnalysis.score.maxPoints * 0.5 * normalizedGroupWorkScore
           : 0
       // TODO: figure out how to weight and score groupWorkScore and score with differing amounts of paragraphs
       // score = score * paragraphCount
