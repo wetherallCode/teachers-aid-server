@@ -2263,6 +2263,7 @@ type Mutation {
   updateAcademicOrganizer(input: UpdateAcademicOrganizerInput!): UpdateAcademicOrganizerPayload!
   updateAdvancedOrganizer(input: UpdateAdvancedOrganizerInput!): UpdateAdvancedOrganizerPayload!
   updateArticleReview(input: UpdateArticleReviewInput!): UpdateArticleReviewPayload!
+  updateAssignmentLock(input: UpdateAssignmentLockInput!): UpdateAssignmentLockPayload!
   updateCourseInfo(input: UpdateCourseInfoInput!): UpdateCourseInfoPayload!
   updateDevelopingOrganizer(input: UpdateDevelopingOrganizerInput!): UpdateDevelopingOrganizerPayload!
   UpdateDynamicLesson(input: UpdateDynamicLessonInput!): UpdateDynamicLessonPayload!
@@ -3070,6 +3071,7 @@ type Student implements User {
   firstName: String!
   hasAbsences: [StudentAbsence!]!
   hasAssignments: [Assignment!]!
+  hasAssignmentsLocked: Boolean
   hasBehaviors: [StudentBehavior!]!
   hasContactInformation: StudentInformation!
   hasExcusedLatenesses: [ExcusedLateness!]!
@@ -3543,6 +3545,14 @@ input UpdateArticleReviewInput {
 
 type UpdateArticleReviewPayload {
   articleReview: ArticleReview!
+}
+
+input UpdateAssignmentLockInput {
+  studentId: ID!
+}
+
+type UpdateAssignmentLockPayload {
+  updated: Boolean!
 }
 
 input UpdateCourseInfoInput {
