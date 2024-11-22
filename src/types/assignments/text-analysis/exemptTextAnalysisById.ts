@@ -25,11 +25,11 @@ export const ExemptTextAnalysisById = mutationField('exemptTextAnalysisById', {
         _id: new ObjectId(textAnalysisId),
       })
     if (textAnalysis) {
-      await assignmentData.updateMany(
+      const { modifiedCount } = await assignmentData.updateMany(
         { _id: new ObjectId(textAnalysisId) },
         { $set: { exempt: !textAnalysis.exempt } },
       )
-      return { updated: true }
+      return { updated: modifiedCount === 1 }
     } else throw new Error('TextAnalysis Not Found')
   },
 })
