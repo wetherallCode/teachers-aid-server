@@ -20,12 +20,11 @@ export const UpdateAssignmentLock = mutationField('updateAssignmentLock', {
   args: { input: arg({ type: UpdateAssignmentLockInput, required: true }) },
   async resolve(_, { input: { studentId } }, { userData }) {
     const student = await userData.findOne({ _id: new ObjectId(studentId) })
-
     const { modifiedCount } = await userData.updateOne(
       {
         _id: new ObjectId(studentId),
       },
-      { $set: { assignmentLock: !student.assignmentLock } },
+      { $set: { hasAssignmentsLocked: !student.hasAssignmentsLocked } },
     )
     return { updated: modifiedCount === 1 }
   },
