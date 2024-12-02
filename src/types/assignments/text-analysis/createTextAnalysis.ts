@@ -108,7 +108,7 @@ export const CreateTextAnalysis = mutationField('createTextAnalysis', {
           _id: new ObjectId(student._id!),
         }),
         //set initial score to 1.8 as an initial value
-        score: { earnedPoints: 1.8, maxPoints },
+        score: { earnedPoints: maxPoints * 0.9, maxPoints },
         late: false,
         readings,
       }
