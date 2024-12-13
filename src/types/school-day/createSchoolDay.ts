@@ -33,7 +33,7 @@ export const CreateSchoolDay = mutationField('createSchoolDay', {
         schoolDayLength,
       },
     },
-    { schoolDayData, userdata },
+    { schoolDayData, userData },
   ) {
     const newSchoolDay: NexusGenRootTypes['SchoolDay'] = {
       cohortWeek,
@@ -56,11 +56,11 @@ export const CreateSchoolDay = mutationField('createSchoolDay', {
         },
       },
     )
-    await userdata.updateMany(
+    const { modifiedCount } = await userData.updateMany(
       { hasAssignmentsLocked: false },
       { $set: { hasAssignmentsLocked: true } },
     )
-
+    console.log(modifiedCount)
     return { schoolDay: newSchoolDay }
   },
 })
