@@ -1910,6 +1910,17 @@ input HasOwnerInput {
   ownerUserName: String
 }
 
+input HomeworkPassInput {
+  assignmentId: ID!
+  assignmentType: String!
+  markingPeriod: MarkingPeriodEnum!
+  ownerId: ID!
+}
+
+type HomeworkPassPayload {
+  success: Boolean!
+}
+
 type HowCauseEffectAnswerType {
   after: String!
   before: String!
@@ -2205,6 +2216,7 @@ type Mutation {
   forceFinishQuiz(input: ForceFinishQuizInput!): ForceFinishQuizPayload!
   gradeArticleReview(input: GradeArticleReviewInput!): GradeArticleReviewPayload!
   gradeTemporaryTask(input: GradeTemporaryTaskInput!): GradeTemporaryTaskPayload!
+  homeworkPass(input: HomeworkPassInput!): HomeworkPassPayload!
   initializeStudents(input: InitializeStudentsInput!): InitializeStudentsPayload!
   login(input: LoginInput!): LoginPayload!
   logout: Boolean!
