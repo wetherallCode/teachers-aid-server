@@ -1,11 +1,9 @@
 import { objectType, inputObjectType, arg, mutationField } from '@nexus/schema'
-import e = require('cors')
-import { ObjectId } from 'mongodb'
-import { NetworkInterfaceBase } from 'os'
 import { MarkingPeriodEnum } from '../general'
+import { ObjectId } from 'mongodb'
 
-export const HomeworkPassInput = inputObjectType({
-  name: 'HomeworkPassInput',
+export const UndoHomeworkPassInput = inputObjectType({
+  name: 'UndoHomeworkPassInput',
   definition(t) {
     t.id('assignmentId', { required: true })
     t.id('ownerId', { required: true })
@@ -14,31 +12,27 @@ export const HomeworkPassInput = inputObjectType({
   },
 })
 
-export const HomeworkPassPayload = objectType({
-  name: 'HomeworkPassPayload',
+export const UndoHomeworkPassPayload = objectType({
+  name: 'UndoHomeworkPassPayload',
   definition(t) {
     t.boolean('success')
   },
 })
 
-export const HomeworkPass = mutationField('homeworkPass', {
-  type: HomeworkPassPayload,
-  args: { input: arg({ type: HomeworkPassInput, required: true }) },
+export const UndoHomeworkPass = mutationField('undoHomeworkPass', {
+  type: UndoHomeworkPassPayload,
+  args: { input: arg({ type: UndoHomeworkPassInput, required: true }) },
   async resolve(
     _,
-    { input: { ownerId, assignmentId, assignmentType, markingPeriod } },
-    { studentData, assignmentData },
+    { input: { assignmentId, ownerId, assignmentType, markingPeriod } },
+    { assignmentData, studentData },
   ) {
-    // const assignment = await assignmentData.findOne({
-    //   _id: new ObjectId(assignmentId),
-    // })
-
     const { modifiedCount: assignmentModifiedCount } =
       await assignmentData.updateMany(
         {
           _id: new ObjectId(assignmentId),
         },
-        { $set: { assigned: false, exempt: true } },
+        { $set: { assigned: true, exempt: false } },
       )
     const { modifiedCount: studentModifiedCount } = await studentData.updateOne(
       {
@@ -51,11 +45,12 @@ export const HomeworkPass = mutationField('homeworkPass', {
         $inc: {
           responsibilityPoints:
             assignmentType === 'ESSAY' || assignmentType === 'READING_GUIDE'
-              ? 2
+              ? -2
               : 0,
         },
       },
     )
+
     return {
       success: assignmentModifiedCount === 1 && studentModifiedCount === 1,
     }

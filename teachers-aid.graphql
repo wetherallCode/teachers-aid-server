@@ -2272,6 +2272,7 @@ type Mutation {
   toggleReadingGuideCheck(input: ToggleReadingGuideCheckInput!): ToggleReadingGuideCheckPayload!
   unAssignEssays(input: UnAssignEssaysInput!): UnAssignEssaysPayload!
   unAssignQuizByQuizId(input: UnAssignQuizByQuizIdInput!): UnAssignQuizByQuizIdPayload!
+  undoHomeworkPass(input: UndoHomeworkPassInput!): UndoHomeworkPassPayload!
   updateAcademicOrganizer(input: UpdateAcademicOrganizerInput!): UpdateAcademicOrganizerPayload!
   updateAdvancedOrganizer(input: UpdateAdvancedOrganizerInput!): UpdateAdvancedOrganizerPayload!
   updateArticleReview(input: UpdateArticleReviewInput!): UpdateArticleReviewPayload!
@@ -3500,6 +3501,17 @@ input UnAssignQuizByQuizIdInput {
 
 type UnAssignQuizByQuizIdPayload {
   unAssigned: Boolean!
+}
+
+input UndoHomeworkPassInput {
+  assignmentId: ID!
+  assignmentType: String!
+  markingPeriod: MarkingPeriodEnum!
+  ownerId: ID!
+}
+
+type UndoHomeworkPassPayload {
+  success: Boolean!
 }
 
 type UnexcusedLateness {
