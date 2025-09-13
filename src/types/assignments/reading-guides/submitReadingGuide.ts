@@ -38,7 +38,7 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
         responsibilityPoints,
       },
     },
-    { assignmentData, studentData, generalData }
+    { assignmentData, studentData, generalData },
   ) {
     const readingGuideValidation: NexusGenRootTypes['ReadingGuide'] =
       await assignmentData.findOne({
@@ -68,7 +68,7 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
               completed: completeReadingGuide,
               'score.earnedPoints': completeReadingGuide ? 10 : 2,
             },
-          }
+          },
         )
 
         if (studentResponsibilityPoints) {
@@ -88,7 +88,7 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
                     ? responsibilityPoints! / 2
                     : responsibilityPoints! / 4,
               },
-            }
+            },
           )
         }
 
@@ -125,9 +125,9 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
             'readingGuideFinal.submitted': true,
             'readingGuideFinal.submitTime': submitTime,
             'readingGuideFinal.responsibilityPoints':
-              isLate() === true ? 0 : responsibilityPoints,
+              isLate() === true ? 1 : responsibilityPoints,
           },
-        }
+        },
       )
 
       if (!readingGuideValidation.readingGuideFinal?.submitted) {
@@ -141,9 +141,11 @@ export const SubmitReadingGuide = mutationField('submitReadingGuide', {
           {
             $inc: {
               responsibilityPoints:
-                isLate() === true ? 1 : responsibilityPoints,
+                isLate() === true
+                  ? 1 + responsibilityPoints
+                  : responsibilityPoints + responsibilityPoints,
             },
-          }
+          },
         )
       }
       const readingGuide = await assignmentData.findOne({
