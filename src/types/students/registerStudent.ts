@@ -47,7 +47,7 @@ export const RegisterStudent = mutationField('registerStudent', {
         hasIEP,
       },
     },
-    { userData }
+    { userData },
   ) {
     let existingUser = await userData.findOne({ userName })
     if (!existingUser) {
@@ -61,6 +61,7 @@ export const RegisterStudent = mutationField('registerStudent', {
           firstName,
           middleName,
           schoolId,
+          hasAssignmentsLocked: true,
           lastName,
           virtual,
           cohort,
