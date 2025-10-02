@@ -94,8 +94,8 @@ export const CreateTextAnalysis = mutationField('createTextAnalysis', {
         assigned: false,
         assignedDate,
         associatedLessonId,
-        //set Partial Completion as default
-        textAnalysisCompletion: 'PARTIAL_COMPLETION',
+        // Initialize textAnalysisCompletion to NO_ATTEMPT
+        textAnalysisCompletion: 'NO_ATTEMPT',
         dueDate,
         dueTime: assignedCourseInfo.endsAt,
         exempt: false,
@@ -107,8 +107,8 @@ export const CreateTextAnalysis = mutationField('createTextAnalysis', {
         hasOwner: await userData.findOne({
           _id: new ObjectId(student._id!),
         }),
-        //set initial score to 1.8 as an initial value
-        score: { earnedPoints: maxPoints * 0.9, maxPoints },
+        // Initialize score to 0
+        score: { earnedPoints: 0, maxPoints },
         late: false,
         readings,
       }
