@@ -513,6 +513,8 @@ type CourseInfo {
   hourDelayEndsAt: String!
   hourDelayStartsAt: String!
   isHidden: Boolean!
+  ninetyMinuteDelayEndsAt: String!
+  ninetyMinuteDelayStartsAt: String!
   schoolDayType: SchoolDayType!
   startsAt: String!
 }

@@ -1515,6 +1515,8 @@ export interface NexusGenRootTypes {
     hourDelayEndsAt: string; // String!
     hourDelayStartsAt: string; // String!
     isHidden: boolean; // Boolean!
+    ninetyMinuteDelayEndsAt: string; // String!
+    ninetyMinuteDelayStartsAt: string; // String!
     schoolDayType: NexusGenEnums['SchoolDayType']; // SchoolDayType!
     startsAt: string; // String!
   }
@@ -3271,6 +3273,8 @@ export interface NexusGenFieldTypes {
     hourDelayEndsAt: string; // String!
     hourDelayStartsAt: string; // String!
     isHidden: boolean; // Boolean!
+    ninetyMinuteDelayEndsAt: string; // String!
+    ninetyMinuteDelayStartsAt: string; // String!
     schoolDayType: NexusGenEnums['SchoolDayType']; // SchoolDayType!
     startsAt: string; // String!
   }
