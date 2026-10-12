@@ -690,6 +690,14 @@ type CreateLessonPayload {
   lessons: [Lesson!]!
 }
 
+input CreateParentContactByCourseInput {
+  courseId: ID!
+}
+
+type CreateParentContactByCoursePayload {
+  success: Boolean!
+}
+
 input CreateParentContactInput {
   contactType: ContactTypeEnum!
   contentOfContact: String!
@@ -2172,6 +2180,7 @@ type Mutation {
   createLateness(input: CreateLatenessInput!): CreateLatenessPayload!
   createLesson(input: CreateLessonInput!): CreateLessonPayload!
   createParentContact(input: CreateParentContactInput!): CreateParentContactPayload!
+  createParentContactByCourse(input: CreateParentContactByCourseInput!): CreateParentContactByCoursePayload!
   createProfessionalDevelopment(input: CreateProfessionalDevelopmentInput!): CreateProfessionalDevelopmentPayload!
   createProgressMetrics(input: CreateProgressMetricsInput!): CreateProgressMetricsPayload!
   createProgressTrackerForStudent(input: CreateProgressTrackerForStudentInput!): CreateProgressTrackerForStudentPayload!
