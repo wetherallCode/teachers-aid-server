@@ -690,6 +690,10 @@ type CreateLessonPayload {
   lessons: [Lesson!]!
 }
 
+input CreateParentContactByCourseInput {
+  courseId: ID!
+}
+
 input CreateParentContactInput {
   contactType: ContactTypeEnum!
   contentOfContact: String!
